@@ -1,0 +1,5 @@
+libvirt-glib (0~0.git22fac-1) experimental; urgency=low
+
+  * Initial release (Closes: #535825)
+
+ -- Guido Günther <agx@sigxcpu.org>  Sun, 19 Jul 2009 17:24:28 +0200

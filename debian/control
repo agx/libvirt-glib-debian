@@ -1,0 +1,50 @@
+Source: libvirt-glib
+Section: libs
+Priority: extra
+Maintainer: Guido Günther <agx@sigxcpu.org>
+Build-Depends: cdbs, debhelper (>= 7), quilt, pkg-config,
+ libvirt-dev (>= 0.5.0), libglib2.0-dev (>= 2.10),
+# when building from git:
+  automake, autoconf, libtool,
+# for python bindings:
+  python-dev, python-support
+Standards-Version: 3.8.2
+
+Package: libvirt-glib0
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: libvirt glib mainloop integration
+ This shared library eases integration of libvirt's events into programs using
+ a glib mainloop.
+
+Package: libvirt-glib0-dbg
+Architecture: any
+Section: debug
+Depends: libvirt-glib0 (= ${binary:Version}), ${misc:Depends}
+Description: libvirt glib mainloop integration
+ This shared library eases integration of libvirt's events into programs using
+ a glib mainloop.
+ .
+ This package contains the debugging symbols.
+
+Package: libvirt-glib-dev
+Architecture: any
+Section: libdevel
+Depends: libvirt-glib0 (= ${binary:Version}), ${misc:Depends}
+Recommends: pkg-config
+Description: libvirt glib mainloop integration
+ This shared library eases integration of libvirt's events into programs using
+ a glib mainloop.
+ .
+ This package contains the development headers.
+
+Package: python-libvirt-glib
+Architecture: any
+Section: python
+Depends: libvirt-glib0 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}
+Description: libvirt glib mainloop integration
+ This shared library eases integration of libvirt's events into programs using
+ a glib mainloop.
+ .
+ This package contains Python bindings.
+
