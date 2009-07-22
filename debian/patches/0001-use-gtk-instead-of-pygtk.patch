@@ -1,0 +1,21 @@
+From: =?utf-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>
+Date: Wed, 22 Jul 2009 12:00:47 +0200
+Subject: [PATCH] use gtk instead of pygtk
+
+the example uses gtk.* everywhere else
+---
+ examples/event-test.py |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/examples/event-test.py b/examples/event-test.py
+index da91e8a..bb8ed62 100644
+--- a/examples/event-test.py
++++ b/examples/event-test.py
+@@ -1,5 +1,5 @@
+ 
+-import pygtk
++import gtk
+ import libvirt
+ import libvirtglib
+ import getopt
+-- 

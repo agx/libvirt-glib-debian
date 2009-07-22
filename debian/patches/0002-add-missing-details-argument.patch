@@ -1,0 +1,26 @@
+From: =?utf-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>
+Date: Wed, 22 Jul 2009 12:01:36 +0200
+Subject: [PATCH] add missing details argument
+
+---
+ examples/event-test.py |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/examples/event-test.py b/examples/event-test.py
+index bb8ed62..1c07b16 100644
+--- a/examples/event-test.py
++++ b/examples/event-test.py
+@@ -16,10 +16,10 @@ def eventToString(event):
+                      "Restored" );
+     return eventStrings[event];
+ 
+-def myDomainEventCallback1 (conn, dom, event, opaque):
++def myDomainEventCallback1 (conn, dom, event, detail, opaque):
+     print "myDomainEventCallback1 EVENT: Domain %s(%s) %s" % (dom.name(), dom.ID(), eventToString(event))
+ 
+-def myDomainEventCallback2 (conn, dom, event, opaque):
++def myDomainEventCallback2 (conn, dom, event, detail, opaque):
+     print "myDomainEventCallback2 EVENT: Domain %s(%s) %s" % (dom.name(), dom.ID(), eventToString(event))
+ 
+ def usage():
+-- 
