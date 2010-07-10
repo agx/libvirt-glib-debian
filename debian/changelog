@@ -1,3 +1,9 @@
+libvirt-glib (0~0.git22fac-2) experimental; urgency=low
+
+  * [3fa3427] Add pyversions file (Closes: #588596)
+
+ -- Guido Günther <agx@sigxcpu.org>  Sat, 10 Jul 2010 13:55:21 +0200
+
 libvirt-glib (0~0.git22fac-1) experimental; urgency=low
 
   * Initial release (Closes: #535825)
