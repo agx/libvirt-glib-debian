@@ -1,15 +1,21 @@
 
 AC_INIT(libvirt-glib, 0.0.1)
-AC_CONFIG_SRCDIR(src/events.c)
+AC_CONFIG_SRCDIR(libvirt-glib/libvirt-glib-main.c)
 AC_CONFIG_AUX_DIR([build-aux])
 AM_CONFIG_HEADER(config.h)
+AC_CONFIG_MACRO_DIR([m4])
 dnl Make automake keep quiet about wildcards & other GNUmake-isms
 AM_INIT_AUTOMAKE([-Wno-portability])
 AC_CANONICAL_HOST
 
+AM_SILENT_RULES([yes])
+
 LIBVIRT_REQUIRED=0.5.0
 GLIB2_REQUIRED=2.10.0
-
+GOBJECT2_REQUIRED=2.10.0
+GIO_REQUIRED=2.10.0
+GOBJECT_INTROSPECTION_REQUIRED=0.10.8
+LIBXML2_REQUIRED=2.0.0
 
 LIBVIRT_GLIB_MAJOR_VERSION=`echo $VERSION | awk -F. '{print $1}'`
 LIBVIRT_GLIB_MINOR_VERSION=`echo $VERSION | awk -F. '{print $2}'`
@@ -31,7 +37,7 @@ AM_PROG_CC_C_O
 AC_LIBTOOL_WIN32_DLL
 AC_PROG_LIBTOOL
 
-AC_CONFIG_LIBOBJ_DIR([src])
+dnl AC_CONFIG_LIBOBJ_DIR([src])
 
 AC_DEFINE([_GNU_SOURCE], [], [Enable GNU extensions])
 
@@ -39,6 +45,10 @@ LIBVIRT_GLIB_COMPILE_WARNINGS([maximum])
 
 PKG_CHECK_MODULES(LIBVIRT, libvirt >= $LIBVIRT_REQUIRED)
 PKG_CHECK_MODULES(GLIB2, glib-2.0 >= $GLIB2_REQUIRED)
+PKG_CHECK_MODULES(GTHREAD2, gthread-2.0 >= $GLIB2_REQUIRED)
+PKG_CHECK_MODULES(GOBJECT2, gobject-2.0 >= $GLIB2_REQUIRED)
+PKG_CHECK_MODULES(GIO2, gio-2.0 >= $GLIB2_REQUIRED)
+PKG_CHECK_MODULES(LIBXML2, libxml-2.0 >= $LIBXML2_REQUIRED)
 
 dnl Extra link-time flags for Cygwin.
 dnl Copied from libxml2 configure.in, but I removed mingw changes
@@ -85,6 +95,8 @@ fi
 dnl
 dnl check for python
 dnl
+AC_ARG_WITH([python],
+  AC_HELP_STRING([--with-python], [Build python bindings @<:@default=yes@:>@]),[],[with_python=yes])
 
 PYTHON_VERSION=
 PYTHON_INCLUDES=
@@ -92,6 +104,9 @@ PYTHON_SITE_PACKAGES=
 PYTHON_TESTS=
 pythondir=
 if test "$with_python" != "no" ; then
+    if test "$with_python" = "yes" ; then
+       with_python=""
+    fi
     if test -x "$with_python/bin/python"
     then
         echo Found python in $with_python/bin/python
@@ -158,13 +173,39 @@ AC_SUBST([PYTHON_VERSION])
 AC_SUBST([PYTHON_INCLUDES])
 AC_SUBST([PYTHON_SITE_PACKAGES])
 
+AC_ARG_ENABLE([introspection],
+        AS_HELP_STRING([--enable-introspection], [enable GObject introspection]),
+        [], [enable_introspection=check])
+
+if test "x$enable_introspection" != "xno" ; then
+        PKG_CHECK_MODULES([GOBJECT_INTROSPECTION],
+                          [gobject-introspection-1.0 >= $GOBJECT_INTROSPECTION_REQUIRED],
+                          [enable_introspection=yes],
+                          [
+                             if test "x$enable_introspection" = "xcheck"; then
+                               enable_introspection=no
+                             else
+                               AC_MSG_ERROR([gobject-introspection is not available])
+                             fi
+                          ])
+        if test "x$enable_introspection" = "xyes" ; then
+          AC_DEFINE([WITH_GOBJECT_INTROSPECTION], [1], [enable GObject introspection support])
+          AC_SUBST(GOBJECT_INTROSPECTION_CFLAGS)
+          AC_SUBST(GOBJECT_INTROSPECTION_LIBS)
+          AC_SUBST([G_IR_SCANNER], [$($PKG_CONFIG --variable=g_ir_scanner gobject-introspection-1.0)])
+          AC_SUBST([G_IR_COMPILER], [$($PKG_CONFIG --variable=g_ir_compiler gobject-introspection-1.0)])
+        fi
+fi
+AM_CONDITIONAL([WITH_GOBJECT_INTROSPECTION], [test "x$enable_introspection" = "xyes"])
 
 AC_OUTPUT(Makefile
-          include/Makefile
-          include/libvirt-glib/Makefile
-          src/Makefile
+          libvirt-glib/Makefile
+          libvirt-gconfig/Makefile
+          libvirt-gobject/Makefile
           examples/Makefile
           python/Makefile
-          libvirt-glib.pc
+          libvirt-glib-1.0.pc
+          libvirt-gconfig-1.0.pc
+          libvirt-gobject-1.0.pc
           libvirt-glib.spec
           mingw32-libvirt-glib.spec)

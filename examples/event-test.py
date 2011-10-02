@@ -1,9 +1,10 @@
 
-import pygtk
+import gtk
 import libvirt
-import libvirtglib
 import getopt
 import sys
+
+from gi.repository import LibvirtGLib;
 
 def eventToString(event):
     eventStrings = ( "Added",
@@ -16,10 +17,10 @@ def eventToString(event):
                      "Restored" );
     return eventStrings[event];
 
-def myDomainEventCallback1 (conn, dom, event, opaque):
+def myDomainEventCallback1 (conn, dom, event, detail, opaque):
     print "myDomainEventCallback1 EVENT: Domain %s(%s) %s" % (dom.name(), dom.ID(), eventToString(event))
 
-def myDomainEventCallback2 (conn, dom, event, opaque):
+def myDomainEventCallback2 (conn, dom, event, detail, opaque):
     print "myDomainEventCallback2 EVENT: Domain %s(%s) %s" % (dom.name(), dom.ID(), eventToString(event))
 
 def usage():
@@ -46,7 +47,9 @@ def main():
 
     print "Using uri:" + uri
 
-    libvirtglib.eventRegister()
+    LibvirtGLib.init("")
+    LibvirtGLib.event_register()
+#    libvirtglib.eventRegister()
     vc = libvirt.open(uri)
 
     #Add 2 callbacks to prove this works with more than just one
