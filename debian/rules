@@ -12,6 +12,6 @@ DEB_PYTHON_SETUP_CMD := /dev/null
 DEB_DBG_PACKAGES = libvirt-glib0-dbg
 DEB_CONFIGURE_SCRIPT = ./autogen.sh
 
-#post-patches::
-#	./autogen.sh --prefix=/usr
+post-patches::
+	./autogen.sh --prefix=/usr
 

@@ -1,3 +1,11 @@
+libvirt-glib (0~1.git55696-1~1.gbpdf7d51) UNRELEASED; urgency=low
+
+  ** SNAPSHOT build @df7d51c739105d1afd0c0c66ff9c0dc132ad7099 **
+
+  * [c6750bd] New upstream version 0~1.git55696
+
+ -- Guido Günther <agx@sigxcpu.org>  Sun, 02 Oct 2011 14:07:08 +0200
+
 libvirt-glib (0~0.git22fac-2) experimental; urgency=low
 
   * [3fa3427] Add pyversions file (Closes: #588596)
