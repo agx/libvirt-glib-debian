@@ -4,6 +4,7 @@ Priority: extra
 Maintainer: Guido Günther <agx@sigxcpu.org>
 Build-Depends: cdbs, debhelper (>= 7), pkg-config,
  libvirt-dev (>= 0.5.0), libglib2.0-dev (>= 2.10),
+ libxml2-dev,
 # when building from git:
   automake, autoconf, libtool,
 # for python bindings:
