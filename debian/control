@@ -9,7 +9,7 @@ Build-Depends: debhelper (>= 7.0.50~), pkg-config,
   automake, autoconf, libtool,
 # for python bindings:
   python-dev, python-support
-Standards-Version: 3.8.2
+Standards-Version: 3.9.2
 
 Package: libvirt-glib-1.0-0
 Architecture: any
