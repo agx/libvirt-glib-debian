@@ -1,10 +1,19 @@
-libvirt-glib (0~1.git55696-1~1.gbpdf7d51) UNRELEASED; urgency=low
+libvirt-glib (0.0.1~1.git55696-1) experimental; urgency=low
 
-  ** SNAPSHOT build @df7d51c739105d1afd0c0c66ff9c0dc132ad7099 **
+  * [1b2450a] New upstream version 0.0.1~1.git55696
+  * [da6f297] Invoke autogen.sh since we're building a git snapshot
+  * [44b82be] Drop patches. All applied upstream
+  * [66b57a9] Switch to source format 3 (quilt)
+  * [e904b24] Add new build-deps (libxml2-dev)
+  * [304d605] Switch from cdbs to dh. Drop python package since we ship a gir
+    package now.
+  * [56d5023] New patch
+    0001-Explicitly-link-conn-test-example-against-libgobject.patch.
+    to fix the example build.
+  * [541d961] Add symbols file
+  * [48c0ec2] Bump standards version
 
-  * [c6750bd] New upstream version 0~1.git55696
-
- -- Guido Günther <agx@sigxcpu.org>  Sun, 02 Oct 2011 14:07:08 +0200
+ -- Guido Günther <agx@sigxcpu.org>  Mon, 03 Oct 2011 18:45:59 +0200
 
 libvirt-glib (0~0.git22fac-2) experimental; urgency=low
 
