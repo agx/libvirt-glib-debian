@@ -1,15 +1,15 @@
 #!/usr/bin/make -f
 
-DEB_PYTHON_SYSTEM=pysupport
+%:
+	dh $@
 
-include /usr/share/cdbs/1/rules/debhelper.mk
-include /usr/share/cdbs/1/class/autotools.mk
-include /usr/share/cdbs/1/class/python-distutils.mk
+override_dh_auto_configure:
+	./autogen.sh
+	dh_auto_configure -- --enable-introspection
 
-DEB_PYTHON_SETUP_CMD := /dev/null
-DEB_DBG_PACKAGES = libvirt-glib0-dbg
-DEB_CONFIGURE_SCRIPT = ./autogen.sh
+override_dh_strip:
+	dh_strip -plibvirt-glib-1.0-0 --dbg-package=libvirt-glib-1.0-0-dbg
 
-post-patches::
-	./autogen.sh --prefix=/usr
-
+override_dh_makeshlibs:
+	dh_makeshlibs -a
+	dh_girepository
