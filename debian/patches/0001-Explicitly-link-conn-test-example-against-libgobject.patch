@@ -1,0 +1,27 @@
+From: =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>
+Date: Sun, 2 Oct 2011 13:58:52 +0200
+Subject: Explicitly link conn-test example against libgobject
+
+Otherwise the build fails with:
+
+/usr/bin/ld: conn_test-conn-test.o: undefined reference to symbol 'g_type_check_instance_cast'
+/usr/bin/ld: note: 'g_type_check_instance_cast' is defined in DSO /usr/lib/libgobject-2.0.so.0 so try adding it to the linker command line
+/usr/lib/libgobject-2.0.so.0: could not read symbols: Invalid operation
+collect2: ld returned 1 exit status
+---
+ examples/Makefile.am |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/examples/Makefile.am b/examples/Makefile.am
+index 10ce32d..0964597 100644
+--- a/examples/Makefile.am
++++ b/examples/Makefile.am
+@@ -25,5 +25,5 @@ conn_test_SOURCES = \
+ conn_test_LDADD = \
+ 		../libvirt-gobject/libvirt-gobject-1.0.la \
+ 		$(LIBVIRT_LIBS) \
+-		$(GLIB2_LIBS)
+-
++		$(GLIB2_LIBS) \
++		$(GOBJECT2_LIBS)
+-- 
