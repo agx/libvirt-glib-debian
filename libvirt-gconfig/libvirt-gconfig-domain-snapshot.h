@@ -59,7 +59,9 @@ struct _GVirConfigDomainSnapshotClass
 
 GType gvir_config_domain_snapshot_get_type(void);
 
-GVirConfigDomainSnapshot *gvir_config_domain_snapshot_new(const gchar *xml);
+GVirConfigDomainSnapshot *gvir_config_domain_snapshot_new(void);
+GVirConfigDomainSnapshot *gvir_config_domain_snapshot_new_from_xml(const gchar *xml,
+                                                                   GError **error);
 
 G_END_DECLS
 

@@ -59,7 +59,17 @@ struct _GVirConfigDomainClass
 
 GType gvir_config_domain_get_type(void);
 
-GVirConfigDomain *gvir_config_domain_new(const gchar *xml);
+GVirConfigDomain *gvir_config_domain_new_from_xml(const gchar *xml, GError **error);
+GVirConfigDomain *gvir_config_domain_new(void);
+
+char *gvir_config_domain_get_name(GVirConfigDomain *domain);
+void gvir_config_domain_set_name(GVirConfigDomain *domain, const char *name);
+guint64 gvir_config_domain_get_memory(GVirConfigDomain *domain);
+void gvir_config_domain_set_memory(GVirConfigDomain *domain, guint64 memory);
+GStrv gvir_config_domain_get_features(GVirConfigDomain *domain);
+void gvir_config_domain_set_features(GVirConfigDomain *domain,
+                                     const GStrv features);
+
 
 G_END_DECLS
 

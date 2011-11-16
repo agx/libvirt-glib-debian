@@ -1,0 +1,641 @@
+2011-11-16  Daniel P. Berrange  <berrange@redhat.com>
+
+	Fix typo in libvirt-gobject-1.0.pc.in
+
+	Add missing deps on libxml2-devel & libtool. Don't introspect on RHEL6
+
+	Add download / mailing list links to README
+
+2011-11-16  Nirbheek Chauhan  <nirbheek@gentoo.org>
+
+	Fix parallel build with vala bindings
+
+2011-11-16  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Release 0.0.1
+
+	Add some basic information to README
+
+2011-11-15  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Also distribute private headers
+	Private headers just shouldn't be installed but still distributed as
+	they are required during the build. Fixes `make distcheck`.
+
+2011-11-14  Marc-André Lureau  <marcandre.lureau@redhat.com>
+
+	Use G_DEFINE_BOXED_TYPE for boxed types
+
+	Copy G_DEFINE_BOXED_TYPE from GObject 2.26+
+
+	Add GVirDomainDisk
+
+	Add GVirDomainInterface
+
+	Add GVirDomainDevice abstract class
+
+2011-11-08  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Use new creation helpers everywhere
+	Use the new gvir_config_object_new{_from_xml} in all classes
+	inheriting from GVirConfigObject. This simplifies the code in the
+	_new methods creating empty objects. This commit also adds
+	_new_from_xml methods to all these objects.
+
+	Fix creation of empty XML document
+	It's not enough to assign xmlDocPtr::children to set the
+	document root, xmlDocSetRootElement must be used instead.
+
+	Add gvir_config_object_new{_from_xml} helpers
+	This factors the code that is repeated in the _new methods of
+	all classes deriving from GVirObject
+
+	Add GVirConfigDomain::features
+
+	Add GVirConfigDomain::memory
+
+	Validate document in parsing test
+	Add a call to gvir_config_object_validate in test-domain-parse.c
+	However at the moment this call is purely informative since none
+	of the tests is a valid domain XML description.
+
+	Add test-domain-duplicate.xml which currently fails
+	This test has 3 duplicate "name" nodes in the domain XML, I don't
+	know what the right behaviour is in this case :)
+
+	Add gvir_config_object_set_node_content
+	It's used to set the content of a node in a GVirConfigObject to
+	a given value, and will replace any existing node with the same
+	value.
+
+	Add gvir_config_object_get_node_content
+	There will be quite a few getter functions returning a string
+	contained in one of the nodes of a GVirConfigObject, so better to
+	make it a one-liner to achieve this.
+
+	Remove GVirConfigObject::doc
+	Now that the parsing is done before creating the object, this
+	member is no longer useful. Moreover, it's redundant with the ::node
+	member. Remove it and rely on always having an xmlNodePtr available
+	to represent the config object.
+
+	Remove GError argument from GVirConfigObject::node getter
+	Since this function no longer tries to do XML parsing, there is
+	no error to report.
+
+	Only do XML parsing when creating config objects
+	This commit changes gvir_config_domain_new_from_xml not to operate
+	on an existing object. This makes it possible to call it to create
+	an appropriate xmlNodePtr object which can then be used to construct
+	an object derived from GVirConfigObject. This will also makes it
+	possible to remove GVirConfigObject::doc in a subsequent commit.
+
+	Remove xml parsing from gvir_config_*_new functions
+	These functions now create empty config objects to be consistent
+	with what gvir_config_domain_new does.
+
+	Remove GVirConfigObject::docHandle
+	GVirConfigObject also contains an xmlNodePtr which is more useful
+	since it indicates the position of the current config object in
+	the source XML file. Since xmlNode has a 'doc' member, having
+	both an xmlNodePtr and an xmlDocPtr in GVirConfigObject is
+	redundant.
+
+	Add domain creation/parsing test
+
+	Use gvir_config_object_to_xml
+	s/gvir_config_object_get_doc/gvir_config_object_to_xml/
+
+	Prefer gvir_config_object_to_xml over gvir_config_object_get_doc
+	since the latter will be removed soon.
+
+	Add gvir_config_object_to_xml
+
+	Make the GVirConfigDomain::name property writable
+
+	Implement gvir_config_domain_set_name
+
+	Add gvir_config_domain_new to create an empty domain
+
+	Rename gvir_config_domain_new
+	Rename it to gvir_config_domain_new_from_xml since it takes an
+	XML string as input. gvir_config_domain_new will be used to create
+	a new empty domain.
+
+	Add GVir::Config::Domain::name property
+	For now, it's read-only, but is exposed as a gobject property too.
+
+	Add GVirConfigObject::node property
+	This property stores the XML node corresponding to the current
+	configuration object in the XML tree. When creating configuration
+	objects from a XML string, the XML file will be lazily loaded, and
+	this property will be set.
+
+	Add getters for GVirConfig xmlNode and xmlDoc
+	They will be useful in subclasses to access the parsed document,
+	and to external users needing to directly interact with the
+	generated XML.
+
+	gvir_config_object_parse: don't parse empty documents
+	Report an error when trying to parse the current XML document
+	associated with the GVirConfig object when no document has been
+	set.
+
+	Add helpers in libvirt-gconfig-helpers.[ch]
+	These helper functions will be useful later on. These functions are
+	not made available to the library user since we don't want to expose
+	too much our libxml internals.
+
+2011-11-07  Daniel P. Berrange  <berrange@redhat.com>
+
+	Add script for automatically generating the changelog during make dist
+
+	Update .gitignore rules to include docs & other misc files
+
+	Update AUTHORS file content
+
+2011-11-07  Nirbheek Chauhan  <nirbheek@gentoo.org>
+
+	Update to min libvirt 0.9.4 & fix invocation of vapigen
+	libvirt-0.9.4 is needed for at least VIR_DOMAIN_EVENT_SUSPENDED_RESTORED
+
+	$VAPIGEN from AC_PATH_PROG should be used instead of the raw binary `vapigen`
+	otherwise it's not possible to override the vapigen binary to be used.
+
+	* configure.ac: Use $VAPIGEN, and s/0.5.0/0.9.4/
+	* libvirt-glib.spec.in, mingw32-libvirt-glib.spec.in: s/0.5.0/0.9.4/
+
+2011-11-04  Daniel P. Berrange  <berrange@redhat.com>
+
+	Ensure enum header is installed
+
+	Fix typo in configure.ac
+
+2011-11-03  Daniel P. Berrange  <berrange@redhat.com>
+
+	Fix compiler / linker flags passed to gtk-doc
+
+2011-11-03  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Ask gtkdoc-scan to generate the sections file
+	This frees us from maintaining the sections file.
+
+2011-11-03  Daniel P. Berrange  <berrange@redhat.com>
+
+	Don't include GTK docs in mingw32 RPM
+
+	Add documentation to -devel RPMs
+
+	Fix previous broken change to install header files
+
+	Check vapigen supports --metadatadir in configure.ac
+
+	Disable gtk-doc in automated builds
+
+	Ensure libvirt-gobject-1.0.deps is included in dist
+
+	Fix passing of generated enum files to g-ir-scanner in VPATH builds
+
+	Annotation unused variables in example program
+
+	Ensure make distcheck enables gtkdoc and introspection
+
+2011-11-01  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Generate docs
+	This patch adds gtk-doc-based documentation. The generated docs aren't
+	very complete (or even correct) but this is a good start.
+
+2011-10-27  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Correct 2 signal signatures
+
+	Async API to build & start storage pools
+
+	Add API to build & start storage pools
+
+2011-10-26  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Add gvir_connection_create_storage_pool()
+	API to create new storage pools.
+
+2011-10-25  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Set GError even if libvirt error is unknown
+
+2011-10-21  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Add 2 forgotten functions to libvirt-gobject.sym
+
+2011-10-21  Marc-André Lureau  <marcandre.lureau@redhat.com>
+
+	Fix vapigen on uninstalled environment
+
+2011-10-20  Marc-André Lureau  <marcandre.lureau@redhat.com>
+
+	Fix GIR scanner on uninstalled environment
+
+2011-10-19  Marc-André Lureau  <marcandre.lureau@redhat.com>
+
+	Fix wrong signals arguments
+
+	Add gvir_domain_resume()
+	A binding for virDomainResume().
+
+	Remove vir_ prefix from default signal handler
+	Let's keep the signal and default signal handler name in sync.
+
+	gobject signals are generally not namespaced this way, removing
+	this prefix makes things look a bit nicer.
+
+	Add vapi bindings generation
+
+2011-10-14  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Use gvir-stream as GVirStream quark name
+	The previous vir-g-stream name isn't consistent with the naming of
+	all the other quarks used in libvirt-glib
+
+	Remove vir- prefix from signals
+	gobject signals are generally not namespaced this way, removing
+	this prefix makes things look a bit nicer.
+
+2011-10-13  Marc-André Lureau  <marcandre.lureau@redhat.com>
+
+	Don't leak virStreams, take the reference
+	Without this change, after virStreamNew() and
+	g_value_dup_boxed() it will have refcnt = 2
+	and will leak when GVirStream is destroyed.
+
+2011-10-11  Marc-André Lureau  <marcandre.lureau@redhat.com>
+
+	The input stream is owned by GVirStream, don't ref it
+
+	Fail gracefully when hashtables are NULL
+	Instead of the message:
+	GLib-CRITICAL **: g_hash_table_get_values: assertion `hash_table !=
+	NULL' failed
+
+2011-10-06  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Only call gvir_error_new after failed libvirt calls
+	gvir_error_new is only meant to be used right after a failed
+	libvirt function call, in other cases we should be calling
+	g_error_new directly.
+
+	Don't use empty message when building a GError
+	After testing that 'message' is NULL, gvir_xml_error_new_literal
+	is using it to build a GError. What was meant was to use
+	xerr->message.
+
+	Don't use empty message when building a GError
+	After testing that 'message' is NULL, gvir_error_new_literal
+	is using it to build a GError. What was meant was to use
+	verr->message.
+
+2011-10-03  Marc-André Lureau  <marcandre.lureau@redhat.com>
+
+	event: remove timeout and handle from arrays
+	Otherwise, it will crash next time it goes find().
+
+	==9856== Invalid read of size 4
+	==9856==    at 0x84E4888: gvir_event_timeout_find (libvirt-glib-event.c:293)
+	==9856==    by 0x84E48E4: gvir_event_timeout_update (libvirt-glib-event.c:308)
+	==9856==    by 0x31AB04BBDB: virEventUpdateTimeout (event.c:122)
+	==9856==    by 0x31AB148758: virNetClientStreamEventTimerUpdate (virnetclientstream.c:81)
+	==9856==    by 0x31AB14991C: virNetClientStreamEventAddCallback (virnetclientstream.c:471)
+	==9856==    by 0x31AB12944F: remoteStreamEventAddCallback (remote_driver.c:3484)
+	==9856==    by 0x31AB108EAC: virStreamEventAddCallback (libvirt.c:14036)
+	...
+	==9856==  Address 0x143be760 is 0 bytes inside a block of size 40 free'd
+	==9856==    at 0x4A06928: free (vg_replace_malloc.c:427)
+	==9856==    by 0x84E4AD6: gvir_event_timeout_remove (libvirt-glib-event.c:361)
+	==9856==    by 0x31AB04BC2C: virEventRemoveTimeout (event.c:136)
+	==9856==    by 0x31AB149B24: virNetClientStreamEventRemoveCallback (virnetclientstream.c:521)
+	==9856==    by 0x31AB129566: remoteStreamEventRemoveCallback (remote_driver.c:3525)
+	==9856==    by 0x31AB10918F: virStreamEventRemoveCallback (libvirt.c:14114)
+	...
+
+	Turn GVirStream into a GIOStream
+	Allows to read async from a stream with GVirInputStream.
+	This is modelled after GSocket.
+
+	enums: fix incorrect prefix strip
+	GVIR_TYPE_VIR_FOO -> GVIR_TYPE_FOO
+
+	gir: fix introspection of asyncs and array delegate
+	For some weird reason, gir doesn't like "opaque" for closure data,
+	but only "user_data".
+
+	delay event handle/timeout freeing to avoid dead lock
+	Can be reproduced with the updated test.
+
+	Daniel commented:
+	"the libvirt default event loop already does a very similar
+	thing, since we need to be re-entrant safe."
+
+	build: Add missing <package> and <c:include> in gir
+	This is required for generating source-level bindings, for vala
+
+	Silence a compilation warning
+
+	Connect a bunch of domain event to signals
+
+	Make get_uuid() return a const string
+	The string is not so large, we avoid fragmentation and duplication (especially in hashtable)
+
+	Update GVirConnection signals
+
+	Add a few GVirDomain detailled signals
+
+	Plug a memleak
+
+	Add .mailmap for common aliases
+
+	Register event using GOnce to avoid multiple initializations
+
+2011-10-03  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	doc: add some missing return value documentation
+
+2011-10-02  Guido Günther  <agx@sigxcpu.org>
+
+	Explicitly link conn-test example against libgobject
+	Otherwise the build fails with:
+
+	/usr/bin/ld: conn_test-conn-test.o: undefined reference to symbol 'g_type_check_instance_cast'
+	/usr/bin/ld: note: 'g_type_check_instance_cast' is defined in DSO /usr/lib/libgobject-2.0.so.0 so try adding it to the linker command line
+	/usr/lib/libgobject-2.0.so.0: could not read symbols: Invalid operation
+	collect2: ld returned 1 exit status
+
+2011-09-28  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	API for storage pool volume management
+
+	Actually provide gvir_storage_vol_get_path()
+	This was only declared in header previously but not implemented.
+
+2011-09-27  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Refactor two very huge functions a bit
+
+	Plug a leak
+
+	Remove redundant 'Config' in GIR identifiers
+	libvirt-gconfig is in a separate namespace than libvirt-gobject so there
+	is not reason to expose 'Config' part of identifiers to high-level
+	languages.
+
+	Correct some more C&P mistakes
+
+	Correct some C&P mistakes
+
+	API to deal with storage pool(s)
+	Add API to fetch, list, retrieve & find storage pool(s) on a connection.
+
+	Ability to create new domains
+
+2011-09-26  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Remove redundant empty line
+
+	Fix some obvious c&p mistakes
+
+2011-09-16  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	GVirConfigObjct should be abstract
+
+2011-08-10  Daniel P. Berrange  <berrange@redhat.com>
+
+	Fix typo in include path s/buildir/builddir/
+
+2011-07-14  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	Remove useless g_print debugging message
+
+	Add gvir_domain_screenshot
+
+	Add a binding for virStreamPtr as GVirStream
+
+	Fix incorrect object freeing
+	The code updating object handles incorrectly used g_object_unref
+	instead of virDomainFree or equivalent method
+
+	Expose virConnectPtr handle as a property
+	The GVirConnection object needs to have a 'handle' property
+	which exposes the virConnectPtr handle
+
+	Fix gi-scanner warnings by adding missing annotation
+	Add missing annotations, remove currently unsupported 'default 0'
+	annotation and comment out unimplemented methods
+
+	Introspection: Update to new g-i command syntax
+	Add --warn-all, use --identifier-prefix and
+	--symbol-prefix (--strip-prefix is deprecated).
+
+2011-07-14  Daniel P. Berrange  <berrange@redhat.com>
+
+	Fix error quark strings
+	Error quark strings should be of the form 'gvir-storage_pool'
+	not 'vir-g-storage_pool'
+
+	Add validation of XML documents against RNG
+	Implement the gvir_config_object_validate using libxml2's RNG
+	schema validation APIs.
+
+	Add a base set of wrapper objects for every libvirt object
+	Create a new subclass of GVirObject for every libvirt
+	managed object type. Also update the GVirConnection refresh
+	code to be threadsafe
+
+	Add basic object configuration classes
+	Every libvirt object needs to have a corresponding object for
+	managing documents in the object's XML schema. For this task
+	create a subclass of GVirConfigObject for each libvirt object.
+
+2011-06-07  Daniel P. Berrange  <berrange@redhat.com>
+
+	Add note reminding people how to run from the source tree
+
+	Split the XML config mgmt objects into a separate libvirt-gconfig library
+	The XML configuration management objects are useful even for apps
+	which don't wish to use the object management classes, eg for people
+	using the CIM/SNMP/AMQP agents to talk to libvirt, instead of the
+	native libvirt API. Split them out into a separate libvirt-gconfig
+	library, which does not link to libvirt.so
+
+	Also split the RPM up into libvirt-glib, libvirt-gconfig and
+	libvirt-gobject to match the library names
+
+2011-02-11  Daniel P. Berrange  <berrange@redhat.com>
+
+	Add missing LIBVIRT_CFLAGS for building exmaple programs
+
+2010-09-10  Daniel P. Berrange  <berrange@redhat.com>
+
+	Allow domain fetch to run async. Allow connection open cancel
+	Allow the domain fetch operation to be run asynchronously and
+	be cancelled at any time. Also allow synchronous connection
+	open to be cancelled.
+
+	* examples/conn-test.js, examples/conn-test.py: Make tests
+	  mirror images of each other
+	* libvirt-gobject/libvirt-gobject-connection.c,
+	  libvirt-gobject/libvirt-gobject-connection.c: Allow async
+	  domain fetch & connection open cancel
+	* libvirt-gobject/libvirt-gobject-domain.c,
+	  libvirt-gobject/libvirt-gobject-domain.h: Add flags params
+
+	Introduce config manager class and connection manager
+	Introduce a GVirXmlConfig class for representing an object's
+	XML configuration. Subclass it with GVirDomainConfig.
+	Introduce a GVirManager class to look after a list of
+	connection objects.
+
+	* libvirt-gobject/libvirt-gobject-connection.c: Add annotation
+	  to allow null opaque param
+	* libvirt-gobject/libvirt-gobject-connection.h: Remove redundant
+	  includes
+	* libvirt-gobject/libvirt-gobject-domain-config.c,
+	  libvirt-gobject/libvirt-gobject-domain-config.h: New class
+	  for domain configs
+	* libvirt-gobject/libvirt-gobject-domain.c,
+	  libvirt-gobject/libvirt-gobject-domain.h: Return a
+	  GVirDomainConfig instead of the direct char *xml string
+	* libvirt-gobject/libvirt-gobject-main.c,
+	  libvirt-gobject/libvirt-gobject-main.h: Fix up includes
+	* libvirt-gobject/libvirt-gobject-manager.c,
+	  libvirt-gobject/libvirt-gobject-manager.h: New class
+	  for managing a list of connections
+	* libvirt-gobject/libvirt-gobject-xml-config.c,
+	  libvirt-gobject/libvirt-gobject-xml-config.h: Generic
+	  base class for handling XML configs
+	* libvirt-gobject/libvirt-gobject.h: Add new includes
+	* libvirt-gobject/libvirt-gobject.sym: Add new symbols
+	* libvirt-glib/Makefile.am, libvirt-gobject/Makefile.am: Make
+	  g-ir-scanner run quietly
+	* examples/conn-test.py, examples/conn-test.js: More examples
+	* configure.ac: Silent build
+
+2010-09-09  Daniel P. Berrange  <berrange@redhat.com>
+
+	Fix pkgconfig files and include header locations
+	To avoid potential version clashes, the headers should be
+	installed into /usr/include/libvirt-glib-1.0/libvirt-glib
+	instead of just /usr/include/libvirt-glib-1.0. The pkgconfig
+	file should then use -I/usr/include/libvirt-glib-1.0
+
+	* Makefile.am, configure.ac: Add libvirt-gobject-1.0.pc.in
+	* libvirt-glib/Makefile.am, libvirt-gobject/Makefile.am: Fix
+	  include header directory
+	* mingw32-libvirt-glib.spec.in, libvirt-glib.spec.in: Add
+	  libvirt-gobject library
+	* libvirt-glib.pc.in: Rename to libvirt-glib-1.0.pc.in
+
+2010-08-06  Daniel P. Berrange  <berrange@redhat.com>
+
+	Make GIR tools less verbose
+	Remove the '-v/--verbose' flag from GIR tools & remove unused
+	include paths
+
+	Add API for accessing URI
+	Add gvir_connection_get_uri() method. Fix lookup based on URI.
+	Fix version name in symbols version file
+
+	Flesh out GVirDomain class
+	Add an API for converting a virErrorPtr into a GError *.
+
+	Flesh out the GVirDomain class with basic constructor and
+	methods.
+
+	Add APIs to GVirConnection class to allow fetching of
+	GVirDomain objects
+
+2010-07-27  Daniel P. Berrange  <berrange@redhat.com>
+
+	Change method/class prefix to gvir/GVir
+	GObject introspection doesn't do so well at generating sensible
+	method/class names if methods and classes use a different
+	prefix (vir_g vs VirG). It can only cope with changes in case.
+	Change the prefix to be 'gvir' (methods) and 'GVir' (classes)
+
+	Provide a non-async open method for simple usage
+	Not all apps require a full async open API call, so provide a
+	blocking version as well. Renaming the async version to have
+	an _async suffix
+
+2010-07-26  Daniel P. Berrange  <berrange@redhat.com>
+
+	Add example program using javascript
+
+	Register the event loop when loading libvirt gobject library
+
+	Add some gobject introspection annotations
+
+	Only initialize threading if it isn't already initialized
+
+	Add libvirt-gobject library wrapping libvirt objects
+	The libvirt-gobject-1.0.la library provides a wrapper around
+	the libvirt API that exposes all its objects as GObject classes.
+	This allows integration with the gobject signal system and gio
+	async callback APIs.
+
+	Re-arrange source to put it all under libvirt-glib/ subdir
+	Remove the src/ and include/ directories, merging them into
+	a single libvirt-glib to more closely align with standard
+	glib style layout
+
+	Add support for GObject Introspection
+	Generate GObject introspection data for libvirt-glib, also make
+	the library be versioned.
+
+	Ensure event callbacks are threadsafe
+	Take a global lock whenever changing any event callbacks to
+	ensure thread safety
+
+	Rename APIs to use lowercase + underscores to match glib style
+	The libvirt style is virEventRegister while the GLib style is
+	vir_g_event_register. This switches from the former to the
+	latter so the API looks nicer to people familiar with GLib.
+
+2009-08-03  Daniel P. Berrange  <berrange@redhat.com>
+
+	Add missing details argument to python demo (Guido Günther)
+	* examples/event-test.py: Add 'detail' argument
+
+	Fix import of gtk module in python demo (Guido Günther)
+	* examples/event-test.py: Change import pygtk to import gtk
+
+	Switch .hgignore to .gitignore
+
+2009-05-19  Daniel P. Berrange  <berrange@redhat.com>
+
+	Fix recording of timers/handles
+
+2008-11-28  Daniel P. Berrange  <berrange@redhat.com>
+
+	Add mingw32 specfile, and fix libvirt version to 0.5.0
+
+	Fix mistaken use of POLL constants
+
+2008-11-25  Daniel P. Berrange  <berrange@redhat.com>
+
+	Fix pkgconfig install path
+
+	Use g_debug for logging
+
+	Include event detail in printout
+
+	Remove bogus configure flag
+
+	Update for changes in public API to add freefunc
+
+2008-11-04  Daniel P. Berrange  <berrange@redhat.com>
+
+	Fix FD event constant usage, and implement FD remove event
+
+	Add python binding to glib & example program
+
+2008-10-19  Daniel P. Berrange  <berrange@redhat.com>
+
+	Initial checkin

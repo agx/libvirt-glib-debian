@@ -1,3 +1,4 @@
+SUBDIRS = . tests
 
 EXTRA_DIST = libvirt-gconfig.sym
 
@@ -9,6 +10,7 @@ GCONFIG_HEADER_FILES = \
 			libvirt-gconfig-capabilities.h \
 			libvirt-gconfig-domain.h \
 			libvirt-gconfig-domain-snapshot.h \
+			libvirt-gconfig-helpers.h \
 			libvirt-gconfig-interface.h \
 			libvirt-gconfig-network.h \
 			libvirt-gconfig-network-filter.h \
@@ -16,11 +18,14 @@ GCONFIG_HEADER_FILES = \
 			libvirt-gconfig-secret.h \
 			libvirt-gconfig-storage-pool.h \
 			libvirt-gconfig-storage-vol.h
+noinst_HEADERS = \
+			libvirt-gconfig-helpers-private.h
 GCONFIG_SOURCE_FILES = \
 			libvirt-gconfig-object.c \
 			libvirt-gconfig-capabilities.c \
 			libvirt-gconfig-domain.c \
 			libvirt-gconfig-domain-snapshot.c \
+			libvirt-gconfig-helpers.c \
 			libvirt-gconfig-interface.c \
 			libvirt-gconfig-network.c \
 			libvirt-gconfig-network-filter.c \
@@ -70,8 +75,11 @@ LibvirtGConfig-1.0.gir: libvirt-gconfig-1.0.la $(G_IR_SCANNER) Makefile.am
                 --output $@ \
                 -I$(top_srcdir) \
                 -I$(top_builddir) \
+                $(LIBXML2_CFLAGS) \
                 --verbose \
                 --pkg=gobject-2.0 \
+                --c-include="libvirt-gconfig/libvirt-gconfig.h" \
+                --pkg-export=libvirt-gconfig-1.0 \
 		$(srcdir)/libvirt-gconfig.h \
                 $(GCONFIG_SOURCE_FILES:%=$(srcdir)/%) \
                 $(GCONFIG_HEADER_FILES:%=$(srcdir)/%)

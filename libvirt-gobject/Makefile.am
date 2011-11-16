@@ -7,6 +7,9 @@ GOBJECT_HEADER_FILES = \
 			libvirt-gobject.h \
 			libvirt-gobject-main.h \
 			libvirt-gobject-domain-snapshot.h \
+			libvirt-gobject-domain-device.h \
+			libvirt-gobject-domain-disk.h \
+			libvirt-gobject-domain-interface.h \
 			libvirt-gobject-domain.h \
 			libvirt-gobject-interface.h \
 			libvirt-gobject-network.h \
@@ -21,6 +24,9 @@ GOBJECT_HEADER_FILES = \
 GOBJECT_SOURCE_FILES = \
 			libvirt-gobject-main.c \
 			libvirt-gobject-domain-snapshot.c \
+			libvirt-gobject-domain-device.c \
+			libvirt-gobject-domain-disk.c \
+			libvirt-gobject-domain-interface.c \
 			libvirt-gobject-domain.c \
 			libvirt-gobject-interface.c \
 			libvirt-gobject-network.c \
@@ -33,14 +39,24 @@ GOBJECT_SOURCE_FILES = \
 			libvirt-gobject-connection.c \
 			libvirt-gobject-manager.c
 
+GOBJECT_GENERATED_FILES = \
+			libvirt-gobject-enums.c \
+			libvirt-gobject-enums.h
+
 libvirt_gobject_1_0_ladir = $(includedir)/libvirt-gobject-1.0/libvirt-gobject
 libvirt_gobject_1_0_la_HEADERS = \
-			libvirt-gobject-enums.h \
-			$(GOBJECT_HEADER_FILES)
+			$(GOBJECT_HEADER_FILES) \
+			libvirt-gobject-input-stream.h
+nodist_libvirt_gobject_1_0_la_HEADERS = \
+			libvirt-gobject-enums.h
 libvirt_gobject_1_0_la_SOURCES = \
 			$(libvirt_gobject_1_0_la_HEADERS) \
-			libvirt-gobject-enums.c \
-			$(GOBJECT_SOURCE_FILES)
+			$(GOBJECT_SOURCE_FILES) \
+			libvirt-gobject-domain-device-private.h \
+			libvirt-gobject-compat.h \
+			libvirt-gobject-input-stream.c
+nodist_libvirt_gobject_1_0_la_SOURCES = \
+			$(GOBJECT_GENERATED_FILES)
 libvirt_gobject_1_0_la_CFLAGS = \
 			-DDATADIR="\"$(datadir)\"" \
 			-DLIBVIRT_GOBJECT_BUILD \
@@ -49,6 +65,7 @@ libvirt_gobject_1_0_la_CFLAGS = \
 			$(LIBVIRT_CFLAGS) \
 			$(GOBJECT2_CFLAGS) \
 			$(GIO2_CFLAGS) \
+			$(LIBXML2_CFLAGS) \
 			$(WARN_CFLAGS)
 libvirt_gobject_1_0_la_LIBADD = \
 			$(LIBVIRT_LIBS) \
@@ -88,16 +105,16 @@ libvirt-gobject-enums.h: libvirt-gobject-domain.h libvirt-gobject-connection.h
                         --ftail "#endif /* __LIBVIRT_GOBJECT_ENUMS_H__ */\n" \
                         --eprod "#define GVIR_TYPE_@ENUMSHORT@ @enum_name@_get_type()\n" \
                         --eprod "GType @enum_name@_get_type (void);\n" \
-                $^ | sed -e 's/g_vir/gvir/g' > $@
+                $^ | sed -e 's/g_vir/gvir/g' | sed -e 's/_VIR_/_/g' > $@
 
-BUILT_SOURCES = libvirt-gobject-enums.c libvirt-gobject-enums.h
+BUILT_SOURCES = $(GOBJECT_GENERATED_FILES)
 
 CLEANFILES = $(BUILT_SOURCES)
 
 if WITH_GOBJECT_INTROSPECTION
 
 LibvirtGObject-1.0.gir: libvirt-gobject-1.0.la $(G_IR_SCANNER) Makefile.am
-	$(AM_V_GEN)$(G_IR_SCANNER) \
+	$(AM_V_GEN)PKG_CONFIG_PATH=$(top_builddir) $(G_IR_SCANNER) \
                 --quiet \
                 --warn-all \
                 --namespace LibvirtGObject \
@@ -114,13 +131,16 @@ LibvirtGObject-1.0.gir: libvirt-gobject-1.0.la $(G_IR_SCANNER) Makefile.am
                 --output $@ \
                 -I$(top_srcdir) \
                 -I$(top_builddir) \
+                $(LIBXML2_CFLAGS) \
                 --verbose \
                 --pkg=gobject-2.0 \
                 --pkg=gthread-2.0 \
+                --c-include="libvirt-gobject/libvirt-gobject.h" \
+                --pkg-export=libvirt-gobject-1.0 \
                 $(srcdir)/libvirt-gobject.h \
                 $(GOBJECT_SOURCE_FILES:%=$(srcdir)/%) \
                 $(GOBJECT_HEADER_FILES:%=$(srcdir)/%) \
-                $(builddir)/libvirt-gobject-enums.c
+                $(GOBJECT_GENERATED_FILES:%=$(builddir)/%)
 
 girdir = $(datadir)/gir-1.0
 gir_DATA = LibvirtGObject-1.0.gir

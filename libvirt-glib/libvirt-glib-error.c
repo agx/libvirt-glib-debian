@@ -80,7 +80,10 @@ GError *gvir_error_new_literal(GQuark domain,
     virErrorPtr verr = virGetLastError();
 
     if (!verr)
-        return NULL;
+        return g_error_new(domain,
+                           code,
+                           "%s",
+                           message);
 
     if (message)
         return g_error_new(domain,
@@ -92,7 +95,7 @@ GError *gvir_error_new_literal(GQuark domain,
         return g_error_new(domain,
                            code,
                            "%s",
-                           message);
+                           verr->message);
 }
 
 /**

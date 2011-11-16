@@ -28,6 +28,7 @@
 
 #include "libvirt-glib/libvirt-glib.h"
 #include "libvirt-gobject/libvirt-gobject.h"
+#include "libvirt-gobject-compat.h"
 
 extern gboolean debugFlag;
 
@@ -39,6 +40,7 @@ extern gboolean debugFlag;
 struct _GVirNetworkFilterPrivate
 {
     virNWFilterPtr handle;
+    gchar uuid[VIR_UUID_STRING_BUFLEN];
 };
 
 G_DEFINE_TYPE(GVirNetworkFilter, gvir_network_filter, G_TYPE_OBJECT);
@@ -64,8 +66,8 @@ static void gvir_network_filter_get_property(GObject *object,
                                              GValue *value,
                                              GParamSpec *pspec)
 {
-    GVirNetworkFilter *conn = GVIR_NETWORK_FILTER(object);
-    GVirNetworkFilterPrivate *priv = conn->priv;
+    GVirNetworkFilter *nf = GVIR_NETWORK_FILTER(object);
+    GVirNetworkFilterPrivate *priv = nf->priv;
 
     switch (prop_id) {
     case PROP_HANDLE:
@@ -83,8 +85,8 @@ static void gvir_network_filter_set_property(GObject *object,
                                              const GValue *value,
                                              GParamSpec *pspec)
 {
-    GVirNetworkFilter *conn = GVIR_NETWORK_FILTER(object);
-    GVirNetworkFilterPrivate *priv = conn->priv;
+    GVirNetworkFilter *nf = GVIR_NETWORK_FILTER(object);
+    GVirNetworkFilterPrivate *priv = nf->priv;
 
     switch (prop_id) {
     case PROP_HANDLE:
@@ -101,14 +103,28 @@ static void gvir_network_filter_set_property(GObject *object,
 
 static void gvir_network_filter_finalize(GObject *object)
 {
-    GVirNetworkFilter *conn = GVIR_NETWORK_FILTER(object);
-    GVirNetworkFilterPrivate *priv = conn->priv;
+    GVirNetworkFilter *nf = GVIR_NETWORK_FILTER(object);
+    GVirNetworkFilterPrivate *priv = nf->priv;
 
-    DEBUG("Finalize GVirNetworkFilter=%p", conn);
+    DEBUG("Finalize GVirNetworkFilter=%p", nf);
 
     virNWFilterFree(priv->handle);
 
     G_OBJECT_CLASS(gvir_network_filter_parent_class)->finalize(object);
+}
+
+
+static void gvir_network_filter_constructed(GObject *object)
+{
+    GVirNetworkFilter *nf = GVIR_NETWORK_FILTER(object);
+    GVirNetworkFilterPrivate *priv = nf->priv;
+
+    G_OBJECT_CLASS(gvir_network_filter_parent_class)->constructed(object);
+
+    /* xxx we may want to turn this into an initable */
+    if (virNWFilterGetUUIDString(priv->handle, priv->uuid) < 0) {
+        g_error("Failed to get network filter UUID on %p", priv->handle);
+    }
 }
 
 
@@ -119,6 +135,7 @@ static void gvir_network_filter_class_init(GVirNetworkFilterClass *klass)
     object_class->finalize = gvir_network_filter_finalize;
     object_class->get_property = gvir_network_filter_get_property;
     object_class->set_property = gvir_network_filter_set_property;
+    object_class->constructed = gvir_network_filter_constructed;
 
     g_object_class_install_property(object_class,
                                     PROP_HANDLE,
@@ -148,27 +165,23 @@ static void gvir_network_filter_init(GVirNetworkFilter *conn)
     memset(priv, 0, sizeof(*priv));
 }
 
-static gpointer
-gvir_network_filter_handle_copy(gpointer src)
+typedef struct virNWFilter GVirNetworkFilterHandle;
+
+static GVirNetworkFilterHandle*
+gvir_network_filter_handle_copy(GVirNetworkFilterHandle *src)
 {
-    virNWFilterRef(src);
+    virNWFilterRef((virNWFilterPtr)src);
     return src;
 }
 
-
-GType gvir_network_filter_handle_get_type(void)
+static void
+gvir_network_filter_handle_free(GVirNetworkFilterHandle *src)
 {
-    static GType handle_type = 0;
-
-    if (G_UNLIKELY(handle_type == 0))
-        handle_type = g_boxed_type_register_static
-            ("GVirNetworkFilterHandle",
-             gvir_network_filter_handle_copy,
-             (GBoxedFreeFunc)virNWFilterFree);
-
-    return handle_type;
+    virNWFilterFree((virNWFilterPtr)src);
 }
 
+G_DEFINE_BOXED_TYPE(GVirNetworkFilterHandle, gvir_network_filter_handle,
+                    gvir_network_filter_handle_copy, gvir_network_filter_handle_free)
 
 const gchar *gvir_network_filter_get_name(GVirNetworkFilter *filter)
 {
@@ -183,15 +196,11 @@ const gchar *gvir_network_filter_get_name(GVirNetworkFilter *filter)
 }
 
 
-gchar *gvir_network_filter_get_uuid(GVirNetworkFilter *filter)
+const gchar *gvir_network_filter_get_uuid(GVirNetworkFilter *filter)
 {
-    GVirNetworkFilterPrivate *priv = filter->priv;
-    char *uuid = g_new(gchar, VIR_UUID_STRING_BUFLEN);
+    g_return_val_if_fail(GVIR_IS_NETWORK_FILTER(filter), NULL);
 
-    if (virNWFilterGetUUIDString(priv->handle, uuid) < 0) {
-        g_error("Failed to get network_filter UUID on %p", priv->handle);
-    }
-    return uuid;
+    return filter->priv->uuid;
 }
 
 
@@ -216,8 +225,11 @@ GVirConfigNetworkFilter *gvir_network_filter_get_config
         return NULL;
     }
 
+#if 0
     GVirConfigNetworkFilter *conf = gvir_config_network_filter_new(xml);
 
     g_free(xml);
     return conf;
+#endif
+    return NULL;
 }

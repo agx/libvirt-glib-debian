@@ -28,6 +28,7 @@
 
 #include "libvirt-glib/libvirt-glib.h"
 #include "libvirt-gobject/libvirt-gobject.h"
+#include "libvirt-gobject-compat.h"
 
 extern gboolean debugFlag;
 
@@ -39,6 +40,7 @@ extern gboolean debugFlag;
 struct _GVirSecretPrivate
 {
     virSecretPtr handle;
+    gchar uuid[VIR_UUID_STRING_BUFLEN];
 };
 
 G_DEFINE_TYPE(GVirSecret, gvir_secret, G_TYPE_OBJECT);
@@ -112,6 +114,20 @@ static void gvir_secret_finalize(GObject *object)
 }
 
 
+static void gvir_secret_constructed(GObject *object)
+{
+    GVirSecret *conn = GVIR_SECRET(object);
+    GVirSecretPrivate *priv = conn->priv;
+
+    G_OBJECT_CLASS(gvir_secret_parent_class)->constructed(object);
+
+    /* xxx we may want to turn this into an initable */
+    if (virSecretGetUUIDString(priv->handle, priv->uuid) < 0) {
+        g_error("Failed to get secret UUID on %p", priv->handle);
+    }
+}
+
+
 static void gvir_secret_class_init(GVirSecretClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS (klass);
@@ -119,6 +135,7 @@ static void gvir_secret_class_init(GVirSecretClass *klass)
     object_class->finalize = gvir_secret_finalize;
     object_class->get_property = gvir_secret_get_property;
     object_class->set_property = gvir_secret_set_property;
+    object_class->constructed = gvir_secret_constructed;
 
     g_object_class_install_property(object_class,
                                     PROP_HANDLE,
@@ -148,37 +165,29 @@ static void gvir_secret_init(GVirSecret *conn)
     memset(priv, 0, sizeof(*priv));
 }
 
-static gpointer
-gvir_secret_handle_copy(gpointer src)
+typedef struct virSecret GVirSecretHandle;
+
+static GVirSecretHandle*
+gvir_secret_handle_copy(GVirSecretHandle *src)
 {
-    virSecretRef(src);
+    virSecretRef((virSecretPtr)src);
     return src;
 }
 
-
-GType gvir_secret_handle_get_type(void)
+static void
+gvir_secret_handle_free(GVirSecretHandle *src)
 {
-    static GType handle_type = 0;
-
-    if (G_UNLIKELY(handle_type == 0))
-        handle_type = g_boxed_type_register_static
-            ("GVirSecretHandle",
-             gvir_secret_handle_copy,
-             (GBoxedFreeFunc)virSecretFree);
-
-    return handle_type;
+    virSecretFree((virSecretPtr)src);
 }
 
+G_DEFINE_BOXED_TYPE(GVirSecretHandle, gvir_secret_handle,
+                    gvir_secret_handle_copy, gvir_secret_handle_free)
 
-gchar *gvir_secret_get_uuid(GVirSecret *secret)
+const gchar *gvir_secret_get_uuid(GVirSecret *secret)
 {
-    GVirSecretPrivate *priv = secret->priv;
-    char *uuid = g_new(gchar, VIR_UUID_STRING_BUFLEN);
+    g_return_val_if_fail(GVIR_IS_SECRET(secret), NULL);
 
-    if (virSecretGetUUIDString(priv->handle, uuid) < 0) {
-        g_error("Failed to get secret UUID on %p", priv->handle);
-    }
-    return uuid;
+    return secret->priv->uuid;
 }
 
 
@@ -202,8 +211,12 @@ GVirConfigSecret *gvir_secret_get_config(GVirSecret *secret,
         return NULL;
     }
 
+#if 0
     GVirConfigSecret *conf = gvir_config_secret_new(xml);
 
     g_free(xml);
     return conf;
+#endif
+
+    return NULL;
 }

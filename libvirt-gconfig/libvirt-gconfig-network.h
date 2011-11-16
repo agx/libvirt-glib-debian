@@ -59,7 +59,9 @@ struct _GVirConfigNetworkClass
 
 GType gvir_config_network_get_type(void);
 
-GVirConfigNetwork *gvir_config_network_new(const gchar *xml);
+GVirConfigNetwork *gvir_config_network_new(void);
+GVirConfigNetwork *gvir_config_network_new_from_xml(const gchar *xml,
+                                                    GError **error);
 
 G_END_DECLS
 

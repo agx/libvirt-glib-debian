@@ -61,10 +61,24 @@ static void gvir_config_node_device_init(GVirConfigNodeDevice *conn)
 }
 
 
-GVirConfigNodeDevice *gvir_config_node_device_new(const gchar *xml)
+GVirConfigNodeDevice *gvir_config_node_device_new(void)
 {
-    return GVIR_CONFIG_NODE_DEVICE(g_object_new(GVIR_TYPE_CONFIG_NODE_DEVICE,
-                                                "doc", xml,
-                                                "schema", DATADIR "/libvirt/schemas/nodedev.rng",
-                                                NULL));
+    GVirConfigObject *object;
+
+    object = gvir_config_object_new(GVIR_TYPE_CONFIG_NODE_DEVICE,
+                                    "device",
+                                    DATADIR "/libvirt/schemas/nodedev.rng");
+    return GVIR_CONFIG_NODE_DEVICE(object);
+}
+
+GVirConfigNodeDevice *gvir_config_node_device_new_from_xml(const gchar *xml,
+                                                           GError **error)
+{
+    GVirConfigObject *object;
+
+    object = gvir_config_object_new_from_xml(GVIR_TYPE_CONFIG_NODE_DEVICE,
+                                             "device",
+                                             DATADIR "/libvirt/schemas/nodedev.rng",
+                                             xml, error);
+    return GVIR_CONFIG_NODE_DEVICE(object);
 }

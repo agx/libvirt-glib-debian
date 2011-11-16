@@ -28,6 +28,7 @@
 
 #include "libvirt-glib/libvirt-glib.h"
 #include "libvirt-gobject/libvirt-gobject.h"
+#include "libvirt-gobject-compat.h"
 
 extern gboolean debugFlag;
 
@@ -39,6 +40,7 @@ extern gboolean debugFlag;
 struct _GVirDomainPrivate
 {
     virDomainPtr handle;
+    gchar uuid[VIR_UUID_STRING_BUFLEN];
 };
 
 G_DEFINE_TYPE(GVirDomain, gvir_domain, G_TYPE_OBJECT);
@@ -49,6 +51,16 @@ enum {
     PROP_HANDLE,
 };
 
+enum {
+    VIR_STARTED,
+    VIR_SUSPENDED,
+    VIR_RESUMED,
+    VIR_STOPPED,
+    VIR_UPDATED,
+    LAST_SIGNAL
+};
+
+static gint signals[LAST_SIGNAL];
 
 #define GVIR_DOMAIN_ERROR gvir_domain_error_quark()
 
@@ -112,6 +124,20 @@ static void gvir_domain_finalize(GObject *object)
 }
 
 
+static void gvir_domain_constructed(GObject *object)
+{
+    GVirDomain *conn = GVIR_DOMAIN(object);
+    GVirDomainPrivate *priv = conn->priv;
+
+    G_OBJECT_CLASS(gvir_domain_parent_class)->constructed(object);
+
+    /* xxx we may want to turn this into an initable */
+    if (virDomainGetUUIDString(priv->handle, priv->uuid) < 0) {
+        g_error("Failed to get domain UUID on %p", priv->handle);
+    }
+}
+
+
 static void gvir_domain_class_init(GVirDomainClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS (klass);
@@ -119,6 +145,7 @@ static void gvir_domain_class_init(GVirDomainClass *klass)
     object_class->finalize = gvir_domain_finalize;
     object_class->get_property = gvir_domain_get_property;
     object_class->set_property = gvir_domain_set_property;
+    object_class->constructed = gvir_domain_constructed;
 
     g_object_class_install_property(object_class,
                                     PROP_HANDLE,
@@ -132,6 +159,55 @@ static void gvir_domain_class_init(GVirDomainClass *klass)
                                                        G_PARAM_STATIC_NAME |
                                                        G_PARAM_STATIC_NICK |
                                                        G_PARAM_STATIC_BLURB));
+
+    signals[VIR_STARTED] = g_signal_new("started",
+                                        G_OBJECT_CLASS_TYPE(object_class),
+                                        G_SIGNAL_RUN_LAST | G_SIGNAL_NO_RECURSE |
+                                        G_SIGNAL_NO_HOOKS | G_SIGNAL_DETAILED,
+                                        G_STRUCT_OFFSET(GVirDomainClass, started),
+                                        NULL, NULL,
+                                        g_cclosure_marshal_VOID__VOID,
+                                        G_TYPE_NONE,
+                                        0);
+
+    signals[VIR_SUSPENDED] = g_signal_new("suspended",
+                                        G_OBJECT_CLASS_TYPE(object_class),
+                                        G_SIGNAL_RUN_LAST | G_SIGNAL_NO_RECURSE |
+                                        G_SIGNAL_NO_HOOKS | G_SIGNAL_DETAILED,
+                                        G_STRUCT_OFFSET(GVirDomainClass, suspended),
+                                        NULL, NULL,
+                                        g_cclosure_marshal_VOID__VOID,
+                                        G_TYPE_NONE,
+                                        0);
+
+    signals[VIR_RESUMED] = g_signal_new("resumed",
+                                        G_OBJECT_CLASS_TYPE(object_class),
+                                        G_SIGNAL_RUN_LAST | G_SIGNAL_NO_RECURSE |
+                                        G_SIGNAL_NO_HOOKS | G_SIGNAL_DETAILED,
+                                        G_STRUCT_OFFSET(GVirDomainClass, resumed),
+                                        NULL, NULL,
+                                        g_cclosure_marshal_VOID__VOID,
+                                        G_TYPE_NONE,
+                                        0);
+
+    signals[VIR_STOPPED] = g_signal_new("stopped",
+                                        G_OBJECT_CLASS_TYPE(object_class),
+                                        G_SIGNAL_RUN_LAST | G_SIGNAL_NO_RECURSE |
+                                        G_SIGNAL_NO_HOOKS | G_SIGNAL_DETAILED,
+                                        G_STRUCT_OFFSET(GVirDomainClass, stopped),
+                                        NULL, NULL,
+                                        g_cclosure_marshal_VOID__VOID,
+                                        G_TYPE_NONE,
+                                        0);
+
+    signals[VIR_UPDATED] = g_signal_new("updated",
+                                        G_OBJECT_CLASS_TYPE(object_class),
+                                        G_SIGNAL_RUN_LAST | G_SIGNAL_NO_RECURSE | G_SIGNAL_NO_HOOKS,
+                                        G_STRUCT_OFFSET(GVirDomainClass, updated),
+                                        NULL, NULL,
+                                        g_cclosure_marshal_VOID__VOID,
+                                        G_TYPE_NONE,
+                                        0);
 
     g_type_class_add_private(klass, sizeof(GVirDomainPrivate));
 }
@@ -148,26 +224,23 @@ static void gvir_domain_init(GVirDomain *conn)
     memset(priv, 0, sizeof(*priv));
 }
 
-static gpointer
-gvir_domain_handle_copy(gpointer src)
+typedef struct virDomain GVirDomainHandle;
+
+static GVirDomainHandle*
+gvir_domain_handle_copy(GVirDomainHandle *src)
 {
-    virDomainRef(src);
+    virDomainRef((virDomainPtr)src);
     return src;
 }
 
-
-GType gvir_domain_handle_get_type(void)
+static void
+gvir_domain_handle_free(GVirDomainHandle *src)
 {
-    static GType handle_type = 0;
-
-    if (G_UNLIKELY(handle_type == 0))
-        handle_type = g_boxed_type_register_static
-            ("GVirDomainHandle",
-             gvir_domain_handle_copy,
-             (GBoxedFreeFunc)virDomainFree);
-
-    return handle_type;
+    virDomainFree((virDomainPtr)src);
 }
+
+G_DEFINE_BOXED_TYPE(GVirDomainHandle, gvir_domain_handle,
+                    gvir_domain_handle_copy, gvir_domain_handle_free)
 
 static GVirDomainInfo *
 gvir_domain_info_copy(GVirDomainInfo *info)
@@ -183,18 +256,8 @@ gvir_domain_info_free(GVirDomainInfo *info)
 }
 
 
-GType gvir_domain_info_get_type(void)
-{
-    static GType info_type = 0;
-
-    if (G_UNLIKELY(info_type == 0))
-        info_type = g_boxed_type_register_static
-            ("GVirDomainInfo",
-             (GBoxedCopyFunc)gvir_domain_info_copy,
-             (GBoxedFreeFunc)gvir_domain_info_free);
-
-    return info_type;
-}
+G_DEFINE_BOXED_TYPE(GVirDomainInfo, gvir_domain_info,
+                    gvir_domain_info_copy, gvir_domain_info_free)
 
 
 const gchar *gvir_domain_get_name(GVirDomain *dom)
@@ -210,15 +273,11 @@ const gchar *gvir_domain_get_name(GVirDomain *dom)
 }
 
 
-gchar *gvir_domain_get_uuid(GVirDomain *dom)
+const gchar *gvir_domain_get_uuid(GVirDomain *dom)
 {
-    GVirDomainPrivate *priv = dom->priv;
-    char *uuid = g_new(gchar, VIR_UUID_STRING_BUFLEN);
+    g_return_val_if_fail(GVIR_IS_DOMAIN(dom), NULL);
 
-    if (virDomainGetUUIDString(priv->handle, uuid) < 0) {
-        g_error("Failed to get domain UUID on %p", priv->handle);
-    }
-    return uuid;
+    return dom->priv->uuid;
 }
 
 gint gvir_domain_get_id(GVirDomain *dom,
@@ -251,6 +310,27 @@ gboolean gvir_domain_start(GVirDomain *dom,
         *err = gvir_error_new_literal(GVIR_DOMAIN_ERROR,
                                       0,
                                       "Unable to start domain");
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
+/**
+ * gvir_domain_resume:
+ * @dom: the domain
+ *
+ * Returns: TRUE on success
+ */
+gboolean gvir_domain_resume(GVirDomain *dom,
+                            GError **err)
+{
+    GVirDomainPrivate *priv = dom->priv;
+
+    if (virDomainResume(priv->handle) < 0) {
+        *err = gvir_error_new_literal(GVIR_DOMAIN_ERROR,
+                                      0,
+                                      "Unable to resume domain");
         return FALSE;
     }
 
@@ -361,9 +441,11 @@ GVirConfigDomain *gvir_domain_get_config(GVirDomain *dom,
         return NULL;
     }
 
-    GVirConfigDomain *conf = gvir_config_domain_new(xml);
-
+    GVirConfigDomain *conf = gvir_config_domain_new_from_xml(xml, err);
     g_free(xml);
+    if ((err != NULL) && (*err != NULL))
+        return NULL;
+
     return conf;
 }
 

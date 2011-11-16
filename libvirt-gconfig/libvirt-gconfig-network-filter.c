@@ -61,10 +61,24 @@ static void gvir_config_network_filter_init(GVirConfigNetworkFilter *conn)
 }
 
 
-GVirConfigNetworkFilter *gvir_config_network_filter_new(const gchar *xml)
+GVirConfigNetworkFilter *gvir_config_network_filter_new(void)
 {
-    return GVIR_CONFIG_NETWORK_FILTER(g_object_new(GVIR_TYPE_CONFIG_NETWORK_FILTER,
-                                                   "doc", xml,
-                                                   "schema", DATADIR "/libvirt/schemas/nwfilter.rng",
-                                                   NULL));
+    GVirConfigObject *object;
+
+    object = gvir_config_object_new(GVIR_TYPE_CONFIG_NETWORK_FILTER,
+                                    "filter",
+                                    DATADIR "/libvirt/schemas/nwfilter.rng");
+    return GVIR_CONFIG_NETWORK_FILTER(object);
+}
+
+GVirConfigNetworkFilter *gvir_config_network_filter_new_from_xml(const gchar *xml,
+                                                                 GError **error)
+{
+    GVirConfigObject *object;
+
+    object = gvir_config_object_new_from_xml(GVIR_TYPE_CONFIG_NETWORK_FILTER,
+                                             "filter",
+                                             DATADIR "/libvirt/schemas/nwfilter.rng",
+                                             xml, error);
+    return GVIR_CONFIG_NETWORK_FILTER(object);
 }
