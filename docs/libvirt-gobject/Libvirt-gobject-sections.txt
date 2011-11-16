@@ -1,0 +1,6 @@
+<SECTION>
+<FILE>libvirt-gobject-enums</FILE>
+GVIR_TYPE_DOMAIN_STATE
+gvir_domain_state_get_type
+</SECTION>
+

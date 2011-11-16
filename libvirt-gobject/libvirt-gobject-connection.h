@@ -56,11 +56,11 @@ struct _GVirConnectionClass
     GObjectClass parent_class;
 
     /* signals */
-    void (*vir_connection_opened)(GVirConnection *conn);
-    void (*vir_connection_closed)(GVirConnection *conn);
+    void (*connection_opened)(GVirConnection *conn);
+    void (*connection_closed)(GVirConnection *conn);
 
-    void (*vir_domain_added)(GVirConnection *conn, GVirDomain *dom);
-    void (*vir_domain_removed)(GVirConnection *conn, GVirDomain *dom);
+    void (*domain_added)(GVirConnection *conn, GVirDomain *dom);
+    void (*domain_removed)(GVirConnection *conn, GVirDomain *dom);
 
     GVirStream *(*stream_new)(GVirConnection *conn, gpointer handle);
 
@@ -77,7 +77,7 @@ gboolean gvir_connection_open(GVirConnection *conn,
 void gvir_connection_open_async(GVirConnection *conn,
                                 GCancellable *cancellable,
                                 GAsyncReadyCallback callback,
-                                gpointer opaque);
+                                gpointer user_data);
 gboolean gvir_connection_open_finish(GVirConnection *conn,
                                      GAsyncResult *result,
                                      GError **err);
@@ -90,7 +90,7 @@ gboolean gvir_connection_fetch_domains(GVirConnection *conn,
 void gvir_connection_fetch_domains_async(GVirConnection *conn,
                                          GCancellable *cancellable,
                                          GAsyncReadyCallback callback,
-                                         gpointer opaque);
+                                         gpointer user_data);
 gboolean gvir_connection_fetch_domains_finish(GVirConnection *conn,
                                               GAsyncResult *result,
                                               GError **err);
@@ -149,7 +149,7 @@ gboolean gvir_connection_fetch_storage_pools(GVirConnection *conn,
 void gvir_connection_fetch_storage_pools_async(GVirConnection *conn,
                                                GCancellable *cancellable,
                                                GAsyncReadyCallback callback,
-                                               gpointer opaque);
+                                               gpointer user_data);
 gboolean gvir_connection_fetch_storage_pools_finish(GVirConnection *conn,
                                                     GAsyncResult *result,
                                                     GError **err);
@@ -159,6 +159,13 @@ GVirStoragePool *gvir_connection_get_storage_pool(GVirConnection *conn,
                                                   const gchar *uuid);
 GVirStoragePool *gvir_connection_find_storage_pool_by_name(GVirConnection *conn,
                                                            const gchar *name);
+
+GVirStoragePool *gvir_connection_create_storage_pool
+                                (GVirConnection *conn,
+                                 GVirConfigStoragePool *conf,
+                                 guint64 flags,
+                                 GError **err);
+
 
 GVirStream *gvir_connection_get_stream(GVirConnection *conn,
                                        gint flags);

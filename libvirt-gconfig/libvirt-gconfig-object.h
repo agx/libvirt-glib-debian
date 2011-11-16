@@ -59,11 +59,34 @@ struct _GVirConfigObjectClass
 
 GType gvir_config_object_get_type(void);
 
+GVirConfigObject *gvir_config_object_new(GType type,
+                                         const char *root_name,
+                                         const char *schema);
+GVirConfigObject *gvir_config_object_new_from_xml(GType type,
+                                                  const char *root_name,
+                                                  const char *schema,
+                                                  const gchar *xml,
+                                                  GError **error);
 void gvir_config_object_validate(GVirConfigObject *config,
                                  GError **err);
 
-const gchar *gvir_config_object_get_doc(GVirConfigObject *config);
+gchar *gvir_config_object_to_xml(GVirConfigObject *config);
+
 const gchar *gvir_config_object_get_schema(GVirConfigObject *config);
+xmlNodePtr gvir_config_object_get_xml_node(GVirConfigObject *config);
+char *gvir_config_object_get_node_content(GVirConfigObject *object,
+                                          const char *node_name);
+guint64 gvir_config_object_get_node_content_uint64(GVirConfigObject *object,
+                                                   const char *node_name);
+void gvir_config_object_set_node_content(GVirConfigObject *object,
+                                         const char *node_name,
+                                         const char *value);
+void gvir_config_object_set_node_content_uint64(GVirConfigObject *object,
+                                                const char *node_name,
+                                                guint64 value);
+
+/* FIXME: move to a libvirt-gconfig-helpers.h file? */
+xmlNodePtr gvir_config_object_parse(const char *xml, const char *root_node, GError **err);
 
 G_END_DECLS
 

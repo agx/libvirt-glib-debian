@@ -58,8 +58,12 @@ struct _GVirDomainClass
 {
     GObjectClass parent_class;
 
-    void (*vir_domain_started)(GVirDomain *dom);
-    void (*vir_domain_stopped)(GVirDomain *dom);
+    /* signals */
+    void (*started)(GVirDomain *dom);
+    void (*stopped)(GVirDomain *dom);
+    void (*resumed)(GVirDomain *dom);
+    void (*updated)(GVirDomain *dom);
+    void (*suspended)(GVirDomain *dom);
 
     gpointer padding[20];
 };
@@ -91,13 +95,15 @@ GType gvir_domain_info_get_type(void);
 GType gvir_domain_handle_get_type(void);
 
 const gchar *gvir_domain_get_name(GVirDomain *dom);
-gchar *gvir_domain_get_uuid(GVirDomain *dom);
+const gchar *gvir_domain_get_uuid(GVirDomain *dom);
 gint gvir_domain_get_id(GVirDomain *dom,
                         GError **err);
 
 gboolean gvir_domain_start(GVirDomain *dom,
                            guint64 flags,
                            GError **err);
+gboolean gvir_domain_resume(GVirDomain *dom,
+                            GError **err);
 gboolean gvir_domain_stop(GVirDomain *dom,
                           guint64 flags,
                           GError **err);

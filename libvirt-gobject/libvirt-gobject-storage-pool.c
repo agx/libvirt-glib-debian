@@ -28,6 +28,7 @@
 
 #include "libvirt-glib/libvirt-glib.h"
 #include "libvirt-gobject/libvirt-gobject.h"
+#include "libvirt-gobject-compat.h"
 
 extern gboolean debugFlag;
 
@@ -42,6 +43,7 @@ struct _GVirStoragePoolPrivate
     virStoragePoolPtr handle;
 
     GHashTable *volumes;
+    gchar uuid[VIR_UUID_STRING_BUFLEN];
 };
 
 G_DEFINE_TYPE(GVirStoragePool, gvir_storage_pool, G_TYPE_OBJECT);
@@ -122,6 +124,20 @@ static void gvir_storage_pool_finalize(GObject *object)
 }
 
 
+static void gvir_storage_pool_constructed(GObject *object)
+{
+    GVirStoragePool *conn = GVIR_STORAGE_POOL(object);
+    GVirStoragePoolPrivate *priv = conn->priv;
+
+    G_OBJECT_CLASS(gvir_storage_pool_parent_class)->constructed(object);
+
+    /* xxx we may want to turn this into an initable */
+    if (virStoragePoolGetUUIDString(priv->handle, priv->uuid) < 0) {
+        g_error("Failed to get storage pool UUID on %p", priv->handle);
+    }
+}
+
+
 static void gvir_storage_pool_class_init(GVirStoragePoolClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS (klass);
@@ -129,6 +145,7 @@ static void gvir_storage_pool_class_init(GVirStoragePoolClass *klass)
     object_class->finalize = gvir_storage_pool_finalize;
     object_class->get_property = gvir_storage_pool_get_property;
     object_class->set_property = gvir_storage_pool_set_property;
+    object_class->constructed = gvir_storage_pool_constructed;
 
     g_object_class_install_property(object_class,
                                     PROP_HANDLE,
@@ -160,27 +177,23 @@ static void gvir_storage_pool_init(GVirStoragePool *pool)
     priv->lock = g_mutex_new();
 }
 
-static gpointer
-gvir_storage_pool_handle_copy(gpointer src)
+typedef struct virStoragePool GVirStoragePoolHandle;
+
+static GVirStoragePoolHandle*
+gvir_storage_pool_handle_copy(GVirStoragePoolHandle *src)
 {
-    virStoragePoolRef(src);
+    virStoragePoolRef((virStoragePoolPtr)src);
     return src;
 }
 
-
-GType gvir_storage_pool_handle_get_type(void)
+static void
+gvir_storage_pool_handle_free(GVirStoragePoolHandle *src)
 {
-    static GType handle_type = 0;
-
-    if (G_UNLIKELY(handle_type == 0))
-        handle_type = g_boxed_type_register_static
-            ("GVirStoragePoolHandle",
-             gvir_storage_pool_handle_copy,
-             (GBoxedFreeFunc)virStoragePoolFree);
-
-    return handle_type;
+    virStoragePoolFree((virStoragePoolPtr)src);
 }
 
+G_DEFINE_BOXED_TYPE(GVirStoragePoolHandle, gvir_storage_pool_handle,
+                    gvir_storage_pool_handle_copy, gvir_storage_pool_handle_free)
 
 const gchar *gvir_storage_pool_get_name(GVirStoragePool *pool)
 {
@@ -195,15 +208,11 @@ const gchar *gvir_storage_pool_get_name(GVirStoragePool *pool)
 }
 
 
-gchar *gvir_storage_pool_get_uuid(GVirStoragePool *pool)
+const gchar *gvir_storage_pool_get_uuid(GVirStoragePool *pool)
 {
-    GVirStoragePoolPrivate *priv = pool->priv;
-    char *uuid = g_new(gchar, VIR_UUID_STRING_BUFLEN);
+    g_return_val_if_fail(GVIR_IS_STORAGE_POOL(pool), NULL);
 
-    if (virStoragePoolGetUUIDString(priv->handle, uuid) < 0) {
-        g_error("Failed to get storage_pool UUID on %p", priv->handle);
-    }
-    return uuid;
+    return pool->priv->uuid;
 }
 
 
@@ -227,10 +236,13 @@ GVirConfigStoragePool *gvir_storage_pool_get_config(GVirStoragePool *pool,
         return NULL;
     }
 
+#if 0
     GVirConfigStoragePool *conf = gvir_config_storage_pool_new(xml);
 
     g_free(xml);
     return conf;
+#endif
+    return NULL;
 }
 
 typedef gint (* CountFunction) (virStoragePoolPtr vpool);
@@ -373,19 +385,19 @@ gvir_storage_pool_refresh_helper(GSimpleAsyncResult *res,
  * gvir_storage_pool_refresh_async:
  * @pool: the storage pool
  * @cancellable: (allow-none)(transfer none): cancellation object
- * @callback: (transfer none): completion callback
- * @opaque: (transfer none)(allow-none): opaque data for callback
+ * @callback: (scope async): completion callback
+ * @user_data: (closure): opaque data for callback
  */
 void gvir_storage_pool_refresh_async(GVirStoragePool *pool,
                                      GCancellable *cancellable,
                                      GAsyncReadyCallback callback,
-                                     gpointer opaque)
+                                     gpointer user_data)
 {
     GSimpleAsyncResult *res;
 
     res = g_simple_async_result_new(G_OBJECT(pool),
                                     callback,
-                                    opaque,
+                                    user_data,
                                     gvir_storage_pool_refresh);
     g_simple_async_result_run_in_thread(res,
                                         gvir_storage_pool_refresh_helper,
@@ -432,11 +444,13 @@ static void gvir_storage_vol_ref(gpointer obj, gpointer ignore G_GNUC_UNUSED)
 GList *gvir_storage_pool_get_volumes(GVirStoragePool *pool)
 {
     GVirStoragePoolPrivate *priv = pool->priv;
-    GList *volumes;
+    GList *volumes = NULL;
 
     g_mutex_lock(priv->lock);
-    volumes = g_hash_table_get_values(priv->volumes);
-    g_list_foreach(volumes, gvir_storage_vol_ref, NULL);
+    if (priv->volumes != NULL) {
+        volumes = g_hash_table_get_values(priv->volumes);
+        g_list_foreach(volumes, gvir_storage_vol_ref, NULL);
+    }
     g_mutex_unlock(priv->lock);
 
     return volumes;
@@ -479,7 +493,7 @@ GVirStorageVol *gvir_storage_pool_create_volume
     virStorageVolPtr handle;
     GVirStoragePoolPrivate *priv = pool->priv;
 
-    xml = gvir_config_object_get_doc(GVIR_CONFIG_OBJECT(conf));
+    xml = gvir_config_object_to_xml(GVIR_CONFIG_OBJECT(conf));
 
     g_return_val_if_fail(xml != NULL, NULL);
 
@@ -503,4 +517,208 @@ GVirStorageVol *gvir_storage_pool_create_volume
     g_mutex_unlock(priv->lock);
 
     return g_object_ref(volume);
+}
+
+/**
+ * gvir_storage_pool_build:
+ * @pool: the storage pool to build
+ * @flags:  the flags
+ * @err: return location for any #GError
+ *
+ * Return value: #True on success, #False otherwise.
+ */
+gboolean gvir_storage_pool_build (GVirStoragePool *pool,
+                                  guint64 flags,
+                                  GError **err)
+{
+    if (virStoragePoolBuild(pool->priv->handle, flags)) {
+        *err = gvir_error_new_literal(GVIR_STORAGE_POOL_ERROR,
+                                      0,
+                                      "Failed to build storage pool");
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
+typedef struct {
+    guint64 flags;
+} StoragePoolBuildData;
+
+static void
+gvir_storage_pool_build_helper(GSimpleAsyncResult *res,
+                               GObject *object,
+                               GCancellable *cancellable G_GNUC_UNUSED)
+{
+    GVirStoragePool *pool = GVIR_STORAGE_POOL(object);
+    StoragePoolBuildData *data;
+    GError *err = NULL;
+
+    data = (StoragePoolBuildData *) g_object_get_data(G_OBJECT(res),
+                                                      "StoragePoolBuildData");
+
+    if (!gvir_storage_pool_build(pool, data->flags, &err)) {
+        g_simple_async_result_set_from_error(res, err);
+        g_error_free(err);
+    }
+
+    g_slice_free (StoragePoolBuildData, data);
+}
+
+/**
+ * gvir_storage_pool_build_async:
+ * @pool: the storage pool to build
+ * @flags:  the flags
+ * @cancellable: (allow-none)(transfer none): cancellation object
+ * @callback: (scope async): completion callback
+ * @user_data: (closure): opaque data for callback
+ */
+void gvir_storage_pool_build_async (GVirStoragePool *pool,
+                                    guint64 flags,
+                                    GCancellable *cancellable,
+                                    GAsyncReadyCallback callback,
+                                    gpointer user_data)
+{
+    GSimpleAsyncResult *res;
+    StoragePoolBuildData *data;
+
+    data = g_new0(StoragePoolBuildData, 1);
+    data->flags = flags;
+
+    res = g_simple_async_result_new(G_OBJECT(pool),
+                                    callback,
+                                    user_data,
+                                    gvir_storage_pool_build);
+    g_object_set_data(G_OBJECT(res), "StoragePoolBuildData", data);
+    g_simple_async_result_run_in_thread(res,
+                                        gvir_storage_pool_build_helper,
+                                        G_PRIORITY_DEFAULT,
+                                        cancellable);
+    g_object_unref(res);
+}
+
+/**
+ * gvir_storage_pool_build_finish:
+ * @pool: the storage pool to build
+ * @result: (transfer none): async method result
+ * @err: return location for any #GError
+ *
+ * Return value: #True on success, #False otherwise.
+ */
+gboolean gvir_storage_pool_build_finish(GVirStoragePool *pool,
+                                        GAsyncResult *result,
+                                        GError **err)
+{
+    g_return_val_if_fail(GVIR_IS_STORAGE_POOL(pool), FALSE);
+    g_return_val_if_fail(G_IS_ASYNC_RESULT(result), FALSE);
+
+    if (G_IS_SIMPLE_ASYNC_RESULT(result)) {
+        GSimpleAsyncResult *simple = G_SIMPLE_ASYNC_RESULT(result);
+        g_warn_if_fail (g_simple_async_result_get_source_tag(simple) ==
+                        gvir_storage_pool_build);
+        if (g_simple_async_result_propagate_error(simple, err))
+            return FALSE;
+    }
+
+    return TRUE;
+}
+
+/**
+ * gvir_storage_pool_start:
+ * @pool: the storage pool to start
+ * @flags:  the flags
+ * @err: return location for any #GError
+ *
+ * Return value: #True on success, #False otherwise.
+ */
+gboolean gvir_storage_pool_start (GVirStoragePool *pool,
+                                  guint64 flags,
+                                  GError **err)
+{
+    if (virStoragePoolCreate(pool->priv->handle, flags)) {
+        *err = gvir_error_new_literal(GVIR_STORAGE_POOL_ERROR,
+                                      0,
+                                      "Failed to start storage pool");
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
+static void
+gvir_storage_pool_start_helper(GSimpleAsyncResult *res,
+                               GObject *object,
+                               GCancellable *cancellable G_GNUC_UNUSED)
+{
+    GVirStoragePool *pool = GVIR_STORAGE_POOL(object);
+    StoragePoolBuildData *data;
+    GError *err = NULL;
+
+    data = (StoragePoolBuildData *) g_object_get_data(G_OBJECT(res),
+                                                      "StoragePoolBuildData");
+
+    if (!gvir_storage_pool_start(pool, data->flags, &err)) {
+        g_simple_async_result_set_from_error(res, err);
+        g_error_free(err);
+    }
+
+    g_slice_free (StoragePoolBuildData, data);
+}
+
+/**
+ * gvir_storage_pool_start_async:
+ * @pool: the storage pool to start
+ * @flags:  the flags
+ * @cancellable: (allow-none)(transfer none): cancellation object
+ * @callback: (scope async): completion callback
+ * @user_data: (closure): opaque data for callback
+ */
+void gvir_storage_pool_start_async (GVirStoragePool *pool,
+                                    guint64 flags,
+                                    GCancellable *cancellable,
+                                    GAsyncReadyCallback callback,
+                                    gpointer user_data)
+{
+    GSimpleAsyncResult *res;
+    StoragePoolBuildData *data;
+
+    data = g_new0(StoragePoolBuildData, 1);
+    data->flags = flags;
+
+    res = g_simple_async_result_new(G_OBJECT(pool),
+                                    callback,
+                                    user_data,
+                                    gvir_storage_pool_start);
+    g_object_set_data(G_OBJECT(res), "StoragePoolBuildData", data);
+    g_simple_async_result_run_in_thread(res,
+                                        gvir_storage_pool_start_helper,
+                                        G_PRIORITY_DEFAULT,
+                                        cancellable);
+    g_object_unref(res);
+}
+
+/**
+ * gvir_storage_pool_start_finish:
+ * @pool: the storage pool to start
+ * @result: (transfer none): async method result
+ * @err: return location for any #GError
+ *
+ * Return value: #True on success, #False otherwise.
+ */
+gboolean gvir_storage_pool_start_finish(GVirStoragePool *pool,
+                                        GAsyncResult *result,
+                                        GError **err)
+{
+    g_return_val_if_fail(GVIR_IS_STORAGE_POOL(pool), FALSE);
+    g_return_val_if_fail(G_IS_ASYNC_RESULT(result), FALSE);
+
+    if (G_IS_SIMPLE_ASYNC_RESULT(result)) {
+        GSimpleAsyncResult *simple = G_SIMPLE_ASYNC_RESULT(result);
+        g_warn_if_fail (g_simple_async_result_get_source_tag(simple) ==
+                        gvir_storage_pool_start);
+        if (g_simple_async_result_propagate_error(simple, err))
+            return FALSE;
+    }
+
+    return TRUE;
 }

@@ -28,6 +28,7 @@
 
 #include "libvirt-glib/libvirt-glib.h"
 #include "libvirt-gobject/libvirt-gobject.h"
+#include "libvirt-gobject-compat.h"
 
 extern gboolean debugFlag;
 
@@ -39,6 +40,7 @@ extern gboolean debugFlag;
 struct _GVirNetworkPrivate
 {
     virNetworkPtr handle;
+    gchar uuid[VIR_UUID_STRING_BUFLEN];
 };
 
 G_DEFINE_TYPE(GVirNetwork, gvir_network, G_TYPE_OBJECT);
@@ -111,6 +113,18 @@ static void gvir_network_finalize(GObject *object)
     G_OBJECT_CLASS(gvir_network_parent_class)->finalize(object);
 }
 
+static void gvir_network_constructed(GObject *object)
+{
+    GVirNetwork *net = GVIR_NETWORK(object);
+    GVirNetworkPrivate *priv = net->priv;
+
+    G_OBJECT_CLASS(gvir_network_parent_class)->constructed(object);
+
+    /* xxx we may want to turn this into an initable */
+    if (virNetworkGetUUIDString(priv->handle, priv->uuid) < 0) {
+        g_error("Failed to get network UUID on %p", priv->handle);
+    }
+}
 
 static void gvir_network_class_init(GVirNetworkClass *klass)
 {
@@ -119,6 +133,7 @@ static void gvir_network_class_init(GVirNetworkClass *klass)
     object_class->finalize = gvir_network_finalize;
     object_class->get_property = gvir_network_get_property;
     object_class->set_property = gvir_network_set_property;
+    object_class->constructed = gvir_network_constructed;
 
     g_object_class_install_property(object_class,
                                     PROP_HANDLE,
@@ -148,27 +163,23 @@ static void gvir_network_init(GVirNetwork *conn)
     memset(priv, 0, sizeof(*priv));
 }
 
-static gpointer
-gvir_network_handle_copy(gpointer src)
+typedef struct virNetwork GVirNetworkHandle;
+
+static GVirNetworkHandle*
+gvir_network_handle_copy(GVirNetworkHandle *src)
 {
-    virNetworkRef(src);
+    virNetworkRef((virNetworkPtr)src);
     return src;
 }
 
-
-GType gvir_network_handle_get_type(void)
+static void
+gvir_network_handle_free(GVirNetworkHandle *src)
 {
-    static GType handle_type = 0;
-
-    if (G_UNLIKELY(handle_type == 0))
-        handle_type = g_boxed_type_register_static
-            ("GVirNetworkHandle",
-             gvir_network_handle_copy,
-             (GBoxedFreeFunc)virNetworkFree);
-
-    return handle_type;
+    virNetworkFree((virNetworkPtr)src);
 }
 
+G_DEFINE_BOXED_TYPE(GVirNetworkHandle, gvir_network_handle,
+                    gvir_network_handle_copy, gvir_network_handle_free)
 
 const gchar *gvir_network_get_name(GVirNetwork *network)
 {
@@ -183,15 +194,11 @@ const gchar *gvir_network_get_name(GVirNetwork *network)
 }
 
 
-gchar *gvir_network_get_uuid(GVirNetwork *network)
+const gchar *gvir_network_get_uuid(GVirNetwork *network)
 {
-    GVirNetworkPrivate *priv = network->priv;
-    char *uuid = g_new(gchar, VIR_UUID_STRING_BUFLEN);
+    g_return_val_if_fail(GVIR_IS_NETWORK(network), NULL);
 
-    if (virNetworkGetUUIDString(priv->handle, uuid) < 0) {
-        g_error("Failed to get network UUID on %p", priv->handle);
-    }
-    return uuid;
+    return network->priv->uuid;
 }
 
 /**
@@ -214,8 +221,11 @@ GVirConfigNetwork *gvir_network_get_config(GVirNetwork *network,
         return NULL;
     }
 
+#if 0
     GVirConfigNetwork *conf = gvir_config_network_new(xml);
 
     g_free(xml);
     return conf;
+#endif
+    return NULL;
 }

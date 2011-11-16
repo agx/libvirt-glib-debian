@@ -61,10 +61,24 @@ static void gvir_config_domain_snapshot_init(GVirConfigDomainSnapshot *conn)
 }
 
 
-GVirConfigDomainSnapshot *gvir_config_domain_snapshot_new(const gchar *xml)
+GVirConfigDomainSnapshot *gvir_config_domain_snapshot_new(void)
 {
-    return GVIR_CONFIG_DOMAIN_SNAPSHOT(g_object_new(GVIR_TYPE_CONFIG_DOMAIN_SNAPSHOT,
-                                                    "doc", xml,
-                                                    "schema", DATADIR "/libvirt/schemas/domainsnapshot.rng",
-                                                    NULL));
+    GVirConfigObject *object;
+
+    object = gvir_config_object_new(GVIR_TYPE_CONFIG_DOMAIN_SNAPSHOT,
+                                    "domainsnapshot",
+                                    DATADIR "/libvirt/schemas/domainsnapshot.rng");
+    return GVIR_CONFIG_DOMAIN_SNAPSHOT(object);
+}
+
+GVirConfigDomainSnapshot *gvir_config_domain_snapshot_new_from_xml(const gchar *xml,
+                                                                   GError **error)
+{
+    GVirConfigObject *object;
+
+    object = gvir_config_object_new_from_xml(GVIR_TYPE_CONFIG_DOMAIN_SNAPSHOT,
+                                    "domainsnapshot",
+                                    DATADIR "/libvirt/schemas/domainsnapshot.rng",
+                                    xml, error);
+    return GVIR_CONFIG_DOMAIN_SNAPSHOT(object);
 }

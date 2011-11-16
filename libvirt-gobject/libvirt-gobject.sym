@@ -14,6 +14,8 @@ LIBVIRT_GOBJECT_0.0.1 {
 	gvir_connection_get_stream;
 
 	gvir_connection_fetch_domains;
+	gvir_connection_fetch_domains_async;
+	gvir_connection_fetch_domains_finish;
 	gvir_connection_fetch_storage_pools;
 	gvir_connection_fetch_storage_pools_async;
 	gvir_connection_fetch_storage_pools_finish;
@@ -25,6 +27,17 @@ LIBVIRT_GOBJECT_0.0.1 {
 	gvir_connection_find_domain_by_name;
 	gvir_connection_find_storage_pool_by_name;
 	gvir_connection_create_domain;
+	gvir_connection_create_storage_pool;
+
+	gvir_domain_device_get_type;
+
+	gvir_domain_disk_get_type;
+	gvir_domain_disk_stats_get_type;
+	gvir_domain_disk_get_stats;
+
+	gvir_domain_interface_get_type;
+	gvir_domain_interface_stats_get_type;
+	gvir_domain_interface_get_stats;
 
 	gvir_domain_get_type;
 	gvir_domain_handle_get_type;
@@ -34,6 +47,7 @@ LIBVIRT_GOBJECT_0.0.1 {
 	gvir_domain_get_uuid;
 	gvir_domain_get_id;
 	gvir_domain_start;
+	gvir_domain_resume;
 	gvir_domain_stop;
 	gvir_domain_delete;
 	gvir_domain_shutdown;
@@ -85,6 +99,12 @@ LIBVIRT_GOBJECT_0.0.1 {
 	gvir_storage_pool_get_volumes;
 	gvir_storage_pool_get_volume;
 	gvir_storage_pool_create_volume;
+	gvir_storage_pool_build;
+	gvir_storage_pool_build_async;
+	gvir_storage_pool_build_finish;
+	gvir_storage_pool_start;
+	gvir_storage_pool_start_async;
+	gvir_storage_pool_start_finish;
 
 	gvir_storage_vol_get_type;
 	gvir_storage_vol_handle_get_type;

@@ -28,6 +28,7 @@
 
 #include "libvirt-glib/libvirt-glib.h"
 #include "libvirt-gobject/libvirt-gobject.h"
+#include "libvirt-gobject-compat.h"
 
 extern gboolean debugFlag;
 
@@ -148,29 +149,25 @@ static void gvir_domain_snapshot_init(GVirDomainSnapshot *conn)
     memset(priv, 0, sizeof(*priv));
 }
 
-static gpointer
-gvir_domain_snapshot_handle_copy(gpointer src)
+typedef struct virDomainSnapshot GVirDomainSnapshotHandle;
+
+static GVirDomainSnapshotHandle*
+gvir_domain_snapshot_handle_copy(GVirDomainSnapshotHandle *src)
 {
 #if 0
-    virDomainSnapshotRef(src);
+    virDomainSnapshotRef((virDomainSnapshotPtr)src);
 #endif
     return src;
 }
 
-
-GType gvir_domain_snapshot_handle_get_type(void)
+static void
+gvir_domain_snapshot_handle_free(GVirDomainSnapshotHandle *src)
 {
-    static GType handle_type = 0;
-
-    if (G_UNLIKELY(handle_type == 0))
-        handle_type = g_boxed_type_register_static
-            ("GVirDomainSnapshotHandle",
-             gvir_domain_snapshot_handle_copy,
-             (GBoxedFreeFunc)virDomainSnapshotFree);
-
-    return handle_type;
+    virDomainSnapshotFree((virDomainSnapshotPtr)src);
 }
 
+G_DEFINE_BOXED_TYPE(GVirDomainSnapshotHandle, gvir_domain_snapshot_handle,
+                    gvir_domain_snapshot_handle_copy, gvir_domain_snapshot_handle_free)
 
 const gchar *gvir_domain_snapshot_get_name(GVirDomainSnapshot *snapshot)
 {
@@ -187,6 +184,8 @@ const gchar *gvir_domain_snapshot_get_name(GVirDomainSnapshot *snapshot)
     if (snapshot || !snapshot)
         return NULL;
 #endif
+
+    g_return_val_if_reached(NULL);
 }
 
 
@@ -211,8 +210,11 @@ GVirConfigDomainSnapshot *gvir_domain_snapshot_get_config
         return NULL;
     }
 
+#if 0
     GVirConfigDomainSnapshot *conf = gvir_config_domain_snapshot_new(xml);
 
     g_free(xml);
     return conf;
+#endif
+    return NULL;
 }

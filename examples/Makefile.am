@@ -19,11 +19,12 @@ conn_test_CFLAGS = \
 		$(WARN_CFLAGS) \
 		$(GLIB2_CFLAGS) \
 		$(LIBVIRT_CFLAGS) \
+		$(LIBXML2_CFLAGS) \
 		-I$(top_srcdir)
 conn_test_SOURCES = \
 		conn-test.c
 conn_test_LDADD = \
 		../libvirt-gobject/libvirt-gobject-1.0.la \
 		$(LIBVIRT_LIBS) \
-		$(GLIB2_LIBS)
-
+		$(GLIB2_LIBS) \
+		$(GOBJECT2_LIBS)

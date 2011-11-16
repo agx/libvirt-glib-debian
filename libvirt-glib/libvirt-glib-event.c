@@ -61,12 +61,10 @@ struct gvir_event_timeout
 GMutex *eventlock = NULL;
 
 static int nextwatch = 1;
-static unsigned int nhandles = 0;
-static struct gvir_event_handle **handles = NULL;
+static GPtrArray *handles;
 
 static int nexttimer = 1;
-static unsigned int ntimeouts = 0;
-static struct gvir_event_timeout **timeouts = NULL;
+static GPtrArray *timeouts;
 
 static gboolean
 gvir_event_handle_dispatch(GIOChannel *source G_GNUC_UNUSED,
@@ -106,9 +104,7 @@ gvir_event_handle_add(int fd,
 
     g_mutex_lock(eventlock);
 
-    handles = g_realloc(handles, sizeof(*handles)*(nhandles+1));
-    data = g_malloc(sizeof(*data));
-    memset(data, 0, sizeof(*data));
+    data = g_new0(struct gvir_event_handle, 1);
 
     if (events & VIR_EVENT_HANDLE_READABLE)
         cond |= G_IO_IN;
@@ -130,7 +126,7 @@ gvir_event_handle_add(int fd,
                                   gvir_event_handle_dispatch,
                                   data);
 
-    handles[nhandles++] = data;
+    g_ptr_array_add(handles, data);
 
     ret = data->watch;
 
@@ -140,12 +136,24 @@ gvir_event_handle_add(int fd,
 }
 
 static struct gvir_event_handle *
-gvir_event_handle_find(int watch)
+gvir_event_handle_find(int watch, guint *idx)
 {
-    unsigned int i;
-    for (i = 0 ; i < nhandles ; i++)
-        if (handles[i]->watch == watch)
-            return handles[i];
+    guint i;
+
+    for (i = 0 ; i < handles->len ; i++) {
+        struct gvir_event_handle *h = g_ptr_array_index(handles, i);
+
+        if (h == NULL) {
+            g_warn_if_reached ();
+            continue;
+        }
+
+        if (h->watch == watch) {
+            if (idx != NULL)
+                *idx = i;
+            return h;
+        }
+    }
 
     return NULL;
 }
@@ -158,7 +166,7 @@ gvir_event_handle_update(int watch,
 
     g_mutex_lock(eventlock);
 
-    data = gvir_event_handle_find(watch);
+    data = gvir_event_handle_find(watch, NULL);
     if (!data) {
         DEBUG("Update for missing handle watch %d", watch);
         goto cleanup;
@@ -195,15 +203,29 @@ cleanup:
     g_mutex_unlock(eventlock);
 }
 
+static gboolean
+_event_handle_remove(gpointer data)
+{
+    struct gvir_event_handle *h = data;
+
+    if (h->ff)
+        (h->ff)(h->opaque);
+
+    g_ptr_array_remove_fast(handles, h);
+
+    return FALSE;
+}
+
 static int
 gvir_event_handle_remove(int watch)
 {
     struct gvir_event_handle *data;
     int ret = -1;
+    guint idx;
 
     g_mutex_lock(eventlock);
 
-    data = gvir_event_handle_find(watch);
+    data = gvir_event_handle_find(watch, &idx);
     if (!data) {
         DEBUG("Remove of missing watch %d", watch);
         goto cleanup;
@@ -217,9 +239,7 @@ gvir_event_handle_remove(int watch)
     g_source_remove(data->source);
     data->source = 0;
     data->events = 0;
-    if (data->ff)
-        (data->ff)(data->opaque);
-    free(data);
+    g_idle_add(_event_handle_remove, data);
 
     ret = 0;
 
@@ -250,10 +270,7 @@ gvir_event_timeout_add(int interval,
 
     g_mutex_lock(eventlock);
 
-    timeouts = g_realloc(timeouts, sizeof(*timeouts)*(ntimeouts+1));
-    data = g_malloc(sizeof(*data));
-    memset(data, 0, sizeof(*data));
-
+    data = g_new0(struct gvir_event_timeout, 1);
     data->timer = nexttimer++;
     data->interval = interval;
     data->cb = cb;
@@ -264,7 +281,7 @@ gvir_event_timeout_add(int interval,
                                      gvir_event_timeout_dispatch,
                                      data);
 
-    timeouts[ntimeouts++] = data;
+    g_ptr_array_add(timeouts, data);
 
     DEBUG("Add timeout %p %d %p %p %d\n", data, interval, cb, opaque, data->timer);
 
@@ -277,12 +294,26 @@ gvir_event_timeout_add(int interval,
 
 
 static struct gvir_event_timeout *
-gvir_event_timeout_find(int timer)
+gvir_event_timeout_find(int timer, guint *idx)
 {
-    unsigned int i;
-    for (i = 0 ; i < ntimeouts ; i++)
-        if (timeouts[i]->timer == timer)
-            return timeouts[i];
+    guint i;
+
+    g_return_val_if_fail(timeouts != NULL, NULL);
+
+    for (i = 0 ; i < timeouts->len ; i++) {
+        struct gvir_event_timeout *t = g_ptr_array_index(timeouts, i);
+
+        if (t == NULL) {
+            g_warn_if_reached ();
+            continue;
+        }
+
+        if (t->timer == timer) {
+            if (idx != NULL)
+                *idx = i;
+            return t;
+        }
+    }
 
     return NULL;
 }
@@ -296,7 +327,7 @@ gvir_event_timeout_update(int timer,
 
     g_mutex_lock(eventlock);
 
-    data = gvir_event_timeout_find(timer);
+    data = gvir_event_timeout_find(timer, NULL);
     if (!data) {
         DEBUG("Update of missing timer %d", timer);
         goto cleanup;
@@ -324,15 +355,29 @@ cleanup:
     g_mutex_unlock(eventlock);
 }
 
+static gboolean
+_event_timeout_remove(gpointer data)
+{
+    struct gvir_event_timeout *t = data;
+
+    if (t->ff)
+        (t->ff)(t->opaque);
+
+    g_ptr_array_remove_fast(timeouts, t);
+
+    return FALSE;
+}
+
 static int
 gvir_event_timeout_remove(int timer)
 {
     struct gvir_event_timeout *data;
+    guint idx;
     int ret = -1;
 
     g_mutex_lock(eventlock);
 
-    data = gvir_event_timeout_find(timer);
+    data = gvir_event_timeout_find(timer, &idx);
     if (!data) {
         DEBUG("Remove of missing timer %d", timer);
         goto cleanup;
@@ -345,11 +390,7 @@ gvir_event_timeout_remove(int timer)
 
     g_source_remove(data->source);
     data->source = 0;
-
-    if (data->ff)
-        (data->ff)(data->opaque);
-
-    free(data);
+    g_idle_add(_event_timeout_remove, data);
 
     ret = 0;
 
@@ -359,13 +400,24 @@ cleanup:
 }
 
 
-void gvir_event_register(void) {
+static gpointer event_register_once(gpointer data G_GNUC_UNUSED)
+{
     eventlock = g_mutex_new();
+    timeouts = g_ptr_array_new_with_free_func(g_free);
+    handles = g_ptr_array_new_with_free_func(g_free);
     virEventRegisterImpl(gvir_event_handle_add,
                          gvir_event_handle_update,
                          gvir_event_handle_remove,
                          gvir_event_timeout_add,
                          gvir_event_timeout_update,
                          gvir_event_timeout_remove);
+    return NULL;
+}
+
+void gvir_event_register(void)
+{
+    static GOnce once = G_ONCE_INIT;
+
+    g_once(&once, event_register_once, NULL);
 }
 

@@ -61,10 +61,25 @@ static void gvir_config_interface_init(GVirConfigInterface *conn)
 }
 
 
-GVirConfigInterface *gvir_config_interface_new(const gchar *xml)
+GVirConfigInterface *gvir_config_interface_new(void)
 {
-    return GVIR_CONFIG_INTERFACE(g_object_new(GVIR_TYPE_CONFIG_INTERFACE,
-                                           "doc", xml,
-                                           "schema", DATADIR "/libvirt/schemas/interface.rng",
-                                           NULL));
+    GVirConfigObject *object;
+
+    object = gvir_config_object_new(GVIR_TYPE_CONFIG_INTERFACE,
+                                    "interface",
+                                    DATADIR "/libvirt/schemas/interface.rng");
+    return GVIR_CONFIG_INTERFACE(object);
 }
+
+GVirConfigInterface *gvir_config_interface_new_from_xml(const gchar *xml,
+                                                        GError **error)
+{
+    GVirConfigObject *object;
+
+    object = gvir_config_object_new_from_xml(GVIR_TYPE_CONFIG_INTERFACE,
+                                             "interface",
+                                             DATADIR "/libvirt/schemas/interface.rng",
+                                             xml, error);
+    return GVIR_CONFIG_INTERFACE(object);
+}
+

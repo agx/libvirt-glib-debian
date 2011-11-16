@@ -9,7 +9,7 @@
 %if 0%{?fedora} < 15
 %define with_python 1
 %endif
-%if 0%{?rhel} >= 6
+%if 0%{?rhel} > 6
 %define with_introspection 1
 %endif
 %if 0%{?rhel} < 7
@@ -28,7 +28,7 @@ Source0: http://libvirt.org/%{name}/%{name}-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires: glib2-devel >= 2.10.0
-BuildRequires: libvirt-devel >= 0.5.0
+BuildRequires: libvirt-devel >= 0.9.4
 BuildRequires: python-devel
 %if %{with_introspection}
 BuildRequires: gobject-introspection-devel
@@ -37,6 +37,9 @@ BuildRequires: gir-repository-devel
 %endif
 BuildRequires: gjs-devel
 %endif
+BuildRequires: libxml2-devel
+# Hack due to https://bugzilla.redhat.com/show_bug.cgi?id=613466
+BuildRequires: libtool
 
 %package devel
 Group: Development/Libraries
@@ -164,6 +167,7 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with_introspection}
 %{_datadir}/gir-1.0/LibvirtGLib-1.0.gir
 %endif
+%{_datadir}/gtk-doc/html/Libvirt-glib
 
 %files -n libvirt-gconfig-devel
 %defattr(-,root,root,-)
@@ -177,6 +181,7 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with_introspection}
 %{_datadir}/gir-1.0/LibvirtGConfig-1.0.gir
 %endif
+%{_datadir}/gtk-doc/html/Libvirt-gconfig
 
 %files -n libvirt-gobject-devel
 %defattr(-,root,root,-)
@@ -190,6 +195,7 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with_introspection}
 %{_datadir}/gir-1.0/LibvirtGObject-1.0.gir
 %endif
+%{_datadir}/gtk-doc/html/Libvirt-gobject
 
 %if %{with_python}
 %files python

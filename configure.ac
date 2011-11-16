@@ -10,7 +10,7 @@ AC_CANONICAL_HOST
 
 AM_SILENT_RULES([yes])
 
-LIBVIRT_REQUIRED=0.5.0
+LIBVIRT_REQUIRED=0.9.4
 GLIB2_REQUIRED=2.10.0
 GOBJECT2_REQUIRED=2.10.0
 GIO_REQUIRED=2.10.0
@@ -49,6 +49,8 @@ PKG_CHECK_MODULES(GTHREAD2, gthread-2.0 >= $GLIB2_REQUIRED)
 PKG_CHECK_MODULES(GOBJECT2, gobject-2.0 >= $GLIB2_REQUIRED)
 PKG_CHECK_MODULES(GIO2, gio-2.0 >= $GLIB2_REQUIRED)
 PKG_CHECK_MODULES(LIBXML2, libxml-2.0 >= $LIBXML2_REQUIRED)
+
+GTK_DOC_CHECK([1.10],[--flavour no-tmpl])
 
 dnl Extra link-time flags for Cygwin.
 dnl Copied from libxml2 configure.in, but I removed mingw changes
@@ -198,12 +200,53 @@ if test "x$enable_introspection" != "xno" ; then
 fi
 AM_CONDITIONAL([WITH_GOBJECT_INTROSPECTION], [test "x$enable_introspection" = "xyes"])
 
+AC_ARG_ENABLE([vala],
+              AS_HELP_STRING([--enable-vala], [enable Vala binding generation]),
+              [], [enable_vala=check])
+if test "x$enable_introspection" = "xyes" ; then
+        if test "x$enable_vala" != "xno" ; then
+                AC_PATH_PROG(VAPIGEN, vapigen, no)
+                if test "x$VAPIGEN" == "xno"; then
+                        if test "x$enable_vala" == "xcheck" ; then
+                                enable_vala=no
+                        else
+                                AC_MSG_ERROR([Cannot find the "vapigen" binary in your PATH])
+                        fi
+                fi
+                AC_SUBST(VAPIGEN)
+        fi
+        if test "x$enable_vala" != "xno" ; then
+                AC_MSG_CHECKING([$VAPIGEN support for --metadatadir])
+                $VAPIGEN --help | grep metadatadir 1>/dev/null 2>&1
+                if test $? != 0 ; then
+                        if test "x$enable_vala" == "xcheck" ; then
+                                enable_vala=no
+                                AC_MSG_RESULT([no])
+                        else
+                                AC_MSG_ERROR(["vapigen" binary in your PATH is too old (< 0.13)])
+                        fi
+                else
+                        AC_MSG_RESULT([no])
+                fi
+        fi
+        if test "x$enable_vala" = "xcheck" ; then
+                enable_vala=yes
+        fi
+fi
+AM_CONDITIONAL([WITH_VALA], [test "x$enable_vala" = "xyes"])
+
 AC_OUTPUT(Makefile
           libvirt-glib/Makefile
           libvirt-gconfig/Makefile
+          libvirt-gconfig/tests/Makefile
           libvirt-gobject/Makefile
           examples/Makefile
           python/Makefile
+          vapi/Makefile
+          docs/Makefile
+          docs/libvirt-glib/Makefile
+          docs/libvirt-gobject/Makefile
+          docs/libvirt-gconfig/Makefile
           libvirt-glib-1.0.pc
           libvirt-gconfig-1.0.pc
           libvirt-gobject-1.0.pc
