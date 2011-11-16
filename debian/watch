@@ -1,0 +1,3 @@
+version=3
+
+ftp://libvirt.org/libvirt/glib/libvirt-glib-([\d\.]+)\.tar\.gz
