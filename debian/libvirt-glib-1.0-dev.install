@@ -3,3 +3,4 @@ usr/lib/libvirt-g*.a
 usr/include/*
 usr/lib/pkgconfig/*
 usr/share/gir-1.0/*
+usr/share/vala/vapi/
