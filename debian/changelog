@@ -1,3 +1,16 @@
+libvirt-glib (0.0.1-1) experimental; urgency=low
+
+  * [555e057] New upstream version 0.0.1
+  * [cccbecc] Add watch file
+  * [ce1afbf] Enable vala bindings
+  * [2145772] Drop
+    0001-Explicitly-link-conn-test-example-against-libgobject.patch applied
+    upstream.
+  * [f26c096] Only invoke autogen.sh if configure isn't available so we can
+    build both git snapshots and release tarballs.
+
+ -- Guido Günther <agx@sigxcpu.org>  Thu, 17 Nov 2011 08:40:39 +0100
+
 libvirt-glib (0.0.1~1.git55696-1) experimental; urgency=low
 
   * [1b2450a] New upstream version 0.0.1~1.git55696
