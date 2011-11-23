@@ -1,3 +1,9 @@
+libvirt-glib (0.0.2-1) experimental; urgency=low
+
+  * [71266c3] New upstream version 0.0.2
+
+ -- Guido Günther <agx@sigxcpu.org>  Wed, 23 Nov 2011 22:17:32 +0100
+
 libvirt-glib (0.0.1-1) experimental; urgency=low
 
   * [555e057] New upstream version 0.0.1
