@@ -186,24 +186,22 @@ const gchar *gvir_interface_get_name(GVirInterface *iface)
  * Returns: (transfer full): the config
  */
 GVirConfigInterface *gvir_interface_get_config(GVirInterface *iface,
-                                               guint64 flags,
+                                               guint flags,
                                                GError **err)
 {
     GVirInterfacePrivate *priv = iface->priv;
     gchar *xml;
 
     if (!(xml = virInterfaceGetXMLDesc(priv->handle, flags))) {
-        *err = gvir_error_new_literal(GVIR_INTERFACE_ERROR,
-                                      0,
-                                      "Unable to get interface XML config");
+        if (err)
+            *err = gvir_error_new_literal(GVIR_INTERFACE_ERROR,
+                                          0,
+                                          "Unable to get interface XML config");
         return NULL;
     }
 
-#if 0
-    GVirConfigInterface *conf = gvir_config_interface_new(xml);
+    GVirConfigInterface *conf = gvir_config_interface_new_from_xml(xml, err);
 
-    g_free(xml);
+    free(xml);
     return conf;
-#endif
-    return NULL;
 }

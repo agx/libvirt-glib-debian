@@ -187,25 +187,22 @@ const gchar *gvir_node_device_get_name(GVirNodeDevice *device)
  * Returns: (transfer full): the config
  */
 GVirConfigNodeDevice *gvir_node_device_get_config(GVirNodeDevice *device,
-                                                  guint64 flags,
+                                                  guint flags,
                                                   GError **err)
 {
     GVirNodeDevicePrivate *priv = device->priv;
     gchar *xml;
 
     if (!(xml = virNodeDeviceGetXMLDesc(priv->handle, flags))) {
-        *err = gvir_error_new_literal(GVIR_NODE_DEVICE_ERROR,
-                                      0,
-                                      "Unable to get node_device XML config");
+        if (err)
+            *err = gvir_error_new_literal(GVIR_NODE_DEVICE_ERROR,
+                                          0,
+                                          "Unable to get node_device XML config");
         return NULL;
     }
 
-#if 0
-    GVirConfigNodeDevice *conf = gvir_config_node_device_new(xml);
+    GVirConfigNodeDevice *conf = gvir_config_node_device_new_from_xml(xml, err);
 
-    g_free(xml);
+    free(xml);
     return conf;
-#endif
-
-    return NULL;
 }

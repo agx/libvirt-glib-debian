@@ -234,9 +234,15 @@ static void gvir_connection_init(GVirConnection *conn)
 
     priv = conn->priv = GVIR_CONNECTION_GET_PRIVATE(conn);
 
-    memset(priv, 0, sizeof(*priv));
-
     priv->lock = g_mutex_new();
+    priv->domains = g_hash_table_new_full(g_str_hash,
+                                          g_str_equal,
+                                          NULL,
+                                          g_object_unref);
+    priv->pools = g_hash_table_new_full(g_str_hash,
+                                        g_str_equal,
+                                        NULL,
+                                        g_object_unref);
 }
 
 
@@ -383,19 +389,21 @@ gboolean gvir_connection_open(GVirConnection *conn,
 
     g_mutex_lock(priv->lock);
     if (priv->conn) {
-        *err = g_error_new(GVIR_CONNECTION_ERROR,
-                           0,
-                           "Connection %s is already open",
-                           priv->uri);
+        if (err)
+            *err = g_error_new(GVIR_CONNECTION_ERROR,
+                               0,
+                               "Connection %s is already open",
+                               priv->uri);
         g_mutex_unlock(priv->lock);
         return FALSE;
     }
 
     if (!(priv->conn = virConnectOpen(priv->uri))) {
-        *err = gvir_error_new(GVIR_CONNECTION_ERROR,
-                              0,
-                              "Unable to open %s",
-                              priv->uri);
+        if (err)
+            *err = gvir_error_new(GVIR_CONNECTION_ERROR,
+                                  0,
+                                  "Unable to open %s",
+                                  priv->uri);
         g_mutex_unlock(priv->lock);
         return FALSE;
     }
@@ -534,9 +542,10 @@ static gchar ** fetch_list(virConnectPtr vconn,
     gint i;
 
     if ((n = count_func(vconn)) < 0) {
-        *err = gvir_error_new(GVIR_CONNECTION_ERROR,
-                              0,
-                              "Unable to count %s", name);
+        if (err)
+            *err = gvir_error_new(GVIR_CONNECTION_ERROR,
+                                  0,
+                                  "Unable to count %s", name);
         goto error;
     }
 
@@ -546,9 +555,10 @@ static gchar ** fetch_list(virConnectPtr vconn,
 
         lst = g_new(gchar *, n);
         if ((n = list_func(vconn, lst, n)) < 0) {
-            *err = gvir_error_new(GVIR_CONNECTION_ERROR,
-                                  0,
-                                  "Unable to list %s %d", name, n);
+            if (err)
+                *err = gvir_error_new(GVIR_CONNECTION_ERROR,
+                                      0,
+                                      "Unable to list %s %d", name, n);
             goto error;
         }
     }
@@ -581,12 +591,14 @@ gboolean gvir_connection_fetch_domains(GVirConnection *conn,
     gboolean ret = FALSE;
     gint i;
     virConnectPtr vconn = NULL;
+    GError *lerr = NULL;
 
     g_mutex_lock(priv->lock);
     if (!priv->conn) {
-        *err = g_error_new(GVIR_CONNECTION_ERROR,
-                           0,
-                           "Connection is not open");
+        if (err)
+            *err = g_error_new(GVIR_CONNECTION_ERROR,
+                               0,
+                               "Connection is not open");
         g_mutex_unlock(priv->lock);
         goto cleanup;
     }
@@ -599,9 +611,10 @@ gboolean gvir_connection_fetch_domains(GVirConnection *conn,
         goto cleanup;
 
     if ((nactive = virConnectNumOfDomains(vconn)) < 0) {
-        *err = gvir_error_new(GVIR_CONNECTION_ERROR,
-                              0,
-                              "Unable to count domains");
+        if (err)
+            *err = gvir_error_new(GVIR_CONNECTION_ERROR,
+                                  0,
+                                  "Unable to count domains");
         goto cleanup;
     }
     if (nactive) {
@@ -610,9 +623,10 @@ gboolean gvir_connection_fetch_domains(GVirConnection *conn,
 
         active = g_new(gint, nactive);
         if ((nactive = virConnectListDomains(vconn, active, nactive)) < 0) {
-            *err = gvir_error_new(GVIR_CONNECTION_ERROR,
-                                  0,
-                                  "Unable to list domains");
+            if (err)
+                *err = gvir_error_new(GVIR_CONNECTION_ERROR,
+                                      0,
+                                      "Unable to list domains");
             goto cleanup;
         }
     }
@@ -626,9 +640,12 @@ gboolean gvir_connection_fetch_domains(GVirConnection *conn,
                           virConnectListDefinedDomains,
                           cancellable,
                           &ninactive,
-                          err);
-    if (*err != NULL)
+                          &lerr);
+    if (lerr) {
+        g_propagate_error(err, lerr);
+        lerr = NULL;
         goto cleanup;
+    }
 
     doms = g_hash_table_new_full(g_str_hash,
                                  g_str_equal,
@@ -706,12 +723,14 @@ gboolean gvir_connection_fetch_storage_pools(GVirConnection *conn,
     gboolean ret = FALSE;
     gint i;
     virConnectPtr vconn = NULL;
+    GError *lerr = NULL;
 
     g_mutex_lock(priv->lock);
     if (!priv->conn) {
-        *err = g_error_new(GVIR_CONNECTION_ERROR,
-                           0,
-                           "Connection is not open");
+        if (err)
+            *err = g_error_new(GVIR_CONNECTION_ERROR,
+                               0,
+                               "Connection is not open");
         g_mutex_unlock(priv->lock);
         goto cleanup;
     }
@@ -729,9 +748,12 @@ gboolean gvir_connection_fetch_storage_pools(GVirConnection *conn,
                         virConnectListStoragePools,
                         cancellable,
                         &nactive,
-                        err);
-    if (*err != NULL)
+                        &lerr);
+    if (lerr) {
+        g_propagate_error(err, lerr);
+        lerr = NULL;
         goto cleanup;
+    }
 
     if (g_cancellable_set_error_if_cancelled(cancellable, err))
         goto cleanup;
@@ -742,9 +764,12 @@ gboolean gvir_connection_fetch_storage_pools(GVirConnection *conn,
                           virConnectListDefinedStoragePools,
                           cancellable,
                           &ninactive,
-                          err);
-    if (*err != NULL)
+                          &lerr);
+    if (lerr) {
+        g_propagate_error(err, lerr);
+        lerr = NULL;
         goto cleanup;
+    }
 
     pools = g_hash_table_new_full(g_str_hash,
                                   g_str_equal,
@@ -1145,7 +1170,7 @@ G_DEFINE_BOXED_TYPE(GVirConnectionHandle, gvir_connection_handle,
  * Return value: (transfer full): a #GVirStream stream, or NULL
  */
 GVirStream *gvir_connection_get_stream(GVirConnection *self,
-                                       gint flags)
+                                       guint flags)
 {
     GVirConnectionClass *klass;
 
@@ -1162,15 +1187,19 @@ GVirStream *gvir_connection_get_stream(GVirConnection *self,
 
 /**
  * gvir_connection_create_domain:
- * @conn: the connection on which to create the dmain
+ * @conn: the connection on which to create the domain
  * @conf: the configuration for the new domain
+ *
+ * Create the configuration file for a new persistent domain.
+ * The returned domain will initially be in the shutoff state.
+ *
  * Returns: (transfer full): the newly created domain
  */
 GVirDomain *gvir_connection_create_domain(GVirConnection *conn,
                                           GVirConfigDomain *conf,
                                           GError **err)
 {
-    const gchar *xml;
+    gchar *xml;
     virDomainPtr handle;
     GVirConnectionPrivate *priv = conn->priv;
 
@@ -1178,10 +1207,13 @@ GVirDomain *gvir_connection_create_domain(GVirConnection *conn,
 
     g_return_val_if_fail(xml != NULL, NULL);
 
-    if (!(handle = virDomainDefineXML(priv->conn, xml))) {
-        *err = gvir_error_new_literal(GVIR_CONNECTION_ERROR,
-                                      0,
-                                      "Failed to create domain");
+    handle = virDomainDefineXML(priv->conn, xml);
+    g_free(xml);
+    if (!handle) {
+        if (err)
+            *err = gvir_error_new_literal(GVIR_CONNECTION_ERROR,
+                                          0,
+                                          "Failed to create domain");
         return NULL;
     }
 
@@ -1194,10 +1226,58 @@ GVirDomain *gvir_connection_create_domain(GVirConnection *conn,
     g_mutex_lock(priv->lock);
     g_hash_table_insert(priv->domains,
                         (gpointer)gvir_domain_get_uuid(domain),
-                        domain);
+                        g_object_ref(domain));
     g_mutex_unlock(priv->lock);
 
-    return g_object_ref(domain);
+    return domain;
+}
+
+/**
+ * gvir_connection_start_domain:
+ * @conn: the connection on which to create the domain
+ * @conf: the configuration for the new domain
+ *
+ * Start a new transient domain without persistent configuration.
+ * The returned domain will initially be running.
+ *
+ * Returns: (transfer full): the newly created domain
+ */
+GVirDomain *gvir_connection_start_domain(GVirConnection *conn,
+                                         GVirConfigDomain *conf,
+                                         guint flags,
+                                         GError **err)
+{
+    gchar *xml;
+    virDomainPtr handle;
+    GVirConnectionPrivate *priv = conn->priv;
+
+    xml = gvir_config_object_to_xml(GVIR_CONFIG_OBJECT(conf));
+
+    g_return_val_if_fail(xml != NULL, NULL);
+
+    handle = virDomainCreateXML(priv->conn, xml, flags);
+    g_free(xml);
+    if (!handle) {
+        if (err)
+            *err = gvir_error_new_literal(GVIR_CONNECTION_ERROR,
+                                          0,
+                                          "Failed to create domain");
+        return NULL;
+    }
+
+    GVirDomain *domain;
+
+    domain = GVIR_DOMAIN(g_object_new(GVIR_TYPE_DOMAIN,
+                                       "handle", handle,
+                                       NULL));
+
+    g_mutex_lock(priv->lock);
+    g_hash_table_insert(priv->domains,
+                        (gpointer)gvir_domain_get_uuid(domain),
+                        g_object_ref(domain));
+    g_mutex_unlock(priv->lock);
+
+    return domain;
 }
 
 /**
@@ -1212,7 +1292,7 @@ GVirDomain *gvir_connection_create_domain(GVirConnection *conn,
 GVirStoragePool *gvir_connection_create_storage_pool
                                 (GVirConnection *conn,
                                  GVirConfigStoragePool *conf,
-                                 guint64 flags G_GNUC_UNUSED,
+                                 guint flags,
                                  GError **err) {
     const gchar *xml;
     virStoragePoolPtr handle;
@@ -1222,10 +1302,11 @@ GVirStoragePool *gvir_connection_create_storage_pool
 
     g_return_val_if_fail(xml != NULL, NULL);
 
-    if (!(handle = virStoragePoolDefineXML(priv->conn, xml, 0))) {
-        *err = gvir_error_new_literal(GVIR_CONNECTION_ERROR,
-                                      flags,
-                                      "Failed to create storage pool");
+    if (!(handle = virStoragePoolDefineXML(priv->conn, xml, flags))) {
+        if (err)
+            *err = gvir_error_new_literal(GVIR_CONNECTION_ERROR,
+                                          flags,
+                                          "Failed to create storage pool");
         return NULL;
     }
 

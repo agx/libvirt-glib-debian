@@ -223,26 +223,24 @@ const gchar *gvir_storage_pool_get_uuid(GVirStoragePool *pool)
  * Returns: (transfer full): the config
  */
 GVirConfigStoragePool *gvir_storage_pool_get_config(GVirStoragePool *pool,
-                                                    guint64 flags,
+                                                    guint flags,
                                                     GError **err)
 {
     GVirStoragePoolPrivate *priv = pool->priv;
     gchar *xml;
 
     if (!(xml = virStoragePoolGetXMLDesc(priv->handle, flags))) {
-        *err = gvir_error_new_literal(GVIR_STORAGE_POOL_ERROR,
-                                      0,
-                                      "Unable to get storage_pool XML config");
+        if (err)
+            *err = gvir_error_new_literal(GVIR_STORAGE_POOL_ERROR,
+                                          0,
+                                          "Unable to get storage_pool XML config");
         return NULL;
     }
 
-#if 0
-    GVirConfigStoragePool *conf = gvir_config_storage_pool_new(xml);
+    GVirConfigStoragePool *conf = gvir_config_storage_pool_new_from_xml(xml, err);
 
-    g_free(xml);
+    free(xml);
     return conf;
-#endif
-    return NULL;
 }
 
 typedef gint (* CountFunction) (virStoragePoolPtr vpool);
@@ -306,25 +304,30 @@ gboolean gvir_storage_pool_refresh(GVirStoragePool *pool,
     gboolean ret = FALSE;
     gint i;
     virStoragePoolPtr vpool = NULL;
+    GError *lerr = NULL;
 
     vpool = priv->handle;
 
     if (virStoragePoolRefresh(vpool, 0) < 0) {
-        *err = gvir_error_new_literal(GVIR_STORAGE_POOL_ERROR,
-                                      0,
-                                      "Unable to refresh storage pool");
+        if (err)
+            *err = gvir_error_new_literal(GVIR_STORAGE_POOL_ERROR,
+                                          0,
+                                          "Unable to refresh storage pool");
         goto cleanup;
     }
 
     volumes = fetch_list(vpool,
-                        "Storage Volumes",
-                        virStoragePoolNumOfVolumes,
-                        virStoragePoolListVolumes,
-                        cancellable,
-                        &nvolumes,
-                        err);
-    if (*err != NULL)
+                         "Storage Volumes",
+                         virStoragePoolNumOfVolumes,
+                         virStoragePoolListVolumes,
+                         cancellable,
+                         &nvolumes,
+                         &lerr);
+    if (lerr) {
+        g_propagate_error(err, lerr);
+        lerr = NULL;
         goto cleanup;
+    }
 
     if (g_cancellable_set_error_if_cancelled(cancellable, err))
         goto cleanup;
@@ -498,9 +501,10 @@ GVirStorageVol *gvir_storage_pool_create_volume
     g_return_val_if_fail(xml != NULL, NULL);
 
     if (!(handle = virStorageVolCreateXML(priv->handle, xml, 0))) {
-        *err = gvir_error_new_literal(GVIR_STORAGE_POOL_ERROR,
-                                      0,
-                                      "Failed to create volume");
+        if (err)
+            *err = gvir_error_new_literal(GVIR_STORAGE_POOL_ERROR,
+                                          0,
+                                          "Failed to create volume");
         return NULL;
     }
 
@@ -528,13 +532,14 @@ GVirStorageVol *gvir_storage_pool_create_volume
  * Return value: #True on success, #False otherwise.
  */
 gboolean gvir_storage_pool_build (GVirStoragePool *pool,
-                                  guint64 flags,
+                                  guint flags,
                                   GError **err)
 {
     if (virStoragePoolBuild(pool->priv->handle, flags)) {
-        *err = gvir_error_new_literal(GVIR_STORAGE_POOL_ERROR,
-                                      0,
-                                      "Failed to build storage pool");
+        if (err)
+            *err = gvir_error_new_literal(GVIR_STORAGE_POOL_ERROR,
+                                          0,
+                                          "Failed to build storage pool");
         return FALSE;
     }
 
@@ -542,7 +547,7 @@ gboolean gvir_storage_pool_build (GVirStoragePool *pool,
 }
 
 typedef struct {
-    guint64 flags;
+    guint flags;
 } StoragePoolBuildData;
 
 static void
@@ -574,7 +579,7 @@ gvir_storage_pool_build_helper(GSimpleAsyncResult *res,
  * @user_data: (closure): opaque data for callback
  */
 void gvir_storage_pool_build_async (GVirStoragePool *pool,
-                                    guint64 flags,
+                                    guint flags,
                                     GCancellable *cancellable,
                                     GAsyncReadyCallback callback,
                                     gpointer user_data)
@@ -632,13 +637,14 @@ gboolean gvir_storage_pool_build_finish(GVirStoragePool *pool,
  * Return value: #True on success, #False otherwise.
  */
 gboolean gvir_storage_pool_start (GVirStoragePool *pool,
-                                  guint64 flags,
+                                  guint flags,
                                   GError **err)
 {
     if (virStoragePoolCreate(pool->priv->handle, flags)) {
-        *err = gvir_error_new_literal(GVIR_STORAGE_POOL_ERROR,
-                                      0,
-                                      "Failed to start storage pool");
+        if (err)
+            *err = gvir_error_new_literal(GVIR_STORAGE_POOL_ERROR,
+                                          0,
+                                          "Failed to start storage pool");
         return FALSE;
     }
 
@@ -674,7 +680,7 @@ gvir_storage_pool_start_helper(GSimpleAsyncResult *res,
  * @user_data: (closure): opaque data for callback
  */
 void gvir_storage_pool_start_async (GVirStoragePool *pool,
-                                    guint64 flags,
+                                    guint flags,
                                     GCancellable *cancellable,
                                     GAsyncReadyCallback callback,
                                     gpointer user_data)

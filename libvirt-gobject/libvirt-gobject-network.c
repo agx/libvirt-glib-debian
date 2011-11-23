@@ -208,24 +208,22 @@ const gchar *gvir_network_get_uuid(GVirNetwork *network)
  * Returns: (transfer full): the config
  */
 GVirConfigNetwork *gvir_network_get_config(GVirNetwork *network,
-                                           guint64 flags,
+                                           guint flags,
                                            GError **err)
 {
     GVirNetworkPrivate *priv = network->priv;
     gchar *xml;
 
     if (!(xml = virNetworkGetXMLDesc(priv->handle, flags))) {
-        *err = gvir_error_new_literal(GVIR_NETWORK_ERROR,
-                                      0,
-                                      "Unable to get network XML config");
+        if (err)
+            *err = gvir_error_new_literal(GVIR_NETWORK_ERROR,
+                                          0,
+                                          "Unable to get network XML config");
         return NULL;
     }
 
-#if 0
-    GVirConfigNetwork *conf = gvir_config_network_new(xml);
+    GVirConfigNetwork *conf = gvir_config_network_new_from_xml(xml, err);
 
-    g_free(xml);
+    free(xml);
     return conf;
-#endif
-    return NULL;
 }

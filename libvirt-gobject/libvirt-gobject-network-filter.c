@@ -212,24 +212,22 @@ const gchar *gvir_network_filter_get_uuid(GVirNetworkFilter *filter)
  */
 GVirConfigNetworkFilter *gvir_network_filter_get_config
                                 (GVirNetworkFilter *filter,
-                                 guint64 flags,
+                                 guint flags,
                                  GError **err)
 {
     GVirNetworkFilterPrivate *priv = filter->priv;
     gchar *xml;
 
     if (!(xml = virNWFilterGetXMLDesc(priv->handle, flags))) {
-        *err = gvir_error_new_literal(GVIR_NETWORK_FILTER_ERROR,
-                                      0,
-                                      "Unable to get network_filter XML config");
+        if (err)
+            *err = gvir_error_new_literal(GVIR_NETWORK_FILTER_ERROR,
+                                          0,
+                                          "Unable to get network_filter XML config");
         return NULL;
     }
 
-#if 0
-    GVirConfigNetworkFilter *conf = gvir_config_network_filter_new(xml);
+    GVirConfigNetworkFilter *conf = gvir_config_network_filter_new_from_xml(xml, err);
 
-    g_free(xml);
+    free(xml);
     return conf;
-#endif
-    return NULL;
 }

@@ -287,9 +287,10 @@ gint gvir_domain_get_id(GVirDomain *dom,
     gint ret;
 
     if ((ret = virDomainGetID(priv->handle)) < 0) {
-        *err = gvir_error_new_literal(GVIR_DOMAIN_ERROR,
-                                      0,
-                                      "Unable to get ID for domain");
+        if (err)
+            *err = gvir_error_new_literal(GVIR_DOMAIN_ERROR,
+                                          0,
+                                          "Unable to get ID for domain");
     }
     return ret;
 }
@@ -301,15 +302,21 @@ gint gvir_domain_get_id(GVirDomain *dom,
  * @flags:  the flags
  */
 gboolean gvir_domain_start(GVirDomain *dom,
-                           guint64 flags G_GNUC_UNUSED,
+                           guint flags,
                            GError **err)
 {
     GVirDomainPrivate *priv = dom->priv;
+    int ret;
 
-    if (virDomainCreate(priv->handle) < 0) {
-        *err = gvir_error_new_literal(GVIR_DOMAIN_ERROR,
-                                      0,
-                                      "Unable to start domain");
+    if (flags)
+        ret = virDomainCreateWithFlags(priv->handle, flags);
+    else
+        ret = virDomainCreate(priv->handle);
+    if (ret < 0) {
+        if (err)
+            *err = gvir_error_new_literal(GVIR_DOMAIN_ERROR,
+                                          0,
+                                          "Unable to start domain");
         return FALSE;
     }
 
@@ -328,9 +335,10 @@ gboolean gvir_domain_resume(GVirDomain *dom,
     GVirDomainPrivate *priv = dom->priv;
 
     if (virDomainResume(priv->handle) < 0) {
-        *err = gvir_error_new_literal(GVIR_DOMAIN_ERROR,
-                                      0,
-                                      "Unable to resume domain");
+        if (err)
+            *err = gvir_error_new_literal(GVIR_DOMAIN_ERROR,
+                                          0,
+                                          "Unable to resume domain");
         return FALSE;
     }
 
@@ -343,15 +351,21 @@ gboolean gvir_domain_resume(GVirDomain *dom,
  * @flags:  the flags
  */
 gboolean gvir_domain_stop(GVirDomain *dom,
-                          guint64 flags G_GNUC_UNUSED,
+                          guint flags,
                           GError **err)
 {
     GVirDomainPrivate *priv = dom->priv;
+    int ret;
 
-    if (virDomainDestroy(priv->handle) < 0) {
-        *err = gvir_error_new_literal(GVIR_DOMAIN_ERROR,
-                                      0,
-                                      "Unable to stop domain");
+    if (flags)
+        ret = virDomainDestroyFlags(priv->handle, flags);
+    else
+        ret = virDomainDestroy(priv->handle);
+    if (ret < 0) {
+        if (err)
+            *err = gvir_error_new_literal(GVIR_DOMAIN_ERROR,
+                                          0,
+                                          "Unable to stop domain");
         return FALSE;
     }
 
@@ -364,15 +378,21 @@ gboolean gvir_domain_stop(GVirDomain *dom,
  * @flags:  the flags
  */
 gboolean gvir_domain_delete(GVirDomain *dom,
-                            guint64 flags G_GNUC_UNUSED,
+                            guint flags,
                             GError **err)
 {
     GVirDomainPrivate *priv = dom->priv;
+    int ret;
 
-    if (virDomainUndefine(priv->handle) < 0) {
-        *err = gvir_error_new_literal(GVIR_DOMAIN_ERROR,
-                                      0,
-                                      "Unable to delete domain");
+    if (flags)
+        ret = virDomainUndefineFlags(priv->handle, flags);
+    else
+        ret = virDomainUndefine(priv->handle);
+    if (ret < 0) {
+        if (err)
+            *err = gvir_error_new_literal(GVIR_DOMAIN_ERROR,
+                                          0,
+                                          "Unable to delete domain");
         return FALSE;
     }
 
@@ -385,15 +405,16 @@ gboolean gvir_domain_delete(GVirDomain *dom,
  * @flags:  the flags
  */
 gboolean gvir_domain_shutdown(GVirDomain *dom,
-                              guint64 flags G_GNUC_UNUSED,
+                              guint flags G_GNUC_UNUSED,
                               GError **err)
 {
     GVirDomainPrivate *priv = dom->priv;
 
     if (virDomainShutdown(priv->handle) < 0) {
-        *err = gvir_error_new_literal(GVIR_DOMAIN_ERROR,
-                                      0,
-                                      "Unable to shutdown domain");
+        if (err)
+            *err = gvir_error_new_literal(GVIR_DOMAIN_ERROR,
+                                          0,
+                                          "Unable to shutdown domain");
         return FALSE;
     }
 
@@ -406,15 +427,16 @@ gboolean gvir_domain_shutdown(GVirDomain *dom,
  * @flags:  the flags
  */
 gboolean gvir_domain_reboot(GVirDomain *dom,
-                            guint64 flags,
+                            guint flags,
                             GError **err)
 {
     GVirDomainPrivate *priv = dom->priv;
 
     if (virDomainReboot(priv->handle, flags) < 0) {
-        *err = gvir_error_new_literal(GVIR_DOMAIN_ERROR,
-                                      0,
-                                      "Unable to reboot domain");
+        if (err)
+            *err = gvir_error_new_literal(GVIR_DOMAIN_ERROR,
+                                          0,
+                                          "Unable to reboot domain");
         return FALSE;
     }
 
@@ -428,16 +450,17 @@ gboolean gvir_domain_reboot(GVirDomain *dom,
  * Returns: (transfer full): the config
  */
 GVirConfigDomain *gvir_domain_get_config(GVirDomain *dom,
-                                         guint64 flags,
+                                         guint flags,
                                          GError **err)
 {
     GVirDomainPrivate *priv = dom->priv;
     gchar *xml;
 
     if (!(xml = virDomainGetXMLDesc(priv->handle, flags))) {
-        *err = gvir_error_new_literal(GVIR_DOMAIN_ERROR,
-                                      0,
-                                      "Unable to get domain XML config");
+        if (err)
+            *err = gvir_error_new_literal(GVIR_DOMAIN_ERROR,
+                                          0,
+                                          "Unable to get domain XML config");
         return NULL;
     }
 
@@ -449,6 +472,74 @@ GVirConfigDomain *gvir_domain_get_config(GVirDomain *dom,
     return conf;
 }
 
+/**
+ * gvir_domain_set_config:
+ * @domain: the domain
+ * @conf: the new configuration for the domain
+ * @err: (allow-none): Place-holder for error or NULL
+ *
+ * Resets configuration of an existing domain.
+ *
+ * Note: If domain is already running, the new configuration will not take
+ * affect until domain reboots.
+ *
+ * Returns: TRUE on success, FALSE if an error occurred.
+ */
+gboolean gvir_domain_set_config(GVirDomain *domain,
+                                GVirConfigDomain *conf,
+                                GError **err)
+{
+    gchar *xml;
+    virConnectPtr conn;
+    virDomainPtr handle;
+    gchar uuid[VIR_UUID_STRING_BUFLEN];
+    GVirDomainPrivate *priv = domain->priv;
+
+    g_return_val_if_fail(GVIR_IS_DOMAIN (domain), FALSE);
+    g_return_val_if_fail(GVIR_IS_CONFIG_DOMAIN (conf), FALSE);
+    g_return_val_if_fail(err == NULL || *err == NULL, FALSE);
+
+    xml = gvir_config_object_to_xml(GVIR_CONFIG_OBJECT(conf));
+
+    g_return_val_if_fail(xml != NULL, FALSE);
+
+    if ((conn = virDomainGetConnect(priv->handle)) == NULL) {
+        if (err != NULL)
+            *err = gvir_error_new_literal(GVIR_DOMAIN_ERROR,
+                                          0,
+                                          "Failed to get domain connection");
+        g_free (xml);
+
+        return FALSE;
+    }
+
+    handle = virDomainDefineXML(conn, xml);
+    g_free (xml);
+
+    if (handle == NULL) {
+        if (err != NULL)
+            *err = gvir_error_new_literal(GVIR_DOMAIN_ERROR,
+                                          0,
+                                          "Failed to set "
+                                          "domain configuration");
+        return FALSE;
+    }
+
+    virDomainGetUUIDString(handle, uuid);
+    virDomainFree(handle);
+
+    if (g_strcmp0 (uuid, priv->uuid) != 0) {
+        if (err != NULL)
+            *err = gvir_error_new_literal(GVIR_DOMAIN_ERROR,
+                                          0,
+                                          "Failed to set "
+                                          "domain configuration");
+
+        return FALSE;
+    }
+
+    return TRUE;
+}
 
 /**
  * gvir_domain_get_info:
@@ -463,9 +554,10 @@ GVirDomainInfo *gvir_domain_get_info(GVirDomain *dom,
     GVirDomainInfo *ret;
 
     if (virDomainGetInfo(priv->handle, &info) < 0) {
-        *err = gvir_error_new_literal(GVIR_DOMAIN_ERROR,
-                                      0,
-                                      "Unable to get domain info");
+        if (err)
+            *err = gvir_error_new_literal(GVIR_DOMAIN_ERROR,
+                                          0,
+                                          "Unable to get domain info");
         return NULL;
     }
 
@@ -489,8 +581,8 @@ GVirDomainInfo *gvir_domain_get_info(GVirDomain *dom,
  */
 gchar *gvir_domain_screenshot(GVirDomain *dom,
                               GVirStream *stream,
-                              guint64 monitor_id,
-                              guint64 flags,
+                              guint monitor_id,
+                              guint flags,
                               GError **err)
 {
     GVirDomainPrivate *priv;
@@ -507,9 +599,10 @@ gchar *gvir_domain_screenshot(GVirDomain *dom,
                                      st,
                                      monitor_id,
                                      flags))) {
-        *err = gvir_error_new_literal(GVIR_DOMAIN_ERROR,
-                                      0,
-                                      "Unable to take a screenshot");
+        if (err)
+            *err = gvir_error_new_literal(GVIR_DOMAIN_ERROR,
+                                          0,
+                                          "Unable to take a screenshot");
         goto end;
     }
 end:
