@@ -198,25 +198,22 @@ const gchar *gvir_secret_get_uuid(GVirSecret *secret)
  * Returns: (transfer full): the config
  */
 GVirConfigSecret *gvir_secret_get_config(GVirSecret *secret,
-                                         guint64 flags,
+                                         guint flags,
                                          GError **err)
 {
     GVirSecretPrivate *priv = secret->priv;
     gchar *xml;
 
     if (!(xml = virSecretGetXMLDesc(priv->handle, flags))) {
-        *err = gvir_error_new_literal(GVIR_SECRET_ERROR,
-                                      0,
-                                      "Unable to get secret XML config");
+        if (err)
+            *err = gvir_error_new_literal(GVIR_SECRET_ERROR,
+                                          0,
+                                          "Unable to get secret XML config");
         return NULL;
     }
 
-#if 0
-    GVirConfigSecret *conf = gvir_config_secret_new(xml);
+    GVirConfigSecret *conf = gvir_config_secret_new_from_xml(xml, err);
 
-    g_free(xml);
+    free(xml);
     return conf;
-#endif
-
-    return NULL;
 }

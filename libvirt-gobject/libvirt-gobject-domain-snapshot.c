@@ -197,7 +197,7 @@ const gchar *gvir_domain_snapshot_get_name(GVirDomainSnapshot *snapshot)
  */
 GVirConfigDomainSnapshot *gvir_domain_snapshot_get_config
                                 (GVirDomainSnapshot *snapshot,
-                                 guint64 flags,
+                                 guint flags,
                                  GError **err)
 {
     GVirDomainSnapshotPrivate *priv = snapshot->priv;
@@ -210,11 +210,8 @@ GVirConfigDomainSnapshot *gvir_domain_snapshot_get_config
         return NULL;
     }
 
-#if 0
-    GVirConfigDomainSnapshot *conf = gvir_config_domain_snapshot_new(xml);
+    GVirConfigDomainSnapshot *conf = gvir_config_domain_snapshot_new_from_xml(xml, err);
 
-    g_free(xml);
+    free(xml);
     return conf;
-#endif
-    return NULL;
 }

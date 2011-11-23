@@ -198,24 +198,22 @@ const gchar *gvir_storage_vol_get_path(GVirStorageVol *vol)
  * Returns: (transfer full): the config
  */
 GVirConfigStorageVol *gvir_storage_vol_get_config(GVirStorageVol *vol,
-                                                  guint64 flags,
+                                                  guint flags,
                                                   GError **err)
 {
     GVirStorageVolPrivate *priv = vol->priv;
     gchar *xml;
 
     if (!(xml = virStorageVolGetXMLDesc(priv->handle, flags))) {
-        *err = gvir_error_new_literal(GVIR_STORAGE_VOL_ERROR,
-                                      0,
-                                      "Unable to get storage_vol XML config");
+        if (err)
+            *err = gvir_error_new_literal(GVIR_STORAGE_VOL_ERROR,
+                                          0,
+                                          "Unable to get storage_vol XML config");
         return NULL;
     }
 
-#if 0
-    GVirConfigStorageVol *conf = gvir_config_storage_vol_new(xml);
+    GVirConfigStorageVol *conf = gvir_config_storage_vol_new_from_xml(xml, err);
 
-    g_free(xml);
+    free(xml);
     return conf;
-#endif
-    return NULL;
 }
