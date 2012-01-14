@@ -1,6 +1,6 @@
 libvirt-gconfig-1.0.so.0 libvirt-glib-1.0-0 #MINVER#
- *@LIBVIRT_GOBJECT_0.0.1 0.0.1~
+ *@LIBVIRT_GCONFIG_0.0.4 0.0.4~
 libvirt-gobject-1.0.so.0 libvirt-glib-1.0-0 #MINVER#
- *@LIBVIRT_GOBJECT_0.0.1 0.0.1~
+ *@LIBVIRT_GOBJECT_0.0.4 0.0.4~
 libvirt-glib-1.0.so.0 libvirt-glib-1.0-0 #MINVER#
- *@LIBVIRT_GLIB_0.0.1 0.0.1~
+ *@LIBVIRT_GLIB_0.0.4 0.0.4~
