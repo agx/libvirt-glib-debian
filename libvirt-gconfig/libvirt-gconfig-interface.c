@@ -1,8 +1,8 @@
 /*
- * libvirt-gobject-config_interface.c: libvirt glib integration
+ * libvirt-gconfig-interface.c: libvirt interface configuration
  *
  * Copyright (C) 2008 Daniel P. Berrange
- * Copyright (C) 2010 Red Hat
+ * Copyright (C) 2010-2011 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23,41 +23,30 @@
 
 #include <config.h>
 
-#include <string.h>
-
 #include "libvirt-gconfig/libvirt-gconfig.h"
 
-extern gboolean debugFlag;
-
-#define DEBUG(fmt, ...) do { if (G_UNLIKELY(debugFlag)) g_debug(fmt, ## __VA_ARGS__); } while (0)
-
 #define GVIR_CONFIG_INTERFACE_GET_PRIVATE(obj)                         \
-        (G_TYPE_INSTANCE_GET_PRIVATE((obj), GVIR_TYPE_CONFIG_INTERFACE, GVirConfigInterfacePrivate))
+        (G_TYPE_INSTANCE_GET_PRIVATE((obj), GVIR_CONFIG_TYPE_INTERFACE, GVirConfigInterfacePrivate))
 
 struct _GVirConfigInterfacePrivate
 {
     gboolean unused;
 };
 
-G_DEFINE_TYPE(GVirConfigInterface, gvir_config_interface, GVIR_TYPE_CONFIG_OBJECT);
+G_DEFINE_TYPE(GVirConfigInterface, gvir_config_interface, GVIR_CONFIG_TYPE_OBJECT);
 
 
 static void gvir_config_interface_class_init(GVirConfigInterfaceClass *klass)
 {
-
     g_type_class_add_private(klass, sizeof(GVirConfigInterfacePrivate));
 }
 
 
 static void gvir_config_interface_init(GVirConfigInterface *conn)
 {
-    GVirConfigInterfacePrivate *priv;
+    g_debug("Init GVirConfigInterface=%p", conn);
 
-    DEBUG("Init GVirConfigInterface=%p", conn);
-
-    priv = conn->priv = GVIR_CONFIG_INTERFACE_GET_PRIVATE(conn);
-
-    memset(priv, 0, sizeof(*priv));
+    conn->priv = GVIR_CONFIG_INTERFACE_GET_PRIVATE(conn);
 }
 
 
@@ -65,7 +54,7 @@ GVirConfigInterface *gvir_config_interface_new(void)
 {
     GVirConfigObject *object;
 
-    object = gvir_config_object_new(GVIR_TYPE_CONFIG_INTERFACE,
+    object = gvir_config_object_new(GVIR_CONFIG_TYPE_INTERFACE,
                                     "interface",
                                     DATADIR "/libvirt/schemas/interface.rng");
     return GVIR_CONFIG_INTERFACE(object);
@@ -76,10 +65,9 @@ GVirConfigInterface *gvir_config_interface_new_from_xml(const gchar *xml,
 {
     GVirConfigObject *object;
 
-    object = gvir_config_object_new_from_xml(GVIR_TYPE_CONFIG_INTERFACE,
+    object = gvir_config_object_new_from_xml(GVIR_CONFIG_TYPE_INTERFACE,
                                              "interface",
                                              DATADIR "/libvirt/schemas/interface.rng",
                                              xml, error);
     return GVIR_CONFIG_INTERFACE(object);
 }
-

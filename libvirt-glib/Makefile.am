@@ -16,6 +16,7 @@ libvirt_glib_1_0_la_SOURCES = \
 			libvirt-glib-main.c
 libvirt_glib_1_0_la_CFLAGS = \
 			-DLIBVIRT_GLIB_BUILD \
+			-DG_LOG_DOMAIN="\"Libvirt.GLib\"" \
 			$(COVERAGE_CFLAGS) \
 			-I$(top_srcdir) \
 			$(LIBVIRT_CFLAGS) \
@@ -47,11 +48,9 @@ LibvirtGLib-1.0.gir: libvirt-glib-1.0.la $(G_IR_SCANNER) Makefile.am
                 --identifier-prefix=GVir \
                 --symbol-prefix=gvir \
                 --library=$(builddir)/libvirt-glib-1.0.la \
-                --add-include-path=$(builddir) \
                 --output $@ \
                 -I$(top_srcdir) \
-                -I$(srcdir) \
-                --pkg=glib-2.0 \
+                --verbose \
                 --pkg=gthread-2.0 \
                 --c-include="libvirt-glib/libvirt-glib.h" \
                 --pkg-export=libvirt-glib-1.0 \

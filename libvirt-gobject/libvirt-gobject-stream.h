@@ -1,7 +1,7 @@
 /*
  * libvirt-gobject-stream.h: libvirt gobject integration
  *
- * Copyright (C) 2011 Red Hat
+ * Copyright (C) 2011 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -93,11 +93,49 @@ typedef gint (* GVirStreamSourceFunc)(GVirStream *stream,
 GType gvir_stream_get_type(void);
 GType gvir_stream_handle_get_type(void);
 
-gssize gvir_stream_receive_all(GVirStream *stream, GVirStreamSinkFunc func, gpointer user_data, GError **error);
-gssize gvir_stream_receive(GVirStream *stream, gchar *buffer, gsize size, GCancellable *cancellable, GError **error);
+typedef enum {
+    GVIR_STREAM_IO_CONDITION_READABLE = (1 << 0),
+    GVIR_STREAM_IO_CONDITION_WRITABLE = (1 << 1),
+    GVIR_STREAM_IO_CONDITION_HANGUP   = (1 << 2),
+    GVIR_STREAM_IO_CONDITION_ERROR    = (1 << 3),
+} GVirStreamIOCondition;
 
-gssize gvir_stream_send_all(GVirStream *stream, GVirStreamSourceFunc func, gpointer user_data, GError **error);
-gssize gvir_stream_send(GVirStream *stream, const gchar *buffer, gsize size, GCancellable *cancellable, GError **error);
+typedef gboolean (*GVirStreamIOFunc)(GVirStream *stream,
+                                     GVirStreamIOCondition cond,
+                                     gpointer opaque);
+
+guint gvir_stream_add_watch(GVirStream *stream,
+                            GVirStreamIOCondition cond,
+                            GVirStreamIOFunc func,
+                            gpointer opaque);
+guint gvir_stream_add_watch_full(GVirStream *stream,
+                                 gint priority,
+                                 GVirStreamIOCondition cond,
+                                 GVirStreamIOFunc func,
+                                 gpointer opaque,
+                                 GDestroyNotify notify);
+
+gssize gvir_stream_receive_all(GVirStream *stream,
+                               GCancellable *cancellable,
+                               GVirStreamSinkFunc func,
+                               gpointer user_data,
+                               GError **error);
+gssize gvir_stream_receive(GVirStream *stream,
+                           gchar *buffer,
+                           gsize size,
+                           GCancellable *cancellable,
+                           GError **error);
+
+gssize gvir_stream_send_all(GVirStream *stream,
+                            GCancellable *cancellable,
+                            GVirStreamSourceFunc func,
+                            gpointer user_data,
+                            GError **error);
+gssize gvir_stream_send(GVirStream *stream,
+                        const gchar *buffer,
+                        gsize size,
+                        GCancellable *cancellable,
+                        GError **error);
 
 G_END_DECLS
 

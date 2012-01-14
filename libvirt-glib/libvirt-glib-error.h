@@ -2,7 +2,7 @@
  * libvirt-glib-error.h: libvirt glib integration
  *
  * Copyright (C) 2008 Daniel P. Berrange
- * Copyright (C) 2010 Red Hat
+ * Copyright (C) 2010-2011 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -41,6 +41,24 @@ GError *gvir_error_new_valist(GQuark domain,
                               gint code,
                               const gchar *format,
                               va_list args);
+
+void gvir_set_error(GError **error,
+                    GQuark domain,
+                    gint code,
+                    const gchar *format,
+                    ...);
+
+void gvir_set_error_literal(GError **error,
+                            GQuark domain,
+                            gint code,
+                            const gchar *message);
+
+void gvir_set_error_valist(GError **error,
+                           GQuark domain,
+                           gint code,
+                           const gchar *format,
+                           va_list args);
+
 
 G_END_DECLS
 

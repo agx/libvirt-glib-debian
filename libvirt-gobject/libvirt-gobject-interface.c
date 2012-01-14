@@ -2,7 +2,7 @@
  * libvirt-gobject-interface.c: libvirt glib integration
  *
  * Copyright (C) 2008 Daniel P. Berrange
- * Copyright (C) 2010 Red Hat
+ * Copyright (C) 2010-2011 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -28,10 +28,6 @@
 
 #include "libvirt-glib/libvirt-glib.h"
 #include "libvirt-gobject/libvirt-gobject.h"
-
-extern gboolean debugFlag;
-
-#define DEBUG(fmt, ...) do { if (G_UNLIKELY(debugFlag)) g_debug(fmt, ## __VA_ARGS__); } while (0)
 
 #define GVIR_INTERFACE_GET_PRIVATE(obj)                         \
         (G_TYPE_INSTANCE_GET_PRIVATE((obj), GVIR_TYPE_INTERFACE, GVirInterfacePrivate))
@@ -104,7 +100,7 @@ static void gvir_interface_finalize(GObject *object)
     GVirInterface *conn = GVIR_INTERFACE(object);
     GVirInterfacePrivate *priv = conn->priv;
 
-    DEBUG("Finalize GVirInterface=%p", conn);
+    g_debug("Finalize GVirInterface=%p", conn);
 
     virInterfaceFree(priv->handle);
 
@@ -139,13 +135,9 @@ static void gvir_interface_class_init(GVirInterfaceClass *klass)
 
 static void gvir_interface_init(GVirInterface *conn)
 {
-    GVirInterfacePrivate *priv;
+    g_debug("Init GVirInterface=%p", conn);
 
-    DEBUG("Init GVirInterface=%p", conn);
-
-    priv = conn->priv = GVIR_INTERFACE_GET_PRIVATE(conn);
-
-    memset(priv, 0, sizeof(*priv));
+    conn->priv = GVIR_INTERFACE_GET_PRIVATE(conn);
 }
 
 typedef struct virInterface GVirInterfaceHandle;
@@ -193,10 +185,9 @@ GVirConfigInterface *gvir_interface_get_config(GVirInterface *iface,
     gchar *xml;
 
     if (!(xml = virInterfaceGetXMLDesc(priv->handle, flags))) {
-        if (err)
-            *err = gvir_error_new_literal(GVIR_INTERFACE_ERROR,
-                                          0,
-                                          "Unable to get interface XML config");
+        gvir_set_error_literal(err, GVIR_INTERFACE_ERROR,
+                               0,
+                               "Unable to get interface XML config");
         return NULL;
     }
 

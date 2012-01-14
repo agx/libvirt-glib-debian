@@ -2,6 +2,7 @@
 
 %define with_introspection 0
 %define with_python 0
+%define with_vala 0
 
 %if 0%{?fedora} >= 15
 %define with_introspection 1
@@ -15,10 +16,12 @@
 %if 0%{?rhel} && 0%{?rhel} < 7
 %define with_python 1
 %endif
-
+%if 0%{with_introspection} && 0%{?fedora} > 15
+%define with_vala 1
+%endif
 
 Name: libvirt-glib
-Version: 0.0.2
+Version: 0.0.4
 Release: 1%{?dist}%{?extra_release}
 Summary: libvirt glib integration for events
 Group: Development/Libraries
@@ -28,7 +31,7 @@ Source0: ftp://libvirt.org/libvirt/glib/%{name}-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires: glib2-devel >= 2.10.0
-BuildRequires: libvirt-devel >= 0.9.4
+BuildRequires: libvirt-devel >= 0.9.7
 BuildRequires: python-devel
 %if %{with_introspection}
 BuildRequires: gobject-introspection-devel
@@ -39,6 +42,9 @@ BuildRequires: gir-repository-devel
 BuildRequires: libxml2-devel
 # Hack due to https://bugzilla.redhat.com/show_bug.cgi?id=613466
 BuildRequires: libtool
+%if %{with_vala}
+BuildRequires: vala-tools
+%endif
 
 %package devel
 Group: Development/Libraries
@@ -153,17 +159,27 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with_introspection}
 %{_libdir}/girepository-1.0/LibvirtGLib-1.0.typelib
 %endif
+%if %{with_vala}
+%{_datadir}/vala/vapi/libvirt-glib-1.0.vapi
+%endif
 
 %files -n libvirt-gconfig
 %{_libdir}/libvirt-gconfig-1.0.so.*
 %if %{with_introspection}
 %{_libdir}/girepository-1.0/LibvirtGConfig-1.0.typelib
 %endif
+%if %{with_vala}
+%{_datadir}/vala/vapi/libvirt-gconfig-1.0.vapi
+%endif
 
 %files -n libvirt-gobject
 %{_libdir}/libvirt-gobject-1.0.so.*
 %if %{with_introspection}
 %{_libdir}/girepository-1.0/LibvirtGObject-1.0.typelib
+%endif
+%if %{with_vala}
+%{_datadir}/vala/vapi/libvirt-gobject-1.0.deps
+%{_datadir}/vala/vapi/libvirt-gobject-1.0.vapi
 %endif
 
 %files devel

@@ -1,7 +1,7 @@
 /*
- * libvirt-gobject-capabilities-config.c: libvirt gobject integration
+ * libvirt-gconfig-capabilities.c: libvirt capabilities configuration
  *
- * Copyright (C) 2010 Red Hat
+ * Copyright (C) 2010-2011 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -29,12 +29,12 @@
 
 G_BEGIN_DECLS
 
-#define GVIR_TYPE_CONFIG_CAPABILITIES            (gvir_config_capabilities_get_type ())
-#define GVIR_CONFIG_CAPABILITIES(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GVIR_TYPE_CONFIG_CAPABILITIES, GVirConfigCapabilities))
-#define GVIR_CONFIG_CAPABILITIES_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GVIR_TYPE_CONFIG_CAPABILITIES, GVirConfigCapabilitiesClass))
-#define GVIR_IS_CONFIG_CAPABILITIES(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GVIR_TYPE_CONFIG_CAPABILITIES))
-#define GVIR_IS_CONFIG_CAPABILITIES_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GVIR_TYPE_CONFIG_CAPABILITIES))
-#define GVIR_CONFIG_CAPABILITIES_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GVIR_TYPE_CONFIG_CAPABILITIES, GVirConfigCapabilitiesClass))
+#define GVIR_CONFIG_TYPE_CAPABILITIES            (gvir_config_capabilities_get_type ())
+#define GVIR_CONFIG_CAPABILITIES(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GVIR_CONFIG_TYPE_CAPABILITIES, GVirConfigCapabilities))
+#define GVIR_CONFIG_CAPABILITIES_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GVIR_CONFIG_TYPE_CAPABILITIES, GVirConfigCapabilitiesClass))
+#define GVIR_CONFIG_IS_CAPABILITIES(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GVIR_CONFIG_TYPE_CAPABILITIES))
+#define GVIR_CONFIG_IS_CAPABILITIES_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GVIR_CONFIG_TYPE_CAPABILITIES))
+#define GVIR_CONFIG_CAPABILITIES_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GVIR_CONFIG_TYPE_CAPABILITIES, GVirConfigCapabilitiesClass))
 
 typedef struct _GVirConfigCapabilities GVirConfigCapabilities;
 typedef struct _GVirConfigCapabilitiesPrivate GVirConfigCapabilitiesPrivate;

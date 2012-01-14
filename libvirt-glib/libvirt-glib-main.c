@@ -2,7 +2,7 @@
  * libvirt-glib-main.c: libvirt glib integration
  *
  * Copyright (C) 2008 Daniel P. Berrange
- * Copyright (C) 2010 Red Hat
+ * Copyright (C) 2010-2011 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -24,19 +24,16 @@
 #include <config.h>
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <libvirt/virterror.h>
 
 #include "libvirt-glib-main.h"
-
-gboolean debugFlag = FALSE;
-
-#define DEBUG(fmt, ...) do { if (G_UNLIKELY(debugFlag)) g_debug(fmt, ## __VA_ARGS__); } while (0)
 
 static void
 gvir_error_func(gpointer opaque G_GNUC_UNUSED,
                 virErrorPtr err)
 {
-    DEBUG("Error: %s", err->message);
+    g_debug("Error: %s", err->message);
 }
 
 
@@ -51,20 +48,39 @@ void gvir_init(int *argc,
 }
 
 
+static void gvir_log_handler(const gchar *log_domain G_GNUC_UNUSED,
+                             GLogLevelFlags log_level G_GNUC_UNUSED,
+                             const gchar *message,
+                             gpointer user_data)
+{
+    if (user_data)
+        fprintf(stderr, "%s\n", message);
+}
+
+
 gboolean gvir_init_check(int *argc G_GNUC_UNUSED,
                          char ***argv G_GNUC_UNUSED,
                          GError **err G_GNUC_UNUSED)
 {
-    char *debugEnv = getenv("LIBVIRT_GLIB_DEBUG");
-    if (debugEnv && *debugEnv && *debugEnv != '0')
-        debugFlag = 1;
-
     virSetErrorFunc(NULL, gvir_error_func);
     if (!g_thread_supported())
         g_thread_init(NULL);
 
     virInitialize();
 
+    /* GLib >= 2.31.0 debug is off by default, so we need to
+     * enable it. Older versions are on by default, so we need
+     * to disable it.
+     */
+#if GLIB_CHECK_VERSION(2, 31, 0)
+    if (getenv("LIBVIRT_GLIB_DEBUG"))
+        g_log_set_handler(G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                          gvir_log_handler, (void*)0x1);
+#else
+    if (!getenv("LIBVIRT_GLIB_DEBUG"))
+        g_log_set_handler(G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                          gvir_log_handler, NULL);
+#endif
+
     return TRUE;
 }
-

@@ -1,7 +1,7 @@
 /*
- * libvirt-gobject-storage-pool-config.c: libvirt gobject integration
+ * libvirt-gconfig-storage-pool.h: libvirt storage pool configuration
  *
- * Copyright (C) 2010 Red Hat
+ * Copyright (C) 2010-2011 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,14 +27,17 @@
 #ifndef __LIBVIRT_GCONFIG_STORAGE_POOL_H__
 #define __LIBVIRT_GCONFIG_STORAGE_POOL_H__
 
+#include <libvirt-gconfig/libvirt-gconfig-storage-pool-source.h>
+#include <libvirt-gconfig/libvirt-gconfig-storage-pool-target.h>
+
 G_BEGIN_DECLS
 
-#define GVIR_TYPE_CONFIG_STORAGE_POOL            (gvir_config_storage_pool_get_type ())
-#define GVIR_CONFIG_STORAGE_POOL(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GVIR_TYPE_CONFIG_STORAGE_POOL, GVirConfigStoragePool))
-#define GVIR_CONFIG_STORAGE_POOL_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GVIR_TYPE_CONFIG_STORAGE_POOL, GVirConfigStoragePoolClass))
-#define GVIR_IS_CONFIG_STORAGE_POOL(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GVIR_TYPE_CONFIG_STORAGE_POOL))
-#define GVIR_IS_CONFIG_STORAGE_POOL_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GVIR_TYPE_CONFIG_STORAGE_POOL))
-#define GVIR_CONFIG_STORAGE_POOL_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GVIR_TYPE_CONFIG_STORAGE_POOL, GVirConfigStoragePoolClass))
+#define GVIR_CONFIG_TYPE_STORAGE_POOL            (gvir_config_storage_pool_get_type ())
+#define GVIR_CONFIG_STORAGE_POOL(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GVIR_CONFIG_TYPE_STORAGE_POOL, GVirConfigStoragePool))
+#define GVIR_CONFIG_STORAGE_POOL_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GVIR_CONFIG_TYPE_STORAGE_POOL, GVirConfigStoragePoolClass))
+#define GVIR_CONFIG_IS_STORAGE_POOL(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GVIR_CONFIG_TYPE_STORAGE_POOL))
+#define GVIR_CONFIG_IS_STORAGE_POOL_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GVIR_CONFIG_TYPE_STORAGE_POOL))
+#define GVIR_CONFIG_STORAGE_POOL_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GVIR_CONFIG_TYPE_STORAGE_POOL, GVirConfigStoragePoolClass))
 
 typedef struct _GVirConfigStoragePool GVirConfigStoragePool;
 typedef struct _GVirConfigStoragePoolPrivate GVirConfigStoragePoolPrivate;
@@ -56,12 +59,39 @@ struct _GVirConfigStoragePoolClass
     gpointer padding[20];
 };
 
+typedef enum {
+    GVIR_CONFIG_STORAGE_POOL_TYPE_DIR,
+    GVIR_CONFIG_STORAGE_POOL_TYPE_FS,
+    GVIR_CONFIG_STORAGE_POOL_TYPE_NETFS,
+    GVIR_CONFIG_STORAGE_POOL_TYPE_LOGICAL,
+    GVIR_CONFIG_STORAGE_POOL_TYPE_DISK,
+    GVIR_CONFIG_STORAGE_POOL_TYPE_ISCSI,
+    GVIR_CONFIG_STORAGE_POOL_TYPE_SCSI,
+    GVIR_CONFIG_STORAGE_POOL_TYPE_MPATH
+} GVirConfigStoragePoolType;
 
 GType gvir_config_storage_pool_get_type(void);
 
 GVirConfigStoragePool *gvir_config_storage_pool_new(void);
 GVirConfigStoragePool *gvir_config_storage_pool_new_from_xml(const gchar *xml,
                                                              GError **error);
+
+void gvir_config_storage_pool_set_allocation(GVirConfigStoragePool *pool,
+                                             guint64 allocation);
+void gvir_config_storage_pool_set_available(GVirConfigStoragePool *pool,
+                                            guint64 available);
+void gvir_config_storage_pool_set_capacity(GVirConfigStoragePool *pool,
+                                           guint64 capacity);
+void gvir_config_storage_pool_set_name(GVirConfigStoragePool *pool,
+                                       const char *name);
+void gvir_config_storage_pool_set_pool_type(GVirConfigStoragePool *pool,
+                                            GVirConfigStoragePoolType type);
+void gvir_config_storage_pool_set_source(GVirConfigStoragePool *pool,
+                                         GVirConfigStoragePoolSource *source);
+void gvir_config_storage_pool_set_target(GVirConfigStoragePool *pool,
+                                         GVirConfigStoragePoolTarget *target);
+void gvir_config_storage_pool_set_uuid(GVirConfigStoragePool *pool,
+                                       const char *uuid);
 
 G_END_DECLS
 

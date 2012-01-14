@@ -1,8 +1,8 @@
 /*
- * libvirt-gobject-config_storage_vol.c: libvirt glib integration
+ * libvirt-gconfig-storage-vol.c: libvirt storage vol configuration
  *
  * Copyright (C) 2008 Daniel P. Berrange
- * Copyright (C) 2010 Red Hat
+ * Copyright (C) 2010-2011 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23,41 +23,32 @@
 
 #include <config.h>
 
-#include <string.h>
-
 #include "libvirt-gconfig/libvirt-gconfig.h"
+#include "libvirt-gconfig/libvirt-gconfig-private.h"
 
-extern gboolean debugFlag;
-
-#define DEBUG(fmt, ...) do { if (G_UNLIKELY(debugFlag)) g_debug(fmt, ## __VA_ARGS__); } while (0)
 
 #define GVIR_CONFIG_STORAGE_VOL_GET_PRIVATE(obj)                         \
-        (G_TYPE_INSTANCE_GET_PRIVATE((obj), GVIR_TYPE_CONFIG_STORAGE_VOL, GVirConfigStorageVolPrivate))
+        (G_TYPE_INSTANCE_GET_PRIVATE((obj), GVIR_CONFIG_TYPE_STORAGE_VOL, GVirConfigStorageVolPrivate))
 
 struct _GVirConfigStorageVolPrivate
 {
     gboolean unused;
 };
 
-G_DEFINE_TYPE(GVirConfigStorageVol, gvir_config_storage_vol, GVIR_TYPE_CONFIG_OBJECT);
+G_DEFINE_TYPE(GVirConfigStorageVol, gvir_config_storage_vol, GVIR_CONFIG_TYPE_OBJECT);
 
 
 static void gvir_config_storage_vol_class_init(GVirConfigStorageVolClass *klass)
 {
-
     g_type_class_add_private(klass, sizeof(GVirConfigStorageVolPrivate));
 }
 
 
 static void gvir_config_storage_vol_init(GVirConfigStorageVol *conn)
 {
-    GVirConfigStorageVolPrivate *priv;
+    g_debug("Init GVirConfigStorageVol=%p", conn);
 
-    DEBUG("Init GVirConfigStorageVol=%p", conn);
-
-    priv = conn->priv = GVIR_CONFIG_STORAGE_VOL_GET_PRIVATE(conn);
-
-    memset(priv, 0, sizeof(*priv));
+    conn->priv = GVIR_CONFIG_STORAGE_VOL_GET_PRIVATE(conn);
 }
 
 
@@ -65,7 +56,7 @@ GVirConfigStorageVol *gvir_config_storage_vol_new(void)
 {
     GVirConfigObject *object;
 
-    object = gvir_config_object_new(GVIR_TYPE_CONFIG_STORAGE_VOL,
+    object = gvir_config_object_new(GVIR_CONFIG_TYPE_STORAGE_VOL,
                                     "volume",
                                     DATADIR "/libvirt/schemas/storage_vol.rng");
     return GVIR_CONFIG_STORAGE_VOL(object);
@@ -76,9 +67,56 @@ GVirConfigStorageVol *gvir_config_storage_vol_new_from_xml(const gchar *xml,
 {
     GVirConfigObject *object;
 
-    object = gvir_config_object_new_from_xml(GVIR_TYPE_CONFIG_STORAGE_VOL,
+    object = gvir_config_object_new_from_xml(GVIR_CONFIG_TYPE_STORAGE_VOL,
                                              "volume",
                                              DATADIR "/libvirt/schemas/storage_vol.rng",
                                              xml, error);
     return GVIR_CONFIG_STORAGE_VOL(object);
+}
+
+void gvir_config_storage_vol_set_name(GVirConfigStorageVol *vol,
+                                      const char *name)
+{
+    g_return_if_fail(GVIR_CONFIG_IS_STORAGE_VOL(vol));
+
+    gvir_config_object_set_node_content(GVIR_CONFIG_OBJECT(vol),
+                                        "name", name);
+}
+
+void gvir_config_storage_vol_set_capacity(GVirConfigStorageVol *vol,
+                                          guint64 capacity)
+{
+    g_return_if_fail(GVIR_CONFIG_IS_STORAGE_VOL(vol));
+
+    gvir_config_object_set_node_content_uint64(GVIR_CONFIG_OBJECT(vol),
+                                               "capacity", capacity);
+}
+
+void gvir_config_storage_vol_set_allocation(GVirConfigStorageVol *vol,
+                                            guint64 allocation)
+{
+    g_return_if_fail(GVIR_CONFIG_IS_STORAGE_VOL(vol));
+
+    gvir_config_object_set_node_content_uint64(GVIR_CONFIG_OBJECT(vol),
+                                               "allocation", allocation);
+}
+
+void gvir_config_storage_vol_set_target(GVirConfigStorageVol *vol,
+                                        GVirConfigStorageVolTarget *target)
+{
+    g_return_if_fail(GVIR_CONFIG_IS_STORAGE_VOL(vol));
+    g_return_if_fail(GVIR_CONFIG_IS_STORAGE_VOL_TARGET(target));
+
+    gvir_config_object_attach(GVIR_CONFIG_OBJECT(vol),
+                              GVIR_CONFIG_OBJECT(target));
+}
+
+void gvir_config_storage_vol_set_backing_store(GVirConfigStorageVol *vol,
+                                               GVirConfigStorageVolBackingStore *backing_store)
+{
+    g_return_if_fail(GVIR_CONFIG_IS_STORAGE_VOL(vol));
+    g_return_if_fail(GVIR_CONFIG_IS_STORAGE_VOL_BACKING_STORE(backing_store));
+
+    gvir_config_object_attach(GVIR_CONFIG_OBJECT(vol),
+                              GVIR_CONFIG_OBJECT(backing_store));
 }

@@ -1,7 +1,7 @@
 /*
- * libvirt-gconfig-helpers.c: various GVirConfig helpers
+ * libvirt-gconfig-helpers.c: libvirt configuration helpers
  *
- * Copyright (C) 2010, 2011 Red Hat
+ * Copyright (C) 2010, 2011 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -36,9 +36,9 @@ gvir_config_object_error_quark(void)
     return g_quark_from_static_string("gvir-config-object");
 }
 
-static GError *gvir_xml_error_new_literal(GQuark domain,
-                                          gint code,
-                                          const gchar *message)
+static GError *gvir_config_error_new_literal(GQuark domain,
+                                             gint code,
+                                             const gchar *message)
 {
     xmlErrorPtr xerr = xmlGetLastError();
 
@@ -59,10 +59,10 @@ static GError *gvir_xml_error_new_literal(GQuark domain,
 }
 
 
-GError *gvir_xml_error_new(GQuark domain,
-                           gint code,
-                           const gchar *format,
-                           ...)
+GError *gvir_config_error_new(GQuark domain,
+                              gint code,
+                              const gchar *format,
+                              ...)
 {
     GError *err;
     va_list args;
@@ -72,11 +72,60 @@ GError *gvir_xml_error_new(GQuark domain,
     message = g_strdup_vprintf(format, args);
     va_end(args);
 
-    err = gvir_xml_error_new_literal(domain, code, message);
+    err = gvir_config_error_new_literal(domain, code, message);
 
     g_free(message);
 
     return err;
+}
+
+
+void gvir_config_set_error(GError **err,
+                           GQuark domain, gint code,
+                           const gchar *format, ...)
+{
+    va_list args;
+    gchar *message;
+
+    if (!err)
+        return;
+
+    va_start(args, format);
+    message = g_strdup_vprintf(format, args);
+    va_end(args);
+
+    *err = gvir_config_error_new_literal(domain, code, message);
+
+    g_free(message);
+}
+
+
+void gvir_config_set_error_literal(GError **err,
+                                   GQuark domain, gint code,
+                                   const gchar *message)
+{
+    if (!err)
+        return;
+
+    *err = gvir_config_error_new_literal(domain, code, message);
+}
+
+
+void gvir_config_set_error_valist(GError **err,
+                                  GQuark domain, gint code,
+                                  const gchar *format,
+                                  va_list args)
+{
+    gchar *message;
+
+    if (!err)
+        return;
+
+    message = g_strdup_vprintf(format, args);
+
+    *err = gvir_config_error_new_literal(domain, code, message);
+
+    g_free(message);
 }
 
 xmlNodePtr
@@ -94,17 +143,17 @@ gvir_config_xml_parse(const char *xml, const char *root_node, GError **err)
 
     doc = xmlParseMemory(xml, strlen(xml));
     if (!doc) {
-        *err = gvir_xml_error_new(GVIR_CONFIG_OBJECT_ERROR,
-                                  0,
-                                  "%s",
-                                  "Unable to parse configuration");
+        gvir_config_set_error_literal(err, GVIR_CONFIG_OBJECT_ERROR,
+                                      0,
+                                      "Unable to parse configuration");
         return NULL;
     }
     if ((!doc->children) || (strcmp((char *)doc->children->name, root_node) != 0)) {
-        *err = g_error_new(GVIR_CONFIG_OBJECT_ERROR,
-                           0,
-                           "XML data has no '%s' node",
-                           root_node);
+        g_set_error(err,
+                    GVIR_CONFIG_OBJECT_ERROR,
+                    0,
+                    "XML data has no '%s' node",
+                    root_node);
         xmlFreeDoc(doc);
         return NULL;
     }
@@ -112,6 +161,24 @@ gvir_config_xml_parse(const char *xml, const char *root_node, GError **err)
     return doc->children;
 }
 
+void gvir_config_xml_foreach_child(xmlNodePtr node,
+                                   GVirConfigXmlNodeIterator iter_func,
+                                   gpointer opaque)
+{
+    xmlNodePtr it;
+
+    g_return_if_fail(iter_func != NULL);
+
+    for (it = node->children; it != NULL; it = it->next) {
+        gboolean cont;
+
+        if (xmlIsBlankNode(it))
+            continue;
+        cont = iter_func(it, opaque);
+        if (!cont)
+            break;
+    }
+}
 
 /*
  * gvir_config_xml_get_element, gvir_config_xml_get_child_element_content
@@ -161,20 +228,78 @@ gvir_config_xml_get_child_element_content (xmlNode    *node,
         return xmlNodeGetContent (child_node);
 }
 
+static char *libxml_str_to_glib(xmlChar *str)
+{
+    char *g_str;
+
+    if (str == NULL)
+        return NULL;
+    g_str = g_strdup((char *)str);
+    xmlFree(str);
+
+    return g_str;
+}
+
 char *
 gvir_config_xml_get_child_element_content_glib (xmlNode    *node,
                                                 const char *child_name)
 {
         xmlChar *content;
-        char *copy;
 
         content = gvir_config_xml_get_child_element_content (node, child_name);
-        if (!content)
-                return NULL;
 
-        copy = g_strdup ((char *) content);
+        return libxml_str_to_glib(content);
+}
 
-        xmlFree (content);
+G_GNUC_INTERNAL xmlChar *
+gvir_config_xml_get_attribute_content(xmlNodePtr node, const char *attr_name)
+{
+    return xmlGetProp(node, (const xmlChar*)attr_name);
+}
 
-        return copy;
+G_GNUC_INTERNAL char *
+gvir_config_xml_get_attribute_content_glib(xmlNodePtr node, const char *attr_name)
+{
+    xmlChar *attr;
+
+    attr = gvir_config_xml_get_attribute_content(node, attr_name);
+
+    return libxml_str_to_glib(attr);
+}
+
+const char *gvir_config_genum_get_nick (GType enum_type, gint value)
+{
+    GEnumClass *enum_class;
+    GEnumValue *enum_value;
+
+    g_return_val_if_fail (G_TYPE_IS_ENUM (enum_type), NULL);
+
+    enum_class = g_type_class_ref(enum_type);
+    enum_value = g_enum_get_value(enum_class, value);
+    g_type_class_unref(enum_class);
+
+    if (enum_value != NULL)
+        return enum_value->value_nick;
+
+    g_return_val_if_reached(NULL);
+}
+
+G_GNUC_INTERNAL int
+gvir_config_genum_get_value (GType enum_type, const char *nick,
+                             gint default_value)
+{
+    GEnumClass *enum_class;
+    GEnumValue *enum_value;
+
+    g_return_val_if_fail(G_TYPE_IS_ENUM(enum_type), default_value);
+    g_return_val_if_fail(nick != NULL, default_value);
+
+    enum_class = g_type_class_ref(enum_type);
+    enum_value = g_enum_get_value_by_nick(enum_class, nick);
+    g_type_class_unref(enum_class);
+
+    if (enum_value != NULL)
+        return enum_value->value;
+
+    g_return_val_if_reached(default_value);
 }

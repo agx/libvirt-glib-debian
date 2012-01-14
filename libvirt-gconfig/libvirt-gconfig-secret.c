@@ -1,8 +1,8 @@
 /*
- * libvirt-gobject-config_secret.c: libvirt glib integration
+ * libvirt-gconfig-secret.c: libvirt secret configuration
  *
  * Copyright (C) 2008 Daniel P. Berrange
- * Copyright (C) 2010 Red Hat
+ * Copyright (C) 2010-2011 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23,41 +23,30 @@
 
 #include <config.h>
 
-#include <string.h>
-
 #include "libvirt-gconfig/libvirt-gconfig.h"
 
-extern gboolean debugFlag;
-
-#define DEBUG(fmt, ...) do { if (G_UNLIKELY(debugFlag)) g_debug(fmt, ## __VA_ARGS__); } while (0)
-
 #define GVIR_CONFIG_SECRET_GET_PRIVATE(obj)                         \
-        (G_TYPE_INSTANCE_GET_PRIVATE((obj), GVIR_TYPE_CONFIG_SECRET, GVirConfigSecretPrivate))
+        (G_TYPE_INSTANCE_GET_PRIVATE((obj), GVIR_CONFIG_TYPE_SECRET, GVirConfigSecretPrivate))
 
 struct _GVirConfigSecretPrivate
 {
     gboolean unused;
 };
 
-G_DEFINE_TYPE(GVirConfigSecret, gvir_config_secret, GVIR_TYPE_CONFIG_OBJECT);
+G_DEFINE_TYPE(GVirConfigSecret, gvir_config_secret, GVIR_CONFIG_TYPE_OBJECT);
 
 
 static void gvir_config_secret_class_init(GVirConfigSecretClass *klass)
 {
-
     g_type_class_add_private(klass, sizeof(GVirConfigSecretPrivate));
 }
 
 
 static void gvir_config_secret_init(GVirConfigSecret *conn)
 {
-    GVirConfigSecretPrivate *priv;
+    g_debug("Init GVirConfigSecret=%p", conn);
 
-    DEBUG("Init GVirConfigSecret=%p", conn);
-
-    priv = conn->priv = GVIR_CONFIG_SECRET_GET_PRIVATE(conn);
-
-    memset(priv, 0, sizeof(*priv));
+    conn->priv = GVIR_CONFIG_SECRET_GET_PRIVATE(conn);
 }
 
 
@@ -65,7 +54,7 @@ GVirConfigSecret *gvir_config_secret_new(void)
 {
     GVirConfigObject *object;
 
-    object = gvir_config_object_new(GVIR_TYPE_CONFIG_SECRET,
+    object = gvir_config_object_new(GVIR_CONFIG_TYPE_SECRET,
                                     "secret",
                                     DATADIR "/libvirt/schemas/secret.rng");
     return GVIR_CONFIG_SECRET(object);
@@ -76,7 +65,7 @@ GVirConfigSecret *gvir_config_secret_new_from_xml(const gchar *xml,
 {
     GVirConfigObject *object;
 
-    object = gvir_config_object_new_from_xml(GVIR_TYPE_CONFIG_SECRET,
+    object = gvir_config_object_new_from_xml(GVIR_CONFIG_TYPE_SECRET,
                                              "secret",
                                              DATADIR "/libvirt/schemas/secret.rng",
                                              xml, error);

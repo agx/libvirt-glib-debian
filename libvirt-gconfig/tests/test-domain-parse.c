@@ -1,7 +1,7 @@
 /*
  * test-domain-create.c: test libvirt-gconfig domain parsing
  *
- * Copyright (C) 2011 Red Hat
+ * Copyright (C) 2011 Red Hat, Inc.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the
@@ -25,6 +25,8 @@
  * Author: Christophe Fergeau <cfergeau@redhat.com>
  */
 
+#include <config.h>
+
 #include <string.h>
 #include <libvirt-gconfig/libvirt-gconfig.h>
 
@@ -37,6 +39,7 @@ int main(int argc, char **argv)
     char *xml;
     GError *error = NULL;
 
+    gvir_config_init(&argc, &argv);
     if (argc != 2) {
         g_print("Usage: %s filename\n", argv[0]);
         g_print("Attempt to parse the libvirt XML definition from filename\n");

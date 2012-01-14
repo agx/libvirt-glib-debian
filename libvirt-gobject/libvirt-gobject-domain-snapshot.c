@@ -2,7 +2,7 @@
  * libvirt-gobject-domain_snapshot.c: libvirt glib integration
  *
  * Copyright (C) 2008 Daniel P. Berrange
- * Copyright (C) 2010 Red Hat
+ * Copyright (C) 2010-2011 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -29,10 +29,6 @@
 #include "libvirt-glib/libvirt-glib.h"
 #include "libvirt-gobject/libvirt-gobject.h"
 #include "libvirt-gobject-compat.h"
-
-extern gboolean debugFlag;
-
-#define DEBUG(fmt, ...) do { if (G_UNLIKELY(debugFlag)) g_debug(fmt, ## __VA_ARGS__); } while (0)
 
 #define GVIR_DOMAIN_SNAPSHOT_GET_PRIVATE(obj)                         \
         (G_TYPE_INSTANCE_GET_PRIVATE((obj), GVIR_TYPE_DOMAIN_SNAPSHOT, GVirDomainSnapshotPrivate))
@@ -105,7 +101,7 @@ static void gvir_domain_snapshot_finalize(GObject *object)
     GVirDomainSnapshot *conn = GVIR_DOMAIN_SNAPSHOT(object);
     GVirDomainSnapshotPrivate *priv = conn->priv;
 
-    DEBUG("Finalize GVirDomainSnapshot=%p", conn);
+    g_debug("Finalize GVirDomainSnapshot=%p", conn);
 
     virDomainSnapshotFree(priv->handle);
 
@@ -140,13 +136,9 @@ static void gvir_domain_snapshot_class_init(GVirDomainSnapshotClass *klass)
 
 static void gvir_domain_snapshot_init(GVirDomainSnapshot *conn)
 {
-    GVirDomainSnapshotPrivate *priv;
+    g_debug("Init GVirDomainSnapshot=%p", conn);
 
-    DEBUG("Init GVirDomainSnapshot=%p", conn);
-
-    priv = conn->priv = GVIR_DOMAIN_SNAPSHOT_GET_PRIVATE(conn);
-
-    memset(priv, 0, sizeof(*priv));
+    conn->priv = GVIR_DOMAIN_SNAPSHOT_GET_PRIVATE(conn);
 }
 
 typedef struct virDomainSnapshot GVirDomainSnapshotHandle;
@@ -204,9 +196,9 @@ GVirConfigDomainSnapshot *gvir_domain_snapshot_get_config
     gchar *xml;
 
     if (!(xml = virDomainSnapshotGetXMLDesc(priv->handle, flags))) {
-        *err = gvir_error_new_literal(GVIR_DOMAIN_SNAPSHOT_ERROR,
-                                      0,
-                                      "Unable to get domain_snapshot XML config");
+        gvir_set_error_literal(err, GVIR_DOMAIN_SNAPSHOT_ERROR,
+                               0,
+                               "Unable to get domain_snapshot XML config");
         return NULL;
     }
 

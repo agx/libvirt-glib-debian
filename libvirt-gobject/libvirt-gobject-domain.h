@@ -1,7 +1,7 @@
 /*
  * libvirt-gobject-domain.c: libvirt gobject integration
  *
- * Copyright (C) 2010 Red Hat
+ * Copyright (C) 2010-2011 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -80,6 +80,14 @@ typedef enum {
 } GVirDomainState;
 
 
+typedef enum {
+    GVIR_DOMAIN_START_NONE         = 0,
+    GVIR_DOMAIN_START_PAUSED       = (1 << 0),
+    GVIR_DOMAIN_START_AUTODESTROY  = (1 << 1),
+    GVIR_DOMAIN_START_BYPASS_CACHE = (1 << 2),
+    GVIR_DOMAIN_START_FORCE_BOOT   = (1 << 3),
+} GVirDomainStartFlags;
+
 typedef struct _GVirDomainInfo GVirDomainInfo;
 struct _GVirDomainInfo
 {
@@ -132,6 +140,33 @@ gchar *gvir_domain_screenshot(GVirDomain *dom,
                               guint monitor_id,
                               guint flags,
                               GError **err);
+
+gboolean gvir_domain_open_console(GVirDomain *dom,
+                                  GVirStream *stream,
+                                  const gchar *devname,
+                                  guint flags,
+                                  GError **err);
+
+gboolean gvir_domain_open_graphics(GVirDomain *dom,
+                                   guint idx,
+                                   int fd,
+                                   unsigned int flags,
+                                   GError **err);
+
+gboolean gvir_domain_suspend (GVirDomain *dom,
+                              GError **err);
+gboolean gvir_domain_save (GVirDomain *dom,
+                           unsigned int flags,
+                           GError **err);
+void gvir_domain_save_async (GVirDomain *dom,
+                             unsigned int flags,
+                             GCancellable *cancellable,
+                             GAsyncReadyCallback callback,
+                             gpointer user_data);
+gboolean gvir_domain_save_finish (GVirDomain *dom,
+                                  GAsyncResult *result,
+                                  GError **err);
+gboolean gvir_domain_get_persistent(GVirDomain *dom);
 
 G_END_DECLS
 

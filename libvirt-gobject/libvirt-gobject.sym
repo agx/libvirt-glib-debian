@@ -1,4 +1,4 @@
-LIBVIRT_GOBJECT_0.0.1 {
+LIBVIRT_GOBJECT_0.0.4 {
   global:
         gvir_init_object;
         gvir_init_object_check;
@@ -44,18 +44,26 @@ LIBVIRT_GOBJECT_0.0.1 {
 	gvir_domain_handle_get_type;
 	gvir_domain_info_get_type;
 	gvir_domain_state_get_type;
+	gvir_domain_start_flags_get_type;
 	gvir_domain_get_name;
 	gvir_domain_get_uuid;
 	gvir_domain_get_id;
 	gvir_domain_start;
 	gvir_domain_resume;
 	gvir_domain_stop;
+	gvir_domain_suspend;
+	gvir_domain_save;
+	gvir_domain_save_async;
+	gvir_domain_save_finish;
 	gvir_domain_delete;
+	gvir_domain_open_console;
+	gvir_domain_open_graphics;
 	gvir_domain_shutdown;
 	gvir_domain_reboot;
 	gvir_domain_get_config;
 	gvir_domain_set_config;
 	gvir_domain_get_info;
+	gvir_domain_get_persistent;
 	gvir_domain_screenshot;
 
 	gvir_domain_snapshot_get_type;
@@ -91,10 +99,12 @@ LIBVIRT_GOBJECT_0.0.1 {
 	gvir_secret_get_config;
 
 	gvir_storage_pool_get_type;
+	gvir_storage_pool_info_get_type;
 	gvir_storage_pool_handle_get_type;
 	gvir_storage_pool_get_name;
 	gvir_storage_pool_get_uuid;
 	gvir_storage_pool_get_config;
+	gvir_storage_pool_get_info;
 	gvir_storage_pool_refresh;
 	gvir_storage_pool_refresh_async;
 	gvir_storage_pool_refresh_finish;
@@ -109,10 +119,13 @@ LIBVIRT_GOBJECT_0.0.1 {
 	gvir_storage_pool_start_finish;
 
 	gvir_storage_vol_get_type;
+	gvir_storage_vol_info_get_type;
 	gvir_storage_vol_handle_get_type;
 	gvir_storage_vol_get_name;
 	gvir_storage_vol_get_path;
 	gvir_storage_vol_get_config;
+	gvir_storage_vol_get_info;
+	gvir_storage_vol_delete;
 
 	gvir_connection_handle_get_type;
 
@@ -124,8 +137,13 @@ LIBVIRT_GOBJECT_0.0.1 {
 	gvir_manager_find_connection_by_uri;
 
 	gvir_stream_get_type;
+	gvir_stream_receive;
 	gvir_stream_receive_all;
+	gvir_stream_send;
+	gvir_stream_send_all;
 	gvir_stream_handle_get_type;
+	gvir_stream_add_watch;
+	gvir_stream_add_watch_full;
 
   local:
         *;

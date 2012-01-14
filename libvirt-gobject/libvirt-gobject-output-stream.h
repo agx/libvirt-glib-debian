@@ -1,7 +1,7 @@
 /*
  * libvirt-gobject-output-stream.h: libvirt gobject integration
  *
- * Copyright (C) 2011 Red Hat
+ * Copyright (C) 2011 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -33,21 +33,16 @@
 
 G_BEGIN_DECLS
 
-#define GVIR_TYPE_OUTPUT_STREAM                          (_gvir_output_stream_get_type ())
-#define GVIR_OUTPUT_STREAM(inst)                         (G_TYPE_CHECK_INSTANCE_CAST ((inst), \
-                                                         GVIR_TYPE_OUTPUT_STREAM, GVirOutputStream))
-#define GVIR_OUTPUT_STREAM_CLASS(class)                  (G_TYPE_CHECK_CLASS_CAST ((class), \
-                                                         GVIR_TYPE_OUTPUT_STREAM, GVirOutputStreamClass))
-#define GVIR_IS_OUTPUT_STREAM(inst)                      (G_TYPE_CHECK_INSTANCE_TYPE ((inst), \
-                                                         GVIR_TYPE_OUTPUT_STREAM))
-#define GVIR_IS_OUTPUT_STREAM_CLASS(class)               (G_TYPE_CHECK_CLASS_TYPE ((class), \
-                                                         GVIR_TYPE_OUTPUT_STREAM))
-#define GVIR_OUTPUT_STREAM_GET_CLASS(inst)               (G_TYPE_INSTANCE_GET_CLASS ((inst), \
-                                                         GVIR_TYPE_OUTPUT_STREAM, GVirOutputStreamClass))
+#define GVIR_TYPE_OUTPUT_STREAM            (_gvir_output_stream_get_type ())
+#define GVIR_OUTPUT_STREAM(inst)           (G_TYPE_CHECK_INSTANCE_CAST ((inst), GVIR_TYPE_OUTPUT_STREAM, GVirOutputStream))
+#define GVIR_OUTPUT_STREAM_CLASS(class)    (G_TYPE_CHECK_CLASS_CAST ((class), GVIR_TYPE_OUTPUT_STREAM, GVirOutputStreamClass))
+#define GVIR_IS_OUTPUT_STREAM(inst)        (G_TYPE_CHECK_INSTANCE_TYPE ((inst), GVIR_TYPE_OUTPUT_STREAM))
+#define GVIR_IS_OUTPUT_STREAM_CLASS(class) (G_TYPE_CHECK_CLASS_TYPE ((class), GVIR_TYPE_OUTPUT_STREAM))
+#define GVIR_OUTPUT_STREAM_GET_CLASS(inst) (G_TYPE_INSTANCE_GET_CLASS ((inst), GVIR_TYPE_OUTPUT_STREAM, GVirOutputStreamClass))
 
-typedef struct _GVirOutputStreamPrivate                   GVirOutputStreamPrivate;
-typedef struct _GVirOutputStreamClass                     GVirOutputStreamClass;
-typedef struct _GVirOutputStream                          GVirOutputStream;
+typedef struct _GVirOutputStreamPrivate GVirOutputStreamPrivate;
+typedef struct _GVirOutputStreamClass GVirOutputStreamClass;
+typedef struct _GVirOutputStream GVirOutputStream;
 
 struct _GVirOutputStreamClass
 {
@@ -60,8 +55,8 @@ struct _GVirOutputStream
     GVirOutputStreamPrivate *priv;
 };
 
-GType                _gvir_output_stream_get_type                 (void) G_GNUC_CONST;
-GVirOutputStream *   _gvir_output_stream_new                      (GVirStream *stream);
+GType _gvir_output_stream_get_type(void) G_GNUC_CONST;
+GVirOutputStream *_gvir_output_stream_new(GVirStream *stream);
 
 G_END_DECLS
 

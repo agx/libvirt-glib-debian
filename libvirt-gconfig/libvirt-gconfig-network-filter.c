@@ -1,8 +1,8 @@
 /*
- * libvirt-gobject-config_network_filter.c: libvirt glib integration
+ * libvirt-gconfig-network-filter.c: libvirt network filter configuration
  *
  * Copyright (C) 2008 Daniel P. Berrange
- * Copyright (C) 2010 Red Hat
+ * Copyright (C) 2010-2011 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23,41 +23,30 @@
 
 #include <config.h>
 
-#include <string.h>
-
 #include "libvirt-gconfig/libvirt-gconfig.h"
 
-extern gboolean debugFlag;
-
-#define DEBUG(fmt, ...) do { if (G_UNLIKELY(debugFlag)) g_debug(fmt, ## __VA_ARGS__); } while (0)
-
 #define GVIR_CONFIG_NETWORK_FILTER_GET_PRIVATE(obj)                         \
-        (G_TYPE_INSTANCE_GET_PRIVATE((obj), GVIR_TYPE_CONFIG_NETWORK_FILTER, GVirConfigNetworkFilterPrivate))
+        (G_TYPE_INSTANCE_GET_PRIVATE((obj), GVIR_CONFIG_TYPE_NETWORK_FILTER, GVirConfigNetworkFilterPrivate))
 
 struct _GVirConfigNetworkFilterPrivate
 {
     gboolean unused;
 };
 
-G_DEFINE_TYPE(GVirConfigNetworkFilter, gvir_config_network_filter, GVIR_TYPE_CONFIG_OBJECT);
+G_DEFINE_TYPE(GVirConfigNetworkFilter, gvir_config_network_filter, GVIR_CONFIG_TYPE_OBJECT);
 
 
 static void gvir_config_network_filter_class_init(GVirConfigNetworkFilterClass *klass)
 {
-
     g_type_class_add_private(klass, sizeof(GVirConfigNetworkFilterPrivate));
 }
 
 
 static void gvir_config_network_filter_init(GVirConfigNetworkFilter *conn)
 {
-    GVirConfigNetworkFilterPrivate *priv;
+    g_debug("Init GVirConfigNetworkFilter=%p", conn);
 
-    DEBUG("Init GVirConfigNetworkFilter=%p", conn);
-
-    priv = conn->priv = GVIR_CONFIG_NETWORK_FILTER_GET_PRIVATE(conn);
-
-    memset(priv, 0, sizeof(*priv));
+    conn->priv = GVIR_CONFIG_NETWORK_FILTER_GET_PRIVATE(conn);
 }
 
 
@@ -65,7 +54,7 @@ GVirConfigNetworkFilter *gvir_config_network_filter_new(void)
 {
     GVirConfigObject *object;
 
-    object = gvir_config_object_new(GVIR_TYPE_CONFIG_NETWORK_FILTER,
+    object = gvir_config_object_new(GVIR_CONFIG_TYPE_NETWORK_FILTER,
                                     "filter",
                                     DATADIR "/libvirt/schemas/nwfilter.rng");
     return GVIR_CONFIG_NETWORK_FILTER(object);
@@ -76,7 +65,7 @@ GVirConfigNetworkFilter *gvir_config_network_filter_new_from_xml(const gchar *xm
 {
     GVirConfigObject *object;
 
-    object = gvir_config_object_new_from_xml(GVIR_TYPE_CONFIG_NETWORK_FILTER,
+    object = gvir_config_object_new_from_xml(GVIR_CONFIG_TYPE_NETWORK_FILTER,
                                              "filter",
                                              DATADIR "/libvirt/schemas/nwfilter.rng",
                                              xml, error);

@@ -1,3 +1,834 @@
+2012-01-12  Daniel P. Berrange  <berrange@redhat.com>
+
+	Update NEWS & syms files for 0.0.4 release
+
+	Support setting target attributes for console & channel devices
+
+2012-01-12  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Add API to check if domain is persistent
+	Add a predicate and property to check if domain is persistent or not.
+
+2012-01-11  Daniel P. Berrange  <berrange@redhat.com>
+
+	Add support for shutdown event to avoid console warnings
+
+	Add support for configuring serial, parallel & channel devices
+	The basic config of serial, parallel & channel devices is just
+	the same as console devices. Add basic stubs for these new
+	devices
+
+2012-01-09  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Use g_simple_async_result_is_valid in _finish functions
+	The _finish functions for async operations can be simplified by
+	using g_simple_async_result_is_valid instead of doing the checks
+	it does by ourselves.
+
+2012-01-08  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Follow glib conventions for SimpleAsyncResult source tag
+	g_simple_async_result_is_valid() API documentation says that the
+	source tag field for SimpleAsyncResult objects "by convention, is a
+	pointer to the _async function corresponding to the _finish function from
+	which this function is called"
+	The stream functions were already following this convention, but
+	other places were using the sync function name as the source tag.
+	This commit uses the async function name everywhere.
+
+2012-01-06  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	API to save and suspend
+	Its just a set of synchronous and asynchronous wrappers around
+	virDomainManagedSave.
+
+	API to suspend a domain
+
+	Correct namespace prefix for GVirConfig symbols
+	Breaks API and ABI on the fundamental level but lets fix this now while
+	we don't guarantee any API/ABI stability.
+
+2012-01-06  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Don't mix g_new0 and g_slice_free
+	There were 2 places where memory was allocated with g_new0 and was
+	later freed with g_slice_free. This commit uses g_slice_new0 instead.
+	After this, there are no other occurrences of g_new0 in gobject/ so
+	the rest of the codebase should be safe from this issue.
+
+	Add GVirConfigDomainDisk getters
+
+	Add more parsing helpers to GVirConfigObject
+	Add gvir_config_object_get_node_content_genum,
+	gvir_config_object_get_attribute
+	and gvir_config_object_get_attribute_genum to complement the existing
+	methods. They all act on a child node of the current node. The
+	_get_attribute functions can also act on the root node of the
+	GVirConfigObject instance if it's passed NULL instead of a child name.
+
+	Implement gvir_config_domain_get_devices
+	There are some devices which we are not able to parse yet, in these
+	cases a runtime debug warning is printed in debug mode to tell what's
+	going on.
+
+	Add gvir_config_object_foreach_child helper
+	When iterating over xmlNodePtr children to parse an XML document
+	describing a libvirt configuration item, we want to ignore blank
+	nodes that may have been added to make the initial XML document
+	"more human readable". Since this will be useful in several places,
+	move this code to a helper function.
+
+	Add gvir_config_object_new_from_tree
+	This helper function will be useful to create instances of
+	GVirConfigXXX objects when we already have a "top-level" instance
+	(eg to create a GVirConfigDomainDisk using the tree stored in a
+	GVirConfigDomain instance).
+
+	Add helpers to parse xml trees
+	This will be helpful to implement GVirConfig getters.
+
+	Introduce libvirt-gconfig-private.h
+	This header groups all libvirt-gconfig private headers.
+
+	Add {replace,add}_with_attribute
+	These functions may seem very specialized, and the same can easily
+	be achieved with 2 separate API calls, but since this is something
+	that is commonly done, these helpers save quite a few lines of code.
+
+	Remove FIXME from gvir_config_domain_filesys_set_driver_type
+	All that was missing to fix it was gvir_config_object_remove_attribute
+	which now exists.
+
+	Overwrite attributes in GVirObject::set_attribute
+	Zeeshan reported an issue where calling
+	gvir_config_domain_disk_set_target_dev several times would result in
+	duplicated 'dev' attributes in the resulting XML instead of overwriting
+	the existing 'dev' attribute. Since there are no cases interesting to
+	libvirt-gconfig where having several attributes with the same name is
+	useful, when calling gvir_config_object_set_attribute*, we can just
+	remove attributes with the same names as the one we are setting.
+
+	Add gvir_gconfig_object_remove_attribute helper
+
+2012-01-04  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Add docs for gvir_config_domain_set/get_memory
+	Its not obvious what units these functions deal with so docs are
+	critical for these functions.
+
+	Correct gvir_storage_pool_get_volumes' return annotation
+
+2012-01-04  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Call gvir_init_config() in GVirConfig test programs
+	While not strictly necessary, this sets up glib logging properly on
+	older glib so that debug logs are not shown by default.
+
+2012-01-03  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Add gvir_config_domain_graphics_vnc_set_password
+	Based on the similar patch for SPICE
+
+2012-01-02  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	API to set SPICE password
+
+2011-12-23  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Fix gvir_config_domain_sound_set_model
+	It's creating an unwanted extra <sound> XML node:
+	<sound>
+	  <sound model="xxx">
+	</sound>
+	instead of the correct
+	<sound model="xxx">
+
+2011-12-22  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Bump version
+
+2011-12-22  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Add GVirConfigDomainSound
+
+	Add python example for LibvirtGConfig
+
+2011-12-19  Daniel P. Berrange  <berrange@redhat.com>
+
+	Ignore generated .vapi files
+
+	Update min libvirt to 0.9.7
+
+	Update NEWS for 0.0.3 release
+
+	Fix build by exporting missing gvir_config_xml_doc APIs
+
+	Update version in all .sym files
+	Since there are ABI changes, update the version in all .sym
+	files to force a rebuild of apps
+
+	Add binding for virDomainOpenGraphics
+
+	Add binding for virDomainOpenConsole
+
+	Add support for configuring network bridges
+
+2011-12-15  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Add annotations for gvir_stream_add_watch{_full}
+	This should silence this compile warning:
+	  GEN    LibvirtGObject-1.0.gir
+	libvirt-gobject-stream.c:603: Warning: LibvirtGObject:
+	gvir_stream_add_watch: a rgument func: Missing (scope) annotation for
+	callback without GDestroyNotify (v alid: call, async)
+
+	This also adds API documentation for these functions.
+
+	Add gvir_config_storage_pool_set_pool_type
+
+2011-12-13  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Add GVirConfigStorage* to creation test
+
+	Add methods to link GVirStorage* classes together
+	GVirConfigStorageVolBackingStore and GVirConfigStorageVolTarget can be
+	associated with a GVirConfigStorageVol.
+
+	GVirConfigStoragePoolSource and GVirConfigStoragePoolTarget can be
+	associated with a GVirConfigStoragePool.
+
+	GVirConfigStoragePermissions can be set on either a
+	GVirConfigStorageVolTarget or a GVirConfigStoragePoolTarget.
+
+	Add GVirConfigStoragePermissions setters
+
+	Add gvir_config_storage_pool_target_set_path
+
+	Add GVirConfigStoragePoolSource setters
+
+	Add GVirConfigStorageVolBackingStore setters
+
+	Add gvir_config_storage_vol_target_set_format
+
+	Add GObject boilerplate for GVirConfigStorage*
+	We'll need several helper classes to implement configuration of
+	storage pools and volumes. This commit introduces all of these
+	in one go. It's just the GObject boilerplate, the actual code will
+	come in other commits. GVirConfigStoragePermissions is namespaced this
+	way because it will be used by both GVirConfigStoragePoolTarget and
+	GVirConfigStorageVolTarget.
+
+	Add GVirConfigStoragePool setters
+
+	Add some GVirConfigStorageVol setters
+
+	Add missing items in GVirConfigDomainVirtType
+	Put all the items available in virDomainVirt
+
+	Fix gvir_config_domain_disk_set_target_bus API
+	The bus type is actually an enum, let's reflect that in
+	libvirt-gconfig API
+
+	Add GVirConfigDomainInterface setters
+	These attributes are valid for all types deriving from
+	GVirConfigDomainInterface so we add it to the base class.
+
+	Add GVirConfigDomainInterfaceUser boilerplate
+
+2011-12-07  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Add "priority" argument to gvir_stream_add_watch_full
+	This is more consistent with what all the other glib _full APIs
+	are doing.
+
+2011-12-07  Daniel P. Berrange  <berrange@redhat.com>
+
+	Only enable vala for Fedora 16 and later
+
+2011-12-06  Daniel P. Berrange  <berrange@redhat.com>
+
+	Allow cancelling gvir_stream_send_all & gvir_stream_receive_all
+	Add GCancellable parameters to gvir_stream_send_all and
+	gvir_stream_receive_all to allow I/O to be interrupted
+	before completion
+
+	Add flags for controling how domains are started
+
+	Fix copyright header on chardev related classes
+
+	Add vala files to RPM spec
+
+2011-12-06  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Add test for GVirConfigConsole
+
+	Add GVirConfigDomainChardevSourcePty
+
+	Implement gvir_config_domain_chardev_add_source
+	This is used to associate a ChardevSource (pty, file, ...) with a
+	Chardev (console, serial, ...).
+
+	Introduce GVirConfigDomainChardevSource
+
+	Add objects for dealing with <console> devices
+	Add an abstract GVirConfigDomainChardev object for <console>,
+	<serial>, ... devices and a GVirConfigDomainConsole implementation.
+	This needs to be completed with a separate GVirConfigDomainChardevSource
+	inheritance tree which will be specialized to
+	GVirConfigDomainChardevSourcePty, ... and GVirConfigDomainChardev will
+	offer a helper function to attach a GVirConfigDomainChardevSource to
+	a GVirConfigDomainChardev
+
+	Use gvir_error_set_literal in more places
+	GVirConnection has some gvir_set_error uses that can be replaced
+	by gvir_set_error_set_literal. When passing a single string, this is
+	safer since we are guaranteed that unwanted printf-format sequences
+	in the string won't cause issues.
+
+2011-12-05  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Add gvir_config_domain_set_lifecycle
+	This is used to control what happens (restart, stop, ...) to the VM
+	when it crashes, shuts down, ...
+
+2011-12-05  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Add wrapper for volume deletion API
+
+2011-12-05  Daniel P. Berrange  <berrange@redhat.com>
+
+	Introduce gvir_set_error (and friends) & convert all code
+	The pattern
+
+	    GError **error;
+	    ....
+	    *err = gvir_error_new(...)
+
+	is dangerous because 'err' could be NULL, and it is tedious
+	to expect everyone to check. Introduce a new set of APIs
+	for setting errors
+
+	    gvir_set_error(err, ...)
+
+	and convert all callers to this new pattern
+
+2011-12-01  Daniel P. Berrange  <berrange@redhat.com>
+
+	Update copyright dates s/2010/2010-2011/
+
+	Add files for 'make syntax-check' rules from GNULIB
+	The 'syntax-check' rule validates various coding style requirements.
+	It is run as part of the regular automated builds
+
+	* GNUmakefile, maint.mk: syntax-check rules (from GNULIB)
+	* cfg.mk: Local extra rules & exclusions
+	* build-aux/useless-if-before-free,
+	  build-aux/vc-list-files: Helpers for syntax check (from
+	  GNULIB)
+	* autobuild.sh: Run syntax-check as part of build
+	* configure.ac: Ensure GNUmakefile exists in VPATH builds
+
+	Add <config.h> to test case files
+
+	Remove trailing whitespace from autogen.sh
+
+	Use test -d FOO && test -d BAR instead of test -d FOO -a -d BAR
+	For greater portability do not rely on the test binary having
+	a -a option
+
+	Remove trailing blank lines from all files
+
+	Remove use of '@' in makefiles
+	* Makefile.am, python/Makefile.am: Remove use of @FOO@ in favour
+	  of $(FOO)
+
+	Fix copyright header  s/Red Hat/Red Hat, Inc./
+
+	Remove useless if before xmlFreeDoc
+
+	Remove indentation with TABs from autogen.sh & conn-test.py
+
+	Ensure that the generated XML is indented in a pretty format
+
+	Add more files to ignore list
+
+	Add the domain OS type for containers
+
+	Add support for <memballoon> configuration
+
+	Fix missing backslash in noinst_HEADERS for libvirt-gconfig
+
+2011-12-01  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Correct size of GVirStoragePoolInfo.available
+
+	Wrap storage volume info API
+
+	Wrap storage pool info API
+
+2011-12-01  Daniel P. Berrange  <berrange@redhat.com>
+
+	Fix file headers / description in gconfig classes
+
+	Remove redundant #includes from all gconfig files
+	The #include <string.h> and #include <libxml/tree.h> is not
+	required in the vast majority of files
+
+	Add support for setting security labels
+	Add support for the <seclabel> element via a new object
+	GVirConfigDomainSeclabel.
+
+	* libvirt-gconfig-domain-seclabel.c, libvirt-gconfig-domain-seclabel.h,
+	  Makefile.am, libvirt-gconfig.h, libvirt-gconfig.sym: New objects
+	* libvirt-gconfig-domain.c, libvirt-gconfig-domain.h: API to
+	  associate seclabel with an domain
+
+	Add objects for dealing with SDL and VNC graphics config
+	Add GVirConfigDomainGraphicsSdl and GVirConfigDomainGraphicsVnc
+	Also change SPICE to use a signed int for port number and add
+	ability to set autoport & tls port attributes
+
+	* libvirt-gconfig/Makefile.am,
+	  libvirt-gconfig/libvirt-gconfig-domain-graphics-sdl.c,
+	  libvirt-gconfig/libvirt-gconfig-domain-graphics-sdl.h,
+	  libvirt-gconfig/libvirt-gconfig-domain-graphics-vnc.c,
+	  libvirt-gconfig/libvirt-gconfig-domain-graphics-vnc.h,
+	  libvirt-gconfig/libvirt-gconfig.h,
+	  libvirt-gconfig/libvirt-gconfig.sym: Add new objects
+	* libvirt-gconfig/libvirt-gconfig-domain-graphics-spice.c,
+	  libvirt-gconfig/libvirt-gconfig-domain-graphics-spice.h:
+	  Add autoport & tls port setter, change port setter to use
+	  a signed int
+
+	Add API for appending a new device to the domain
+	The gvir_config_domain_set_devices API replaces the entire
+	list of devices, but when building up a config incrementally
+	it is useful to append device one at a time. Thus we need
+	a gvir_config_domain_add_device method
+
+	* libvirt-gconfig/libvirt-gconfig-domain.c,
+	  libvirt-gconfig/libvirt-gconfig-domain.h,
+	  libvirt-gconfig/libvirt-gconfig.syms: gvir_config_domain_add_device
+
+	Add API for setting virt type
+	Add gvir_config_domain_set_virt_type and
+	gvir_config_domain_virt_type_get_type
+
+	* libvirt-gconfig-domain.c, libvirt-gconfig-domain.h,
+	  libvirt-gconfig.h, libvirt-gconfig.sym: Add new APIs
+
+	Ensure internal copy of URI is not NULL
+	It is permissible to pass in NULL for a URI to libvirt, which
+	causes it to probe for a supported driver. In such a case we
+	should populate priv->uri with the resulting probed URI after
+	opening the connection
+
+	* libvirt-gobject/libvirt-gobject-connection.c: Populate URI
+	  after opening connection, if NULL
+
+	Add support for setting <filesystem> elements
+	Create a new GVirConfigDomainFilesys object for dealing with
+	the <filesystem> element.
+
+	* libvirt-gconfig-domain-filesys.c, libvirt-gconfig-domain-filesys.h,
+	  Makefile.am, libvirt-gconfig.sym, libvirt-gconfig.h: New
+	  GVirConfigDomainFilesys object
+	* libvirt-gconfig-object.c, libvirt-gconfig-object-private.h: Add
+	  gvir_config_object_delete_node for removing an XML node
+
+	Add setters for kernel/ramdisk/cmdline/init in GVirConfigDomainOS
+	Enable setting of the <kernel>, <ramdisk>, <cmdline> and <init>
+	elements inside <os>...</os>.
+
+	* libvirt-gconfig/libvirt-gconfig-domain-os.c,
+	  libvirt-gconfig/libvirt-gconfig-domain-os.h,
+	  libvirt-gconfig/libvirt-gconfig.sym: Add new setters
+
+2011-11-30  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Fix potential race in GVirObjectConnection::domain_event_cb
+	This method starts by looking up a domain in priv->domains, and later,
+	depending on the kind of event that occurred, it may remove this
+	domain from priv->domains. While the individual operations (lookup,
+	removal) are protected by priv->lock, there is no guarantee that the
+	looked up domain and even priv->domains will stay unchanged when
+	priv->lock isn't held.
+
+	In particular, gvir_connection_close will destroy priv->domains which
+	will unreference all the domains it contains (potentially destroying
+	them too), and gvir_connection_fetch_domains will change priv->domains
+	value.
+
+	To avoid these issues, this commit takes a reference on priv->domains
+	so that it doesn't get away behind our back, and it takes a reference
+	on the looked up domain too to ensure it stays alive for the duration
+	of domain_event_cb run.
+
+	Fix memory leaks in test-domain-create
+	Before the introduction of GVirConfigXmlDoc, we couldn't
+	destroy the objects deriving from GVirConfigObject without
+	memory corruption. Now that we have GVirConfigXmlDoc, we can
+	make sure the memory we allocate for our various
+	GVirConfigObject instances are properly cleaned up.
+
+	Return a GVirConfigObject from gvir_config_object_replace_child
+	This makes it possible to use the other GVirConfigObject helpers
+	with the new child, and hides libxml from one more place in our API.
+
+	Return a GVirConfigObject from gvir_config_object_add_child
+	This makes it possible to use the other GVirConfigObject helpers
+	with the new child, and hides libxml from one more place in our API.
+
+	Simplify GVirConfigDomainGraphicsSpice creation
+	Now that we have gvir_config_object_set_attribute, we can use
+	the gvir_config_object_new{_from_xml} helpers.
+
+	Simplify GVirConfigDomainInterfaceNetwork creation
+	Now that we have gvir_config_object_set_attribute, we can use
+	the gvir_config_object_new{_from_xml} helpers.
+
+	Use gvir_config_object_set_attribute where appropriate
+
+	Add gvir_config_object_set_attribute{_with_type}
+
+	Use gvir_config_object_attach where appropriate
+	This allows us to properly refcount the underlying xmlDocPtr (and
+	the associated xmlNodes) to avoid trying to free twice the same
+	xmlNodes when disposing of GVirConfigObject referencing the same
+	nodes.
+
+	Add gvir_config_object_attach
+	It's needed to be able to keep track of references on the underlying
+	GVirConfigXmlDoc when building a bigger xml tree from smaller
+	separate xml nodes.
+
+	GVirConfigObject is no longer an abstract type
+	Since we want to use GVirConfigObject as a simple wrapper over
+	xmlNodePtr, we need to be able to create instances of this type for
+	"arbitrary" xml nodes.
+
+	Set GVirConfigObject::doc during object creation
+	Now that we have a refcounted GVirConfigXmlDoc type, make sure we use
+	it when creating objects deriving from GVirConfigObject.
+
+	Add GVirConfigObject::doc property
+	It will be used to refcount the xml data and make sure we only
+	free it when all references have went away.
+
+	Add GVirConfigXmlDoc type
+	This class derives from GObject and wraps an xmlDocPtr. It will be
+	useful to refcount xmlDoc so that it can be shared between multiple
+	GVirConfigObject instances.
+
+	Fix gvir_config_domain_clock_set_variable_offset
+	It was creating an extra <clock> node as a child of the "main" one
+	which is not what was intended
+
+2011-11-30  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Remove transient domain reference on shutdown
+
+	Rely on libvirt API to detect transient domains
+
+2011-11-29  Christophe Fergeau  <cfergeau@redhat.com>
+
+	gir: use libraries from build tree, not installed ones
+	If we don't explicitly mention path to our uninstalled libraries
+	to g-ir-scanner, it will use installed libvirt-* libraries instead
+	of the ones we just built to run a binary during the generation of
+	the gir file. However this binary will have been compiled with the
+	uninstalled ones,
+	This is an issue if the installed libraries are not ABI compatible
+	with the uninstalled one, and will cause a compile failure because
+	the binary will fail to run.
+	This fix has been suggested by Colin Walters (gobject-introspection
+	maintainer).
+
+	gir: Use --pkg=libxml-2.0 instead of LIBXML2_CFLAGS
+	g-ir-scanner has a standard way of getting the flags for libraries
+	providing .pc files, this commit uses this --pkg flag for libxml
+	instead of using LIBXML2_CFLAGS we computed ourselves.
+
+	Fix make distcheck
+	Do not ship autogenerated glib enum definitions in the tarball,
+	otherwise they won't get regenerated in the build directory when
+	using a tarball, and rules trying to find these files in the build
+	directory will fail (eg the gir generation rule)
+
+	Cleanup GIR generation rules
+	Remove some redundant arguments (--pkg seems unneeded when
+	--include is used), most include paths are unneeded, ...
+
+	Fix GIR generation
+	Overriding PKG_CONFIG_PATH when generating LibvirtGObject-1.0.gir
+	is wrong since this means that if glib/gio/... are installed in
+	a prefix that is not one of the default pkg-config paths, then
+	they won't be found. PKG_CONFIG_PATH is overridden so that
+	g-ir-scanner can find LibvirtGLib-1.0 and LibvirtGConfig-1.0 in
+	the build tree. Since g-ir-scanner provides --include-uninstalled
+	for that purpose, use that instead.
+
+	Link libvirt-gobject with gthread
+	It uses GMutex so it needs to be linked with gthread
+
+	Add various missing packages to libvirt-gobject-1.0.pc
+
+2011-11-29  Daniel P. Berrange  <berrange@redhat.com>
+
+	Ensure debug defaults to off for all glib versions
+	The previous patch changed all code to directly call g_debug().
+	This relies on the fact that glib >= 2.31 defaults to not
+	printing debug messages. The result is that for older glib we
+	now pollute the stderr with debug messages.
+
+	This introduces 3 env vars for controlling libvirt debug,
+	though on glib >= 2.31 the standard G_LOG_MESSAGES env can
+	be used instead.
+
+	* libvirt-glib/libvirt-glib-main.c: Check for LIBVIRT_GLIB_DEBUG
+	  env var
+	* libvirt-gobject/libvirt-gobject-main.c: Check for
+	  LIBVIRT_GOBJECT_DEBUG env var
+	* libvirt-gconfig/libvirt-gconfig-main.c: Check for
+	  LIBVIRT_GCONFIG_DEBUG env var
+	* libvirt-gconfig/libvirt-gconfig-main.h, libvirt-gconfig/libvirt-gconfig.h,
+	  libvirt-gconfig/libvirt-gconfig.sym: Add new files
+	* libvirt-gconfig/Makefile.am, libvirt-glib/Makefile.am,
+	  libvirt-gobject/Makefile.am: Set a default G_LOG_DOMAIN to
+	  allow filtering the library messages
+
+2011-11-29  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Remove now redundant debug system
+	GLib >= 2.31 filters debug messages by default now[1] and provides ways
+	to output debug log from selected domains only. This patch won't be any
+	good without defining proper fine-grained log domains though.
+
+	http://blogs.gnome.org/mclasen/2011/11/09/better-logging/
+
+	Ensure 'domain-added' signal on transient domain creation
+
+2011-11-29  Daniel P. Berrange  <berrange@redhat.com>
+
+	Convert GVirInputStream/GVirOutputStream over to use watches
+	Since virStreamEventAddCallback only allows a single callback
+	to be registered,  GVirInputStream/GVirOutputStream should not
+	use that directly. Instead they should use the gvir_stream_add_watch
+	function
+
+	* libvirt-gobject/libvirt-gobject-input-stream.c,
+	  libvirt-gobject/libvirt-gobject-output-stream.c: Convert to
+	  use gvir_stream_add_watch
+
+	Cleanup streams coding style violations
+
+	Add missing exports of GVirStream APIs
+	* libvirt-gobject/libvirt-gobject.sym: Export gvir_stream_receive,
+	  gvir_stream_send, gvir_stream_send_all
+
+	Add support for creating watches on streams
+	The GIO GInputStream/GOutputStream async model for I/O does not
+	work for working with non-blocking bi-directional streams. To
+	allow that to be done more effectively, add an API to allow
+	main loop watches to be registered against streams.
+
+	Since the libvirt level virStreamEventAddCallback API only allows
+	a single callback to be registered to a stream at any time, the
+	GVirStream object needs to be multiplexing of multiple watches into
+	a single libvirt level callback.
+
+	Watches can be removed in the normal way with g_source_remove
+
+	* libvirt-gobject/libvirt-gobject-stream.c,
+	  libvirt-gobject/libvirt-gobject-stream.h,
+	  libvirt-gobject/libvirt-gobject.sym: Add gvir_stream_add_watch
+
+	Document some of the coding style conventions required
+	* HACKING: Add notes on coding style conventions
+
+2011-11-24  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Bump version
+
+2011-11-24  Daniel P. Berrange  <berrange@redhat.com>
+
+	Fix VPATH build wrt enum types
+	* libvirt-gconfig/Makefile.am: Built files should live in builddir
+	* libvirt-gconfig/libvirt-gconfig.sym: Export enum types
+
+2011-11-23  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Don't memset GObject private data to 0
+	The GObject private data allocated with g_type_class_add_private
+	will be automatically zero'ed when the GObject is created so we
+	don't need to memset it to 0.
+
+	Add GVirConfigDomainVideo
+	--
+	v2: use g_return_if_fail to test function args for sanity
+	v3: rename to GVirConfigDomainVideo
+
+	Add basic GVirConfigDomainGraphicsSpice
+	Only the (non-TLS) port can be set on it
+
+	--
+	v2: rename to GVirConfigDeviceGraphicsSpice
+	    fix node creation (missing "type" attribute)
+	    derive GVirConfigDeviceGraphicsSpice from GVirConfigDeviceGraphics
+	    use g_return_if_fail to test function args for sanity
+	v3: rename to GVirConfigDomainGraphicsSpice
+
+	Add GObject boilerplate for GVirConfigDomainGraphics
+	This is an abstract type which will be used as a base class for the
+	various type of <graphics> devices (spice, vnc, ...)
+
+	--
+	v3: rename to GVirConfigDomainGraphics
+
+	Add GVirConfigDomainInput
+	--
+	v2: use enum for input bus type
+	    use g_return_if_fail to test function args for sanity
+	v3: rename to GVirConfigDomainInput
+
+	Add <network> to creation test
+
+	Add gvir_config_domain_interface_network_set_source
+
+	Add GVirConfigDomainInterfaceNetwork
+	--
+	v2: use g_return_if_fail to test function args for sanity
+	v3: rename to GVirConfigDomainInterfaceNetwork
+
+	Add GObject boilerplate for GVirConfigDomainInterface
+	This base class is mainly useful as a generic type when we manipulate
+	list of interfaces regardless of their actual type.
+
+	--
+	v3: rename to GVirConfigDomainInterface since GVirConfigInterface
+	    has a different purpose
+
+	Add test for adding a disk device
+
+	More GVirConfigDomainDisk setters
+	--
+	v2: fix gvir_config_device_disk_set_source
+	    use g_return_if_fail to test function args for sanity
+
+	Add gvir_config_object_add_child
+	It's similar to gvir_config_object_replace_child except that if the
+	current node already has a child with the correct name, it returns
+	the existing child instead of replacing it.
+
+	--
+	v2: instead of adding an argument to gvir_config_object_new_child,
+	split the function in 2 separate ones, gvir_config_object_add_child
+	and gvir_config_object_replace_child.
+	    use g_return_if_fail to test function args for sanity
+
+	Add gvir_config_domain_set_devices
+	--
+	v2: use g_return_if_fail to test function args for sanity
+
+	Add various GVirConfigDomainDisk setters
+	--
+	v2: use g_return_if_fail to test function args for sanity
+
+	Add gobject boilerplate for GVirConfigDomainDisk
+	--
+	v3: rename to GVirConfigDomainDisk
+
+	Add gobject boilerplate for GVirConfigDomainDevice
+	This is an abstract type which will be used as a base class for
+	all objects stored in the <devices> section of a domain.
+
+	--
+	v3: rename to GVirConfigDomainDevice
+
+	Add GVirConfigDomain::vcpu
+
+	Add test for GVirConfigDomainOs
+
+	Implement gvir_config_domain_set_os
+	--
+	v2: use g_return_if_fail to test function args for sanity
+
+	Add some GVirConfigDomainOs setters
+	--
+	v2: merged several related commits
+	    use safer g_strcmp0 for string comparison
+	    use g_return_if_fail to test function args for sanity
+
+	Add gobject boilerplate for GVirConfigDomainOs
+	--
+	v3: rename from GVirConfigOs to GVirConfigDomainOs
+
+	Create clock object in domain creation test
+
+	Add gvir_config_genum_get_nick helper
+	We will often need to convert from an enum to its string
+	representation, add an helper for that to avoid duplicating that
+	code.
+
+	--
+	v2: moved before gvir_config_clock_set_offset implementation since
+	it needs it
+
+	Use glib-mkenums to register enums with glib
+	We don't currently have any enum in our API, but we will need some.
+	This commit adds the generation of libvirt-gconfig-enum-types.[ch]
+	using glib-mkenums. These files will register the various enums
+	that will get added to libvirt-gconfig header files with glib.
+
+	--
+	v2: move libvirt-gconfig-enum-types.h to HEADERS in Makefile.am so that
+	it's installed
+
+	Add gvir_config_domain_set_clock
+	The implementation is likely to need to be completed later. We
+	might want to store pointers from GVirConfigDomain to the associated
+	GVirConfigDomainClock, from GVirConfigDomainClock to the GVirConfigDomain
+	that contains it. Since I'm not sure yet if they will be needed, I chose
+	to keep the implementation simple.
+
+	--
+	v2: use g_return_if_fail to test function args for sanity
+
+	Add some GVirDomainConfigClock setters
+	--
+	v2: use g_return_if_fail to test function args for sanity
+	v3: fix typo in gvir_config_domain_clock_set_variable_offset
+	    ("timezone" -> "adjustment")
+
+2011-11-22  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Add gobject boilerplate for GVirConfigDomain{Clock,Timer}
+	--
+	v3: rename from GVirConfig* to GVirConfigDomain*
+
+	Use new helpers to simplify gvir_config_domain_set_features
+
+	Add gvir_config_object_replace_child helper
+	This allows us to factor the code to add an XML node to a config
+	object.
+
+	--
+	v2: use g_return_if_fail to test function args for sanity
+
+	replace object
+
+	Make some GVirConfigObject helpers private
+	At this point, I'm not sure how/if the library user should be able
+	to directly manipulate the XML data wrapped by a GVirConfigObject.
+	It's preferrable to hide this API from the user until we have a
+	clearer idea how to expose it.
+
+	Remove unused prototype for gvir_config_object_parse
+	There is no corresponding implementation so no need to keep this
+	prototype.
+
+	Remove unneeded blank line in *_class_init
+
 2011-11-22  Daniel P. Berrange  <berrange@redhat.com>
 
 	Update NEWs with more 0.0.2 release notes

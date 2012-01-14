@@ -36,6 +36,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
+@WITH_GOBJECT_INTROSPECTION_TRUE@am__append_1 = $(gir_DATA) $(typelibs_DATA)
 subdir = libvirt-gconfig
 DIST_COMMON = $(libvirt_gconfig_1_0_la_HEADERS) $(noinst_HEADERS) \
 	$(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -71,25 +72,62 @@ am__base_list = \
   sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(girdir)" \
 	"$(DESTDIR)$(typelibsdir)" \
+	"$(DESTDIR)$(libvirt_gconfig_1_0_ladir)" \
 	"$(DESTDIR)$(libvirt_gconfig_1_0_ladir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 am__DEPENDENCIES_1 =
 am__objects_1 =
 am__objects_2 = $(am__objects_1)
 am__objects_3 = libvirt_gconfig_1_0_la-libvirt-gconfig-object.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-main.lo \
 	libvirt_gconfig_1_0_la-libvirt-gconfig-capabilities.lo \
 	libvirt_gconfig_1_0_la-libvirt-gconfig-domain.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-channel.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-chardev.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-chardev-source.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-chardev-source-pty.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-clock.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-console.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-device.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-disk.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-filesys.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics-sdl.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics-spice.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics-vnc.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-input.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface-bridge.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface-network.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface-user.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-memballoon.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-os.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-parallel.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-seclabel.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-serial.lo \
 	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-snapshot.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-sound.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-timer.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-video.lo \
 	libvirt_gconfig_1_0_la-libvirt-gconfig-helpers.lo \
 	libvirt_gconfig_1_0_la-libvirt-gconfig-interface.lo \
 	libvirt_gconfig_1_0_la-libvirt-gconfig-network.lo \
 	libvirt_gconfig_1_0_la-libvirt-gconfig-network-filter.lo \
 	libvirt_gconfig_1_0_la-libvirt-gconfig-node-device.lo \
 	libvirt_gconfig_1_0_la-libvirt-gconfig-secret.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-storage-permissions.lo \
 	libvirt_gconfig_1_0_la-libvirt-gconfig-storage-pool.lo \
-	libvirt_gconfig_1_0_la-libvirt-gconfig-storage-vol.lo
+	libvirt_gconfig_1_0_la-libvirt-gconfig-storage-pool-source.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-storage-pool-target.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-storage-vol.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-storage-vol-backing-store.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-storage-vol-target.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-xml-doc.lo
 am_libvirt_gconfig_1_0_la_OBJECTS = $(am__objects_2) $(am__objects_3)
-libvirt_gconfig_1_0_la_OBJECTS = $(am_libvirt_gconfig_1_0_la_OBJECTS)
+nodist_libvirt_gconfig_1_0_la_OBJECTS =  \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-enum-types.lo
+libvirt_gconfig_1_0_la_OBJECTS = $(am_libvirt_gconfig_1_0_la_OBJECTS) \
+	$(nodist_libvirt_gconfig_1_0_la_OBJECTS)
 AM_V_lt = $(am__v_lt_$(V))
 am__v_lt_ = $(am__v_lt_$(AM_DEFAULT_VERBOSITY))
 am__v_lt_0 = --silent
@@ -123,7 +161,8 @@ am__v_CCLD_0 = @echo "  CCLD  " $@;
 AM_V_GEN = $(am__v_GEN_$(V))
 am__v_GEN_ = $(am__v_GEN_$(AM_DEFAULT_VERBOSITY))
 am__v_GEN_0 = @echo "  GEN   " $@;
-SOURCES = $(libvirt_gconfig_1_0_la_SOURCES)
+SOURCES = $(libvirt_gconfig_1_0_la_SOURCES) \
+	$(nodist_libvirt_gconfig_1_0_la_SOURCES)
 DIST_SOURCES = $(libvirt_gconfig_1_0_la_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
 	html-recursive info-recursive install-data-recursive \
@@ -133,7 +172,8 @@ RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
 	installcheck-recursive installdirs-recursive pdf-recursive \
 	ps-recursive uninstall-recursive
 DATA = $(gir_DATA) $(typelibs_DATA)
-HEADERS = $(libvirt_gconfig_1_0_la_HEADERS) $(noinst_HEADERS)
+HEADERS = $(libvirt_gconfig_1_0_la_HEADERS) \
+	$(nodist_libvirt_gconfig_1_0_la_HEADERS) $(noinst_HEADERS)
 RECURSIVE_CLEAN_TARGETS = mostlyclean-recursive clean-recursive	\
   distclean-recursive maintainer-clean-recursive
 AM_RECURSIVE_TARGETS = $(RECURSIVE_TARGETS:-recursive=) \
@@ -204,6 +244,7 @@ GIO2_CFLAGS = @GIO2_CFLAGS@
 GIO2_LIBS = @GIO2_LIBS@
 GLIB2_CFLAGS = @GLIB2_CFLAGS@
 GLIB2_LIBS = @GLIB2_LIBS@
+GLIB_MKENUMS = @GLIB_MKENUMS@
 GOBJECT2_CFLAGS = @GOBJECT2_CFLAGS@
 GOBJECT2_LIBS = @GOBJECT2_LIBS@
 GOBJECT_INTROSPECTION_CFLAGS = @GOBJECT_INTROSPECTION_CFLAGS@
@@ -212,6 +253,8 @@ GREP = @GREP@
 GTHREAD2_CFLAGS = @GTHREAD2_CFLAGS@
 GTHREAD2_LIBS = @GTHREAD2_LIBS@
 GTKDOC_CHECK = @GTKDOC_CHECK@
+GTKDOC_DEPS_CFLAGS = @GTKDOC_DEPS_CFLAGS@
+GTKDOC_DEPS_LIBS = @GTKDOC_DEPS_LIBS@
 GTKDOC_MKPDF = @GTKDOC_MKPDF@
 GTKDOC_REBASE = @GTKDOC_REBASE@
 G_IR_COMPILER = @G_IR_COMPILER@
@@ -327,49 +370,129 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 SUBDIRS = . tests
-EXTRA_DIST = libvirt-gconfig.sym
+EXTRA_DIST = \
+		libvirt-gconfig.sym \
+		libvirt-gconfig-enum-types.h.template \
+		libvirt-gconfig-enum-types.c.template
+
 lib_LTLIBRARIES = libvirt-gconfig-1.0.la
 GCONFIG_HEADER_FILES = \
 			libvirt-gconfig.h \
+			libvirt-gconfig-main.h \
 			libvirt-gconfig-object.h \
 			libvirt-gconfig-capabilities.h \
 			libvirt-gconfig-domain.h \
+			libvirt-gconfig-domain-channel.h \
+			libvirt-gconfig-domain-chardev.h \
+			libvirt-gconfig-domain-chardev-source.h \
+			libvirt-gconfig-domain-chardev-source-pty.h \
+			libvirt-gconfig-domain-clock.h \
+			libvirt-gconfig-domain-console.h \
+			libvirt-gconfig-domain-device.h \
+			libvirt-gconfig-domain-disk.h \
+			libvirt-gconfig-domain-filesys.h \
+			libvirt-gconfig-domain-graphics.h \
+			libvirt-gconfig-domain-graphics-sdl.h \
+			libvirt-gconfig-domain-graphics-spice.h \
+			libvirt-gconfig-domain-graphics-vnc.h \
+			libvirt-gconfig-domain-input.h \
+			libvirt-gconfig-domain-interface.h \
+			libvirt-gconfig-domain-interface-bridge.h \
+			libvirt-gconfig-domain-interface-network.h \
+			libvirt-gconfig-domain-interface-user.h \
+			libvirt-gconfig-domain-memballoon.h \
+			libvirt-gconfig-domain-os.h \
+			libvirt-gconfig-domain-parallel.h \
+			libvirt-gconfig-domain-seclabel.h \
+			libvirt-gconfig-domain-serial.h \
 			libvirt-gconfig-domain-snapshot.h \
+			libvirt-gconfig-domain-sound.h \
+			libvirt-gconfig-domain-timer.h \
+			libvirt-gconfig-domain-video.h \
 			libvirt-gconfig-helpers.h \
 			libvirt-gconfig-interface.h \
 			libvirt-gconfig-network.h \
 			libvirt-gconfig-network-filter.h \
 			libvirt-gconfig-node-device.h \
 			libvirt-gconfig-secret.h \
+			libvirt-gconfig-storage-permissions.h \
 			libvirt-gconfig-storage-pool.h \
-			libvirt-gconfig-storage-vol.h
+			libvirt-gconfig-storage-pool-source.h \
+			libvirt-gconfig-storage-pool-target.h \
+			libvirt-gconfig-storage-vol.h \
+			libvirt-gconfig-storage-vol-backing-store.h \
+			libvirt-gconfig-storage-vol-target.h
 
 noinst_HEADERS = \
-			libvirt-gconfig-helpers-private.h
+			libvirt-gconfig-private.h \
+			libvirt-gconfig-domain-device-private.h \
+			libvirt-gconfig-helpers-private.h \
+			libvirt-gconfig-object-private.h \
+			libvirt-gconfig-xml-doc.h
 
 GCONFIG_SOURCE_FILES = \
 			libvirt-gconfig-object.c \
+			libvirt-gconfig-main.c \
 			libvirt-gconfig-capabilities.c \
 			libvirt-gconfig-domain.c \
+			libvirt-gconfig-domain-channel.c \
+			libvirt-gconfig-domain-chardev.c \
+			libvirt-gconfig-domain-chardev-source.c \
+			libvirt-gconfig-domain-chardev-source-pty.c \
+			libvirt-gconfig-domain-clock.c \
+			libvirt-gconfig-domain-console.c \
+			libvirt-gconfig-domain-device.c \
+			libvirt-gconfig-domain-disk.c \
+			libvirt-gconfig-domain-filesys.c \
+			libvirt-gconfig-domain-graphics.c \
+			libvirt-gconfig-domain-graphics-sdl.c \
+			libvirt-gconfig-domain-graphics-spice.c \
+			libvirt-gconfig-domain-graphics-vnc.c \
+			libvirt-gconfig-domain-input.c \
+			libvirt-gconfig-domain-interface.c \
+			libvirt-gconfig-domain-interface-bridge.c \
+			libvirt-gconfig-domain-interface-network.c \
+			libvirt-gconfig-domain-interface-user.c \
+			libvirt-gconfig-domain-memballoon.c \
+			libvirt-gconfig-domain-os.c \
+			libvirt-gconfig-domain-parallel.c \
+			libvirt-gconfig-domain-seclabel.c \
+			libvirt-gconfig-domain-serial.c \
 			libvirt-gconfig-domain-snapshot.c \
+			libvirt-gconfig-domain-sound.c \
+			libvirt-gconfig-domain-timer.c \
+			libvirt-gconfig-domain-video.c \
 			libvirt-gconfig-helpers.c \
 			libvirt-gconfig-interface.c \
 			libvirt-gconfig-network.c \
 			libvirt-gconfig-network-filter.c \
 			libvirt-gconfig-node-device.c \
 			libvirt-gconfig-secret.c \
+			libvirt-gconfig-storage-permissions.c \
 			libvirt-gconfig-storage-pool.c \
-			libvirt-gconfig-storage-vol.c
+			libvirt-gconfig-storage-pool-source.c \
+			libvirt-gconfig-storage-pool-target.c \
+			libvirt-gconfig-storage-vol.c \
+			libvirt-gconfig-storage-vol-backing-store.c \
+			libvirt-gconfig-storage-vol-target.c \
+			libvirt-gconfig-xml-doc.c
 
 libvirt_gconfig_1_0_ladir = $(includedir)/libvirt-gconfig-1.0/libvirt-gconfig
 libvirt_gconfig_1_0_la_HEADERS = \
 			$(GCONFIG_HEADER_FILES)
 
+nodist_libvirt_gconfig_1_0_la_HEADERS = \
+			$(builddir)/libvirt-gconfig-enum-types.h
+
 libvirt_gconfig_1_0_la_SOURCES = \
 			$(libvirt_gconfig_1_0_la_HEADERS) \
 			$(GCONFIG_SOURCE_FILES)
 
+nodist_libvirt_gconfig_1_0_la_SOURCES = \
+			$(builddir)/libvirt-gconfig-enum-types.c
+
 libvirt_gconfig_1_0_la_CFLAGS = \
+			-DG_LOG_DOMAIN="\"Libvirt.GConfig\"" \
 			-DDATADIR="\"$(datadir)\"" \
 			-DLIBVIRT_GCONFIG_BUILD \
 			$(COVERAGE_CFLAGS) \
@@ -392,12 +515,17 @@ libvirt_gconfig_1_0_la_LDFLAGS = \
 			-Wl,--version-script=$(srcdir)/libvirt-gconfig.sym \
 			-version-info $(LIBVIRT_GLIB_VERSION_INFO)
 
+BUILT_SOURCES = \
+		libvirt-gconfig-enum-types.c \
+		libvirt-gconfig-enum-types.h
+
+CLEANFILES = $(BUILT_SOURCES) $(am__append_1)
 @WITH_GOBJECT_INTROSPECTION_TRUE@girdir = $(datadir)/gir-1.0
 @WITH_GOBJECT_INTROSPECTION_TRUE@gir_DATA = LibvirtGConfig-1.0.gir
 @WITH_GOBJECT_INTROSPECTION_TRUE@typelibsdir = $(libdir)/girepository-1.0
 @WITH_GOBJECT_INTROSPECTION_TRUE@typelibs_DATA = LibvirtGConfig-1.0.typelib
-@WITH_GOBJECT_INTROSPECTION_TRUE@CLEANFILES = $(gir_DATA) $(typelibs_DATA)
-all: all-recursive
+all: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
 .SUFFIXES:
 .SUFFIXES: .c .lo .o .obj
@@ -472,17 +600,51 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-capabilities.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-channel.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-chardev-source-pty.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-chardev-source.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-chardev.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-clock.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-console.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-device.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-disk.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-filesys.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics-sdl.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics-spice.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics-vnc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-input.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface-bridge.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface-network.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface-user.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-memballoon.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-os.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-parallel.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-seclabel.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-serial.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-snapshot.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-sound.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-timer.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-video.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-enum-types.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-helpers.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-interface.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-main.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-network-filter.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-network.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-node-device.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-object.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-secret.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-storage-permissions.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-storage-pool-source.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-storage-pool-target.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-storage-pool.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-storage-vol-backing-store.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-storage-vol-target.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-storage-vol.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-xml-doc.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -516,6 +678,14 @@ libvirt_gconfig_1_0_la-libvirt-gconfig-object.lo: libvirt-gconfig-object.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-object.lo `test -f 'libvirt-gconfig-object.c' || echo '$(srcdir)/'`libvirt-gconfig-object.c
 
+libvirt_gconfig_1_0_la-libvirt-gconfig-main.lo: libvirt-gconfig-main.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-main.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-main.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-main.lo `test -f 'libvirt-gconfig-main.c' || echo '$(srcdir)/'`libvirt-gconfig-main.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-main.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-main.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gconfig-main.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-main.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-main.lo `test -f 'libvirt-gconfig-main.c' || echo '$(srcdir)/'`libvirt-gconfig-main.c
+
 libvirt_gconfig_1_0_la-libvirt-gconfig-capabilities.lo: libvirt-gconfig-capabilities.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-capabilities.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-capabilities.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-capabilities.lo `test -f 'libvirt-gconfig-capabilities.c' || echo '$(srcdir)/'`libvirt-gconfig-capabilities.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-capabilities.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-capabilities.Plo
@@ -532,6 +702,190 @@ libvirt_gconfig_1_0_la-libvirt-gconfig-domain.lo: libvirt-gconfig-domain.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain.lo `test -f 'libvirt-gconfig-domain.c' || echo '$(srcdir)/'`libvirt-gconfig-domain.c
 
+libvirt_gconfig_1_0_la-libvirt-gconfig-domain-channel.lo: libvirt-gconfig-domain-channel.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-domain-channel.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-channel.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-channel.lo `test -f 'libvirt-gconfig-domain-channel.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-channel.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-channel.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-channel.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gconfig-domain-channel.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-domain-channel.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-channel.lo `test -f 'libvirt-gconfig-domain-channel.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-channel.c
+
+libvirt_gconfig_1_0_la-libvirt-gconfig-domain-chardev.lo: libvirt-gconfig-domain-chardev.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-domain-chardev.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-chardev.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-chardev.lo `test -f 'libvirt-gconfig-domain-chardev.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-chardev.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-chardev.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-chardev.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gconfig-domain-chardev.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-domain-chardev.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-chardev.lo `test -f 'libvirt-gconfig-domain-chardev.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-chardev.c
+
+libvirt_gconfig_1_0_la-libvirt-gconfig-domain-chardev-source.lo: libvirt-gconfig-domain-chardev-source.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-domain-chardev-source.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-chardev-source.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-chardev-source.lo `test -f 'libvirt-gconfig-domain-chardev-source.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-chardev-source.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-chardev-source.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-chardev-source.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gconfig-domain-chardev-source.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-domain-chardev-source.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-chardev-source.lo `test -f 'libvirt-gconfig-domain-chardev-source.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-chardev-source.c
+
+libvirt_gconfig_1_0_la-libvirt-gconfig-domain-chardev-source-pty.lo: libvirt-gconfig-domain-chardev-source-pty.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-domain-chardev-source-pty.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-chardev-source-pty.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-chardev-source-pty.lo `test -f 'libvirt-gconfig-domain-chardev-source-pty.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-chardev-source-pty.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-chardev-source-pty.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-chardev-source-pty.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gconfig-domain-chardev-source-pty.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-domain-chardev-source-pty.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-chardev-source-pty.lo `test -f 'libvirt-gconfig-domain-chardev-source-pty.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-chardev-source-pty.c
+
+libvirt_gconfig_1_0_la-libvirt-gconfig-domain-clock.lo: libvirt-gconfig-domain-clock.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-domain-clock.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-clock.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-clock.lo `test -f 'libvirt-gconfig-domain-clock.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-clock.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-clock.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-clock.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gconfig-domain-clock.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-domain-clock.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-clock.lo `test -f 'libvirt-gconfig-domain-clock.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-clock.c
+
+libvirt_gconfig_1_0_la-libvirt-gconfig-domain-console.lo: libvirt-gconfig-domain-console.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-domain-console.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-console.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-console.lo `test -f 'libvirt-gconfig-domain-console.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-console.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-console.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-console.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gconfig-domain-console.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-domain-console.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-console.lo `test -f 'libvirt-gconfig-domain-console.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-console.c
+
+libvirt_gconfig_1_0_la-libvirt-gconfig-domain-device.lo: libvirt-gconfig-domain-device.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-domain-device.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-device.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-device.lo `test -f 'libvirt-gconfig-domain-device.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-device.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-device.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-device.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gconfig-domain-device.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-domain-device.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-device.lo `test -f 'libvirt-gconfig-domain-device.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-device.c
+
+libvirt_gconfig_1_0_la-libvirt-gconfig-domain-disk.lo: libvirt-gconfig-domain-disk.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-domain-disk.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-disk.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-disk.lo `test -f 'libvirt-gconfig-domain-disk.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-disk.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-disk.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-disk.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gconfig-domain-disk.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-domain-disk.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-disk.lo `test -f 'libvirt-gconfig-domain-disk.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-disk.c
+
+libvirt_gconfig_1_0_la-libvirt-gconfig-domain-filesys.lo: libvirt-gconfig-domain-filesys.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-domain-filesys.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-filesys.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-filesys.lo `test -f 'libvirt-gconfig-domain-filesys.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-filesys.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-filesys.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-filesys.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gconfig-domain-filesys.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-domain-filesys.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-filesys.lo `test -f 'libvirt-gconfig-domain-filesys.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-filesys.c
+
+libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics.lo: libvirt-gconfig-domain-graphics.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics.lo `test -f 'libvirt-gconfig-domain-graphics.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-graphics.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gconfig-domain-graphics.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics.lo `test -f 'libvirt-gconfig-domain-graphics.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-graphics.c
+
+libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics-sdl.lo: libvirt-gconfig-domain-graphics-sdl.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics-sdl.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics-sdl.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics-sdl.lo `test -f 'libvirt-gconfig-domain-graphics-sdl.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-graphics-sdl.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics-sdl.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics-sdl.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gconfig-domain-graphics-sdl.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics-sdl.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics-sdl.lo `test -f 'libvirt-gconfig-domain-graphics-sdl.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-graphics-sdl.c
+
+libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics-spice.lo: libvirt-gconfig-domain-graphics-spice.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics-spice.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics-spice.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics-spice.lo `test -f 'libvirt-gconfig-domain-graphics-spice.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-graphics-spice.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics-spice.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics-spice.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gconfig-domain-graphics-spice.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics-spice.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics-spice.lo `test -f 'libvirt-gconfig-domain-graphics-spice.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-graphics-spice.c
+
+libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics-vnc.lo: libvirt-gconfig-domain-graphics-vnc.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics-vnc.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics-vnc.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics-vnc.lo `test -f 'libvirt-gconfig-domain-graphics-vnc.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-graphics-vnc.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics-vnc.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics-vnc.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gconfig-domain-graphics-vnc.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics-vnc.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-graphics-vnc.lo `test -f 'libvirt-gconfig-domain-graphics-vnc.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-graphics-vnc.c
+
+libvirt_gconfig_1_0_la-libvirt-gconfig-domain-input.lo: libvirt-gconfig-domain-input.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-domain-input.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-input.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-input.lo `test -f 'libvirt-gconfig-domain-input.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-input.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-input.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-input.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gconfig-domain-input.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-domain-input.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-input.lo `test -f 'libvirt-gconfig-domain-input.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-input.c
+
+libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface.lo: libvirt-gconfig-domain-interface.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface.lo `test -f 'libvirt-gconfig-domain-interface.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-interface.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gconfig-domain-interface.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface.lo `test -f 'libvirt-gconfig-domain-interface.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-interface.c
+
+libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface-bridge.lo: libvirt-gconfig-domain-interface-bridge.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface-bridge.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface-bridge.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface-bridge.lo `test -f 'libvirt-gconfig-domain-interface-bridge.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-interface-bridge.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface-bridge.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface-bridge.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gconfig-domain-interface-bridge.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface-bridge.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface-bridge.lo `test -f 'libvirt-gconfig-domain-interface-bridge.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-interface-bridge.c
+
+libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface-network.lo: libvirt-gconfig-domain-interface-network.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface-network.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface-network.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface-network.lo `test -f 'libvirt-gconfig-domain-interface-network.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-interface-network.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface-network.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface-network.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gconfig-domain-interface-network.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface-network.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface-network.lo `test -f 'libvirt-gconfig-domain-interface-network.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-interface-network.c
+
+libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface-user.lo: libvirt-gconfig-domain-interface-user.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface-user.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface-user.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface-user.lo `test -f 'libvirt-gconfig-domain-interface-user.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-interface-user.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface-user.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface-user.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gconfig-domain-interface-user.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface-user.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-interface-user.lo `test -f 'libvirt-gconfig-domain-interface-user.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-interface-user.c
+
+libvirt_gconfig_1_0_la-libvirt-gconfig-domain-memballoon.lo: libvirt-gconfig-domain-memballoon.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-domain-memballoon.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-memballoon.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-memballoon.lo `test -f 'libvirt-gconfig-domain-memballoon.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-memballoon.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-memballoon.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-memballoon.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gconfig-domain-memballoon.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-domain-memballoon.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-memballoon.lo `test -f 'libvirt-gconfig-domain-memballoon.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-memballoon.c
+
+libvirt_gconfig_1_0_la-libvirt-gconfig-domain-os.lo: libvirt-gconfig-domain-os.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-domain-os.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-os.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-os.lo `test -f 'libvirt-gconfig-domain-os.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-os.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-os.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-os.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gconfig-domain-os.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-domain-os.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-os.lo `test -f 'libvirt-gconfig-domain-os.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-os.c
+
+libvirt_gconfig_1_0_la-libvirt-gconfig-domain-parallel.lo: libvirt-gconfig-domain-parallel.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-domain-parallel.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-parallel.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-parallel.lo `test -f 'libvirt-gconfig-domain-parallel.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-parallel.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-parallel.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-parallel.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gconfig-domain-parallel.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-domain-parallel.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-parallel.lo `test -f 'libvirt-gconfig-domain-parallel.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-parallel.c
+
+libvirt_gconfig_1_0_la-libvirt-gconfig-domain-seclabel.lo: libvirt-gconfig-domain-seclabel.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-domain-seclabel.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-seclabel.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-seclabel.lo `test -f 'libvirt-gconfig-domain-seclabel.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-seclabel.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-seclabel.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-seclabel.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gconfig-domain-seclabel.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-domain-seclabel.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-seclabel.lo `test -f 'libvirt-gconfig-domain-seclabel.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-seclabel.c
+
+libvirt_gconfig_1_0_la-libvirt-gconfig-domain-serial.lo: libvirt-gconfig-domain-serial.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-domain-serial.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-serial.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-serial.lo `test -f 'libvirt-gconfig-domain-serial.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-serial.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-serial.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-serial.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gconfig-domain-serial.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-domain-serial.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-serial.lo `test -f 'libvirt-gconfig-domain-serial.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-serial.c
+
 libvirt_gconfig_1_0_la-libvirt-gconfig-domain-snapshot.lo: libvirt-gconfig-domain-snapshot.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-domain-snapshot.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-snapshot.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-snapshot.lo `test -f 'libvirt-gconfig-domain-snapshot.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-snapshot.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-snapshot.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-snapshot.Plo
@@ -539,6 +893,30 @@ libvirt_gconfig_1_0_la-libvirt-gconfig-domain-snapshot.lo: libvirt-gconfig-domai
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gconfig-domain-snapshot.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-domain-snapshot.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-snapshot.lo `test -f 'libvirt-gconfig-domain-snapshot.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-snapshot.c
+
+libvirt_gconfig_1_0_la-libvirt-gconfig-domain-sound.lo: libvirt-gconfig-domain-sound.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-domain-sound.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-sound.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-sound.lo `test -f 'libvirt-gconfig-domain-sound.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-sound.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-sound.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-sound.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gconfig-domain-sound.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-domain-sound.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-sound.lo `test -f 'libvirt-gconfig-domain-sound.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-sound.c
+
+libvirt_gconfig_1_0_la-libvirt-gconfig-domain-timer.lo: libvirt-gconfig-domain-timer.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-domain-timer.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-timer.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-timer.lo `test -f 'libvirt-gconfig-domain-timer.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-timer.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-timer.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-timer.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gconfig-domain-timer.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-domain-timer.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-timer.lo `test -f 'libvirt-gconfig-domain-timer.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-timer.c
+
+libvirt_gconfig_1_0_la-libvirt-gconfig-domain-video.lo: libvirt-gconfig-domain-video.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-domain-video.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-video.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-video.lo `test -f 'libvirt-gconfig-domain-video.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-video.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-video.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-video.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gconfig-domain-video.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-domain-video.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-video.lo `test -f 'libvirt-gconfig-domain-video.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-video.c
 
 libvirt_gconfig_1_0_la-libvirt-gconfig-helpers.lo: libvirt-gconfig-helpers.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-helpers.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-helpers.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-helpers.lo `test -f 'libvirt-gconfig-helpers.c' || echo '$(srcdir)/'`libvirt-gconfig-helpers.c
@@ -588,6 +966,14 @@ libvirt_gconfig_1_0_la-libvirt-gconfig-secret.lo: libvirt-gconfig-secret.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-secret.lo `test -f 'libvirt-gconfig-secret.c' || echo '$(srcdir)/'`libvirt-gconfig-secret.c
 
+libvirt_gconfig_1_0_la-libvirt-gconfig-storage-permissions.lo: libvirt-gconfig-storage-permissions.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-storage-permissions.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-storage-permissions.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-storage-permissions.lo `test -f 'libvirt-gconfig-storage-permissions.c' || echo '$(srcdir)/'`libvirt-gconfig-storage-permissions.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-storage-permissions.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-storage-permissions.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gconfig-storage-permissions.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-storage-permissions.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-storage-permissions.lo `test -f 'libvirt-gconfig-storage-permissions.c' || echo '$(srcdir)/'`libvirt-gconfig-storage-permissions.c
+
 libvirt_gconfig_1_0_la-libvirt-gconfig-storage-pool.lo: libvirt-gconfig-storage-pool.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-storage-pool.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-storage-pool.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-storage-pool.lo `test -f 'libvirt-gconfig-storage-pool.c' || echo '$(srcdir)/'`libvirt-gconfig-storage-pool.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-storage-pool.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-storage-pool.Plo
@@ -596,6 +982,22 @@ libvirt_gconfig_1_0_la-libvirt-gconfig-storage-pool.lo: libvirt-gconfig-storage-
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-storage-pool.lo `test -f 'libvirt-gconfig-storage-pool.c' || echo '$(srcdir)/'`libvirt-gconfig-storage-pool.c
 
+libvirt_gconfig_1_0_la-libvirt-gconfig-storage-pool-source.lo: libvirt-gconfig-storage-pool-source.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-storage-pool-source.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-storage-pool-source.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-storage-pool-source.lo `test -f 'libvirt-gconfig-storage-pool-source.c' || echo '$(srcdir)/'`libvirt-gconfig-storage-pool-source.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-storage-pool-source.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-storage-pool-source.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gconfig-storage-pool-source.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-storage-pool-source.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-storage-pool-source.lo `test -f 'libvirt-gconfig-storage-pool-source.c' || echo '$(srcdir)/'`libvirt-gconfig-storage-pool-source.c
+
+libvirt_gconfig_1_0_la-libvirt-gconfig-storage-pool-target.lo: libvirt-gconfig-storage-pool-target.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-storage-pool-target.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-storage-pool-target.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-storage-pool-target.lo `test -f 'libvirt-gconfig-storage-pool-target.c' || echo '$(srcdir)/'`libvirt-gconfig-storage-pool-target.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-storage-pool-target.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-storage-pool-target.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gconfig-storage-pool-target.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-storage-pool-target.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-storage-pool-target.lo `test -f 'libvirt-gconfig-storage-pool-target.c' || echo '$(srcdir)/'`libvirt-gconfig-storage-pool-target.c
+
 libvirt_gconfig_1_0_la-libvirt-gconfig-storage-vol.lo: libvirt-gconfig-storage-vol.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-storage-vol.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-storage-vol.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-storage-vol.lo `test -f 'libvirt-gconfig-storage-vol.c' || echo '$(srcdir)/'`libvirt-gconfig-storage-vol.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-storage-vol.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-storage-vol.Plo
@@ -603,6 +1005,38 @@ libvirt_gconfig_1_0_la-libvirt-gconfig-storage-vol.lo: libvirt-gconfig-storage-v
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gconfig-storage-vol.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-storage-vol.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-storage-vol.lo `test -f 'libvirt-gconfig-storage-vol.c' || echo '$(srcdir)/'`libvirt-gconfig-storage-vol.c
+
+libvirt_gconfig_1_0_la-libvirt-gconfig-storage-vol-backing-store.lo: libvirt-gconfig-storage-vol-backing-store.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-storage-vol-backing-store.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-storage-vol-backing-store.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-storage-vol-backing-store.lo `test -f 'libvirt-gconfig-storage-vol-backing-store.c' || echo '$(srcdir)/'`libvirt-gconfig-storage-vol-backing-store.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-storage-vol-backing-store.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-storage-vol-backing-store.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gconfig-storage-vol-backing-store.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-storage-vol-backing-store.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-storage-vol-backing-store.lo `test -f 'libvirt-gconfig-storage-vol-backing-store.c' || echo '$(srcdir)/'`libvirt-gconfig-storage-vol-backing-store.c
+
+libvirt_gconfig_1_0_la-libvirt-gconfig-storage-vol-target.lo: libvirt-gconfig-storage-vol-target.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-storage-vol-target.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-storage-vol-target.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-storage-vol-target.lo `test -f 'libvirt-gconfig-storage-vol-target.c' || echo '$(srcdir)/'`libvirt-gconfig-storage-vol-target.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-storage-vol-target.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-storage-vol-target.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gconfig-storage-vol-target.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-storage-vol-target.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-storage-vol-target.lo `test -f 'libvirt-gconfig-storage-vol-target.c' || echo '$(srcdir)/'`libvirt-gconfig-storage-vol-target.c
+
+libvirt_gconfig_1_0_la-libvirt-gconfig-xml-doc.lo: libvirt-gconfig-xml-doc.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-xml-doc.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-xml-doc.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-xml-doc.lo `test -f 'libvirt-gconfig-xml-doc.c' || echo '$(srcdir)/'`libvirt-gconfig-xml-doc.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-xml-doc.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-xml-doc.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gconfig-xml-doc.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-xml-doc.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-xml-doc.lo `test -f 'libvirt-gconfig-xml-doc.c' || echo '$(srcdir)/'`libvirt-gconfig-xml-doc.c
+
+libvirt_gconfig_1_0_la-libvirt-gconfig-enum-types.lo: $(builddir)/libvirt-gconfig-enum-types.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-enum-types.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-enum-types.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-enum-types.lo `test -f '$(builddir)/libvirt-gconfig-enum-types.c' || echo '$(srcdir)/'`$(builddir)/libvirt-gconfig-enum-types.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-enum-types.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-enum-types.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$(builddir)/libvirt-gconfig-enum-types.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-enum-types.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-enum-types.lo `test -f '$(builddir)/libvirt-gconfig-enum-types.c' || echo '$(srcdir)/'`$(builddir)/libvirt-gconfig-enum-types.c
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -665,6 +1099,26 @@ install-libvirt_gconfig_1_0_laHEADERS: $(libvirt_gconfig_1_0_la_HEADERS)
 uninstall-libvirt_gconfig_1_0_laHEADERS:
 	@$(NORMAL_UNINSTALL)
 	@list='$(libvirt_gconfig_1_0_la_HEADERS)'; test -n "$(libvirt_gconfig_1_0_ladir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	test -n "$$files" || exit 0; \
+	echo " ( cd '$(DESTDIR)$(libvirt_gconfig_1_0_ladir)' && rm -f" $$files ")"; \
+	cd "$(DESTDIR)$(libvirt_gconfig_1_0_ladir)" && rm -f $$files
+install-nodist_libvirt_gconfig_1_0_laHEADERS: $(nodist_libvirt_gconfig_1_0_la_HEADERS)
+	@$(NORMAL_INSTALL)
+	test -z "$(libvirt_gconfig_1_0_ladir)" || $(MKDIR_P) "$(DESTDIR)$(libvirt_gconfig_1_0_ladir)"
+	@list='$(nodist_libvirt_gconfig_1_0_la_HEADERS)'; test -n "$(libvirt_gconfig_1_0_ladir)" || list=; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_HEADER) $$files '$(DESTDIR)$(libvirt_gconfig_1_0_ladir)'"; \
+	  $(INSTALL_HEADER) $$files "$(DESTDIR)$(libvirt_gconfig_1_0_ladir)" || exit $$?; \
+	done
+
+uninstall-nodist_libvirt_gconfig_1_0_laHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(nodist_libvirt_gconfig_1_0_la_HEADERS)'; test -n "$(libvirt_gconfig_1_0_ladir)" || list=; \
 	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
 	test -n "$$files" || exit 0; \
 	echo " ( cd '$(DESTDIR)$(libvirt_gconfig_1_0_ladir)' && rm -f" $$files ")"; \
@@ -864,14 +1318,16 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 check-am: all-am
-check: check-recursive
+check: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) check-recursive
 all-am: Makefile $(LTLIBRARIES) $(DATA) $(HEADERS)
 installdirs: installdirs-recursive
 installdirs-am:
-	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(girdir)" "$(DESTDIR)$(typelibsdir)" "$(DESTDIR)$(libvirt_gconfig_1_0_ladir)"; do \
+	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(girdir)" "$(DESTDIR)$(typelibsdir)" "$(DESTDIR)$(libvirt_gconfig_1_0_ladir)" "$(DESTDIR)$(libvirt_gconfig_1_0_ladir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
-install: install-recursive
+install: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) install-recursive
 install-exec: install-exec-recursive
 install-data: install-data-recursive
 uninstall: uninstall-recursive
@@ -897,6 +1353,7 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
+	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
 clean: clean-recursive
 
 clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
@@ -921,6 +1378,7 @@ info: info-recursive
 info-am:
 
 install-data-am: install-girDATA install-libvirt_gconfig_1_0_laHEADERS \
+	install-nodist_libvirt_gconfig_1_0_laHEADERS \
 	install-typelibsDATA
 
 install-dvi: install-dvi-recursive
@@ -968,10 +1426,13 @@ ps: ps-recursive
 ps-am:
 
 uninstall-am: uninstall-girDATA uninstall-libLTLIBRARIES \
-	uninstall-libvirt_gconfig_1_0_laHEADERS uninstall-typelibsDATA
+	uninstall-libvirt_gconfig_1_0_laHEADERS \
+	uninstall-nodist_libvirt_gconfig_1_0_laHEADERS \
+	uninstall-typelibsDATA
 
-.MAKE: $(RECURSIVE_CLEAN_TARGETS) $(RECURSIVE_TARGETS) ctags-recursive \
-	install-am install-strip tags-recursive
+.MAKE: $(RECURSIVE_CLEAN_TARGETS) $(RECURSIVE_TARGETS) all check \
+	ctags-recursive install install-am install-strip \
+	tags-recursive
 
 .PHONY: $(RECURSIVE_CLEAN_TARGETS) $(RECURSIVE_TARGETS) CTAGS GTAGS \
 	all all-am check check-am clean clean-generic \
@@ -982,7 +1443,8 @@ uninstall-am: uninstall-girDATA uninstall-libLTLIBRARIES \
 	install-data-am install-dvi install-dvi-am install-exec \
 	install-exec-am install-girDATA install-html install-html-am \
 	install-info install-info-am install-libLTLIBRARIES \
-	install-libvirt_gconfig_1_0_laHEADERS install-man install-pdf \
+	install-libvirt_gconfig_1_0_laHEADERS install-man \
+	install-nodist_libvirt_gconfig_1_0_laHEADERS install-pdf \
 	install-pdf-am install-ps install-ps-am install-strip \
 	install-typelibsDATA installcheck installcheck-am installdirs \
 	installdirs-am maintainer-clean maintainer-clean-generic \
@@ -990,8 +1452,18 @@ uninstall-am: uninstall-girDATA uninstall-libLTLIBRARIES \
 	mostlyclean-libtool pdf pdf-am ps ps-am tags tags-recursive \
 	uninstall uninstall-am uninstall-girDATA \
 	uninstall-libLTLIBRARIES \
-	uninstall-libvirt_gconfig_1_0_laHEADERS uninstall-typelibsDATA
+	uninstall-libvirt_gconfig_1_0_laHEADERS \
+	uninstall-nodist_libvirt_gconfig_1_0_laHEADERS \
+	uninstall-typelibsDATA
 
+
+libvirt-gconfig-enum-types.h: $(GCONFIG_HEADER_FILES) libvirt-gconfig-enum-types.h.template
+	$(AM_V_GEN) ( $(GLIB_MKENUMS) --template $(srcdir)/libvirt-gconfig-enum-types.h.template $(GCONFIG_HEADER_FILES:%=$(srcdir)/%) ) | \
+	    sed -e "s/G_TYPE_VIR_CONFIG/GVIR_CONFIG_TYPE/" -e "s/g_vir/gvir/" > libvirt-gconfig-enum-types.h
+
+libvirt-gconfig-enum-types.c: $(GCONFIG_HEADER_FILES) libvirt-gconfig-enum-types.c.template
+	$(AM_V_GEN) ( $(GLIB_MKENUMS) --template $(srcdir)/libvirt-gconfig-enum-types.c.template $(GCONFIG_HEADER_FILES:%=$(srcdir)/%) ) | \
+	    sed -e "s/G_TYPE_VIR_CONFIG/GVIR_CONFIG_TYPE/" -e "s/g_vir/gvir/" > libvirt-gconfig-enum-types.c
 
 @WITH_GOBJECT_INTROSPECTION_TRUE@LibvirtGConfig-1.0.gir: libvirt-gconfig-1.0.la $(G_IR_SCANNER) Makefile.am
 @WITH_GOBJECT_INTROSPECTION_TRUE@	$(AM_V_GEN)$(G_IR_SCANNER) \
@@ -1001,19 +1473,20 @@ uninstall-am: uninstall-girDATA uninstall-libLTLIBRARIES \
 @WITH_GOBJECT_INTROSPECTION_TRUE@                --nsversion 1.0 \
 @WITH_GOBJECT_INTROSPECTION_TRUE@                --include GObject-2.0 \
 @WITH_GOBJECT_INTROSPECTION_TRUE@                --identifier-prefix=GVirConfig \
-@WITH_GOBJECT_INTROSPECTION_TRUE@                --symbol-prefix=gvir \
+@WITH_GOBJECT_INTROSPECTION_TRUE@                --symbol-prefix=gvir_config \
 @WITH_GOBJECT_INTROSPECTION_TRUE@                --library=$(builddir)/libvirt-gconfig-1.0.la \
 @WITH_GOBJECT_INTROSPECTION_TRUE@                --output $@ \
-@WITH_GOBJECT_INTROSPECTION_TRUE@                -I$(top_srcdir) \
 @WITH_GOBJECT_INTROSPECTION_TRUE@                -I$(top_builddir) \
-@WITH_GOBJECT_INTROSPECTION_TRUE@                $(LIBXML2_CFLAGS) \
+@WITH_GOBJECT_INTROSPECTION_TRUE@                -I$(top_srcdir) \
 @WITH_GOBJECT_INTROSPECTION_TRUE@                --verbose \
-@WITH_GOBJECT_INTROSPECTION_TRUE@                --pkg=gobject-2.0 \
 @WITH_GOBJECT_INTROSPECTION_TRUE@                --c-include="libvirt-gconfig/libvirt-gconfig.h" \
+@WITH_GOBJECT_INTROSPECTION_TRUE@                --pkg=libxml-2.0 \
 @WITH_GOBJECT_INTROSPECTION_TRUE@                --pkg-export=libvirt-gconfig-1.0 \
-@WITH_GOBJECT_INTROSPECTION_TRUE@		$(srcdir)/libvirt-gconfig.h \
+@WITH_GOBJECT_INTROSPECTION_TRUE@                $(srcdir)/libvirt-gconfig.h \
 @WITH_GOBJECT_INTROSPECTION_TRUE@                $(GCONFIG_SOURCE_FILES:%=$(srcdir)/%) \
-@WITH_GOBJECT_INTROSPECTION_TRUE@                $(GCONFIG_HEADER_FILES:%=$(srcdir)/%)
+@WITH_GOBJECT_INTROSPECTION_TRUE@                $(GCONFIG_HEADER_FILES:%=$(srcdir)/%) \
+@WITH_GOBJECT_INTROSPECTION_TRUE@                $(builddir)/libvirt-gconfig-enum-types.c \
+@WITH_GOBJECT_INTROSPECTION_TRUE@                $(builddir)/libvirt-gconfig-enum-types.h
 
 @WITH_GOBJECT_INTROSPECTION_TRUE@%.typelib: %.gir
 @WITH_GOBJECT_INTROSPECTION_TRUE@	$(AM_V_GEN)$(G_IR_COMPILER) \

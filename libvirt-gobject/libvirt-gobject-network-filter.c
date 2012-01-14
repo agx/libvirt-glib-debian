@@ -2,7 +2,7 @@
  * libvirt-gobject-network_filter.c: libvirt glib integration
  *
  * Copyright (C) 2008 Daniel P. Berrange
- * Copyright (C) 2010 Red Hat
+ * Copyright (C) 2010-2011 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -29,10 +29,6 @@
 #include "libvirt-glib/libvirt-glib.h"
 #include "libvirt-gobject/libvirt-gobject.h"
 #include "libvirt-gobject-compat.h"
-
-extern gboolean debugFlag;
-
-#define DEBUG(fmt, ...) do { if (G_UNLIKELY(debugFlag)) g_debug(fmt, ## __VA_ARGS__); } while (0)
 
 #define GVIR_NETWORK_FILTER_GET_PRIVATE(obj)                         \
         (G_TYPE_INSTANCE_GET_PRIVATE((obj), GVIR_TYPE_NETWORK_FILTER, GVirNetworkFilterPrivate))
@@ -106,7 +102,7 @@ static void gvir_network_filter_finalize(GObject *object)
     GVirNetworkFilter *nf = GVIR_NETWORK_FILTER(object);
     GVirNetworkFilterPrivate *priv = nf->priv;
 
-    DEBUG("Finalize GVirNetworkFilter=%p", nf);
+    g_debug("Finalize GVirNetworkFilter=%p", nf);
 
     virNWFilterFree(priv->handle);
 
@@ -156,13 +152,9 @@ static void gvir_network_filter_class_init(GVirNetworkFilterClass *klass)
 
 static void gvir_network_filter_init(GVirNetworkFilter *conn)
 {
-    GVirNetworkFilterPrivate *priv;
+    g_debug("Init GVirNetworkFilter=%p", conn);
 
-    DEBUG("Init GVirNetworkFilter=%p", conn);
-
-    priv = conn->priv = GVIR_NETWORK_FILTER_GET_PRIVATE(conn);
-
-    memset(priv, 0, sizeof(*priv));
+    conn->priv = GVIR_NETWORK_FILTER_GET_PRIVATE(conn);
 }
 
 typedef struct virNWFilter GVirNetworkFilterHandle;
@@ -219,10 +211,9 @@ GVirConfigNetworkFilter *gvir_network_filter_get_config
     gchar *xml;
 
     if (!(xml = virNWFilterGetXMLDesc(priv->handle, flags))) {
-        if (err)
-            *err = gvir_error_new_literal(GVIR_NETWORK_FILTER_ERROR,
-                                          0,
-                                          "Unable to get network_filter XML config");
+        gvir_set_error_literal(err, GVIR_NETWORK_FILTER_ERROR,
+                               0,
+                               "Unable to get network_filter XML config");
         return NULL;
     }
 

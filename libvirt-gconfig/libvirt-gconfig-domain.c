@@ -1,8 +1,8 @@
 /*
- * libvirt-gobject-config_domain.c: libvirt glib integration
+ * libvirt-gconfig-domain.c: libvirt domain configuration
  *
  * Copyright (C) 2008 Daniel P. Berrange
- * Copyright (C) 2010 Red Hat
+ * Copyright (C) 2010-2011 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23,29 +23,24 @@
 
 #include <config.h>
 
-#include <string.h>
-
 #include "libvirt-gconfig/libvirt-gconfig.h"
-#include "libvirt-gconfig/libvirt-gconfig-helpers-private.h"
-
-extern gboolean debugFlag;
-
-#define DEBUG(fmt, ...) do { if (G_UNLIKELY(debugFlag)) g_debug(fmt, ## __VA_ARGS__); } while (0)
+#include "libvirt-gconfig/libvirt-gconfig-private.h"
 
 #define GVIR_CONFIG_DOMAIN_GET_PRIVATE(obj)                         \
-        (G_TYPE_INSTANCE_GET_PRIVATE((obj), GVIR_TYPE_CONFIG_DOMAIN, GVirConfigDomainPrivate))
+        (G_TYPE_INSTANCE_GET_PRIVATE((obj), GVIR_CONFIG_TYPE_DOMAIN, GVirConfigDomainPrivate))
 
 struct _GVirConfigDomainPrivate
 {
     gboolean unused;
 };
 
-G_DEFINE_TYPE(GVirConfigDomain, gvir_config_domain, GVIR_TYPE_CONFIG_OBJECT);
+G_DEFINE_TYPE(GVirConfigDomain, gvir_config_domain, GVIR_CONFIG_TYPE_OBJECT);
 
 enum {
     PROP_0,
     PROP_NAME,
     PROP_MEMORY,
+    PROP_VCPU,
     PROP_FEATURES
 };
 
@@ -62,6 +57,9 @@ static void gvir_config_domain_get_property(GObject *object,
         break;
     case PROP_MEMORY:
         g_value_set_uint64(value, gvir_config_domain_get_memory(domain));
+        break;
+    case PROP_VCPU:
+        g_value_set_uint64(value, gvir_config_domain_get_vcpus(domain));
         break;
     case PROP_FEATURES:
         g_value_take_boxed(value, gvir_config_domain_get_features(domain));
@@ -85,6 +83,9 @@ static void gvir_config_domain_set_property(GObject *object,
         break;
     case PROP_MEMORY:
         gvir_config_domain_set_memory(domain, g_value_get_uint64(value));
+        break;
+    case PROP_VCPU:
+        gvir_config_domain_set_vcpus(domain, g_value_get_uint64(value));
         break;
     case PROP_FEATURES:
         gvir_config_domain_set_features(domain, g_value_get_boxed(value));
@@ -122,6 +123,15 @@ static void gvir_config_domain_class_init(GVirConfigDomainClass *klass)
                                                         G_PARAM_READWRITE |
                                                         G_PARAM_STATIC_STRINGS));
     g_object_class_install_property(object_class,
+                                    PROP_VCPU,
+                                    g_param_spec_uint64("vcpu",
+                                                        "Virtual CPUs",
+                                                        "Maximum Number of Guest Virtual CPUs",
+                                                        0, G_MAXUINT64,
+                                                        1,
+                                                        G_PARAM_READWRITE |
+                                                        G_PARAM_STATIC_STRINGS));
+    g_object_class_install_property(object_class,
                                     PROP_FEATURES,
                                     g_param_spec_boxed("features",
                                                         "Features",
@@ -134,13 +144,9 @@ static void gvir_config_domain_class_init(GVirConfigDomainClass *klass)
 
 static void gvir_config_domain_init(GVirConfigDomain *conn)
 {
-    GVirConfigDomainPrivate *priv;
+    g_debug("Init GVirConfigDomain=%p", conn);
 
-    DEBUG("Init GVirConfigDomain=%p", conn);
-
-    priv = conn->priv = GVIR_CONFIG_DOMAIN_GET_PRIVATE(conn);
-
-    memset(priv, 0, sizeof(*priv));
+    conn->priv = GVIR_CONFIG_DOMAIN_GET_PRIVATE(conn);
 }
 
 
@@ -149,7 +155,7 @@ GVirConfigDomain *gvir_config_domain_new_from_xml(const gchar *xml,
 {
     GVirConfigObject *object;
 
-    object = gvir_config_object_new_from_xml(GVIR_TYPE_CONFIG_DOMAIN,
+    object = gvir_config_object_new_from_xml(GVIR_CONFIG_TYPE_DOMAIN,
                                              "domain",
                                              DATADIR "/libvirt/schemas/domain.rng",
                                              xml, error);
@@ -160,11 +166,22 @@ GVirConfigDomain *gvir_config_domain_new(void)
 {
     GVirConfigObject *object;
 
-    object = gvir_config_object_new(GVIR_TYPE_CONFIG_DOMAIN,
+    object = gvir_config_object_new(GVIR_CONFIG_TYPE_DOMAIN,
                                     "domain",
                                     DATADIR "/libvirt/schemas/domain.rng");
     return GVIR_CONFIG_DOMAIN(object);
 }
+
+
+void gvir_config_domain_set_virt_type(GVirConfigDomain *domain, GVirConfigDomainVirtType type)
+{
+    g_return_if_fail(GVIR_CONFIG_IS_DOMAIN(domain));
+    gvir_config_object_set_attribute_with_type(GVIR_CONFIG_OBJECT(domain),
+                                               "type",
+                                               GVIR_CONFIG_TYPE_DOMAIN_VIRT_TYPE,
+                                               type, NULL);
+}
+
 
 char *gvir_config_domain_get_name(GVirConfigDomain *domain)
 {
@@ -179,17 +196,55 @@ void gvir_config_domain_set_name(GVirConfigDomain *domain, const char *name)
     g_object_notify(G_OBJECT(domain), "name");
 }
 
+/**
+ * gvir_config_domain_get_memory:
+ * @domain: A domain configuration object.
+ *
+ * Returns: amount of RAM in kilobytes (i.e. blocks of 1024 bytes).
+ */
 guint64 gvir_config_domain_get_memory(GVirConfigDomain *domain)
 {
     return gvir_config_object_get_node_content_uint64(GVIR_CONFIG_OBJECT(domain),
                                                       "memory");
 }
 
+/**
+ * gvir_config_domain_set_memory:
+ * @domain: A domain configuration object.
+ * @memory: The amount of RAM in kilobytes.
+ *
+ * Sets the amount of RAM allocated to @domain in kilobytes (i.e. blocks of 1024 bytes).
+ */
 void gvir_config_domain_set_memory(GVirConfigDomain *domain, guint64 memory)
 {
     gvir_config_object_set_node_content_uint64(GVIR_CONFIG_OBJECT(domain),
                                                "memory", memory);
     g_object_notify(G_OBJECT(domain), "memory");
+}
+
+guint64 gvir_config_domain_get_vcpus(GVirConfigDomain *domain)
+{
+    return gvir_config_object_get_node_content_uint64(GVIR_CONFIG_OBJECT(domain),
+                                                      "vcpu");
+}
+
+void gvir_config_domain_set_vcpus(GVirConfigDomain *domain, guint64 vcpu_count)
+{
+    gvir_config_object_set_node_content_uint64(GVIR_CONFIG_OBJECT(domain),
+                                               "vcpu", vcpu_count);
+    g_object_notify(G_OBJECT(domain), "vcpu");
+}
+
+static gboolean add_feature(xmlNodePtr node, gpointer opaque)
+{
+    GPtrArray *features;
+    g_return_val_if_fail(opaque != NULL, FALSE);
+
+    features = (GPtrArray *)opaque;
+
+    g_ptr_array_add(features, g_strdup((char *)node->name));
+
+    return TRUE;
 }
 
 /**
@@ -199,22 +254,12 @@ void gvir_config_domain_set_memory(GVirConfigDomain *domain, guint64 memory)
 GStrv gvir_config_domain_get_features(GVirConfigDomain *domain)
 {
     GPtrArray *features;
-    xmlNodePtr parent_node;
-    xmlNodePtr node;
-    xmlNodePtr it;
 
-    parent_node = gvir_config_object_get_xml_node(GVIR_CONFIG_OBJECT(domain));
-    if (parent_node == NULL)
-        return NULL;
-
-    node = gvir_config_xml_get_element(parent_node, "features", NULL);
-    if (node == NULL)
-        return NULL;
+    g_return_val_if_fail(GVIR_CONFIG_IS_DOMAIN(domain), NULL);
 
     features = g_ptr_array_new();
-    for (it = node->children; it != NULL; it = it->next) {
-        g_ptr_array_add(features, g_strdup((char *)it->name));
-    }
+    gvir_config_object_foreach_child(GVIR_CONFIG_OBJECT(domain), "features",
+                                     add_feature, features);
     g_ptr_array_add(features, NULL);
 
     return (GStrv)g_ptr_array_free(features, FALSE);
@@ -223,27 +268,154 @@ GStrv gvir_config_domain_get_features(GVirConfigDomain *domain)
 void gvir_config_domain_set_features(GVirConfigDomain *domain,
                                      const GStrv features)
 {
-    xmlNodePtr parent_node;
-    xmlNodePtr features_node;
-    xmlNodePtr old_node;
+    GVirConfigObject *features_node;
     GStrv it;
 
-    parent_node = gvir_config_object_get_xml_node(GVIR_CONFIG_OBJECT(domain));
-    features_node = xmlNewDocNode(parent_node->doc, NULL,
-                                 (xmlChar *)"features", NULL);
+    features_node = gvir_config_object_replace_child(GVIR_CONFIG_OBJECT(domain),
+                                                     "features");
+    g_return_if_fail(GVIR_CONFIG_IS_OBJECT(features_node));
     for (it = features; *it != NULL; it++) {
-        xmlNodePtr node;
-
-        node = xmlNewDocNode(parent_node->doc, NULL, (xmlChar *)*it, NULL);
-        xmlAddChild(features_node, node);
+        GVirConfigObject *feature;
+        feature = gvir_config_object_replace_child(GVIR_CONFIG_OBJECT(features_node),
+                                                   *it);
+        g_object_unref(G_OBJECT(feature));
     }
-
-    old_node = gvir_config_xml_get_element(parent_node, "features", NULL);
-    if (old_node) {
-        old_node = xmlReplaceNode(old_node, features_node);
-        xmlFreeNode(old_node);
-    } else {
-        xmlAddChild(parent_node, features_node);
-    }
+    g_object_unref(G_OBJECT(features_node));
     g_object_notify(G_OBJECT(domain), "features");
+}
+
+void gvir_config_domain_set_clock(GVirConfigDomain *domain,
+                                  GVirConfigDomainClock *klock)
+{
+    g_return_if_fail(GVIR_CONFIG_IS_DOMAIN(domain));
+    g_return_if_fail(GVIR_CONFIG_IS_DOMAIN_CLOCK(klock));
+
+    gvir_config_object_attach(GVIR_CONFIG_OBJECT(domain),
+                              GVIR_CONFIG_OBJECT(klock));
+}
+
+void gvir_config_domain_set_os(GVirConfigDomain *domain,
+                               GVirConfigDomainOs *os)
+{
+    g_return_if_fail(GVIR_CONFIG_IS_DOMAIN(domain));
+    g_return_if_fail(GVIR_CONFIG_IS_DOMAIN_OS(os));
+
+    gvir_config_object_attach(GVIR_CONFIG_OBJECT(domain),
+                              GVIR_CONFIG_OBJECT(os));
+}
+
+void gvir_config_domain_set_seclabel(GVirConfigDomain *domain,
+                                     GVirConfigDomainSeclabel *seclabel)
+{
+    g_return_if_fail(GVIR_CONFIG_IS_DOMAIN(domain));
+    g_return_if_fail(GVIR_CONFIG_IS_DOMAIN_SECLABEL(seclabel));
+
+    gvir_config_object_attach(GVIR_CONFIG_OBJECT(domain),
+                              GVIR_CONFIG_OBJECT(seclabel));
+}
+
+void gvir_config_domain_set_lifecycle(GVirConfigDomain *domain,
+                                      GVirConfigDomainLifecycleEvent event,
+                                      GVirConfigDomainLifecycleAction action)
+{
+    const char *event_str;
+    const char *action_str;
+
+    g_return_if_fail(GVIR_CONFIG_IS_DOMAIN(domain));
+    g_return_if_fail((event == GVIR_CONFIG_DOMAIN_LIFECYCLE_ON_CRASH) ||
+                     ((action != GVIR_CONFIG_DOMAIN_LIFECYCLE_COREDUMP_DESTROY) &&
+                      (action != GVIR_CONFIG_DOMAIN_LIFECYCLE_COREDUMP_RESTART)));
+
+    event_str = gvir_config_genum_get_nick(GVIR_CONFIG_TYPE_DOMAIN_LIFECYCLE_EVENT, event);
+    g_return_if_fail(event_str != NULL);
+    action_str = gvir_config_genum_get_nick(GVIR_CONFIG_TYPE_DOMAIN_LIFECYCLE_ACTION, action);
+    g_return_if_fail(action_str != NULL);
+
+    gvir_config_object_set_node_content(GVIR_CONFIG_OBJECT(domain),
+                                        event_str, action_str);
+}
+
+/**
+ * gvir_config_domain_set_devices:
+ * @devices: (in) (element-type LibvirtGConfig.DomainDevice):
+ */
+void gvir_config_domain_set_devices(GVirConfigDomain *domain,
+                                    GList *devices)
+{
+    GVirConfigObject *devices_node;
+    GList *it;
+
+    g_return_if_fail(GVIR_CONFIG_IS_DOMAIN(domain));
+
+    devices_node = gvir_config_object_new(GVIR_CONFIG_TYPE_OBJECT,
+                                          "devices", NULL);
+    for (it = devices; it != NULL; it = it->next) {
+        if (!GVIR_CONFIG_IS_DOMAIN_DEVICE(it->data)) {
+            g_warn_if_reached();
+            continue;
+        }
+        gvir_config_object_attach(devices_node, GVIR_CONFIG_OBJECT(it->data));
+    }
+
+    gvir_config_object_attach(GVIR_CONFIG_OBJECT(domain), devices_node);
+    g_object_unref(G_OBJECT(devices_node));
+}
+
+void gvir_config_domain_add_device(GVirConfigDomain *domain,
+                                   GVirConfigDomainDevice *device)
+{
+    GVirConfigObject *devices_node;
+
+    g_return_if_fail(GVIR_CONFIG_IS_DOMAIN(domain));
+    g_return_if_fail(GVIR_CONFIG_IS_DOMAIN_DEVICE(device));
+
+    devices_node = gvir_config_object_add_child(GVIR_CONFIG_OBJECT(domain),
+                                                "devices");
+
+    gvir_config_object_attach(devices_node, GVIR_CONFIG_OBJECT(device));
+    g_object_unref(G_OBJECT(devices_node));
+}
+
+struct GetDeviceData {
+    GVirConfigXmlDoc *doc;
+    GList *devices;
+};
+
+static gboolean add_device(xmlNodePtr node, gpointer opaque)
+{
+    struct GetDeviceData* data = (struct GetDeviceData*)opaque;
+    GVirConfigDomainDevice *device;
+
+    device = gvir_config_domain_device_new_from_tree(data->doc, node);
+    if (device != NULL)
+        data->devices = g_list_append(data->devices, device);
+    else
+        g_debug("Failed to parse %s node", node->name);
+
+    return TRUE;
+}
+
+/**
+ * gvir_config_domain_get_devices:
+ *
+ * Gets the list of devices attached to @domain
+ *
+ * Returns: (element-type LibvirtGConfig.DomainDevice) (transfer full):
+ * a newly allocated #GList of #GVirConfigDomainDevice.
+ */
+GList *gvir_config_domain_get_devices(GVirConfigDomain *domain)
+{
+    struct GetDeviceData data;
+
+    g_return_val_if_fail(GVIR_CONFIG_IS_DOMAIN(domain), NULL);
+
+    g_object_get(G_OBJECT(domain), "doc", &data.doc, NULL);
+    data.devices = NULL;
+    gvir_config_object_foreach_child(GVIR_CONFIG_OBJECT(domain), "devices",
+                                     add_device, &data);
+    if (data.doc != NULL) {
+        g_object_unref(G_OBJECT(data.doc));
+    }
+
+    return data.devices;
 }

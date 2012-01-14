@@ -2,7 +2,7 @@
  * libvirt-gobject-stream.c: libvirt glib integration
  *
  * Copyright (C) 2008 Daniel P. Berrange
- * Copyright (C) 2010 Red Hat
+ * Copyright (C) 2010-2011 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -34,10 +34,6 @@
 #include "libvirt-gobject/libvirt-gobject-input-stream.h"
 #include "libvirt-gobject/libvirt-gobject-output-stream.h"
 
-extern gboolean debugFlag;
-
-#define DEBUG(fmt, ...) do { if (G_UNLIKELY(debugFlag)) g_debug(fmt, ## __VA_ARGS__); } while (0)
-
 #define GVIR_STREAM_GET_PRIVATE(obj)                         \
         (G_TYPE_INSTANCE_GET_PRIVATE((obj), GVIR_TYPE_STREAM, GVirStreamPrivate))
 
@@ -46,7 +42,19 @@ struct _GVirStreamPrivate
     virStreamPtr   handle;
     GInputStream  *input_stream;
     GOutputStream  *output_stream;
+
+    gboolean eventRegistered;
+    int eventLast;
+    GList *sources;
 };
+
+typedef struct {
+    GSource source;
+    GVirStreamIOCondition cond;
+    GVirStreamIOCondition newCond;
+    GVirStream *stream;
+} GVirStreamSource;
+
 
 G_DEFINE_TYPE(GVirStream, gvir_stream, G_TYPE_IO_STREAM);
 
@@ -90,7 +98,8 @@ static GOutputStream* gvir_stream_get_output_stream(GIOStream *io_stream)
 
 
 static gboolean gvir_stream_close(GIOStream *io_stream,
-                                  GCancellable *cancellable, G_GNUC_UNUSED GError **error)
+                                  GCancellable *cancellable,
+                                  G_GNUC_UNUSED GError **error)
 {
     GVirStream *self = GVIR_STREAM(io_stream);
 
@@ -104,8 +113,10 @@ static gboolean gvir_stream_close(GIOStream *io_stream,
 }
 
 
-static void gvir_stream_close_async(GIOStream *stream, G_GNUC_UNUSED int io_priority,
-                                    GCancellable *cancellable, GAsyncReadyCallback callback,
+static void gvir_stream_close_async(GIOStream *stream,
+                                    int io_priority G_GNUC_UNUSED,
+                                    GCancellable *cancellable,
+                                    GAsyncReadyCallback callback,
                                     gpointer user_data)
 {
     GSimpleAsyncResult *res;
@@ -134,9 +145,9 @@ static void gvir_stream_close_async(GIOStream *stream, G_GNUC_UNUSED int io_prio
 
 
 static gboolean
-gvir_stream_close_finish(G_GNUC_UNUSED GIOStream *stream,
-                         G_GNUC_UNUSED GAsyncResult *result,
-                         G_GNUC_UNUSED GError **error)
+gvir_stream_close_finish(GIOStream *stream G_GNUC_UNUSED,
+                         GAsyncResult *result G_GNUC_UNUSED,
+                         GError **error G_GNUC_UNUSED)
 {
     return TRUE;
 }
@@ -186,8 +197,9 @@ static void gvir_stream_finalize(GObject *object)
 {
     GVirStream *self = GVIR_STREAM(object);
     GVirStreamPrivate *priv = self->priv;
+    GList *tmp;
 
-    DEBUG("Finalize GVirStream=%p", self);
+    g_debug("Finalize GVirStream=%p", self);
 
     if (self->priv->input_stream)
         g_object_unref(self->priv->input_stream);
@@ -198,6 +210,14 @@ static void gvir_stream_finalize(GObject *object)
 
         virStreamFree(priv->handle);
     }
+
+    tmp = priv->sources;
+    while (tmp) {
+        GVirStreamSource *source = tmp->data;
+        g_source_destroy((GSource*)source);
+        tmp = tmp->next;
+    }
+    g_list_free(priv->sources);
 
     G_OBJECT_CLASS(gvir_stream_parent_class)->finalize(object);
 }
@@ -280,8 +300,11 @@ G_DEFINE_BOXED_TYPE(GVirStreamHandle, gvir_stream_handle,
  * Returns: Number of bytes read, or 0 if the end of stream reached,
  * or -1 on error.
  */
-gssize gvir_stream_receive(GVirStream *self, gchar *buffer, gsize size,
-                           GCancellable *cancellable, GError **error)
+gssize gvir_stream_receive(GVirStream *self,
+                           gchar *buffer,
+                           gsize size,
+                           GCancellable *cancellable,
+                           GError **error)
 {
     int got;
 
@@ -307,13 +330,19 @@ struct stream_sink_helper {
     GVirStream *self;
     GVirStreamSinkFunc func;
     gpointer user_data;
+    GCancellable *cancellable;
 };
 
 static int
 stream_sink(virStreamPtr st G_GNUC_UNUSED,
-            const char *bytes, size_t nbytes, void *opaque)
+            const char *bytes,
+            size_t nbytes,
+            void *opaque)
 {
   struct stream_sink_helper *helper = opaque;
+
+  if (g_cancellable_is_cancelled(helper->cancellable))
+      return -1;
 
   return helper->func(helper->self, bytes, nbytes, helper->user_data);
 }
@@ -321,6 +350,7 @@ stream_sink(virStreamPtr st G_GNUC_UNUSED,
 /**
  * gvir_stream_receive_all:
  * @stream: the stream
+ * @cancellable: cancellation notifier
  * @func: (scope notified): the callback for writing data to application
  * @user_data: (closure): data to be passed to @callback
  * Returns: the number of bytes consumed or -1 upon error
@@ -330,12 +360,17 @@ stream_sink(virStreamPtr st G_GNUC_UNUSED,
  * to virStreamRecv, for apps that do blocking-I/o.
  */
 gssize
-gvir_stream_receive_all(GVirStream *self, GVirStreamSinkFunc func, gpointer user_data, GError **err)
+gvir_stream_receive_all(GVirStream *self,
+                        GCancellable *cancellable,
+                        GVirStreamSinkFunc func,
+                        gpointer user_data,
+                        GError **err)
 {
     struct stream_sink_helper helper = {
         .self = self,
         .func = func,
-        .user_data = user_data
+        .user_data = user_data,
+        .cancellable = cancellable,
     };
     int r;
 
@@ -344,10 +379,9 @@ gvir_stream_receive_all(GVirStream *self, GVirStreamSinkFunc func, gpointer user
 
     r = virStreamRecvAll(self->priv->handle, stream_sink, &helper);
     if (r < 0) {
-        if (err != NULL)
-            *err = gvir_error_new_literal(GVIR_STREAM_ERROR,
-                                          0,
-                                          "Unable to perform RecvAll");
+        gvir_set_error_literal(err, GVIR_STREAM_ERROR,
+                               0,
+                               "Unable to perform RecvAll");
     }
 
     return r;
@@ -376,8 +410,11 @@ gvir_stream_receive_all(GVirStream *self, GVirStreamSinkFunc func, gpointer user
  * Returns: Number of bytes read, or 0 if the end of stream reached,
  * or -1 on error.
  */
-gssize gvir_stream_send(GVirStream *self, const gchar *buffer, gsize size,
-                        GCancellable *cancellable, GError **error)
+gssize gvir_stream_send(GVirStream *self,
+                        const gchar *buffer,
+                        gsize size,
+                        GCancellable *cancellable,
+                        GError **error)
 {
     int got;
 
@@ -403,13 +440,19 @@ struct stream_source_helper {
     GVirStream *self;
     GVirStreamSourceFunc func;
     gpointer user_data;
+    GCancellable *cancellable;
 };
 
 static int
 stream_source(virStreamPtr st G_GNUC_UNUSED,
-              char *bytes, size_t nbytes, void *opaque)
+              char *bytes,
+              size_t nbytes,
+              void *opaque)
 {
   struct stream_source_helper *helper = opaque;
+
+  if (g_cancellable_is_cancelled(helper->cancellable))
+      return -1;
 
   return helper->func(helper->self, bytes, nbytes, helper->user_data);
 }
@@ -417,6 +460,7 @@ stream_source(virStreamPtr st G_GNUC_UNUSED,
 /**
  * gvir_stream_send_all:
  * @stream: the stream
+ * @cancellable: cancellation notifier
  * @func: (scope notified): the callback for writing data to application
  * @user_data: (closure): data to be passed to @callback
  * Returns: the number of bytes consumed or -1 upon error
@@ -426,12 +470,17 @@ stream_source(virStreamPtr st G_GNUC_UNUSED,
  * to virStreamRecv, for apps that do blocking-I/o.
  */
 gssize
-gvir_stream_send_all(GVirStream *self, GVirStreamSourceFunc func, gpointer user_data, GError **err)
+gvir_stream_send_all(GVirStream *self,
+                     GCancellable *cancellable,
+                     GVirStreamSourceFunc func,
+                     gpointer user_data,
+                     GError **err)
 {
     struct stream_source_helper helper = {
         .self = self,
         .func = func,
-        .user_data = user_data
+        .user_data = user_data,
+        .cancellable = cancellable,
     };
     int r;
 
@@ -440,11 +489,195 @@ gvir_stream_send_all(GVirStream *self, GVirStreamSourceFunc func, gpointer user_
 
     r = virStreamSendAll(self->priv->handle, stream_source, &helper);
     if (r < 0) {
-        if (err != NULL)
-            *err = gvir_error_new_literal(GVIR_STREAM_ERROR,
-                                          0,
-                                          "Unable to perform SendAll");
+        gvir_set_error_literal(err, GVIR_STREAM_ERROR,
+                               0,
+                               "Unable to perform SendAll");
     }
 
     return r;
+}
+
+
+static void gvir_stream_handle_events(virStreamPtr st G_GNUC_UNUSED,
+                                      int events,
+                                      void *opaque)
+{
+    GVirStream *stream = GVIR_STREAM(opaque);
+    GVirStreamPrivate *priv = stream->priv;
+    GList *tmp = priv->sources;
+
+    while (tmp) {
+        GVirStreamSource *source = tmp->data;
+        source->newCond = 0;
+        if (source->cond & GVIR_STREAM_IO_CONDITION_READABLE) {
+            if (events & VIR_STREAM_EVENT_READABLE)
+                source->newCond |= GVIR_STREAM_IO_CONDITION_READABLE;
+            if (events & VIR_STREAM_EVENT_HANGUP)
+                source->newCond |= GVIR_STREAM_IO_CONDITION_HANGUP;
+            if (events & VIR_STREAM_EVENT_ERROR)
+                source->newCond |= GVIR_STREAM_IO_CONDITION_ERROR;
+        }
+        if (source->cond & GVIR_STREAM_IO_CONDITION_WRITABLE) {
+            if (events & VIR_STREAM_EVENT_WRITABLE)
+                source->newCond |= GVIR_STREAM_IO_CONDITION_WRITABLE;
+            if (events & VIR_STREAM_EVENT_HANGUP)
+                source->newCond |= GVIR_STREAM_IO_CONDITION_HANGUP;
+            if (events & VIR_STREAM_EVENT_ERROR)
+                source->newCond |= GVIR_STREAM_IO_CONDITION_ERROR;
+        }
+        tmp = tmp->next;
+    }
+
+}
+
+
+static void gvir_stream_update_events(GVirStream *stream)
+{
+    GVirStreamPrivate *priv = stream->priv;
+    int mask = 0;
+    GList *tmp = priv->sources;
+
+    while (tmp) {
+        GVirStreamSource *source = tmp->data;
+        if (source->cond & GVIR_STREAM_IO_CONDITION_READABLE)
+            mask |= VIR_STREAM_EVENT_READABLE;
+        if (source->cond & GVIR_STREAM_IO_CONDITION_WRITABLE)
+            mask |= VIR_STREAM_EVENT_WRITABLE;
+        tmp = tmp->next;
+    }
+
+    if (mask) {
+        if (priv->eventRegistered) {
+            virStreamEventUpdateCallback(priv->handle, mask);
+        } else {
+            virStreamEventAddCallback(priv->handle, mask,
+                                      gvir_stream_handle_events,
+                                      g_object_ref(stream),
+                                      g_object_unref);
+            priv->eventRegistered = TRUE;
+        }
+    } else {
+        if (priv->eventRegistered) {
+            virStreamEventRemoveCallback(priv->handle);
+            priv->eventRegistered = FALSE;
+        }
+    }
+}
+
+static gboolean gvir_stream_source_prepare(GSource *source,
+                                           gint *timeout)
+{
+    GVirStreamSource *gsource = (GVirStreamSource*)source;
+    if (gsource->newCond) {
+        *timeout = 0;
+        return TRUE;
+    }
+    *timeout = -1;
+    return FALSE;
+}
+
+static gboolean gvir_stream_source_check(GSource *source)
+{
+    GVirStreamSource *gsource = (GVirStreamSource*)source;
+    if (gsource->newCond)
+        return TRUE;
+    return FALSE;
+}
+
+static gboolean gvir_stream_source_dispatch(GSource *source,
+                                            GSourceFunc callback,
+                                            gpointer user_data)
+{
+    GVirStreamSource *gsource = (GVirStreamSource*)source;
+    GVirStreamIOFunc func = (GVirStreamIOFunc)callback;
+    gboolean ret;
+    ret = func(gsource->stream, gsource->newCond, user_data);
+    gsource->newCond = 0;
+    return ret;
+}
+
+static void gvir_stream_source_finalize(GSource *source)
+{
+    GVirStreamSource *gsource = (GVirStreamSource*)source;
+    GVirStreamPrivate *priv = gsource->stream->priv;
+
+    priv->sources = g_list_remove(priv->sources, source);
+
+    gvir_stream_update_events(gsource->stream);
+}
+
+GSourceFuncs gvir_stream_source_funcs = {
+    .prepare = gvir_stream_source_prepare,
+    .check = gvir_stream_source_check,
+    .dispatch = gvir_stream_source_dispatch,
+    .finalize = gvir_stream_source_finalize,
+};
+
+
+/**
+ * gvir_stream_add_watch: (skip):
+ * @stream: the stream
+ * @cond: the conditions to watch for (bitfield of #GVirStreamIOCondition)
+ * @func: (closure opaque): the function to call when the condition is satisfied
+ * @opaque: (closure): user data to pass to @func
+ *
+ * Adds a watch for @stream to the mainloop
+ *
+ * Returns: the event source id
+ */
+guint gvir_stream_add_watch(GVirStream *stream,
+                            GVirStreamIOCondition cond,
+                            GVirStreamIOFunc func,
+                            gpointer opaque)
+{
+    return gvir_stream_add_watch_full(stream,
+                                      G_PRIORITY_DEFAULT,
+                                      cond,
+                                      func,
+                                      opaque,
+                                      NULL);
+}
+
+/**
+ * gvir_stream_add_watch_full:
+ * @stream: the stream
+ * @priority: the priority of the #GVirStream source
+ * @cond: the conditions to watch for (bitfield of #GVirStreamIOCondition)
+ * @func: (closure opaque): the function to call when the condition is satisfied
+ * @opaque: (closure): user data to pass to @func
+ * @notify: the function to call when the source is removed
+ *
+ * Adds a watch for @stream to the mainloop
+ *
+ * Returns: the event source id
+ * Rename to: gvir_stream_add_watch
+ */
+guint gvir_stream_add_watch_full(GVirStream *stream,
+                                 gint priority,
+                                 GVirStreamIOCondition cond,
+                                 GVirStreamIOFunc func,
+                                 gpointer opaque,
+                                 GDestroyNotify notify)
+{
+    GVirStreamPrivate *priv = stream->priv;
+    GVirStreamSource *source = (GVirStreamSource*)g_source_new(&gvir_stream_source_funcs,
+                                                               sizeof(GVirStreamSource));
+    guint ret;
+
+    source->stream = stream;
+    source->cond = cond;
+
+    if (priority != G_PRIORITY_DEFAULT)
+        g_source_set_priority((GSource*)source, priority);
+
+    priv->sources = g_list_append(priv->sources, source);
+
+    gvir_stream_update_events(source->stream);
+
+    g_source_set_callback((GSource*)source, (GSourceFunc)func, opaque, notify);
+    ret = g_source_attach((GSource*)source, g_main_context_default());
+
+    g_source_unref((GSource*)source);
+
+    return ret;
 }
