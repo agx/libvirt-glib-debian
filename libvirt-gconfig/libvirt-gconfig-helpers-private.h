@@ -1,7 +1,7 @@
 /*
- * libvirt-gconfig-helpers.h: various GVirConfig helpers
+ * libvirt-gconfig-helpers-private.h: libvirt configuration helpers
  *
- * Copyright (C) 2010, 2011 Red Hat
+ * Copyright (C) 2010, 2011 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -30,16 +30,36 @@
 
 G_BEGIN_DECLS
 
-GError *gvir_xml_error_new(GQuark domain, gint code,
+GError *gvir_config_error_new(GQuark domain, gint code,
+                              const gchar *format, ...);
+void gvir_config_set_error(GError **err,
+                           GQuark domain, gint code,
                            const gchar *format, ...);
+void gvir_config_set_error_literal(GError **err,
+                                   GQuark domain, gint code,
+                                   const gchar *message);
+void gvir_config_set_error_valist(GError **err,
+                                  GQuark domain, gint code,
+                                  const gchar *format,
+                                  va_list args);
 xmlNodePtr gvir_config_xml_parse(const char *xml,
                                  const char *root_node,
                                  GError **err);
+typedef gboolean (*GVirConfigXmlNodeIterator)(xmlNodePtr node, gpointer opaque);
+void gvir_config_xml_foreach_child(xmlNodePtr node,
+                                   GVirConfigXmlNodeIterator iter_func,
+                                   gpointer opaque);
 xmlNode * gvir_config_xml_get_element (xmlNode *node, ...);
 xmlChar * gvir_config_xml_get_child_element_content (xmlNode    *node,
                                                      const char *child_name);
 char *gvir_config_xml_get_child_element_content_glib (xmlNode    *node,
                                                       const char *child_name);
+xmlChar *gvir_config_xml_get_attribute_content(xmlNodePtr node,
+                                               const char *attr_name);
+char *gvir_config_xml_get_attribute_content_glib(xmlNodePtr node,
+                                                 const char *attr_name);
+const char *gvir_config_genum_get_nick (GType enum_type, gint value);
+int gvir_config_genum_get_value (GType enum_type, const char *nick, gint default_value);
 G_END_DECLS
 
 #endif /* __LIBVIRT_GCONFIG_HELPERS_PRIVATE_H__ */

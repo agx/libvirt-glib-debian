@@ -1,8 +1,8 @@
 /*
- * libvirt-gobject-config_network.c: libvirt glib integration
+ * libvirt-gconfig-network.c: libvirt network configuration
  *
  * Copyright (C) 2008 Daniel P. Berrange
- * Copyright (C) 2010 Red Hat
+ * Copyright (C) 2010-2011 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23,41 +23,30 @@
 
 #include <config.h>
 
-#include <string.h>
-
 #include "libvirt-gconfig/libvirt-gconfig.h"
 
-extern gboolean debugFlag;
-
-#define DEBUG(fmt, ...) do { if (G_UNLIKELY(debugFlag)) g_debug(fmt, ## __VA_ARGS__); } while (0)
-
 #define GVIR_CONFIG_NETWORK_GET_PRIVATE(obj)                         \
-        (G_TYPE_INSTANCE_GET_PRIVATE((obj), GVIR_TYPE_CONFIG_NETWORK, GVirConfigNetworkPrivate))
+        (G_TYPE_INSTANCE_GET_PRIVATE((obj), GVIR_CONFIG_TYPE_NETWORK, GVirConfigNetworkPrivate))
 
 struct _GVirConfigNetworkPrivate
 {
     gboolean unused;
 };
 
-G_DEFINE_TYPE(GVirConfigNetwork, gvir_config_network, GVIR_TYPE_CONFIG_OBJECT);
+G_DEFINE_TYPE(GVirConfigNetwork, gvir_config_network, GVIR_CONFIG_TYPE_OBJECT);
 
 
 static void gvir_config_network_class_init(GVirConfigNetworkClass *klass)
 {
-
     g_type_class_add_private(klass, sizeof(GVirConfigNetworkPrivate));
 }
 
 
 static void gvir_config_network_init(GVirConfigNetwork *conn)
 {
-    GVirConfigNetworkPrivate *priv;
+    g_debug("Init GVirConfigNetwork=%p", conn);
 
-    DEBUG("Init GVirConfigNetwork=%p", conn);
-
-    priv = conn->priv = GVIR_CONFIG_NETWORK_GET_PRIVATE(conn);
-
-    memset(priv, 0, sizeof(*priv));
+    conn->priv = GVIR_CONFIG_NETWORK_GET_PRIVATE(conn);
 }
 
 
@@ -65,7 +54,7 @@ GVirConfigNetwork *gvir_config_network_new(void)
 {
     GVirConfigObject *object;
 
-    object = gvir_config_object_new(GVIR_TYPE_CONFIG_NETWORK,
+    object = gvir_config_object_new(GVIR_CONFIG_TYPE_NETWORK,
                                     "network",
                                     DATADIR "/libvirt/schemas/network.rng");
     return GVIR_CONFIG_NETWORK(object);
@@ -76,7 +65,7 @@ GVirConfigNetwork *gvir_config_network_new_from_xml(const gchar *xml,
 {
     GVirConfigObject *object;
 
-    object = gvir_config_object_new_from_xml(GVIR_TYPE_CONFIG_NETWORK,
+    object = gvir_config_object_new_from_xml(GVIR_CONFIG_TYPE_NETWORK,
                                              "network",
                                              DATADIR "/libvirt/schemas/network.rng",
                                              xml, error);

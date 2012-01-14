@@ -2,7 +2,7 @@
  * libvirt-gobject-secret.c: libvirt glib integration
  *
  * Copyright (C) 2008 Daniel P. Berrange
- * Copyright (C) 2010 Red Hat
+ * Copyright (C) 2010-2011 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -29,10 +29,6 @@
 #include "libvirt-glib/libvirt-glib.h"
 #include "libvirt-gobject/libvirt-gobject.h"
 #include "libvirt-gobject-compat.h"
-
-extern gboolean debugFlag;
-
-#define DEBUG(fmt, ...) do { if (G_UNLIKELY(debugFlag)) g_debug(fmt, ## __VA_ARGS__); } while (0)
 
 #define GVIR_SECRET_GET_PRIVATE(obj)                         \
         (G_TYPE_INSTANCE_GET_PRIVATE((obj), GVIR_TYPE_SECRET, GVirSecretPrivate))
@@ -106,7 +102,7 @@ static void gvir_secret_finalize(GObject *object)
     GVirSecret *conn = GVIR_SECRET(object);
     GVirSecretPrivate *priv = conn->priv;
 
-    DEBUG("Finalize GVirSecret=%p", conn);
+    g_debug("Finalize GVirSecret=%p", conn);
 
     virSecretFree(priv->handle);
 
@@ -156,13 +152,9 @@ static void gvir_secret_class_init(GVirSecretClass *klass)
 
 static void gvir_secret_init(GVirSecret *conn)
 {
-    GVirSecretPrivate *priv;
+    g_debug("Init GVirSecret=%p", conn);
 
-    DEBUG("Init GVirSecret=%p", conn);
-
-    priv = conn->priv = GVIR_SECRET_GET_PRIVATE(conn);
-
-    memset(priv, 0, sizeof(*priv));
+    conn->priv = GVIR_SECRET_GET_PRIVATE(conn);
 }
 
 typedef struct virSecret GVirSecretHandle;
@@ -205,10 +197,9 @@ GVirConfigSecret *gvir_secret_get_config(GVirSecret *secret,
     gchar *xml;
 
     if (!(xml = virSecretGetXMLDesc(priv->handle, flags))) {
-        if (err)
-            *err = gvir_error_new_literal(GVIR_SECRET_ERROR,
-                                          0,
-                                          "Unable to get secret XML config");
+        gvir_set_error_literal(err, GVIR_SECRET_ERROR,
+                               0,
+                               "Unable to get secret XML config");
         return NULL;
     }
 

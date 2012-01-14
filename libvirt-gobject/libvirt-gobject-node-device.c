@@ -2,7 +2,7 @@
  * libvirt-gobject-node_device.c: libvirt glib integration
  *
  * Copyright (C) 2008 Daniel P. Berrange
- * Copyright (C) 2010 Red Hat
+ * Copyright (C) 2010-2011 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -29,10 +29,6 @@
 #include "libvirt-glib/libvirt-glib.h"
 #include "libvirt-gobject/libvirt-gobject.h"
 #include "libvirt-gobject-compat.h"
-
-extern gboolean debugFlag;
-
-#define DEBUG(fmt, ...) do { if (G_UNLIKELY(debugFlag)) g_debug(fmt, ## __VA_ARGS__); } while (0)
 
 #define GVIR_NODE_DEVICE_GET_PRIVATE(obj)                         \
         (G_TYPE_INSTANCE_GET_PRIVATE((obj), GVIR_TYPE_NODE_DEVICE, GVirNodeDevicePrivate))
@@ -105,7 +101,7 @@ static void gvir_node_device_finalize(GObject *object)
     GVirNodeDevice *conn = GVIR_NODE_DEVICE(object);
     GVirNodeDevicePrivate *priv = conn->priv;
 
-    DEBUG("Finalize GVirNodeDevice=%p", conn);
+    g_debug("Finalize GVirNodeDevice=%p", conn);
 
     virNodeDeviceFree(priv->handle);
 
@@ -140,13 +136,9 @@ static void gvir_node_device_class_init(GVirNodeDeviceClass *klass)
 
 static void gvir_node_device_init(GVirNodeDevice *conn)
 {
-    GVirNodeDevicePrivate *priv;
+    g_debug("Init GVirNodeDevice=%p", conn);
 
-    DEBUG("Init GVirNodeDevice=%p", conn);
-
-    priv = conn->priv = GVIR_NODE_DEVICE_GET_PRIVATE(conn);
-
-    memset(priv, 0, sizeof(*priv));
+    conn->priv = GVIR_NODE_DEVICE_GET_PRIVATE(conn);
 }
 
 typedef struct virNodeDevice GVirNodeDeviceHandle;
@@ -194,10 +186,9 @@ GVirConfigNodeDevice *gvir_node_device_get_config(GVirNodeDevice *device,
     gchar *xml;
 
     if (!(xml = virNodeDeviceGetXMLDesc(priv->handle, flags))) {
-        if (err)
-            *err = gvir_error_new_literal(GVIR_NODE_DEVICE_ERROR,
-                                          0,
-                                          "Unable to get node_device XML config");
+        gvir_set_error_literal(err, GVIR_NODE_DEVICE_ERROR,
+                               0,
+                               "Unable to get node_device XML config");
         return NULL;
     }
 

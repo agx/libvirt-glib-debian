@@ -1,8 +1,8 @@
 /*
- * libvirt-gconfig-config-object.c: base object for XML configuration
+ * libvirt-gconfig-object.c: base object for XML configuration
  *
  * Copyright (C) 2008 Daniel P. Berrange
- * Copyright (C) 2010 Red Hat
+ * Copyright (C) 2010-2011 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -28,30 +28,26 @@
 #include <libxml/relaxng.h>
 
 #include "libvirt-gconfig/libvirt-gconfig.h"
-#include "libvirt-gconfig/libvirt-gconfig-helpers-private.h"
-
-
-//extern gboolean debugFlag;
-gboolean debugFlag;
-
-#define DEBUG(fmt, ...) do { if (G_UNLIKELY(debugFlag)) g_debug(fmt, ## __VA_ARGS__); } while (0)
+#include "libvirt-gconfig/libvirt-gconfig-private.h"
 
 #define GVIR_CONFIG_OBJECT_GET_PRIVATE(obj)                         \
-        (G_TYPE_INSTANCE_GET_PRIVATE((obj), GVIR_TYPE_CONFIG_OBJECT, GVirConfigObjectPrivate))
+        (G_TYPE_INSTANCE_GET_PRIVATE((obj), GVIR_CONFIG_TYPE_OBJECT, GVirConfigObjectPrivate))
 
 struct _GVirConfigObjectPrivate
 {
     gchar *schema;
 
+    GVirConfigXmlDoc *doc;
     xmlNodePtr node;
 };
 
-G_DEFINE_ABSTRACT_TYPE(GVirConfigObject, gvir_config_object, G_TYPE_OBJECT);
+G_DEFINE_TYPE(GVirConfigObject, gvir_config_object, G_TYPE_OBJECT);
 
 enum {
     PROP_0,
     PROP_SCHEMA,
-    PROP_NODE
+    PROP_NODE,
+    PROP_DOC
 };
 
 
@@ -72,8 +68,8 @@ static void gvir_config_object_get_property(GObject *object,
                                             GValue *value,
                                             GParamSpec *pspec)
 {
-    GVirConfigObject *conn = GVIR_CONFIG_OBJECT(object);
-    GVirConfigObjectPrivate *priv = conn->priv;
+    GVirConfigObject *obj = GVIR_CONFIG_OBJECT(object);
+    GVirConfigObjectPrivate *priv = obj->priv;
 
     switch (prop_id) {
     case PROP_SCHEMA:
@@ -81,7 +77,11 @@ static void gvir_config_object_get_property(GObject *object,
         break;
 
     case PROP_NODE:
-        g_value_set_pointer(value, gvir_config_object_get_xml_node(conn));
+        g_value_set_pointer(value, gvir_config_object_get_xml_node(obj));
+        break;
+
+    case PROP_DOC:
+        g_value_set_object(value, obj->priv->doc);
         break;
 
     default:
@@ -94,8 +94,8 @@ static void gvir_config_object_set_property(GObject *object,
                                             const GValue *value,
                                             GParamSpec *pspec)
 {
-    GVirConfigObject *conn = GVIR_CONFIG_OBJECT(object);
-    GVirConfigObjectPrivate *priv = conn->priv;
+    GVirConfigObject *obj = GVIR_CONFIG_OBJECT(object);
+    GVirConfigObjectPrivate *priv = obj->priv;
 
     switch (prop_id) {
     case PROP_SCHEMA:
@@ -103,17 +103,13 @@ static void gvir_config_object_set_property(GObject *object,
         priv->schema = g_value_dup_string(value);
         break;
 
-    case PROP_NODE: {
-        xmlNodePtr node;
-        node = g_value_get_pointer(value);
-        if ((priv->node != NULL)
-             && (priv->node->doc != NULL)
-             && (priv->node->doc != node->doc)) {
-            xmlFreeDoc(priv->node->doc);
-        }
-        priv->node = node;
+    case PROP_NODE:
+        priv->node =g_value_get_pointer(value);
         break;
-    }
+
+    case PROP_DOC:
+        obj->priv->doc = g_value_dup_object(value);
+        break;
 
     default:
         G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
@@ -126,16 +122,18 @@ static void gvir_config_object_finalize(GObject *object)
     GVirConfigObject *conn = GVIR_CONFIG_OBJECT(object);
     GVirConfigObjectPrivate *priv = conn->priv;
 
-    DEBUG("Finalize GVirConfigObject=%p", conn);
+    g_debug("Finalize GVirConfigObject=%p", conn);
 
     g_free(priv->schema);
 
-    /* FIXME: all objects describing a given XML document will share the
-     * same document so we can't destroy it here like this, we need some
-     * refcounting to know when to destroy it.
-     */
-    if (priv->node)
-        xmlFreeDoc(priv->node->doc);
+    if (priv->doc != NULL) {
+        g_object_unref(G_OBJECT(priv->doc));
+        priv->node = NULL; /* node belongs to doc, make sure not to free it */
+    }
+    if (priv->node != NULL) {
+        g_assert(priv->node->doc == NULL);
+        xmlFreeNode(priv->node);
+    }
 
     G_OBJECT_CLASS(gvir_config_object_parent_class)->finalize(object);
 }
@@ -158,9 +156,7 @@ static void gvir_config_object_class_init(GVirConfigObjectClass *klass)
                                                         G_PARAM_READABLE |
                                                         G_PARAM_WRITABLE |
                                                         G_PARAM_CONSTRUCT_ONLY |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
+                                                        G_PARAM_STATIC_STRINGS));
 
     g_object_class_install_property(object_class,
                                     PROP_NODE,
@@ -171,19 +167,25 @@ static void gvir_config_object_class_init(GVirConfigObjectClass *klass)
                                                         G_PARAM_CONSTRUCT_ONLY |
                                                         G_PARAM_STATIC_STRINGS));
 
+    g_object_class_install_property(object_class,
+                                    PROP_DOC,
+                                    g_param_spec_object("doc",
+                                                        "XML Doc",
+                                                        "The XML doc this config object corresponds to",
+                                                        GVIR_CONFIG_TYPE_XML_DOC,
+                                                        G_PARAM_READWRITE |
+                                                        G_PARAM_CONSTRUCT_ONLY |
+                                                        G_PARAM_STATIC_STRINGS));
+
     g_type_class_add_private(klass, sizeof(GVirConfigObjectPrivate));
 }
 
 
 static void gvir_config_object_init(GVirConfigObject *conn)
 {
-    GVirConfigObjectPrivate *priv;
+    g_debug("Init GVirConfigObject=%p", conn);
 
-    DEBUG("Init GVirConfigObject=%p", conn);
-
-    priv = conn->priv = GVIR_CONFIG_OBJECT_GET_PRIVATE(conn);
-
-    memset(priv, 0, sizeof(*priv));
+    conn->priv = GVIR_CONFIG_OBJECT_GET_PRIVATE(conn);
 }
 
 void gvir_config_object_validate(GVirConfigObject *config,
@@ -198,28 +200,30 @@ void gvir_config_object_validate(GVirConfigObject *config,
     xmlSetStructuredErrorFunc(NULL, gvir_xml_structured_error_nop);
 
     if (!priv->node) {
-        *err = gvir_xml_error_new(GVIR_CONFIG_OBJECT_ERROR,
-                                  0,
-                                  "%s",
-                                  "No XML document associated with this config object");
+        gvir_config_set_error_literal(err,
+                                      GVIR_CONFIG_OBJECT_ERROR,
+                                      0,
+                                      "No XML document associated with this config object");
         return;
     }
 
     rngParser = xmlRelaxNGNewParserCtxt(priv->schema);
     if (!rngParser) {
-        *err = gvir_xml_error_new(GVIR_CONFIG_OBJECT_ERROR,
-                                  0,
-                                  "Unable to create RNG parser for %s",
-                                  priv->schema);
+        gvir_config_set_error(err,
+                              GVIR_CONFIG_OBJECT_ERROR,
+                              0,
+                              "Unable to create RNG parser for %s",
+                              priv->schema);
         return;
     }
 
     rng = xmlRelaxNGParse(rngParser);
     if (!rng) {
-        *err = gvir_xml_error_new(GVIR_CONFIG_OBJECT_ERROR,
-                                  0,
-                                  "Unable to parse RNG %s",
-                                  priv->schema);
+        gvir_config_set_error(err,
+                              GVIR_CONFIG_OBJECT_ERROR,
+                              0,
+                              "Unable to parse RNG %s",
+                              priv->schema);
         xmlRelaxNGFreeParserCtxt(rngParser);
         return;
     }
@@ -227,19 +231,20 @@ void gvir_config_object_validate(GVirConfigObject *config,
 
     rngValid = xmlRelaxNGNewValidCtxt(rng);
     if (!rngValid) {
-        *err = gvir_xml_error_new(GVIR_CONFIG_OBJECT_ERROR,
-                                  0,
-                                  "Unable to create RNG validation context %s",
-                                  priv->schema);
+        gvir_config_set_error(err,
+                              GVIR_CONFIG_OBJECT_ERROR,
+                              0,
+                              "Unable to create RNG validation context %s",
+                              priv->schema);
         xmlRelaxNGFree(rng);
         return;
     }
 
     if (xmlRelaxNGValidateDoc(rngValid, priv->node->doc) != 0) {
-        *err = gvir_xml_error_new(GVIR_CONFIG_OBJECT_ERROR,
-                                  0,
-                                  "%s",
-                                  "Unable to validate doc");
+        gvir_config_set_error_literal(err,
+                                      GVIR_CONFIG_OBJECT_ERROR,
+                                      0,
+                                      "Unable to validate doc");
         xmlRelaxNGFreeValidCtxt(rngValid);
         xmlRelaxNGFree(rng);
         return;
@@ -260,7 +265,7 @@ gchar *gvir_config_object_to_xml(GVirConfigObject *config)
     if (node == NULL)
         return NULL;
 
-    xmlDocDumpMemory(node->doc, &doc, &size);
+    xmlDocDumpFormatMemory(node->doc, &doc, &size, 1);
 
     output_doc = g_strdup((gchar *)doc);
     xmlFree(doc);
@@ -277,13 +282,15 @@ const gchar *gvir_config_object_get_schema(GVirConfigObject *config)
 /* FIXME: will we always have one xmlNode per GConfig object? */
 /* FIXME: need to return the right node from subclasses */
 /* NB: the xmlNodePtr must not be freed by the caller */
-xmlNodePtr gvir_config_object_get_xml_node(GVirConfigObject *config)
+G_GNUC_INTERNAL xmlNodePtr
+gvir_config_object_get_xml_node(GVirConfigObject *config)
 {
     return config->priv->node;
 }
 
-char *gvir_config_object_get_node_content(GVirConfigObject *object,
-                                          const char *node_name)
+G_GNUC_INTERNAL char *
+gvir_config_object_get_node_content(GVirConfigObject *object,
+                                    const char *node_name)
 {
     xmlNodePtr node;
 
@@ -294,38 +301,234 @@ char *gvir_config_object_get_node_content(GVirConfigObject *object,
     return gvir_config_xml_get_child_element_content_glib(node, node_name);
 }
 
-/* FIXME: if there are multiple nodes with the same name, this function
- * won't behave as expected. Should we get rid of the duplicated node names
- * here?
- */
-void gvir_config_object_set_node_content(GVirConfigObject *object,
-                                         const char *node_name,
-                                         const char *value)
+G_GNUC_INTERNAL char *
+gvir_config_object_get_attribute(GVirConfigObject *object,
+                                 const char *node_name,
+                                 const char *attr_name)
+{
+    xmlNodePtr node;
+
+    g_return_val_if_fail(attr_name != NULL, NULL);
+
+    node = gvir_config_object_get_xml_node(GVIR_CONFIG_OBJECT(object));
+    if (node == NULL)
+        return NULL;
+
+    if (node_name != NULL) {
+        node = gvir_config_xml_get_element(node, node_name, NULL);
+        if (node == NULL)
+            return NULL;
+    }
+
+    return gvir_config_xml_get_attribute_content_glib(node, attr_name);
+}
+
+static xmlNodePtr
+gvir_config_object_set_child_internal(GVirConfigObject *object,
+                                      xmlNodePtr child,
+                                      gboolean overwrite)
 {
     xmlNodePtr parent_node;
     xmlNodePtr old_node;
-    xmlNodePtr new_node;
-    xmlChar *encoded_name;
 
     parent_node = gvir_config_object_get_xml_node(GVIR_CONFIG_OBJECT(object));
-    encoded_name = xmlEncodeEntitiesReentrant(parent_node->doc,
-                                              (xmlChar *)value);
-    new_node = xmlNewDocNode(parent_node->doc, NULL,
-                             (xmlChar *)node_name, encoded_name);
-    xmlFree(encoded_name);
+    g_return_val_if_fail (parent_node != NULL, NULL);
 
-    old_node = gvir_config_xml_get_element(parent_node, node_name, NULL);
+    old_node = gvir_config_xml_get_element(parent_node, child->name, NULL);
+    /* FIXME: should we make sure there are no multiple occurrences
+     * of this node?
+     */
     if (old_node) {
-        old_node = xmlReplaceNode(old_node, new_node);
-        xmlFreeNode(old_node);
+        if (overwrite) {
+            old_node = xmlReplaceNode(old_node, child);
+            xmlFreeNode(old_node);
+        } else {
+            return old_node;
+        }
     } else {
-        xmlAddChild(parent_node, new_node);
+        xmlAddChild(parent_node, child);
     }
+
+    return NULL;
+}
+
+G_GNUC_INTERNAL void
+gvir_config_object_set_child(GVirConfigObject *object, xmlNodePtr child)
+{
+    gvir_config_object_set_child_internal(object, child, TRUE);
+}
+
+G_GNUC_INTERNAL void
+gvir_config_object_foreach_child(GVirConfigObject *object,
+                                 const char *parent_name,
+                                 GVirConfigXmlNodeIterator iter_func,
+                                 gpointer opaque)
+{
+    xmlNodePtr root_node;
+    xmlNodePtr node;
+
+    g_return_if_fail(GVIR_CONFIG_IS_OBJECT(object));
+
+    root_node = gvir_config_object_get_xml_node(object);
+    g_return_if_fail(root_node != NULL);
+
+    node = gvir_config_xml_get_element(root_node, parent_name, NULL);
+    if (node == NULL)
+        return;
+
+    gvir_config_xml_foreach_child(node, iter_func, opaque);
+}
+
+G_GNUC_INTERNAL GVirConfigObject *
+gvir_config_object_add_child(GVirConfigObject *object,
+                             const char *child_name)
+{
+    xmlNodePtr new_node;
+    xmlNodePtr old_node;
+
+    g_return_val_if_fail(GVIR_CONFIG_IS_OBJECT(object), NULL);
+    g_return_val_if_fail(child_name != NULL, NULL);
+
+    new_node = xmlNewDocNode(NULL, NULL, (xmlChar *)child_name, NULL);
+    old_node = gvir_config_object_set_child_internal(object, new_node,
+                                                     FALSE);
+    if (old_node != NULL) {
+        xmlFreeNode(new_node);
+        return GVIR_CONFIG_OBJECT(g_object_new(GVIR_CONFIG_TYPE_OBJECT,
+                                               "doc", object->priv->doc,
+                                               "node", old_node,
+                                               NULL));
+    }
+
+    return GVIR_CONFIG_OBJECT(g_object_new(GVIR_CONFIG_TYPE_OBJECT,
+                                           "doc", object->priv->doc,
+                                           "node", new_node,
+                                           NULL));
+}
+
+G_GNUC_INTERNAL void
+gvir_config_object_add_child_with_attribute(GVirConfigObject *object,
+                                            const char *child_name,
+                                            const char *attr_name,
+                                            const char *attr_value)
+{
+    GVirConfigObject *child;
+
+    child = gvir_config_object_add_child(object, child_name);
+    gvir_config_object_set_attribute(child, attr_name, attr_value, NULL);
+    g_object_unref(G_OBJECT(child));
+}
+
+
+void gvir_config_object_add_child_with_attribute_enum(GVirConfigObject *object,
+                                                      const char *child_name,
+                                                      const char *attr_name,
+                                                      GType attr_type,
+                                                      unsigned int attr_value)
+{
+    GVirConfigObject *child;
+
+    child = gvir_config_object_add_child(object, child_name);
+    gvir_config_object_set_attribute_with_type(child, attr_name, attr_type, attr_value, NULL);
+    g_object_unref(G_OBJECT(child));
+}
+
+
+G_GNUC_INTERNAL GVirConfigObject *
+gvir_config_object_replace_child(GVirConfigObject *object,
+                                 const char *child_name)
+{
+    xmlNodePtr new_node;
+
+    g_return_val_if_fail(GVIR_CONFIG_IS_OBJECT(object), NULL);
+    g_return_val_if_fail(child_name != NULL, NULL);
+
+    new_node = xmlNewDocNode(NULL, NULL, (xmlChar *)child_name, NULL);
+    gvir_config_object_set_child_internal(object, new_node, TRUE);
+
+    return GVIR_CONFIG_OBJECT(g_object_new(GVIR_CONFIG_TYPE_OBJECT,
+                                           "doc", object->priv->doc,
+                                           "node", new_node,
+                                           NULL));
+}
+
+G_GNUC_INTERNAL void
+gvir_config_object_replace_child_with_attribute(GVirConfigObject *object,
+                                                const char *child_name,
+                                                const char *attr_name,
+                                                const char *attr_value)
+{
+    GVirConfigObject *child;
+
+    child = gvir_config_object_replace_child(object, child_name);
+    gvir_config_object_set_attribute(child, attr_name, attr_value, NULL);
+    g_object_unref(G_OBJECT(child));
+}
+
+G_GNUC_INTERNAL void
+gvir_config_object_delete_child(GVirConfigObject *object,
+                                const char *child_name)
+{
+    xmlNodePtr parent_node;
+    xmlNodePtr old_node;
+
+    g_return_if_fail(GVIR_CONFIG_IS_OBJECT(object));
+    g_return_if_fail(child_name != NULL);
+
+    parent_node = gvir_config_object_get_xml_node(GVIR_CONFIG_OBJECT(object));
+    g_return_if_fail(parent_node != NULL);
+
+    if (!(old_node = gvir_config_xml_get_element(parent_node, child_name, NULL)))
+        return;
+
+    /* FIXME: should we make sure there are no multiple occurrences
+     * of this node?
+     */
+    xmlUnlinkNode(old_node);
+    xmlFreeNode(old_node);
+}
+
+
+G_GNUC_INTERNAL void
+gvir_config_object_set_node_content(GVirConfigObject *object,
+                                    const char *node_name,
+                                    const char *value)
+{
+    xmlChar *encoded_data;
+    GVirConfigObject *node;
+
+    g_return_if_fail(GVIR_CONFIG_IS_OBJECT(object));
+    g_return_if_fail(node_name != NULL);
+    g_return_if_fail(value != NULL);
+
+    node = gvir_config_object_replace_child(object, node_name);
+    g_return_if_fail(node != NULL);
+    encoded_data = xmlEncodeEntitiesReentrant(node->priv->node->doc,
+                                              (xmlChar *)value);
+    xmlNodeSetContent(node->priv->node, encoded_data);
+    xmlFree(encoded_data);
+    g_object_unref(G_OBJECT(node));
+}
+
+G_GNUC_INTERNAL void
+gvir_config_object_set_node_content_uint64(GVirConfigObject *object,
+                                           const char *node_name,
+                                           guint64 value)
+{
+    char *str;
+
+    g_return_if_fail(GVIR_CONFIG_IS_OBJECT(object));
+    g_return_if_fail(node_name != NULL);
+
+    str = g_strdup_printf("%"G_GUINT64_FORMAT, value);
+    gvir_config_object_set_node_content(object, node_name, str);
+    g_free(str);
 }
 
 /* FIXME: how to notify of errors/node not found? */
-guint64 gvir_config_object_get_node_content_uint64(GVirConfigObject *object,
-                                                   const char *node_name)
+G_GNUC_INTERNAL guint64
+gvir_config_object_get_node_content_uint64(GVirConfigObject *object,
+                                           const char *node_name)
 {
     xmlNodePtr node;
     xmlChar *str;
@@ -345,15 +548,62 @@ guint64 gvir_config_object_get_node_content_uint64(GVirConfigObject *object,
     return value;
 }
 
-
-void gvir_config_object_set_node_content_uint64(GVirConfigObject *object,
-                                                const char *node_name,
-                                                guint64 value)
+G_GNUC_INTERNAL gint
+gvir_config_object_get_node_content_genum(GVirConfigObject *object,
+                                          const char *node_name,
+                                          GType enum_type,
+                                          gint default_value)
 {
-    char *str;
-    str = g_strdup_printf("%"G_GUINT64_FORMAT, value);
-    gvir_config_object_set_node_content(object, node_name, str);
-    g_free(str);
+    xmlNodePtr node;
+    xmlChar *str;
+    gint value;
+
+    node = gvir_config_object_get_xml_node(GVIR_CONFIG_OBJECT(object));
+    if (node == NULL)
+        return default_value;
+
+    str = gvir_config_xml_get_child_element_content(node, node_name);
+    if (!str)
+        return default_value;
+
+    value = gvir_config_genum_get_value(enum_type, (char *)str, default_value);
+    xmlFree(str);
+
+    return value;
+}
+
+G_GNUC_INTERNAL gint
+gvir_config_object_get_attribute_genum(GVirConfigObject *object,
+                                       const char *node_name,
+                                       const char *attr_name,
+                                       GType enum_type,
+                                       gint default_value)
+{
+    xmlNodePtr node;
+    xmlChar *attr_val;
+    gint value;
+
+    g_return_val_if_fail(attr_name != NULL, default_value);
+
+    node = gvir_config_object_get_xml_node(GVIR_CONFIG_OBJECT(object));
+    if (node == NULL)
+        return default_value;
+
+    if (node_name != NULL) {
+        node = gvir_config_xml_get_element(node, node_name, NULL);
+        if (node == NULL)
+            return default_value;
+    }
+
+    attr_val = gvir_config_xml_get_attribute_content(node, attr_name);
+    if (attr_val == NULL)
+        return default_value;
+
+    value = gvir_config_genum_get_value(enum_type, (char *)attr_val,
+                                        default_value);
+    xmlFree(attr_val);
+
+    return value;
 }
 
 GVirConfigObject *gvir_config_object_new_from_xml(GType type,
@@ -362,13 +612,35 @@ GVirConfigObject *gvir_config_object_new_from_xml(GType type,
                                                   const gchar *xml,
                                                   GError **error)
 {
+    GVirConfigObject *object;
+    GVirConfigXmlDoc *doc;
     xmlNodePtr node;
 
     node = gvir_config_xml_parse(xml, root_name, error);
     if ((error != NULL) && (*error != NULL))
         return NULL;
+    doc = gvir_config_xml_doc_new(node->doc);
+    object = GVIR_CONFIG_OBJECT(g_object_new(type,
+                                             "doc", doc,
+                                             "node", node,
+                                             "schema", schema,
+                                             NULL));
+    g_object_unref(G_OBJECT(doc));
+
+    return object;
+}
+
+G_GNUC_INTERNAL GVirConfigObject *
+gvir_config_object_new_from_tree(GType type, GVirConfigXmlDoc *doc,
+                                 const char *schema, xmlNodePtr tree)
+{
+    g_return_val_if_fail(g_type_is_a(type, GVIR_CONFIG_TYPE_OBJECT), NULL);
+    g_return_val_if_fail(GVIR_CONFIG_IS_XML_DOC(doc), NULL);
+    g_return_val_if_fail(tree != NULL, NULL);
+
     return GVIR_CONFIG_OBJECT(g_object_new(type,
-                                           "node", node,
+                                           "doc", doc,
+                                           "node", tree,
                                            "schema", schema,
                                            NULL));
 }
@@ -377,14 +649,163 @@ GVirConfigObject *gvir_config_object_new(GType type,
                                          const char *root_name,
                                          const char *schema)
 {
-    xmlDocPtr doc;
+    GVirConfigObject *object;
+    GVirConfigXmlDoc *doc;
+    xmlDocPtr xml_doc;
     xmlNodePtr node;
 
-    doc = xmlNewDoc((xmlChar *)"1.0");
-    node = xmlNewDocNode(doc, NULL, (xmlChar *)root_name, NULL);
-    xmlDocSetRootElement(doc, node);
-    return GVIR_CONFIG_OBJECT(g_object_new(type,
-                                           "node", node,
-                                           "schema", schema,
-                                           NULL));
+    doc = gvir_config_xml_doc_new(NULL);
+    g_object_get(G_OBJECT(doc), "doc", &xml_doc, NULL);
+    g_assert(xml_doc != NULL);
+    node = xmlNewDocNode(xml_doc, NULL, (xmlChar *)root_name, NULL);
+    xmlDocSetRootElement(xml_doc, node);
+    object = GVIR_CONFIG_OBJECT(g_object_new(type,
+                                             "doc", doc,
+                                             "node", node,
+                                             "schema", schema,
+                                             NULL));
+
+    g_object_unref(G_OBJECT(doc));
+
+    return object;
+}
+
+G_GNUC_INTERNAL void
+gvir_config_object_set_attribute(GVirConfigObject *object, ...)
+{
+    xmlDocPtr doc;
+    va_list args;
+
+    g_return_if_fail(GVIR_CONFIG_IS_OBJECT(object));
+
+    g_object_get(G_OBJECT(object->priv->doc), "doc", &doc, NULL);
+    va_start(args, object);
+    while (TRUE) {
+        const char *name;
+        const char *value;
+        xmlChar *encoded_value;
+
+        name = va_arg(args, const char *);
+        if (name == NULL) {
+            break;
+        }
+        gvir_config_object_remove_attribute(object, name);
+        value = va_arg(args, const char *);
+        if (value == NULL) {
+            g_warn_if_reached();
+            break;
+        }
+        encoded_value = xmlEncodeEntitiesReentrant(doc, (xmlChar*)value);
+        xmlNewProp(object->priv->node, (xmlChar *)name, encoded_value);
+        xmlFree(encoded_value);
+    }
+    va_end(args);
+}
+
+G_GNUC_INTERNAL void
+gvir_config_object_set_attribute_with_type(GVirConfigObject *object, ...)
+{
+    va_list args;
+
+    g_return_if_fail(GVIR_CONFIG_IS_OBJECT(object));
+
+    va_start(args, object);
+    while (TRUE) {
+        const char *name;
+        GType attr_type;
+        char *str;
+
+
+        name = va_arg(args, const char *);
+        if (name == NULL) {
+            break;
+        }
+        gvir_config_object_remove_attribute(object, name);
+
+        attr_type = va_arg(args, GType);
+        if (G_TYPE_IS_ENUM(attr_type)) {
+            int val;
+            const char *enum_str;
+            val = va_arg(args, int);
+            enum_str = gvir_config_genum_get_nick(attr_type, val);
+            if (enum_str != NULL) {
+                str = g_strdup(enum_str);
+            } else {
+                str = NULL;
+            }
+        } else switch (attr_type) {
+            case G_TYPE_UINT64: {
+                guint64 val;
+                val = va_arg(args, guint64);
+                str = g_strdup_printf("%"G_GUINT64_FORMAT, val);
+                break;
+            }
+            case G_TYPE_UINT: {
+                guint val;
+                val = va_arg(args, guint);
+                str = g_strdup_printf("%u", val);
+                break;
+            }
+            case G_TYPE_INT: {
+                gint val;
+                val = va_arg(args, gint);
+                str = g_strdup_printf("%d", val);
+                break;
+            }
+            case G_TYPE_STRING: {
+                xmlDocPtr doc;
+                xmlChar *enc_str;
+
+                str = va_arg(args, char *);
+                g_object_get(G_OBJECT(object->priv->doc), "doc", &doc, NULL);
+                enc_str = xmlEncodeEntitiesReentrant(doc, (xmlChar*)str);
+                str = g_strdup((char *)enc_str);
+                xmlFree(enc_str);
+                break;
+            }
+            case G_TYPE_BOOLEAN: {
+                gboolean val;
+                val = va_arg(args, gboolean);
+                str = g_strdup_printf("%s", val?"yes":"no");
+                break;
+            }
+            default:
+                g_warning("Unhandled type: %s", g_type_name(attr_type));
+                g_assert_not_reached();
+        }
+
+        if (str != NULL) {
+            xmlNewProp(object->priv->node, (xmlChar *)name, (xmlChar *)str);
+            g_free(str);
+        }
+    }
+    va_end(args);
+}
+
+G_GNUC_INTERNAL void
+gvir_config_object_attach(GVirConfigObject *parent, GVirConfigObject *child)
+{
+    g_return_if_fail(GVIR_CONFIG_IS_OBJECT(parent));
+    g_return_if_fail(GVIR_CONFIG_IS_OBJECT(child));
+
+    xmlUnlinkNode(child->priv->node);
+    xmlAddChild(parent->priv->node, child->priv->node);
+    if (child->priv->doc != NULL) {
+        g_object_unref(G_OBJECT(child->priv->doc));
+        child->priv->doc = NULL;
+    }
+    if (parent->priv->doc != NULL) {
+        child->priv->doc = g_object_ref(G_OBJECT(parent->priv->doc));
+    }
+}
+
+G_GNUC_INTERNAL void
+gvir_config_object_remove_attribute(GVirConfigObject *object,
+                                    const char *attr_name)
+{
+    int status;
+
+    do {
+        status = xmlUnsetProp(object->priv->node, (xmlChar *)attr_name);
+    } while (status == 0);
 }

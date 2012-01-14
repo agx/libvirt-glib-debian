@@ -2,7 +2,7 @@
  * libvirt-gobject-manager.c: libvirt glib integration
  *
  * Copyright (C) 2008 Daniel P. Berrange
- * Copyright (C) 2010 Red Hat
+ * Copyright (C) 2010-2011 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -28,10 +28,6 @@
 
 #include "libvirt-glib/libvirt-glib.h"
 #include "libvirt-gobject/libvirt-gobject.h"
-
-extern gboolean debugFlag;
-
-#define DEBUG(fmt, ...) do { if (G_UNLIKELY(debugFlag)) g_debug(fmt, ## __VA_ARGS__); } while (0)
 
 #define GVIR_MANAGER_GET_PRIVATE(obj)                         \
         (G_TYPE_INSTANCE_GET_PRIVATE((obj), GVIR_TYPE_MANAGER, GVirManagerPrivate))
@@ -66,7 +62,7 @@ static void gvir_manager_finalize(GObject *object)
     GVirManager *man = GVIR_MANAGER(object);
     GVirManagerPrivate *priv = man->priv;
 
-    DEBUG("Finalize GVirManager=%p", man);
+    g_debug("Finalize GVirManager=%p", man);
 
     GList *tmp = priv->connections;
     while (tmp) {
@@ -115,11 +111,9 @@ static void gvir_manager_init(GVirManager *conn)
 {
     GVirManagerPrivate *priv;
 
-    DEBUG("Init GVirManager=%p", conn);
+    g_debug("Init GVirManager=%p", conn);
 
     priv = conn->priv = GVIR_MANAGER_GET_PRIVATE(conn);
-
-    memset(priv, 0, sizeof(*priv));
 
     priv->lock = g_mutex_new();
 }
@@ -200,4 +194,3 @@ GVirConnection *gvir_manager_find_connection_by_uri(GVirManager *man,
     }
     return NULL;
 }
-

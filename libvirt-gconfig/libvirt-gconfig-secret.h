@@ -1,7 +1,7 @@
 /*
- * libvirt-gobject-secret-config.c: libvirt gobject integration
+ * libvirt-gconfig-secret.h: libvirt secret configuration
  *
- * Copyright (C) 2010 Red Hat
+ * Copyright (C) 2010-2011 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -29,12 +29,12 @@
 
 G_BEGIN_DECLS
 
-#define GVIR_TYPE_CONFIG_SECRET            (gvir_config_secret_get_type ())
-#define GVIR_CONFIG_SECRET(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GVIR_TYPE_CONFIG_SECRET, GVirConfigSecret))
-#define GVIR_CONFIG_SECRET_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GVIR_TYPE_CONFIG_SECRET, GVirConfigSecretClass))
-#define GVIR_IS_CONFIG_SECRET(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GVIR_TYPE_CONFIG_SECRET))
-#define GVIR_IS_CONFIG_SECRET_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GVIR_TYPE_CONFIG_SECRET))
-#define GVIR_CONFIG_SECRET_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GVIR_TYPE_CONFIG_SECRET, GVirConfigSecretClass))
+#define GVIR_CONFIG_TYPE_SECRET            (gvir_config_secret_get_type ())
+#define GVIR_CONFIG_SECRET(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GVIR_CONFIG_TYPE_SECRET, GVirConfigSecret))
+#define GVIR_CONFIG_SECRET_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GVIR_CONFIG_TYPE_SECRET, GVirConfigSecretClass))
+#define GVIR_CONFIG_IS_SECRET(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GVIR_CONFIG_TYPE_SECRET))
+#define GVIR_CONFIG_IS_SECRET_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GVIR_CONFIG_TYPE_SECRET))
+#define GVIR_CONFIG_SECRET_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GVIR_CONFIG_TYPE_SECRET, GVirConfigSecretClass))
 
 typedef struct _GVirConfigSecret GVirConfigSecret;
 typedef struct _GVirConfigSecretPrivate GVirConfigSecretPrivate;

@@ -1,4 +1,4 @@
-AC_INIT(libvirt-glib, 0.0.2)
+AC_INIT(libvirt-glib, 0.0.4)
 AC_CONFIG_SRCDIR(libvirt-glib/libvirt-glib-main.c)
 AC_CONFIG_AUX_DIR([build-aux])
 AM_CONFIG_HEADER(config.h)
@@ -9,7 +9,7 @@ AC_CANONICAL_HOST
 
 AM_SILENT_RULES([yes])
 
-LIBVIRT_REQUIRED=0.9.4
+LIBVIRT_REQUIRED=0.9.7
 GLIB2_REQUIRED=2.10.0
 GOBJECT2_REQUIRED=2.10.0
 GIO_REQUIRED=2.10.0
@@ -40,6 +40,17 @@ dnl AC_CONFIG_LIBOBJ_DIR([src])
 
 AC_DEFINE([_GNU_SOURCE], [], [Enable GNU extensions])
 
+# Autoconf 2.61a.99 and earlier don't support linking a file only
+# in VPATH builds.  But since GNUmakefile is for maintainer use
+# only, it does not matter if we skip the link with older autoconf.
+# Automake 1.10.1 and earlier try to remove GNUmakefile in non-VPATH
+# builds, so use a shell variable to bypass this.
+GNUmakefile=GNUmakefile
+m4_if(m4_version_compare([2.61a.100],
+        m4_defn([m4_PACKAGE_VERSION])), [1], [],
+      [AC_CONFIG_LINKS([$GNUmakefile:$GNUmakefile], [],
+        [GNUmakefile=$GNUmakefile])])
+
 LIBVIRT_GLIB_COMPILE_WARNINGS([maximum])
 
 PKG_CHECK_MODULES(LIBVIRT, libvirt >= $LIBVIRT_REQUIRED)
@@ -50,6 +61,10 @@ PKG_CHECK_MODULES(GIO2, gio-2.0 >= $GLIB2_REQUIRED)
 PKG_CHECK_MODULES(LIBXML2, libxml-2.0 >= $LIBXML2_REQUIRED)
 
 GTK_DOC_CHECK([1.10],[--flavour no-tmpl])
+
+# Setup GLIB_MKENUMS to use glib-mkenums even if GLib is uninstalled.
+GLIB_MKENUMS=`$PKG_CONFIG --variable=glib_mkenums glib-2.0`
+AC_SUBST(GLIB_MKENUMS)
 
 dnl Extra link-time flags for Cygwin.
 dnl Copied from libxml2 configure.in, but I removed mingw changes
@@ -134,8 +149,8 @@ if test "$with_python" != "no" ; then
     fi
     if test "$PYTHON_VERSION" != ""
     then
-	if test -r $with_python/include/python$PYTHON_VERSION/Python.h -a \
-	   -d $with_python/lib/python$PYTHON_VERSION/site-packages
+	if test -r $with_python/include/python$PYTHON_VERSION/Python.h && \
+	   test -d $with_python/lib/python$PYTHON_VERSION/site-packages
 	then
 	    PYTHON_INCLUDES=$with_python/include/python$PYTHON_VERSION
 	    PYTHON_SITE_PACKAGES=$libdir/python$PYTHON_VERSION/site-packages

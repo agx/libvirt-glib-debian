@@ -1,4 +1,4 @@
-LIBVIRT_GLIB_0.0.1 {
+LIBVIRT_GLIB_0.0.4 {
   global:
         gvir_init;
         gvir_init_check;
@@ -7,6 +7,9 @@ LIBVIRT_GLIB_0.0.1 {
 	gvir_error_new;
 	gvir_error_new_valist;
 	gvir_error_new_literal;
+	gvir_set_error;
+	gvir_set_error_valist;
+	gvir_set_error_literal;
 
   local:
         *;

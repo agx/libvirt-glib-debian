@@ -2,7 +2,7 @@
  * libvirt-gobject-storage_vol.c: libvirt glib integration
  *
  * Copyright (C) 2008 Daniel P. Berrange
- * Copyright (C) 2010 Red Hat
+ * Copyright (C) 2010-2011 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -29,10 +29,6 @@
 #include "libvirt-glib/libvirt-glib.h"
 #include "libvirt-gobject/libvirt-gobject.h"
 #include "libvirt-gobject-compat.h"
-
-extern gboolean debugFlag;
-
-#define DEBUG(fmt, ...) do { if (G_UNLIKELY(debugFlag)) g_debug(fmt, ## __VA_ARGS__); } while (0)
 
 #define GVIR_STORAGE_VOL_GET_PRIVATE(obj)                         \
         (G_TYPE_INSTANCE_GET_PRIVATE((obj), GVIR_TYPE_STORAGE_VOL, GVirStorageVolPrivate))
@@ -105,7 +101,7 @@ static void gvir_storage_vol_finalize(GObject *object)
     GVirStorageVol *conn = GVIR_STORAGE_VOL(object);
     GVirStorageVolPrivate *priv = conn->priv;
 
-    DEBUG("Finalize GVirStorageVol=%p", conn);
+    g_debug("Finalize GVirStorageVol=%p", conn);
 
     virStorageVolFree(priv->handle);
 
@@ -140,13 +136,9 @@ static void gvir_storage_vol_class_init(GVirStorageVolClass *klass)
 
 static void gvir_storage_vol_init(GVirStorageVol *conn)
 {
-    GVirStorageVolPrivate *priv;
+    g_debug("Init GVirStorageVol=%p", conn);
 
-    DEBUG("Init GVirStorageVol=%p", conn);
-
-    priv = conn->priv = GVIR_STORAGE_VOL_GET_PRIVATE(conn);
-
-    memset(priv, 0, sizeof(*priv));
+    conn->priv = GVIR_STORAGE_VOL_GET_PRIVATE(conn);
 }
 
 typedef struct virStorageVol GVirStorageVolHandle;
@@ -166,6 +158,21 @@ gvir_storage_vol_handle_free(GVirStorageVolHandle *src)
 
 G_DEFINE_BOXED_TYPE(GVirStorageVolHandle, gvir_storage_vol_handle,
                     gvir_storage_vol_handle_copy, gvir_storage_vol_handle_free)
+
+static GVirStorageVolInfo *
+gvir_storage_vol_info_copy(GVirStorageVolInfo *info)
+{
+    return g_slice_dup(GVirStorageVolInfo, info);
+}
+
+static void
+gvir_storage_vol_info_free(GVirStorageVolInfo *info)
+{
+    g_slice_free(GVirStorageVolInfo, info);
+}
+
+G_DEFINE_BOXED_TYPE(GVirStorageVolInfo, gvir_storage_vol_info,
+                    gvir_storage_vol_info_copy, gvir_storage_vol_info_free)
 
 const gchar *gvir_storage_vol_get_name(GVirStorageVol *vol)
 {
@@ -205,10 +212,9 @@ GVirConfigStorageVol *gvir_storage_vol_get_config(GVirStorageVol *vol,
     gchar *xml;
 
     if (!(xml = virStorageVolGetXMLDesc(priv->handle, flags))) {
-        if (err)
-            *err = gvir_error_new_literal(GVIR_STORAGE_VOL_ERROR,
-                                          0,
-                                          "Unable to get storage_vol XML config");
+        gvir_set_error_literal(err, GVIR_STORAGE_VOL_ERROR,
+                               0,
+                               "Unable to get storage_vol XML config");
         return NULL;
     }
 
@@ -216,4 +222,57 @@ GVirConfigStorageVol *gvir_storage_vol_get_config(GVirStorageVol *vol,
 
     free(xml);
     return conf;
+}
+
+/**
+ * gvir_storage_vol_get_info:
+ * @vol: the storage_vol
+ * Returns: (transfer full): the info
+ */
+GVirStorageVolInfo *gvir_storage_vol_get_info(GVirStorageVol *vol,
+                                              GError **err)
+{
+    GVirStorageVolPrivate *priv = vol->priv;
+    virStorageVolInfo info;
+    GVirStorageVolInfo *ret;
+
+    if (virStorageVolGetInfo(priv->handle, &info) < 0) {
+        if (err)
+            *err = gvir_error_new_literal(GVIR_STORAGE_VOL_ERROR,
+                                          0,
+                                          "Unable to get storage vol info");
+        return NULL;
+    }
+
+    ret = g_slice_new(GVirStorageVolInfo);
+    ret->type = info.type;
+    ret->capacity = info.capacity;
+    ret->allocation = info.allocation;
+
+    return ret;
+}
+
+/**
+ * gvir_storage_vol_delete:
+ * @vol: the storage volume to delete
+ * @flags: the flags
+ * @err: Return location for errors, or NULL
+ *
+ * Deletes the storage volume @vol.
+ *
+ * Returns: %TRUE on success, %FALSE otherwise
+ */
+gboolean gvir_storage_vol_delete(GVirStorageVol *vol,
+                                 guint flags,
+                                 GError **err)
+{
+    if (virStorageVolDelete(vol->priv->handle, flags) < 0) {
+        gvir_set_error_literal(err,
+                               GVIR_STORAGE_VOL_ERROR,
+                               0,
+                               "Unable to delete storage volume");
+        return FALSE;
+    }
+
+    return TRUE;
 }

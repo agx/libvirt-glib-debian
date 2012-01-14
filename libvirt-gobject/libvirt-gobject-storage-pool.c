@@ -2,7 +2,7 @@
  * libvirt-gobject-storage_pool.c: libvirt glib integration
  *
  * Copyright (C) 2008 Daniel P. Berrange
- * Copyright (C) 2010 Red Hat
+ * Copyright (C) 2010-2011 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -29,10 +29,6 @@
 #include "libvirt-glib/libvirt-glib.h"
 #include "libvirt-gobject/libvirt-gobject.h"
 #include "libvirt-gobject-compat.h"
-
-extern gboolean debugFlag;
-
-#define DEBUG(fmt, ...) do { if (G_UNLIKELY(debugFlag)) g_debug(fmt, ## __VA_ARGS__); } while (0)
 
 #define GVIR_STORAGE_POOL_GET_PRIVATE(obj)                         \
         (G_TYPE_INSTANCE_GET_PRIVATE((obj), GVIR_TYPE_STORAGE_POOL, GVirStoragePoolPrivate))
@@ -109,7 +105,7 @@ static void gvir_storage_pool_finalize(GObject *object)
     GVirStoragePool *pool = GVIR_STORAGE_POOL(object);
     GVirStoragePoolPrivate *priv = pool->priv;
 
-    DEBUG("Finalize GVirStoragePool=%p", pool);
+    g_debug("Finalize GVirStoragePool=%p", pool);
 
     if (priv->volumes) {
         g_hash_table_unref(priv->volumes);
@@ -168,11 +164,9 @@ static void gvir_storage_pool_init(GVirStoragePool *pool)
 {
     GVirStoragePoolPrivate *priv;
 
-    DEBUG("Init GVirStoragePool=%p", pool);
+    g_debug("Init GVirStoragePool=%p", pool);
 
     priv = pool->priv = GVIR_STORAGE_POOL_GET_PRIVATE(pool);
-
-    memset(priv, 0, sizeof(*priv));
 
     priv->lock = g_mutex_new();
 }
@@ -194,6 +188,21 @@ gvir_storage_pool_handle_free(GVirStoragePoolHandle *src)
 
 G_DEFINE_BOXED_TYPE(GVirStoragePoolHandle, gvir_storage_pool_handle,
                     gvir_storage_pool_handle_copy, gvir_storage_pool_handle_free)
+
+static GVirStoragePoolInfo *
+gvir_storage_pool_info_copy(GVirStoragePoolInfo *info)
+{
+    return g_slice_dup(GVirStoragePoolInfo, info);
+}
+
+static void
+gvir_storage_pool_info_free(GVirStoragePoolInfo *info)
+{
+    g_slice_free(GVirStoragePoolInfo, info);
+}
+
+G_DEFINE_BOXED_TYPE(GVirStoragePoolInfo, gvir_storage_pool_info,
+                    gvir_storage_pool_info_copy, gvir_storage_pool_info_free)
 
 const gchar *gvir_storage_pool_get_name(GVirStoragePool *pool)
 {
@@ -230,10 +239,9 @@ GVirConfigStoragePool *gvir_storage_pool_get_config(GVirStoragePool *pool,
     gchar *xml;
 
     if (!(xml = virStoragePoolGetXMLDesc(priv->handle, flags))) {
-        if (err)
-            *err = gvir_error_new_literal(GVIR_STORAGE_POOL_ERROR,
-                                          0,
-                                          "Unable to get storage_pool XML config");
+        gvir_set_error_literal(err, GVIR_STORAGE_POOL_ERROR,
+                               0,
+                               "Unable to get storage_pool XML config");
         return NULL;
     }
 
@@ -241,6 +249,35 @@ GVirConfigStoragePool *gvir_storage_pool_get_config(GVirStoragePool *pool,
 
     free(xml);
     return conf;
+}
+
+/**
+ * gvir_storage_pool_get_info:
+ * @pool: the storage_pool
+ * Returns: (transfer full): the info
+ */
+GVirStoragePoolInfo *gvir_storage_pool_get_info(GVirStoragePool *pool,
+                                                GError **err)
+{
+    GVirStoragePoolPrivate *priv = pool->priv;
+    virStoragePoolInfo info;
+    GVirStoragePoolInfo *ret;
+
+    if (virStoragePoolGetInfo(priv->handle, &info) < 0) {
+        if (err)
+            *err = gvir_error_new_literal(GVIR_STORAGE_POOL_ERROR,
+                                          0,
+                                          "Unable to get storage pool info");
+        return NULL;
+    }
+
+    ret = g_slice_new(GVirStoragePoolInfo);
+    ret->state = info.state;
+    ret->capacity = info.capacity;
+    ret->allocation = info.allocation;
+    ret->available = info.available;
+
+    return ret;
 }
 
 typedef gint (* CountFunction) (virStoragePoolPtr vpool);
@@ -259,9 +296,9 @@ static gchar ** fetch_list(virStoragePoolPtr vpool,
     gint i;
 
     if ((n = count_func(vpool)) < 0) {
-        *err = gvir_error_new(GVIR_STORAGE_POOL_ERROR,
-                              0,
-                              "Unable to count %s", name);
+        gvir_set_error(err, GVIR_STORAGE_POOL_ERROR,
+                       0,
+                       "Unable to count %s", name);
         goto error;
     }
 
@@ -271,9 +308,9 @@ static gchar ** fetch_list(virStoragePoolPtr vpool,
 
         lst = g_new(gchar *, n);
         if ((n = list_func(vpool, lst, n)) < 0) {
-            *err = gvir_error_new(GVIR_STORAGE_POOL_ERROR,
-                                  0,
-                                  "Unable to list %s %d", name, n);
+            gvir_set_error(err, GVIR_STORAGE_POOL_ERROR,
+                           0,
+                           "Unable to list %s %d", name, n);
             goto error;
         }
     }
@@ -309,10 +346,9 @@ gboolean gvir_storage_pool_refresh(GVirStoragePool *pool,
     vpool = priv->handle;
 
     if (virStoragePoolRefresh(vpool, 0) < 0) {
-        if (err)
-            *err = gvir_error_new_literal(GVIR_STORAGE_POOL_ERROR,
-                                          0,
-                                          "Unable to refresh storage pool");
+        gvir_set_error_literal(err, GVIR_STORAGE_POOL_ERROR,
+                               0,
+                               "Unable to refresh storage pool");
         goto cleanup;
     }
 
@@ -401,7 +437,7 @@ void gvir_storage_pool_refresh_async(GVirStoragePool *pool,
     res = g_simple_async_result_new(G_OBJECT(pool),
                                     callback,
                                     user_data,
-                                    gvir_storage_pool_refresh);
+                                    gvir_storage_pool_refresh_async);
     g_simple_async_result_run_in_thread(res,
                                         gvir_storage_pool_refresh_helper,
                                         G_PRIORITY_DEFAULT,
@@ -419,15 +455,13 @@ gboolean gvir_storage_pool_refresh_finish(GVirStoragePool *pool,
                                           GError **err)
 {
     g_return_val_if_fail(GVIR_IS_STORAGE_POOL(pool), FALSE);
-    g_return_val_if_fail(G_IS_ASYNC_RESULT(result), FALSE);
+    g_return_val_if_fail(g_simple_async_result_is_valid(result, G_OBJECT(pool),
+                                                        gvir_storage_pool_refresh_async),
+                         FALSE);
 
-    if (G_IS_SIMPLE_ASYNC_RESULT(result)) {
-        GSimpleAsyncResult *simple = G_SIMPLE_ASYNC_RESULT(result);
-        g_warn_if_fail (g_simple_async_result_get_source_tag(simple) ==
-                        gvir_storage_pool_refresh);
-        if (g_simple_async_result_propagate_error(simple, err))
-            return FALSE;
-    }
+    if (g_simple_async_result_propagate_error(G_SIMPLE_ASYNC_RESULT(result),
+                                              err))
+        return FALSE;
 
     return TRUE;
 }
@@ -441,7 +475,7 @@ static void gvir_storage_vol_ref(gpointer obj, gpointer ignore G_GNUC_UNUSED)
  * gvir_storage_pool_get_volumes:
  * @pool: the storage pool
  *
- * Return value: (element-type LibvirtGObject.StoragePool) (transfer full): List
+ * Return value: (element-type LibvirtGObject.StorageVol) (transfer full): List
  * of #GVirStorageVol
  */
 GList *gvir_storage_pool_get_volumes(GVirStoragePool *pool)
@@ -501,10 +535,9 @@ GVirStorageVol *gvir_storage_pool_create_volume
     g_return_val_if_fail(xml != NULL, NULL);
 
     if (!(handle = virStorageVolCreateXML(priv->handle, xml, 0))) {
-        if (err)
-            *err = gvir_error_new_literal(GVIR_STORAGE_POOL_ERROR,
-                                          0,
-                                          "Failed to create volume");
+        gvir_set_error_literal(err, GVIR_STORAGE_POOL_ERROR,
+                               0,
+                               "Failed to create volume");
         return NULL;
     }
 
@@ -536,10 +569,9 @@ gboolean gvir_storage_pool_build (GVirStoragePool *pool,
                                   GError **err)
 {
     if (virStoragePoolBuild(pool->priv->handle, flags)) {
-        if (err)
-            *err = gvir_error_new_literal(GVIR_STORAGE_POOL_ERROR,
-                                          0,
-                                          "Failed to build storage pool");
+        gvir_set_error_literal(err, GVIR_STORAGE_POOL_ERROR,
+                               0,
+                               "Failed to build storage pool");
         return FALSE;
     }
 
@@ -587,13 +619,13 @@ void gvir_storage_pool_build_async (GVirStoragePool *pool,
     GSimpleAsyncResult *res;
     StoragePoolBuildData *data;
 
-    data = g_new0(StoragePoolBuildData, 1);
+    data = g_slice_new0(StoragePoolBuildData);
     data->flags = flags;
 
     res = g_simple_async_result_new(G_OBJECT(pool),
                                     callback,
                                     user_data,
-                                    gvir_storage_pool_build);
+                                    gvir_storage_pool_build_async);
     g_object_set_data(G_OBJECT(res), "StoragePoolBuildData", data);
     g_simple_async_result_run_in_thread(res,
                                         gvir_storage_pool_build_helper,
@@ -615,15 +647,13 @@ gboolean gvir_storage_pool_build_finish(GVirStoragePool *pool,
                                         GError **err)
 {
     g_return_val_if_fail(GVIR_IS_STORAGE_POOL(pool), FALSE);
-    g_return_val_if_fail(G_IS_ASYNC_RESULT(result), FALSE);
+    g_return_val_if_fail(g_simple_async_result_is_valid(result, G_OBJECT(pool),
+                                                        gvir_storage_pool_build_async),
+                         FALSE);
 
-    if (G_IS_SIMPLE_ASYNC_RESULT(result)) {
-        GSimpleAsyncResult *simple = G_SIMPLE_ASYNC_RESULT(result);
-        g_warn_if_fail (g_simple_async_result_get_source_tag(simple) ==
-                        gvir_storage_pool_build);
-        if (g_simple_async_result_propagate_error(simple, err))
-            return FALSE;
-    }
+    if (g_simple_async_result_propagate_error(G_SIMPLE_ASYNC_RESULT(result),
+                                              err))
+        return FALSE;
 
     return TRUE;
 }
@@ -641,10 +671,9 @@ gboolean gvir_storage_pool_start (GVirStoragePool *pool,
                                   GError **err)
 {
     if (virStoragePoolCreate(pool->priv->handle, flags)) {
-        if (err)
-            *err = gvir_error_new_literal(GVIR_STORAGE_POOL_ERROR,
-                                          0,
-                                          "Failed to start storage pool");
+        gvir_set_error_literal(err, GVIR_STORAGE_POOL_ERROR,
+                               0,
+                               "Failed to start storage pool");
         return FALSE;
     }
 
@@ -688,13 +717,13 @@ void gvir_storage_pool_start_async (GVirStoragePool *pool,
     GSimpleAsyncResult *res;
     StoragePoolBuildData *data;
 
-    data = g_new0(StoragePoolBuildData, 1);
+    data = g_slice_new0(StoragePoolBuildData);
     data->flags = flags;
 
     res = g_simple_async_result_new(G_OBJECT(pool),
                                     callback,
                                     user_data,
-                                    gvir_storage_pool_start);
+                                    gvir_storage_pool_start_async);
     g_object_set_data(G_OBJECT(res), "StoragePoolBuildData", data);
     g_simple_async_result_run_in_thread(res,
                                         gvir_storage_pool_start_helper,
@@ -716,15 +745,13 @@ gboolean gvir_storage_pool_start_finish(GVirStoragePool *pool,
                                         GError **err)
 {
     g_return_val_if_fail(GVIR_IS_STORAGE_POOL(pool), FALSE);
-    g_return_val_if_fail(G_IS_ASYNC_RESULT(result), FALSE);
+    g_return_val_if_fail(g_simple_async_result_is_valid(result, G_OBJECT(pool),
+                                                        gvir_storage_pool_start_async),
+                         FALSE);
 
-    if (G_IS_SIMPLE_ASYNC_RESULT(result)) {
-        GSimpleAsyncResult *simple = G_SIMPLE_ASYNC_RESULT(result);
-        g_warn_if_fail (g_simple_async_result_get_source_tag(simple) ==
-                        gvir_storage_pool_start);
-        if (g_simple_async_result_propagate_error(simple, err))
-            return FALSE;
-    }
+    if (g_simple_async_result_propagate_error(G_SIMPLE_ASYNC_RESULT(result),
+                                              err))
+        return FALSE;
 
     return TRUE;
 }

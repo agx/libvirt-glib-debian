@@ -1,7 +1,7 @@
 /*
- * libvirt-gconfig-config-object.c: base object for XML configuration
+ * libvirt-gconfig-object.h: base object for XML configuration
  *
- * Copyright (C) 2010 Red Hat
+ * Copyright (C) 2010-2011 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -29,12 +29,12 @@
 
 G_BEGIN_DECLS
 
-#define GVIR_TYPE_CONFIG_OBJECT            (gvir_config_object_get_type ())
-#define GVIR_CONFIG_OBJECT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GVIR_TYPE_CONFIG_OBJECT, GVirConfigObject))
-#define GVIR_CONFIG_OBJECT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GVIR_TYPE_CONFIG_OBJECT, GVirConfigObjectClass))
-#define GVIR_IS_CONFIG_OBJECT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GVIR_TYPE_CONFIG_OBJECT))
-#define GVIR_IS_CONFIG_OBJECT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GVIR_TYPE_CONFIG_OBJECT))
-#define GVIR_CONFIG_OBJECT_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GVIR_TYPE_CONFIG_OBJECT, GVirConfigObjectClass))
+#define GVIR_CONFIG_TYPE_OBJECT            (gvir_config_object_get_type ())
+#define GVIR_CONFIG_OBJECT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GVIR_CONFIG_TYPE_OBJECT, GVirConfigObject))
+#define GVIR_CONFIG_OBJECT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GVIR_CONFIG_TYPE_OBJECT, GVirConfigObjectClass))
+#define GVIR_CONFIG_IS_OBJECT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GVIR_CONFIG_TYPE_OBJECT))
+#define GVIR_CONFIG_IS_OBJECT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GVIR_CONFIG_TYPE_OBJECT))
+#define GVIR_CONFIG_OBJECT_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GVIR_CONFIG_TYPE_OBJECT, GVirConfigObjectClass))
 
 typedef struct _GVirConfigObject GVirConfigObject;
 typedef struct _GVirConfigObjectPrivate GVirConfigObjectPrivate;
@@ -73,20 +73,6 @@ void gvir_config_object_validate(GVirConfigObject *config,
 gchar *gvir_config_object_to_xml(GVirConfigObject *config);
 
 const gchar *gvir_config_object_get_schema(GVirConfigObject *config);
-xmlNodePtr gvir_config_object_get_xml_node(GVirConfigObject *config);
-char *gvir_config_object_get_node_content(GVirConfigObject *object,
-                                          const char *node_name);
-guint64 gvir_config_object_get_node_content_uint64(GVirConfigObject *object,
-                                                   const char *node_name);
-void gvir_config_object_set_node_content(GVirConfigObject *object,
-                                         const char *node_name,
-                                         const char *value);
-void gvir_config_object_set_node_content_uint64(GVirConfigObject *object,
-                                                const char *node_name,
-                                                guint64 value);
-
-/* FIXME: move to a libvirt-gconfig-helpers.h file? */
-xmlNodePtr gvir_config_object_parse(const char *xml, const char *root_node, GError **err);
 
 G_END_DECLS
 

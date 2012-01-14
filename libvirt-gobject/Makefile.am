@@ -60,19 +60,22 @@ libvirt_gobject_1_0_la_SOURCES = \
 nodist_libvirt_gobject_1_0_la_SOURCES = \
 			$(GOBJECT_GENERATED_FILES)
 libvirt_gobject_1_0_la_CFLAGS = \
+			-DG_LOG_DOMAIN="\"Libvirt.GObject\"" \
 			-DDATADIR="\"$(datadir)\"" \
 			-DLIBVIRT_GOBJECT_BUILD \
 			$(COVERAGE_CFLAGS) \
 			-I$(top_srcdir) \
-			$(LIBVIRT_CFLAGS) \
-			$(GOBJECT2_CFLAGS) \
 			$(GIO2_CFLAGS) \
+			$(GOBJECT2_CFLAGS) \
+			$(GTHREAD2_CFLAGS) \
+			$(LIBVIRT_CFLAGS) \
 			$(LIBXML2_CFLAGS) \
 			$(WARN_CFLAGS)
 libvirt_gobject_1_0_la_LIBADD = \
-			$(LIBVIRT_LIBS) \
-			$(GOBJECT2_LIBS) \
 			$(GIO2_LIBS) \
+			$(GOBJECT2_LIBS) \
+			$(GTHREAD2_LIBS) \
+			$(LIBVIRT_LIBS) \
 			../libvirt-glib/libvirt-glib-1.0.la \
 			../libvirt-gconfig/libvirt-gconfig-1.0.la \
 			$(CYGWIN_EXTRA_LIBADD)
@@ -116,28 +119,27 @@ CLEANFILES = $(BUILT_SOURCES)
 if WITH_GOBJECT_INTROSPECTION
 
 LibvirtGObject-1.0.gir: libvirt-gobject-1.0.la $(G_IR_SCANNER) Makefile.am
-	$(AM_V_GEN)PKG_CONFIG_PATH=$(top_builddir) $(G_IR_SCANNER) \
+	$(AM_V_GEN)$(G_IR_SCANNER) \
                 --quiet \
                 --warn-all \
                 --namespace LibvirtGObject \
                 --nsversion 1.0 \
                 --include GObject-2.0 \
                 --include Gio-2.0 \
-                --include LibvirtGLib-1.0 \
-                --include LibvirtGConfig-1.0 \
+                --include-uninstalled $(top_builddir)/libvirt-glib/LibvirtGLib-1.0.gir \
+                --include-uninstalled $(top_builddir)/libvirt-gconfig/LibvirtGConfig-1.0.gir \
                 --identifier-prefix=GVir \
                 --symbol-prefix=gvir \
+                --library=$(top_builddir)/libvirt-glib/libvirt-glib-1.0.la \
+                --library=$(top_builddir)/libvirt-gconfig/libvirt-gconfig-1.0.la \
                 --library=$(builddir)/libvirt-gobject-1.0.la \
-                --add-include-path=$(top_builddir)/libvirt-glib \
-                --add-include-path=$(top_builddir)/libvirt-gconfig \
                 --output $@ \
-                -I$(top_srcdir) \
                 -I$(top_builddir) \
-                $(LIBXML2_CFLAGS) \
+                -I$(top_srcdir) \
                 --verbose \
-                --pkg=gobject-2.0 \
-                --pkg=gthread-2.0 \
                 --c-include="libvirt-gobject/libvirt-gobject.h" \
+                --pkg=gthread-2.0 \
+                --pkg=libxml-2.0 \
                 --pkg-export=libvirt-gobject-1.0 \
                 $(srcdir)/libvirt-gobject.h \
                 $(GOBJECT_SOURCE_FILES:%=$(srcdir)/%) \

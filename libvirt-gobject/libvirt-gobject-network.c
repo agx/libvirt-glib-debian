@@ -2,7 +2,7 @@
  * libvirt-gobject-network.c: libvirt glib integration
  *
  * Copyright (C) 2008 Daniel P. Berrange
- * Copyright (C) 2010 Red Hat
+ * Copyright (C) 2010-2011 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -29,10 +29,6 @@
 #include "libvirt-glib/libvirt-glib.h"
 #include "libvirt-gobject/libvirt-gobject.h"
 #include "libvirt-gobject-compat.h"
-
-extern gboolean debugFlag;
-
-#define DEBUG(fmt, ...) do { if (G_UNLIKELY(debugFlag)) g_debug(fmt, ## __VA_ARGS__); } while (0)
 
 #define GVIR_NETWORK_GET_PRIVATE(obj)                         \
         (G_TYPE_INSTANCE_GET_PRIVATE((obj), GVIR_TYPE_NETWORK, GVirNetworkPrivate))
@@ -106,7 +102,7 @@ static void gvir_network_finalize(GObject *object)
     GVirNetwork *conn = GVIR_NETWORK(object);
     GVirNetworkPrivate *priv = conn->priv;
 
-    DEBUG("Finalize GVirNetwork=%p", conn);
+    g_debug("Finalize GVirNetwork=%p", conn);
 
     virNetworkFree(priv->handle);
 
@@ -154,13 +150,9 @@ static void gvir_network_class_init(GVirNetworkClass *klass)
 
 static void gvir_network_init(GVirNetwork *conn)
 {
-    GVirNetworkPrivate *priv;
+    g_debug("Init GVirNetwork=%p", conn);
 
-    DEBUG("Init GVirNetwork=%p", conn);
-
-    priv = conn->priv = GVIR_NETWORK_GET_PRIVATE(conn);
-
-    memset(priv, 0, sizeof(*priv));
+    conn->priv = GVIR_NETWORK_GET_PRIVATE(conn);
 }
 
 typedef struct virNetwork GVirNetworkHandle;
@@ -215,10 +207,9 @@ GVirConfigNetwork *gvir_network_get_config(GVirNetwork *network,
     gchar *xml;
 
     if (!(xml = virNetworkGetXMLDesc(priv->handle, flags))) {
-        if (err)
-            *err = gvir_error_new_literal(GVIR_NETWORK_ERROR,
-                                          0,
-                                          "Unable to get network XML config");
+        gvir_set_error_literal(err, GVIR_NETWORK_ERROR,
+                               0,
+                               "Unable to get network XML config");
         return NULL;
     }
 

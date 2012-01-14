@@ -2,7 +2,7 @@
  * libvirt-gobject-main.c: libvirt gobject integration
  *
  * Copyright (C) 2008 Daniel P. Berrange
- * Copyright (C) 2010 Red Hat
+ * Copyright (C) 2010-2011 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -24,13 +24,10 @@
 #include <config.h>
 
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "libvirt-glib/libvirt-glib.h"
 #include "libvirt-gobject/libvirt-gobject.h"
-
-gboolean debugFlag = FALSE;
-
-#define DEBUG(fmt, ...) do { if (G_UNLIKELY(debugFlag)) g_debug(fmt, ## __VA_ARGS__); } while (0)
 
 /**
  * gvir_init_object:
@@ -47,6 +44,15 @@ void gvir_init_object(int *argc,
     }
 }
 
+static void gvir_log_handler(const gchar *log_domain G_GNUC_UNUSED,
+                             GLogLevelFlags log_level G_GNUC_UNUSED,
+                             const gchar *message,
+                             gpointer user_data)
+{
+    if (user_data)
+        fprintf(stderr, "%s\n", message);
+}
+
 
 /**
  * gvir_init_object_check:
@@ -58,10 +64,6 @@ gboolean gvir_init_object_check(int *argc,
                                 char ***argv,
                                 GError **err)
 {
-    char *debugEnv = getenv("LIBVIRT_GOBJECT_DEBUG");
-    if (debugEnv && *debugEnv && *debugEnv != '0')
-        debugFlag = 1;
-
     g_type_init();
 
     gvir_event_register();
@@ -69,6 +71,22 @@ gboolean gvir_init_object_check(int *argc,
     if (!gvir_init_check(argc, argv, err))
         return FALSE;
 
+    if (!gvir_config_init_check(argc, argv, err))
+        return FALSE;
+
+    /* GLib >= 2.31.0 debug is off by default, so we need to
+     * enable it. Older versions are on by default, so we need
+     * to disable it.
+     */
+#if GLIB_CHECK_VERSION(2, 31, 0)
+    if (getenv("LIBVIRT_GOBJECT_DEBUG"))
+        g_log_set_handler(G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                          gvir_log_handler, (void*)0x1);
+#else
+    if (!getenv("LIBVIRT_GOBJECT_DEBUG"))
+        g_log_set_handler(G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                          gvir_log_handler, NULL);
+#endif
+
     return TRUE;
 }
-

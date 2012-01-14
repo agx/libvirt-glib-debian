@@ -1,7 +1,7 @@
 /*
  * libvirt-gobject-domain-device.c: libvirt gobject integration
  *
- * Copyright (C) 2011 Red Hat
+ * Copyright (C) 2011 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -29,10 +29,6 @@
 #include "libvirt-gobject/libvirt-gobject.h"
 
 #include "libvirt-gobject/libvirt-gobject-domain-device-private.h"
-
-extern gboolean debugFlag;
-
-#define DEBUG(fmt, ...) do { if (G_UNLIKELY(debugFlag)) g_debug(fmt, ## __VA_ARGS__); } while (0)
 
 #define GVIR_DOMAIN_DEVICE_GET_PRIVATE(obj)                         \
         (G_TYPE_INSTANCE_GET_PRIVATE((obj), GVIR_TYPE_DOMAIN_DEVICE, GVirDomainDevicePrivate))
@@ -93,7 +89,7 @@ static void gvir_domain_device_finalize(GObject *object)
     GVirDomainDevice *self = GVIR_DOMAIN_DEVICE(object);
     GVirDomainDevicePrivate *priv = self->priv;
 
-    DEBUG("Finalize GVirDomainDevice=%p", self);
+    g_debug("Finalize GVirDomainDevice=%p", self);
 
     g_clear_object(&priv->domain);
 
@@ -123,7 +119,7 @@ static void gvir_domain_device_class_init(GVirDomainDeviceClass *klass)
 
 static void gvir_domain_device_init(GVirDomainDevice *self)
 {
-    DEBUG("Init GVirDomainDevice=%p", self);
+    g_debug("Init GVirDomainDevice=%p", self);
 
     self->priv = GVIR_DOMAIN_DEVICE_GET_PRIVATE(self);
 }

@@ -156,6 +156,7 @@ GIO2_CFLAGS = @GIO2_CFLAGS@
 GIO2_LIBS = @GIO2_LIBS@
 GLIB2_CFLAGS = @GLIB2_CFLAGS@
 GLIB2_LIBS = @GLIB2_LIBS@
+GLIB_MKENUMS = @GLIB_MKENUMS@
 GOBJECT2_CFLAGS = @GOBJECT2_CFLAGS@
 GOBJECT2_LIBS = @GOBJECT2_LIBS@
 GOBJECT_INTROSPECTION_CFLAGS = @GOBJECT_INTROSPECTION_CFLAGS@
@@ -164,6 +165,8 @@ GREP = @GREP@
 GTHREAD2_CFLAGS = @GTHREAD2_CFLAGS@
 GTHREAD2_LIBS = @GTHREAD2_LIBS@
 GTKDOC_CHECK = @GTKDOC_CHECK@
+GTKDOC_DEPS_CFLAGS = @GTKDOC_DEPS_CFLAGS@
+GTKDOC_DEPS_LIBS = @GTKDOC_DEPS_LIBS@
 GTKDOC_MKPDF = @GTKDOC_MKPDF@
 GTKDOC_REBASE = @GTKDOC_REBASE@
 G_IR_COMPILER = @G_IR_COMPILER@
@@ -295,6 +298,7 @@ libvirt_glib_1_0_la_SOURCES = \
 
 libvirt_glib_1_0_la_CFLAGS = \
 			-DLIBVIRT_GLIB_BUILD \
+			-DG_LOG_DOMAIN="\"Libvirt.GLib\"" \
 			$(COVERAGE_CFLAGS) \
 			-I$(top_srcdir) \
 			$(LIBVIRT_CFLAGS) \
@@ -732,11 +736,9 @@ uninstall-am: uninstall-girDATA uninstall-libLTLIBRARIES \
 @WITH_GOBJECT_INTROSPECTION_TRUE@                --identifier-prefix=GVir \
 @WITH_GOBJECT_INTROSPECTION_TRUE@                --symbol-prefix=gvir \
 @WITH_GOBJECT_INTROSPECTION_TRUE@                --library=$(builddir)/libvirt-glib-1.0.la \
-@WITH_GOBJECT_INTROSPECTION_TRUE@                --add-include-path=$(builddir) \
 @WITH_GOBJECT_INTROSPECTION_TRUE@                --output $@ \
 @WITH_GOBJECT_INTROSPECTION_TRUE@                -I$(top_srcdir) \
-@WITH_GOBJECT_INTROSPECTION_TRUE@                -I$(srcdir) \
-@WITH_GOBJECT_INTROSPECTION_TRUE@                --pkg=glib-2.0 \
+@WITH_GOBJECT_INTROSPECTION_TRUE@                --verbose \
 @WITH_GOBJECT_INTROSPECTION_TRUE@                --pkg=gthread-2.0 \
 @WITH_GOBJECT_INTROSPECTION_TRUE@                --c-include="libvirt-glib/libvirt-glib.h" \
 @WITH_GOBJECT_INTROSPECTION_TRUE@                --pkg-export=libvirt-glib-1.0 \
