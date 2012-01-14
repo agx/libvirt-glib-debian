@@ -1,3 +1,10 @@
+libvirt-glib (0.0.4-1) experimental; urgency=low
+
+  * [de2b022] New upstream version 0.0.4
+  * [b148481] Update symbols file
+
+ -- Guido Günther <agx@sigxcpu.org>  Sat, 14 Jan 2012 22:01:22 +0100
+
 libvirt-glib (0.0.2-1) experimental; urgency=low
 
   * [71266c3] New upstream version 0.0.2
