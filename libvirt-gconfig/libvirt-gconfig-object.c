@@ -256,21 +256,7 @@ void gvir_config_object_validate(GVirConfigObject *config,
 
 gchar *gvir_config_object_to_xml(GVirConfigObject *config)
 {
-    xmlChar *doc;
-    int size;
-    xmlNodePtr node;
-    gchar *output_doc;
-
-    node = gvir_config_object_get_xml_node(config);
-    if (node == NULL)
-        return NULL;
-
-    xmlDocDumpFormatMemory(node->doc, &doc, &size, 1);
-
-    output_doc = g_strdup((gchar *)doc);
-    xmlFree(doc);
-
-    return output_doc;
+    return gvir_config_xml_node_to_string(config->priv->node);
 }
 
 const gchar *gvir_config_object_get_schema(GVirConfigObject *config)
@@ -465,29 +451,71 @@ gvir_config_object_replace_child_with_attribute(GVirConfigObject *object,
     g_object_unref(G_OBJECT(child));
 }
 
-G_GNUC_INTERNAL void
-gvir_config_object_delete_child(GVirConfigObject *object,
-                                const char *child_name)
+struct NodeMatch {
+    const char *name;
+    const char *ns;
+};
+
+static gboolean maybe_unlink_node(xmlNodePtr node, void *opaque)
 {
-    xmlNodePtr parent_node;
-    xmlNodePtr old_node;
+    gboolean dounlink = TRUE;
+    struct NodeMatch *match = (struct NodeMatch *)opaque;
 
-    g_return_if_fail(GVIR_CONFIG_IS_OBJECT(object));
-    g_return_if_fail(child_name != NULL);
+    if (match->ns != NULL) {
+        dounlink = dounlink && (g_strcmp0(match->ns, (char *)node->ns->href) == 0);
+    }
 
-    parent_node = gvir_config_object_get_xml_node(GVIR_CONFIG_OBJECT(object));
-    g_return_if_fail(parent_node != NULL);
+    if (match->name != NULL) {
+        dounlink = dounlink && (g_strcmp0(match->name, (char *)node->name) == 0);
+    }
+    if (dounlink) {
+        xmlUnlinkNode(node);
+        xmlFreeNode(node);
+    }
 
-    if (!(old_node = gvir_config_xml_get_element(parent_node, child_name, NULL)))
-        return;
-
-    /* FIXME: should we make sure there are no multiple occurrences
-     * of this node?
-     */
-    xmlUnlinkNode(old_node);
-    xmlFreeNode(old_node);
+    return dounlink;
 }
 
+static gboolean remove_oneshot(xmlNodePtr node, gpointer opaque)
+{
+    return !maybe_unlink_node(node, opaque);
+}
+
+G_GNUC_INTERNAL void
+gvir_config_object_delete_child(GVirConfigObject *object,
+                                const char *child_name,
+                                const char *ns_href)
+{
+    struct NodeMatch match;
+
+    g_return_if_fail(GVIR_CONFIG_IS_OBJECT(object));
+
+    match.name = child_name;
+    match.ns = ns_href;
+    gvir_config_object_foreach_child(object, NULL, remove_oneshot, &match);
+}
+
+static gboolean remove_always(xmlNodePtr node, gpointer opaque)
+{
+    maybe_unlink_node(node, opaque);
+
+    return TRUE;
+}
+
+G_GNUC_INTERNAL void
+gvir_config_object_delete_children(GVirConfigObject *object,
+                                   const char *child_name,
+                                   const char *ns_href)
+{
+    struct NodeMatch match;
+
+    g_return_if_fail(GVIR_CONFIG_IS_OBJECT(object));
+
+    match.name = child_name;
+    match.ns = ns_href;
+
+    gvir_config_object_foreach_child(object, NULL, remove_always, &match);
+}
 
 G_GNUC_INTERNAL void
 gvir_config_object_set_node_content(GVirConfigObject *object,
@@ -615,10 +643,13 @@ GVirConfigObject *gvir_config_object_new_from_xml(GType type,
     GVirConfigObject *object;
     GVirConfigXmlDoc *doc;
     xmlNodePtr node;
+    GError *tmp_error = NULL;
 
-    node = gvir_config_xml_parse(xml, root_name, error);
-    if ((error != NULL) && (*error != NULL))
+    node = gvir_config_xml_parse(xml, root_name, &tmp_error);
+    if (tmp_error != NULL) {
+        g_propagate_error(error, tmp_error);
         return NULL;
+    }
     doc = gvir_config_xml_doc_new(node->doc);
     object = GVIR_CONFIG_OBJECT(g_object_new(type,
                                              "doc", doc,
@@ -782,12 +813,17 @@ gvir_config_object_set_attribute_with_type(GVirConfigObject *object, ...)
     va_end(args);
 }
 
-G_GNUC_INTERNAL void
-gvir_config_object_attach(GVirConfigObject *parent, GVirConfigObject *child)
+static void
+gvir_config_object_attach(GVirConfigObject *parent, GVirConfigObject *child, gboolean replace)
 {
     g_return_if_fail(GVIR_CONFIG_IS_OBJECT(parent));
     g_return_if_fail(GVIR_CONFIG_IS_OBJECT(child));
 
+    if (replace) {
+        gvir_config_object_delete_children(parent,
+                                           (char *)child->priv->node->name,
+                                           NULL);
+    }
     xmlUnlinkNode(child->priv->node);
     xmlAddChild(parent->priv->node, child->priv->node);
     if (child->priv->doc != NULL) {
@@ -800,6 +836,18 @@ gvir_config_object_attach(GVirConfigObject *parent, GVirConfigObject *child)
 }
 
 G_GNUC_INTERNAL void
+gvir_config_object_attach_replace(GVirConfigObject *parent, GVirConfigObject *child)
+{
+    gvir_config_object_attach(parent, child, TRUE);
+}
+
+G_GNUC_INTERNAL void
+gvir_config_object_attach_add(GVirConfigObject *parent, GVirConfigObject *child)
+{
+    gvir_config_object_attach(parent, child, FALSE);
+}
+
+G_GNUC_INTERNAL void
 gvir_config_object_remove_attribute(GVirConfigObject *object,
                                     const char *attr_name)
 {
@@ -808,4 +856,24 @@ gvir_config_object_remove_attribute(GVirConfigObject *object,
     do {
         status = xmlUnsetProp(object->priv->node, (xmlChar *)attr_name);
     } while (status == 0);
+}
+
+G_GNUC_INTERNAL gboolean
+gvir_config_object_set_namespace(GVirConfigObject *object, const char *ns,
+                                 const char *ns_uri)
+{
+    xmlNsPtr namespace;
+
+    g_return_val_if_fail(GVIR_CONFIG_IS_OBJECT(object), FALSE);
+    g_return_val_if_fail(ns != NULL, FALSE);
+    g_return_val_if_fail(ns_uri != NULL, FALSE);
+
+    namespace = xmlNewNs(object->priv->node,
+                         (xmlChar *)ns_uri, (xmlChar *)ns);
+    if (namespace == NULL)
+        return FALSE;
+
+    xmlSetNs(object->priv->node, namespace);
+
+    return TRUE;
 }

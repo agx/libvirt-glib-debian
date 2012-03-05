@@ -28,6 +28,7 @@
 
 #include "libvirt-glib/libvirt-glib.h"
 #include "libvirt-gobject/libvirt-gobject.h"
+#include "libvirt-gobject-compat.h"
 
 #define GVIR_INTERFACE_GET_PRIVATE(obj)                         \
         (G_TYPE_INSTANCE_GET_PRIVATE((obj), GVIR_TYPE_INTERFACE, GVirInterfacePrivate))
@@ -125,9 +126,7 @@ static void gvir_interface_class_init(GVirInterfaceClass *klass)
                                                        G_PARAM_READABLE |
                                                        G_PARAM_WRITABLE |
                                                        G_PARAM_CONSTRUCT_ONLY |
-                                                       G_PARAM_STATIC_NAME |
-                                                       G_PARAM_STATIC_NICK |
-                                                       G_PARAM_STATIC_BLURB));
+                                                       G_PARAM_STATIC_STRINGS));
 
     g_type_class_add_private(klass, sizeof(GVirInterfacePrivate));
 }
@@ -164,7 +163,8 @@ const gchar *gvir_interface_get_name(GVirInterface *iface)
     const char *name;
 
     if (!(name = virInterfaceGetName(priv->handle))) {
-        g_error("Failed to get interface name on %p", priv->handle);
+        g_warning("Failed to get interface name on %p", priv->handle);
+        return NULL;
     }
 
     return name;

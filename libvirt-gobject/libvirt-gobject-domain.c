@@ -134,7 +134,14 @@ static void gvir_domain_constructed(GObject *object)
 
     /* xxx we may want to turn this into an initable */
     if (virDomainGetUUIDString(priv->handle, priv->uuid) < 0) {
-        g_error("Failed to get domain UUID on %p", priv->handle);
+        virErrorPtr verr = virGetLastError();
+        if (verr) {
+            g_warning("Failed to get domain UUID on %p: %s",
+                      priv->handle, verr->message);
+        } else {
+            g_warning("Failed to get domain UUID on %p",
+                      priv->handle);
+        }
     }
 }
 
@@ -157,9 +164,7 @@ static void gvir_domain_class_init(GVirDomainClass *klass)
                                                        G_PARAM_READABLE |
                                                        G_PARAM_WRITABLE |
                                                        G_PARAM_CONSTRUCT_ONLY |
-                                                       G_PARAM_STATIC_NAME |
-                                                       G_PARAM_STATIC_NICK |
-                                                       G_PARAM_STATIC_BLURB));
+                                                       G_PARAM_STATIC_STRINGS));
 
     g_object_class_install_property(object_class,
                                     PROP_PERSISTENT,
@@ -168,9 +173,7 @@ static void gvir_domain_class_init(GVirDomainClass *klass)
                                                          "If domain is persistent",
                                                          TRUE,
                                                          G_PARAM_READABLE |
-                                                         G_PARAM_STATIC_NAME |
-                                                         G_PARAM_STATIC_NICK |
-                                                         G_PARAM_STATIC_BLURB));
+                                                         G_PARAM_STATIC_STRINGS));
 
     signals[VIR_STARTED] = g_signal_new("started",
                                         G_OBJECT_CLASS_TYPE(object_class),
@@ -274,7 +277,8 @@ const gchar *gvir_domain_get_name(GVirDomain *dom)
     const char *name;
 
     if (!(name = virDomainGetName(priv->handle))) {
-        g_error("Failed to get domain name on %p", priv->handle);
+        g_warning("Failed to get domain name on %p", priv->handle);
+        return NULL;
     }
 
     return name;
@@ -727,15 +731,15 @@ cleanup:
 
 /**
  * gvir_domain_save:
- * @dom: the domain to save and suspend
+ * @dom: the domain to save
  * @flags: extra flags, currently unused
  * @err: Place-holder for possible errors
  *
- * Just like #gvir_domain_suspend but also saves the state of the domain on disk
- * and therefore makes it possible to restore the domain to its previous state
+ * Saves the state of the domain on disk and stops it. Use #gvir_domain_start
+ * to restore the saved state of the domain. A saved domain can be restored
  * even after shutdown/reboot of host machine.
  *
- * Returns: TRUE if domain was saved and suspended successfully, FALSE otherwise.
+ * Returns: TRUE if domain was saved successfully, FALSE otherwise.
  */
 gboolean gvir_domain_save (GVirDomain *dom,
                            unsigned int flags,
@@ -746,7 +750,7 @@ gboolean gvir_domain_save (GVirDomain *dom,
     if (virDomainManagedSave(dom->priv->handle, flags) < 0) {
         gvir_set_error_literal(err, GVIR_DOMAIN_ERROR,
                                0,
-                               "Unable to save and suspend domain");
+                               "Unable to save domain");
         return FALSE;
     }
 
@@ -779,7 +783,7 @@ gvir_domain_save_helper(GSimpleAsyncResult *res,
 
 /**
  * gir_domain_save_async:
- * @dom: the domain to save and suspend
+ * @dom: the domain to save
  * @flags: extra flags, currently unused
  * @cancellable: (allow-none)(transfer none): cancellation object
  * @callback: (scope async): completion callback
@@ -815,13 +819,13 @@ void gvir_domain_save_async (GVirDomain *dom,
 
 /**
  * gir_domain_save_finish:
- * @dom: the domain to save and suspend
+ * @dom: the domain to save
  * @result: (transfer none): async method result
  * @err: Place-holder for possible errors
  *
  * Finishes the operation started by #gvir_domain_save_async.
  *
- * Returns: TRUE if domain was saved and suspended successfully, FALSE otherwise.
+ * Returns: TRUE if domain was saved successfully, FALSE otherwise.
  */
 gboolean gvir_domain_save_finish (GVirDomain *dom,
                                   GAsyncResult *result,
@@ -848,5 +852,19 @@ gboolean gvir_domain_get_persistent(GVirDomain *dom)
 {
     g_return_val_if_fail(GVIR_IS_DOMAIN(dom), FALSE);
 
-    return virDomainIsPersistent(dom->priv->handle);
+    return virDomainIsPersistent(dom->priv->handle) == 1;
+}
+
+/**
+ * gvir_domain_get_saved:
+ * @dom: the domain
+ *
+ * Returns: TRUE if a stopped domain has a saved state to which it can be
+ * restored to using #gvir_domain_start, FALSE otherwise.
+ */
+gboolean gvir_domain_get_saved(GVirDomain *dom)
+{
+    g_return_val_if_fail(GVIR_IS_DOMAIN(dom), FALSE);
+
+    return virDomainHasManagedSaveImage(dom->priv->handle, 0) == 1;
 }

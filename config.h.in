@@ -67,5 +67,8 @@
 /* enable GObject introspection support */
 #undef WITH_GOBJECT_INTROSPECTION
 
+/* enable compile-time and run-time bounds-checking, and some warnings */
+#undef _FORTIFY_SOURCE
+
 /* Enable GNU extensions */
 #undef _GNU_SOURCE

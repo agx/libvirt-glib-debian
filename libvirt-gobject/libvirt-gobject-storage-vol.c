@@ -36,6 +36,8 @@
 struct _GVirStorageVolPrivate
 {
     virStorageVolPtr handle;
+
+    GVirStoragePool *pool;
 };
 
 G_DEFINE_TYPE(GVirStorageVol, gvir_storage_vol, G_TYPE_OBJECT);
@@ -44,6 +46,7 @@ G_DEFINE_TYPE(GVirStorageVol, gvir_storage_vol, G_TYPE_OBJECT);
 enum {
     PROP_0,
     PROP_HANDLE,
+    PROP_POOL,
 };
 
 
@@ -69,6 +72,10 @@ static void gvir_storage_vol_get_property(GObject *object,
         g_value_set_boxed(value, priv->handle);
         break;
 
+    case PROP_POOL:
+        g_value_set_object(value, priv->pool);
+        break;
+
     default:
         G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
     }
@@ -88,6 +95,9 @@ static void gvir_storage_vol_set_property(GObject *object,
         if (priv->handle)
             virStorageVolFree(priv->handle);
         priv->handle = g_value_dup_boxed(value);
+        break;
+    case PROP_POOL:
+        priv->pool = g_value_get_object(value);
         break;
 
     default:
@@ -126,9 +136,18 @@ static void gvir_storage_vol_class_init(GVirStorageVolClass *klass)
                                                        G_PARAM_READABLE |
                                                        G_PARAM_WRITABLE |
                                                        G_PARAM_CONSTRUCT_ONLY |
-                                                       G_PARAM_STATIC_NAME |
-                                                       G_PARAM_STATIC_NICK |
-                                                       G_PARAM_STATIC_BLURB));
+                                                       G_PARAM_STATIC_STRINGS));
+
+    g_object_class_install_property(object_class,
+                                    PROP_POOL,
+                                    g_param_spec_object("pool",
+                                                        "Pool",
+                                                        "The containing storage pool",
+                                                        GVIR_TYPE_STORAGE_POOL,
+                                                        G_PARAM_READABLE |
+                                                        G_PARAM_WRITABLE |
+                                                        G_PARAM_CONSTRUCT_ONLY |
+                                                        G_PARAM_STATIC_STRINGS));
 
     g_type_class_add_private(klass, sizeof(GVirStorageVolPrivate));
 }
@@ -180,19 +199,23 @@ const gchar *gvir_storage_vol_get_name(GVirStorageVol *vol)
     const char *name;
 
     if (!(name = virStorageVolGetName(priv->handle))) {
-        g_error("Failed to get storage_vol name on %p", priv->handle);
+        g_warning("Failed to get storage_vol name on %p", priv->handle);
+        return NULL;
     }
 
     return name;
 }
 
-const gchar *gvir_storage_vol_get_path(GVirStorageVol *vol)
+const gchar *gvir_storage_vol_get_path(GVirStorageVol *vol, GError **error)
 {
     GVirStorageVolPrivate *priv = vol->priv;
     const char *path;
 
     if (!(path = virStorageVolGetPath(priv->handle))) {
-        g_error("Failed to get storage_vol path on %p", priv->handle);
+        gvir_set_error(error, GVIR_STORAGE_VOL_ERROR, 0,
+                       "Failed to get storage_vol path on %p",
+                       priv->handle);
+        return NULL;
     }
 
     return path;
@@ -271,6 +294,33 @@ gboolean gvir_storage_vol_delete(GVirStorageVol *vol,
                                GVIR_STORAGE_VOL_ERROR,
                                0,
                                "Unable to delete storage volume");
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
+/**
+ * gvir_storage_vol_resize:
+ * @vol: the storage volume to resize
+ * @capacity: the new capacity of the volume
+ * @flags: (type GVirStorageVolResizeFlags): the flags
+ * @err: Return location for errors, or NULL
+ *
+ * Changes the capacity of the storage volume @vol to @capacity.
+ *
+ * Returns: #TRUE success, #FALSE otherwise
+ */
+gboolean gvir_storage_vol_resize(GVirStorageVol *vol,
+                                 guint64 capacity,
+                                 guint flags,
+                                 GError **err)
+{
+    if (virStorageVolResize(vol->priv->handle, capacity, flags) < 0) {
+        gvir_set_error_literal(err,
+                               GVIR_STORAGE_VOL_ERROR,
+                               0,
+                               "Unable to resize volume storage");
         return FALSE;
     }
 

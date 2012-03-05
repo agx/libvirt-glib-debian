@@ -21,7 +21,7 @@
 %endif
 
 Name: libvirt-glib
-Version: 0.0.4
+Version: 0.0.5
 Release: 1%{?dist}%{?extra_release}
 Summary: libvirt glib integration for events
 Group: Development/Libraries
@@ -30,7 +30,7 @@ URL: http://libvirt.org/
 Source0: ftp://libvirt.org/libvirt/glib/%{name}-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires: glib2-devel >= 2.10.0
+BuildRequires: glib2-devel >= 2.22.0
 BuildRequires: libvirt-devel >= 0.9.7
 BuildRequires: python-devel
 %if %{with_introspection}

@@ -29,6 +29,7 @@
 #include "libvirt-glib/libvirt-glib.h"
 #include "libvirt-gobject/libvirt-gobject.h"
 #include "libvirt-gobject-input-stream.h"
+#include "libvirt-gobject-compat.h"
 
 #define gvir_input_stream_get_type _gvir_input_stream_get_type
 G_DEFINE_TYPE(GVirInputStream, gvir_input_stream, G_TYPE_INPUT_STREAM);
@@ -197,7 +198,6 @@ static gssize gvir_input_stream_read_finish(GInputStream *stream,
 
     count = g_simple_async_result_get_op_res_gssize(simple);
 
-    virStreamEventRemoveCallback(handle);
     virStreamFree(handle);
 
     return count;

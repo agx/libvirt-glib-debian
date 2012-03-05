@@ -119,7 +119,13 @@ static void gvir_secret_constructed(GObject *object)
 
     /* xxx we may want to turn this into an initable */
     if (virSecretGetUUIDString(priv->handle, priv->uuid) < 0) {
-        g_error("Failed to get secret UUID on %p", priv->handle);
+        virErrorPtr verr = virGetLastError();
+        if (verr) {
+            g_warning("Failed to get secret UUID on %p: %s",
+                      priv->handle, verr->message);
+        } else {
+            g_warning("Failed to get secret UUID on %p", priv->handle);
+        }
     }
 }
 
@@ -142,9 +148,7 @@ static void gvir_secret_class_init(GVirSecretClass *klass)
                                                        G_PARAM_READABLE |
                                                        G_PARAM_WRITABLE |
                                                        G_PARAM_CONSTRUCT_ONLY |
-                                                       G_PARAM_STATIC_NAME |
-                                                       G_PARAM_STATIC_NICK |
-                                                       G_PARAM_STATIC_BLURB));
+                                                       G_PARAM_STATIC_STRINGS));
 
     g_type_class_add_private(klass, sizeof(GVirSecretPrivate));
 }
