@@ -1,3 +1,13 @@
+libvirt-glib (0.0.5-1) experimental; urgency=low
+
+  * [4882ac8] Change section of introspection data to introspection
+  * [594240d] libvirt-gobject needs libvirt-dev
+  * [0bba521] Require libvirt 0.9.10
+  * [e10b816] watch: use http for download
+  * [34e2822] New upstream version 0.0.5
+
+ -- Guido Günther <agx@sigxcpu.org>  Mon, 05 Mar 2012 08:55:32 +0100
+
 libvirt-glib (0.0.4-1) experimental; urgency=low
 
   * [de2b022] New upstream version 0.0.4
