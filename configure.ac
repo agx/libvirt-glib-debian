@@ -1,4 +1,4 @@
-AC_INIT(libvirt-glib, 0.0.4)
+AC_INIT(libvirt-glib, 0.0.5)
 AC_CONFIG_SRCDIR(libvirt-glib/libvirt-glib-main.c)
 AC_CONFIG_AUX_DIR([build-aux])
 AM_CONFIG_HEADER(config.h)
@@ -9,8 +9,8 @@ AC_CANONICAL_HOST
 
 AM_SILENT_RULES([yes])
 
-LIBVIRT_REQUIRED=0.9.7
-GLIB2_REQUIRED=2.10.0
+LIBVIRT_REQUIRED=0.9.10
+GLIB2_REQUIRED=2.22.0
 GOBJECT2_REQUIRED=2.10.0
 GIO_REQUIRED=2.10.0
 GOBJECT_INTROSPECTION_REQUIRED=0.10.8
@@ -51,7 +51,7 @@ m4_if(m4_version_compare([2.61a.100],
       [AC_CONFIG_LINKS([$GNUmakefile:$GNUmakefile], [],
         [GNUmakefile=$GNUmakefile])])
 
-LIBVIRT_GLIB_COMPILE_WARNINGS([maximum])
+LIBVIRT_GLIB_COMPILE_WARNINGS
 
 PKG_CHECK_MODULES(LIBVIRT, libvirt >= $LIBVIRT_REQUIRED)
 PKG_CHECK_MODULES(GLIB2, glib-2.0 >= $GLIB2_REQUIRED)
@@ -101,11 +101,11 @@ AC_ARG_ENABLE([test-coverage],
 enable_coverage=$enableval
 
 if test "${enable_coverage}" = yes; then
-  gl_COMPILER_FLAGS(-fprofile-arcs)
-  gl_COMPILER_FLAGS(-ftest-coverage)
-  AC_SUBST([COVERAGE_CFLAGS], [$COMPILER_FLAGS])
-  AC_SUBST([COVERAGE_LDFLAGS], [$COMPILER_FLAGS])
-  COMPILER_FLAGS=
+  gl_WARN_ADD([-fprofile-arcs], COV_FLAGS)
+  gl_WARN_ADD([-ftest-coverage], COV_FLAGS)
+  AC_SUBST([COVERAGE_CFLAGS], [$COV_FLAGS])
+  AC_SUBST([COVERAGE_LDFLAGS], [$COV_FLAGS])
+  COV_FLAGS=
 fi
 
 dnl

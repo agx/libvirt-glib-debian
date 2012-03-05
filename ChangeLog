@@ -1,3 +1,199 @@
+2012-02-20  Daniel P. Berrange  <berrange@redhat.com>
+
+	Add notes for 0.0.5 release
+
+2012-02-20  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Fixes to gvir_domain_*save*() docs
+	The saved state of a domain is restored using gvir_domain_start() rather
+	than gvir_domain_resume().
+
+2012-02-19  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	API to get node information about the connection
+	Mostly just a wrapper around virNodeGetInfo() and virNodeInfo struct.
+
+	Add Flags for use with gvir_domain_delete()
+
+2012-02-16  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Add more sanity checks to libvirt-gconfig test
+
+	Add gvir_config_domain_disk_[gs]et_cache
+
+	Fix [gs]et_custom_xml-related leaks
+	I forgot to run the testing code through valgrind before pushing
+	the patches so a few small memory leaks crept in.
+
+2012-02-16  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Add gvir_domain_get_saved()
+	Binding for virDomainHasManagedSaveImage().
+
+	Correct docs for gir_domain_save*()
+	A saved domain is stopped/shutdown on a successful save operation, not
+	suspended.
+
+	Tell CC to ignore unused macros
+
+2012-02-15  Daniel P. Berrange  <berrange@redhat.com>
+
+	Avoid triggering deprecation warnings on newest GLib
+
+2012-02-14  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Add gvir_storage_vol_resize()
+	Add wrapper for virStorageVolResize().
+
+	Volume keeps an weak ref to its parent pool
+
+2012-02-10  Daniel P. Berrange  <berrange@redhat.com>
+
+	Rename 'unlink' variable to avoid clash on Win32
+
+	Switch over to use GNULIB's compile warning macros
+
+	Add missing default: in example program
+
+	Simplify condition that is always true
+
+	Disable unused macro for debug
+
+2012-02-06  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Add testcase for gvir_config_domain_[gs]et_custom_xml
+
+	API to get/set custom metadata from/to domain config
+	Based on a patch from Zeeshan Ali (Khattak) <zeeshanak@gnome.org>
+
+	Add gvir_config_object_set_namespace helper
+
+	Handle namespaces in gvir_config_object_delete_child{ren}
+	These functions now take an additional argument corresponding to
+	a namespace href. It's optional and can be NULL when namespaces
+	should be ignored.
+	The 'child_name' argument can now be NULL in order to remove all nodes
+	belonging to a given namespace.
+
+	Factorize xml dumping code
+	Use the new gvir_config_xml_node_to_string to implement
+	gvir_config_object_to_xml, this avoids duplicating this code.
+
+	Add gvir_config_xml_node_to_string helper
+
+	Make root_node optional in gvir_config_xml_parse
+	It's only used to make some sanity checks on what was just parsed,
+	so allowing NULL root_node is fine.
+
+	Fix gvir_config_object_new_from_xml error reporting
+	It's currently failing to report parsing errors if the passed in
+	error is NULL.
+
+2012-02-05  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Don't assign const char * to non-const
+	This causes a gcc warning.
+
+2012-01-31  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Replace g_error with g_warning in constructors
+	g_error generates a fatal error message, meaning it will abort
+	the currently running process. It's nicer to use g_warning here.
+
+	Don't use g_error in xxx_get_name
+	g_error will trigger an abort of the running process so it's not
+	desirable to call it in a library. This commit uses g_warning when
+	this occurs and returns NULL. libvirt will only return NULL for these
+	strings if some kind of memory corruption is going on, or if we are
+	using an invalid pointer.
+
+	Add proper error reporting to gvir_storage_vol_get_path
+	gvir_storage_vol_get_name currently call g_error when an error occurs.
+	Since g_error trigger a coredump, calling it in a library is harmful.
+	Replace this with proper GError error reporting.
+
+2012-01-26  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Don't loop forever on blank nodes
+
+2012-01-20  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Remove 2 unwanted exports
+	These 2 GVirObject helpers are declared in libvirt-gobject-private.h
+	and so shouldn't be exported.
+
+	Split gvir_config_object_attach
+	Most of the time we want gvir_config_object_attach to replace
+	existing nodes, but sometimes (for <devices> subnodes) we want
+	it to append the new node and to keep the existing nodes with
+	the same name. This commit solves this by adding 2 distinct helpers,
+	_attach_add and _attach_replace.
+	This should fix some unexpected behaviour of various _set_ functions
+	which were appending new nodes instead of replacing the existing one.
+
+	Add gvir_config_object_delete_children
+
+	Refactor gvir_config_object_delete_child
+	By changing gvir_config_xml_foreach_child to make it robust against
+	current node deletion in the "foreach" callback, we can use
+	gvir_config_object_foreach_child to implement
+	gvir_config_object_delete_child
+
+2012-01-18  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Correct return type of gvir_storage_pool_create_volume()
+
+	Handle failure of virDomainIsPersistent() correctly
+	virDomainIsPersistent() failing most probably means that domain is no
+	longer available so flaging it as transient isn't exactly wrong.
+
+	API to get/set 'description' node in domain config
+
+2012-01-18  Daniel P. Berrange  <berrange@redhat.com>
+
+	Fix syntax-check violations
+
+2012-01-18  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Fix compilation with glib 2.22
+	This commit raises glib required version to 2.22 or newer, adds a few
+	missing functions to libvirt-gobject-compat.h and includes it in the
+	files using these functions.
+
+2012-01-16  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Make use of G_PARAM_STATIC_STRINGS everywhere
+
+	Add gvir_config_domain_disk_set_readonly()
+
+2012-01-16  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Raise libvirt requirement to 0.9.8
+	We are using VIR_DOMAIN_EVENT_SHUTDOWN which was introduced
+	in libvirt 0.9.8. Reflect this requirement by bumping the minimum
+	version of libvirt we require in configure.ac.
+	This issue was reported by Nirbheek Chauhan <nirbheek@gentoo.org>
+
+2012-01-13  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Post-release version bump
+
+2012-01-13  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	Fix libvirt error message after finishing a stream
+	The callback is now added & removed from libvirt-gobject-stream.c
+
+	It should have been part of c5a239423a215435626bf6d1af75458c5ec03147.
+
+	 #0  virErrorMsg (error=VIR_ERR_INTERNAL_ERROR, info=0x7fffffffcf00 "no stream callback registered") at util/virterror.c:760
+	 #1  0x00007ffff627f304 in virReportErrorHelper (domcode=7, errcode=1, filename=0x7ffff6479a4d "rpc/virnetclientstream.c",
+	     funcname=0x7ffff6479ca0 "virNetClientStreamEventRemoveCallback", linenr=514, fmt=<optimized out>) at util/virterror.c:1260
+	 #2  0x00007ffff6339aa4 in virNetClientStreamEventRemoveCallback (st=0x1de8ef0) at rpc/virnetclientstream.c:513
+	 #3  0x00007ffff631a6ba in remoteStreamEventRemoveCallback (st=<optimized out>) at remote/remote_driver.c:3713
+	 #4  0x00007ffff62fe97d in virStreamEventRemoveCallback (stream=0x1db9e00) at libvirt.c:14781
+	 #5  0x00007ffff69114f3 in gvir_stream_update_events (stream=0x1db2570) at libvirt-gobject-stream.c:561
+	 #6  0x00007ffff6911616 in gvir_stream_source_finalize (source=0x1da25e0) at libvirt-gobject-stream.c:606
+
 2012-01-12  Daniel P. Berrange  <berrange@redhat.com>
 
 	Update NEWS & syms files for 0.0.4 release

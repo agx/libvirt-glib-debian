@@ -102,6 +102,8 @@ GVirConfigDomain *gvir_config_domain_new(void);
 void gvir_config_domain_set_virt_type(GVirConfigDomain *domain, GVirConfigDomainVirtType type);
 char *gvir_config_domain_get_name(GVirConfigDomain *domain);
 void gvir_config_domain_set_name(GVirConfigDomain *domain, const char *name);
+char *gvir_config_domain_get_description(GVirConfigDomain *domain);
+void gvir_config_domain_set_description(GVirConfigDomain *domain, const char *description);
 guint64 gvir_config_domain_get_memory(GVirConfigDomain *domain);
 void gvir_config_domain_set_memory(GVirConfigDomain *domain, guint64 memory);
 guint64 gvir_config_domain_get_vcpus(GVirConfigDomain *domain);
@@ -124,6 +126,13 @@ GList *gvir_config_domain_get_devices(GVirConfigDomain *domain);
 void gvir_config_domain_set_lifecycle(GVirConfigDomain *domain,
                                       GVirConfigDomainLifecycleEvent event,
                                       GVirConfigDomainLifecycleAction action);
+gboolean gvir_config_domain_set_custom_xml(GVirConfigDomain *domain,
+                                           const gchar *xml,
+                                           const gchar *ns,
+                                           const gchar *ns_uri,
+                                           GError **error);
+gchar *gvir_config_domain_get_custom_xml(GVirConfigDomain *domain,
+                                         const gchar *ns_uri);
 
 G_END_DECLS
 

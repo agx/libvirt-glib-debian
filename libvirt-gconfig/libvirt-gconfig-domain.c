@@ -39,6 +39,7 @@ G_DEFINE_TYPE(GVirConfigDomain, gvir_config_domain, GVIR_CONFIG_TYPE_OBJECT);
 enum {
     PROP_0,
     PROP_NAME,
+    PROP_DESCRIPTION,
     PROP_MEMORY,
     PROP_VCPU,
     PROP_FEATURES
@@ -54,6 +55,9 @@ static void gvir_config_domain_get_property(GObject *object,
     switch (prop_id) {
     case PROP_NAME:
         g_value_take_string(value, gvir_config_domain_get_name(domain));
+        break;
+    case PROP_DESCRIPTION:
+        g_value_take_string(value, gvir_config_domain_get_description(domain));
         break;
     case PROP_MEMORY:
         g_value_set_uint64(value, gvir_config_domain_get_memory(domain));
@@ -80,6 +84,9 @@ static void gvir_config_domain_set_property(GObject *object,
     switch (prop_id) {
     case PROP_NAME:
         gvir_config_domain_set_name(domain, g_value_get_string(value));
+        break;
+    case PROP_DESCRIPTION:
+        gvir_config_domain_set_description(domain, g_value_get_string(value));
         break;
     case PROP_MEMORY:
         gvir_config_domain_set_memory(domain, g_value_get_uint64(value));
@@ -110,6 +117,14 @@ static void gvir_config_domain_class_init(GVirConfigDomainClass *klass)
                                     g_param_spec_string("name",
                                                         "Name",
                                                         "Domain Name",
+                                                        NULL,
+                                                        G_PARAM_READWRITE |
+                                                        G_PARAM_STATIC_STRINGS));
+    g_object_class_install_property(object_class,
+                                    PROP_DESCRIPTION,
+                                    g_param_spec_string("description",
+                                                        "Description",
+                                                        "Some human readable description (could be anything).",
                                                         NULL,
                                                         G_PARAM_READWRITE |
                                                         G_PARAM_STATIC_STRINGS));
@@ -194,6 +209,19 @@ void gvir_config_domain_set_name(GVirConfigDomain *domain, const char *name)
     gvir_config_object_set_node_content(GVIR_CONFIG_OBJECT(domain),
                                         "name", name);
     g_object_notify(G_OBJECT(domain), "name");
+}
+
+char *gvir_config_domain_get_description(GVirConfigDomain *domain)
+{
+    return gvir_config_object_get_node_content(GVIR_CONFIG_OBJECT(domain),
+                                               "description");
+}
+
+void gvir_config_domain_set_description(GVirConfigDomain *domain, const char *description)
+{
+    gvir_config_object_set_node_content(GVIR_CONFIG_OBJECT(domain),
+                                        "description", description);
+    g_object_notify(G_OBJECT(domain), "description");
 }
 
 /**
@@ -290,8 +318,8 @@ void gvir_config_domain_set_clock(GVirConfigDomain *domain,
     g_return_if_fail(GVIR_CONFIG_IS_DOMAIN(domain));
     g_return_if_fail(GVIR_CONFIG_IS_DOMAIN_CLOCK(klock));
 
-    gvir_config_object_attach(GVIR_CONFIG_OBJECT(domain),
-                              GVIR_CONFIG_OBJECT(klock));
+    gvir_config_object_attach_replace(GVIR_CONFIG_OBJECT(domain),
+                                      GVIR_CONFIG_OBJECT(klock));
 }
 
 void gvir_config_domain_set_os(GVirConfigDomain *domain,
@@ -300,8 +328,8 @@ void gvir_config_domain_set_os(GVirConfigDomain *domain,
     g_return_if_fail(GVIR_CONFIG_IS_DOMAIN(domain));
     g_return_if_fail(GVIR_CONFIG_IS_DOMAIN_OS(os));
 
-    gvir_config_object_attach(GVIR_CONFIG_OBJECT(domain),
-                              GVIR_CONFIG_OBJECT(os));
+    gvir_config_object_attach_replace(GVIR_CONFIG_OBJECT(domain),
+                                      GVIR_CONFIG_OBJECT(os));
 }
 
 void gvir_config_domain_set_seclabel(GVirConfigDomain *domain,
@@ -310,8 +338,8 @@ void gvir_config_domain_set_seclabel(GVirConfigDomain *domain,
     g_return_if_fail(GVIR_CONFIG_IS_DOMAIN(domain));
     g_return_if_fail(GVIR_CONFIG_IS_DOMAIN_SECLABEL(seclabel));
 
-    gvir_config_object_attach(GVIR_CONFIG_OBJECT(domain),
-                              GVIR_CONFIG_OBJECT(seclabel));
+    gvir_config_object_attach_replace(GVIR_CONFIG_OBJECT(domain),
+                                      GVIR_CONFIG_OBJECT(seclabel));
 }
 
 void gvir_config_domain_set_lifecycle(GVirConfigDomain *domain,
@@ -354,10 +382,12 @@ void gvir_config_domain_set_devices(GVirConfigDomain *domain,
             g_warn_if_reached();
             continue;
         }
-        gvir_config_object_attach(devices_node, GVIR_CONFIG_OBJECT(it->data));
+        gvir_config_object_attach_add(devices_node,
+                                      GVIR_CONFIG_OBJECT(it->data));
     }
 
-    gvir_config_object_attach(GVIR_CONFIG_OBJECT(domain), devices_node);
+    gvir_config_object_attach_replace(GVIR_CONFIG_OBJECT(domain),
+                                      devices_node);
     g_object_unref(G_OBJECT(devices_node));
 }
 
@@ -372,7 +402,7 @@ void gvir_config_domain_add_device(GVirConfigDomain *domain,
     devices_node = gvir_config_object_add_child(GVIR_CONFIG_OBJECT(domain),
                                                 "devices");
 
-    gvir_config_object_attach(devices_node, GVIR_CONFIG_OBJECT(device));
+    gvir_config_object_attach_add(devices_node, GVIR_CONFIG_OBJECT(device));
     g_object_unref(G_OBJECT(devices_node));
 }
 
@@ -418,4 +448,72 @@ GList *gvir_config_domain_get_devices(GVirConfigDomain *domain)
     }
 
     return data.devices;
+}
+
+gboolean gvir_config_domain_set_custom_xml(GVirConfigDomain *domain,
+                                           const gchar *xml,
+                                           const gchar *ns,
+                                           const gchar *ns_uri,
+                                           GError **error)
+{
+    GVirConfigObject *metadata;
+    GVirConfigObject *custom_xml;
+
+    g_return_val_if_fail(GVIR_CONFIG_IS_DOMAIN(domain), FALSE);
+    g_return_val_if_fail(xml != NULL, FALSE);
+    g_return_val_if_fail(error == NULL || *error == NULL, FALSE);
+
+    metadata = gvir_config_object_add_child(GVIR_CONFIG_OBJECT(domain),
+                                            "metadata");
+
+    custom_xml = gvir_config_object_new_from_xml(GVIR_CONFIG_TYPE_OBJECT,
+                                                 NULL, NULL, xml, error);
+    if (custom_xml == NULL) {
+        g_assert_not_reached();
+        g_object_unref(G_OBJECT(metadata));
+        return FALSE;
+    }
+
+    gvir_config_object_set_namespace(custom_xml, ns, ns_uri);
+
+    gvir_config_object_delete_children(metadata, NULL, ns_uri);
+    gvir_config_object_attach_add(metadata, custom_xml);
+    g_object_unref(G_OBJECT(metadata));
+    g_object_unref(G_OBJECT(custom_xml));
+
+    return TRUE;
+}
+
+struct LookupNamespacedNodeData {
+    const char *ns_uri;
+    xmlNodePtr node;
+};
+
+static gboolean lookup_namespaced_node(xmlNodePtr node, gpointer opaque)
+{
+    struct LookupNamespacedNodeData* data = opaque;
+
+    if (node->ns == NULL)
+        return TRUE;
+
+    if (g_strcmp0((char *)node->ns->href, data->ns_uri) == 0) {
+        data->node = node;
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
+gchar *gvir_config_domain_get_custom_xml(GVirConfigDomain *domain,
+                                         const gchar *ns_uri)
+{
+    struct LookupNamespacedNodeData data = { NULL, NULL };
+
+    g_return_val_if_fail(GVIR_CONFIG_IS_DOMAIN(domain), NULL);
+    g_return_val_if_fail(ns_uri != NULL, NULL);
+
+    data.ns_uri = ns_uri;
+    gvir_config_object_foreach_child(GVIR_CONFIG_OBJECT(domain), "metadata",
+                                     lookup_namespaced_node, &data);
+    return gvir_config_xml_node_to_string(data.node);
 }

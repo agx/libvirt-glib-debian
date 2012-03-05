@@ -41,8 +41,12 @@ subdir = libvirt-gobject
 DIST_COMMON = $(libvirt_gobject_1_0_la_HEADERS) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
-	$(top_srcdir)/configure.ac
+am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
+	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
+	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
+	$(top_srcdir)/m4/manywarnings.m4 \
+	$(top_srcdir)/m4/virt-compile-warnings.m4 \
+	$(top_srcdir)/m4/warnings.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -95,6 +99,7 @@ am__objects_3 = libvirt_gobject_1_0_la-libvirt-gobject-main.lo \
 	libvirt_gobject_1_0_la-libvirt-gobject-connection.lo \
 	libvirt_gobject_1_0_la-libvirt-gobject-manager.lo
 am_libvirt_gobject_1_0_la_OBJECTS = $(am__objects_2) $(am__objects_3) \
+	libvirt_gobject_1_0_la-libvirt-gobject-compat.lo \
 	libvirt_gobject_1_0_la-libvirt-gobject-input-stream.lo \
 	libvirt_gobject_1_0_la-libvirt-gobject-output-stream.lo
 am__objects_4 = libvirt_gobject_1_0_la-libvirt-gobject-enums.lo
@@ -155,9 +160,9 @@ AWK = @AWK@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
-COMPILER_FLAGS = @COMPILER_FLAGS@
 COVERAGE_CFLAGS = @COVERAGE_CFLAGS@
 COVERAGE_LDFLAGS = @COVERAGE_LDFLAGS@
+COV_FLAGS = @COV_FLAGS@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CYGPATH_W = @CYGPATH_W@
@@ -251,6 +256,7 @@ STRIP = @STRIP@
 VAPIGEN = @VAPIGEN@
 VERSION = @VERSION@
 WARN_CFLAGS = @WARN_CFLAGS@
+WARN_LDFLAGS = @WARN_LDFLAGS@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -359,6 +365,7 @@ libvirt_gobject_1_0_la_SOURCES = \
 			$(GOBJECT_SOURCE_FILES) \
 			libvirt-gobject-domain-device-private.h \
 			libvirt-gobject-compat.h \
+			libvirt-gobject-compat.c \
 			libvirt-gobject-input-stream.h \
 			libvirt-gobject-input-stream.c \
 			libvirt-gobject-output-stream.h \
@@ -481,6 +488,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gobject_1_0_la-libvirt-gobject-compat.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gobject_1_0_la-libvirt-gobject-connection.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gobject_1_0_la-libvirt-gobject-domain-device.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gobject_1_0_la-libvirt-gobject-domain-disk.Plo@am__quote@
@@ -652,6 +660,14 @@ libvirt_gobject_1_0_la-libvirt-gobject-manager.lo: libvirt-gobject-manager.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gobject-manager.c' object='libvirt_gobject_1_0_la-libvirt-gobject-manager.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gobject_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gobject_1_0_la-libvirt-gobject-manager.lo `test -f 'libvirt-gobject-manager.c' || echo '$(srcdir)/'`libvirt-gobject-manager.c
+
+libvirt_gobject_1_0_la-libvirt-gobject-compat.lo: libvirt-gobject-compat.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gobject_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gobject_1_0_la-libvirt-gobject-compat.lo -MD -MP -MF $(DEPDIR)/libvirt_gobject_1_0_la-libvirt-gobject-compat.Tpo -c -o libvirt_gobject_1_0_la-libvirt-gobject-compat.lo `test -f 'libvirt-gobject-compat.c' || echo '$(srcdir)/'`libvirt-gobject-compat.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gobject_1_0_la-libvirt-gobject-compat.Tpo $(DEPDIR)/libvirt_gobject_1_0_la-libvirt-gobject-compat.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libvirt-gobject-compat.c' object='libvirt_gobject_1_0_la-libvirt-gobject-compat.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gobject_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gobject_1_0_la-libvirt-gobject-compat.lo `test -f 'libvirt-gobject-compat.c' || echo '$(srcdir)/'`libvirt-gobject-compat.c
 
 libvirt_gobject_1_0_la-libvirt-gobject-input-stream.lo: libvirt-gobject-input-stream.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gobject_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gobject_1_0_la-libvirt-gobject-input-stream.lo -MD -MP -MF $(DEPDIR)/libvirt_gobject_1_0_la-libvirt-gobject-input-stream.Tpo -c -o libvirt_gobject_1_0_la-libvirt-gobject-input-stream.lo `test -f 'libvirt-gobject-input-stream.c' || echo '$(srcdir)/'`libvirt-gobject-input-stream.c

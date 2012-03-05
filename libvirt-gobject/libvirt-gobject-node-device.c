@@ -126,9 +126,7 @@ static void gvir_node_device_class_init(GVirNodeDeviceClass *klass)
                                                        G_PARAM_READABLE |
                                                        G_PARAM_WRITABLE |
                                                        G_PARAM_CONSTRUCT_ONLY |
-                                                       G_PARAM_STATIC_NAME |
-                                                       G_PARAM_STATIC_NICK |
-                                                       G_PARAM_STATIC_BLURB));
+                                                       G_PARAM_STATIC_STRINGS));
 
     g_type_class_add_private(klass, sizeof(GVirNodeDevicePrivate));
 }
@@ -165,7 +163,8 @@ const gchar *gvir_node_device_get_name(GVirNodeDevice *device)
     const char *name;
 
     if (!(name = virNodeDeviceGetName(priv->handle))) {
-        g_error("Failed to get node_device name on %p", priv->handle);
+        g_warning("Failed to get node_device name on %p", priv->handle);
+        return NULL;
     }
 
     return name;

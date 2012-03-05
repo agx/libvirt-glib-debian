@@ -148,7 +148,8 @@ gvir_config_xml_parse(const char *xml, const char *root_node, GError **err)
                                       "Unable to parse configuration");
         return NULL;
     }
-    if ((!doc->children) || (strcmp((char *)doc->children->name, root_node) != 0)) {
+    if ((!doc->children) ||
+         ((root_node != NULL) && g_strcmp0((char *)doc->children->name, root_node) != 0)) {
         g_set_error(err,
                     GVIR_CONFIG_OBJECT_ERROR,
                     0,
@@ -169,14 +170,18 @@ void gvir_config_xml_foreach_child(xmlNodePtr node,
 
     g_return_if_fail(iter_func != NULL);
 
-    for (it = node->children; it != NULL; it = it->next) {
+    it = node->children;
+    while (it != NULL) {
         gboolean cont;
+        xmlNodePtr next = it->next;
 
-        if (xmlIsBlankNode(it))
-            continue;
-        cont = iter_func(it, opaque);
-        if (!cont)
-            break;
+        if (!xmlIsBlankNode(it)) {
+            cont = iter_func(it, opaque);
+            if (!cont)
+                break;
+        }
+
+        it = next;
     }
 }
 
@@ -302,4 +307,24 @@ gvir_config_genum_get_value (GType enum_type, const char *nick,
         return enum_value->value;
 
     g_return_val_if_reached(default_value);
+}
+
+G_GNUC_INTERNAL char *
+gvir_config_xml_node_to_string(xmlNodePtr node)
+{
+    xmlBufferPtr xmlbuf;
+    char *xml;
+
+    if (node == NULL)
+        return NULL;
+
+    xmlbuf = xmlBufferCreate();
+    if (xmlNodeDump(xmlbuf, node->doc, node, 0, 1) < 0)
+        return NULL;
+    else
+        xml = g_strndup((gchar *)xmlBufferContent(xmlbuf), xmlBufferLength(xmlbuf));
+
+    xmlBufferFree(xmlbuf);
+
+    return xml;
 }

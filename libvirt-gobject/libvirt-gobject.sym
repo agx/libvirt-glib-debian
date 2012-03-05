@@ -4,6 +4,7 @@ LIBVIRT_GOBJECT_0.0.4 {
         gvir_init_object_check;
 
 	gvir_connection_get_type;
+	gvir_node_info_get_type;
 	gvir_connection_new;
 	gvir_connection_open;
 	gvir_connection_open_async;
@@ -29,6 +30,7 @@ LIBVIRT_GOBJECT_0.0.4 {
 	gvir_connection_create_domain;
 	gvir_connection_create_storage_pool;
 	gvir_connection_start_domain;
+	gvir_connection_get_node_info;
 
 	gvir_domain_device_get_type;
 
@@ -45,6 +47,7 @@ LIBVIRT_GOBJECT_0.0.4 {
 	gvir_domain_info_get_type;
 	gvir_domain_state_get_type;
 	gvir_domain_start_flags_get_type;
+	gvir_domain_delete_flags_get_type;
 	gvir_domain_get_name;
 	gvir_domain_get_uuid;
 	gvir_domain_get_id;
@@ -64,6 +67,7 @@ LIBVIRT_GOBJECT_0.0.4 {
 	gvir_domain_set_config;
 	gvir_domain_get_info;
 	gvir_domain_get_persistent;
+	gvir_domain_get_saved;
 	gvir_domain_screenshot;
 
 	gvir_domain_snapshot_get_type;
@@ -126,6 +130,7 @@ LIBVIRT_GOBJECT_0.0.4 {
 	gvir_storage_vol_get_config;
 	gvir_storage_vol_get_info;
 	gvir_storage_vol_delete;
+	gvir_storage_vol_resize;
 
 	gvir_connection_handle_get_type;
 

@@ -126,9 +126,7 @@ static void gvir_domain_snapshot_class_init(GVirDomainSnapshotClass *klass)
                                                        G_PARAM_READABLE |
                                                        G_PARAM_WRITABLE |
                                                        G_PARAM_CONSTRUCT_ONLY |
-                                                       G_PARAM_STATIC_NAME |
-                                                       G_PARAM_STATIC_NICK |
-                                                       G_PARAM_STATIC_BLURB));
+                                                       G_PARAM_STATIC_STRINGS));
 
     g_type_class_add_private(klass, sizeof(GVirDomainSnapshotPrivate));
 }
@@ -168,12 +166,13 @@ const gchar *gvir_domain_snapshot_get_name(GVirDomainSnapshot *snapshot)
     const char *name;
 
     if (!(name = virDomainSnapshotGetName(priv->handle))) {
-        g_error("Failed to get domain_snapshot name on %p", priv->handle);
+        g_warning("Failed to get domain_snapshot name on %p", priv->handle);
+        return NULL;
     }
 
     return name;
 #else
-    if (snapshot || !snapshot)
+    if (snapshot)
         return NULL;
 #endif
 

@@ -129,7 +129,13 @@ static void gvir_storage_pool_constructed(GObject *object)
 
     /* xxx we may want to turn this into an initable */
     if (virStoragePoolGetUUIDString(priv->handle, priv->uuid) < 0) {
-        g_error("Failed to get storage pool UUID on %p", priv->handle);
+        virErrorPtr verr = virGetLastError();
+        if (verr) {
+            g_warning("Failed to get storage pool UUID on %p: %s",
+                      priv->handle, verr->message);
+        } else {
+            g_warning("Failed to get storage pool UUID on %p", priv->handle);
+        }
     }
 }
 
@@ -152,9 +158,8 @@ static void gvir_storage_pool_class_init(GVirStoragePoolClass *klass)
                                                        G_PARAM_READABLE |
                                                        G_PARAM_WRITABLE |
                                                        G_PARAM_CONSTRUCT_ONLY |
-                                                       G_PARAM_STATIC_NAME |
-                                                       G_PARAM_STATIC_NICK |
-                                                       G_PARAM_STATIC_BLURB));
+                                                       G_PARAM_STATIC_STRINGS));
+
 
     g_type_class_add_private(klass, sizeof(GVirStoragePoolPrivate));
 }
@@ -210,7 +215,8 @@ const gchar *gvir_storage_pool_get_name(GVirStoragePool *pool)
     const char *name;
 
     if (!(name = virStoragePoolGetName(priv->handle))) {
-        g_error("Failed to get storage_pool name on %p", priv->handle);
+        g_warning("Failed to get storage_pool name on %p", priv->handle);
+        return NULL;
     }
 
     return name;
@@ -386,6 +392,7 @@ gboolean gvir_storage_pool_refresh(GVirStoragePool *pool,
 
         volume = GVIR_STORAGE_VOL(g_object_new(GVIR_TYPE_STORAGE_VOL,
                                                "handle", vvolume,
+                                               "pool", pool,
                                                NULL));
 
         g_hash_table_insert(vol_hash, g_strdup(volumes[i]), volume);
@@ -500,11 +507,11 @@ GList *gvir_storage_pool_get_volumes(GVirStoragePool *pool)
  *
  * Return value: (transfer full): the #GVirStorageVol, or NULL
  */
-GVirStoragePool *gvir_storage_pool_get_volume(GVirStoragePool *pool,
-                                              const gchar *name)
+GVirStorageVol *gvir_storage_pool_get_volume(GVirStoragePool *pool,
+                                             const gchar *name)
 {
     GVirStoragePoolPrivate *priv = pool->priv;
-    GVirStoragePool *volume;
+    GVirStorageVol *volume;
 
     g_mutex_lock(priv->lock);
     volume = g_hash_table_lookup(priv->volumes, name);
@@ -542,15 +549,20 @@ GVirStorageVol *gvir_storage_pool_create_volume
     }
 
     GVirStorageVol *volume;
+    const char *name;
 
     volume = GVIR_STORAGE_VOL(g_object_new(GVIR_TYPE_STORAGE_VOL,
                                            "handle", handle,
+                                           "pool", pool,
                                            NULL));
+    name = gvir_storage_vol_get_name(volume);
+    if (name == NULL) {
+        g_object_unref(G_OBJECT(volume));
+        return NULL;
+    }
 
     g_mutex_lock(priv->lock);
-    g_hash_table_insert(priv->volumes,
-                        g_strdup(gvir_storage_vol_get_name(volume)),
-                        volume);
+    g_hash_table_insert(priv->volumes, g_strdup(name), volume);
     g_mutex_unlock(priv->lock);
 
     return g_object_ref(volume);

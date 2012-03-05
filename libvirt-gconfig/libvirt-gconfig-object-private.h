@@ -71,12 +71,18 @@ void gvir_config_object_replace_child_with_attribute(GVirConfigObject *object,
                                                      const char *attr_name,
                                                      const char *attr_value);
 void gvir_config_object_delete_child(GVirConfigObject *object,
-                                     const char *child_name);
+                                     const char *child_name,
+                                     const char *ns_href);
+void gvir_config_object_delete_children(GVirConfigObject *object,
+                                        const char *child_name,
+                                        const char *ns_href);
 void gvir_config_object_set_child(GVirConfigObject *object,
                                   xmlNodePtr child);
 
-void gvir_config_object_attach(GVirConfigObject *parent,
-                               GVirConfigObject *child);
+void gvir_config_object_attach_add(GVirConfigObject *parent,
+                                   GVirConfigObject *child);
+void gvir_config_object_attach_replace(GVirConfigObject *parent,
+                                       GVirConfigObject *child);
 void gvir_config_object_set_attribute(GVirConfigObject *object,
                                       ...) G_GNUC_NULL_TERMINATED;
 void gvir_config_object_set_attribute_with_type(GVirConfigObject *object,
@@ -87,6 +93,9 @@ void gvir_config_object_foreach_child(GVirConfigObject *object,
                                       const char *parent_name,
                                       GVirConfigXmlNodeIterator iter_func,
                                       gpointer opaque);
+gboolean gvir_config_object_set_namespace(GVirConfigObject *object,
+                                          const char *ns,
+                                          const char *ns_uri);
 
 G_END_DECLS
 
