@@ -3,7 +3,7 @@ Section: libs
 Priority: extra
 Maintainer: Guido Günther <agx@sigxcpu.org>
 Build-Depends: debhelper (>= 7.0.50~), pkg-config,
- libvirt-dev (>= 0.5.0), libglib2.0-dev (>= 2.10),
+ libvirt-dev (>= 0.9.10), libglib2.0-dev (>= 2.10),
  libxml2-dev, libgirepository1.0-dev, gobject-introspection,
 # when building from git:
   automake, autoconf, libtool,
