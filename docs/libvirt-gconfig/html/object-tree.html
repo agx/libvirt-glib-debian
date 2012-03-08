@@ -6,14 +6,14 @@
 <meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
 <link rel="home" href="index.html" title="Libvirt-gconfig Reference Manual">
 <link rel="up" href="index.html" title="Libvirt-gconfig Reference Manual">
-<link rel="prev" href="ch01.html" title="Libvirt-gconfig">
+<link rel="prev" href="GVirConfigCapabilities.html" title="GVirConfigCapabilities">
 <link rel="next" href="api-index-full.html" title="API Index">
-<meta name="generator" content="GTK-Doc V1.18 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.18.1 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2"><tr valign="middle">
-<td><a accesskey="p" href="ch01.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="p" href="GVirConfigCapabilities.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
 <td> </td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
 <th width="100%" align="center">Libvirt-gconfig Reference Manual</th>
@@ -23,10 +23,80 @@
 <div class="titlepage"><div><div><h2 class="title">
 <a name="object-tree"></a>Object Hierarchy</h2></div></div></div>
 <pre class="screen">
+    GObject
+        <a class="link" href="GVirConfigObject.html" title="GVirConfigObject">GVirConfigObject</a>
+            <a class="link" href="GVirConfigCapabilities.html" title="GVirConfigCapabilities">GVirConfigCapabilities</a>
+            GVirConfigDomainDevice
+                GVirConfigDomainChardev
+                    GVirConfigDomainChannel
+                    GVirConfigDomainConsole
+                    GVirConfigDomainParallel
+                    GVirConfigDomainSerial
+                GVirConfigDomainDisk
+                GVirConfigDomainFilesys
+                GVirConfigDomainGraphics
+                    GVirConfigDomainGraphicsSdl
+                    GVirConfigDomainGraphicsSpice
+                    GVirConfigDomainGraphicsVnc
+                GVirConfigDomainInput
+                GVirConfigDomainInterface
+                    GVirConfigDomainInterfaceBridge
+                    GVirConfigDomainInterfaceNetwork
+                    GVirConfigDomainInterfaceUser
+                GVirConfigDomainMemballoon
+                GVirConfigDomainSound
+                GVirConfigDomainVideo
+            GVirConfigDomainChardevSource
+                GVirConfigDomainChardevSourcePty
+            GVirConfigDomainClock
+            <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain">GVirConfigDomain</a>
+            GVirConfigDomainOs
+            GVirConfigDomainSeclabel
+            <a class="link" href="GVirConfigDomainSnapshot.html" title="GVirConfigDomainSnapshot">GVirConfigDomainSnapshot</a>
+            GVirConfigDomainTimer
+            <a class="link" href="GVirConfigInterface.html" title="GVirConfigInterface">GVirConfigInterface</a>
+            <a class="link" href="GVirConfigNetworkFilter.html" title="GVirConfigNetworkFilter">GVirConfigNetworkFilter</a>
+            <a class="link" href="GVirConfigNetwork.html" title="GVirConfigNetwork">GVirConfigNetwork</a>
+            <a class="link" href="GVirConfigNodeDevice.html" title="GVirConfigNodeDevice">GVirConfigNodeDevice</a>
+            <a class="link" href="GVirConfigSecret.html" title="GVirConfigSecret">GVirConfigSecret</a>
+            GVirConfigStoragePermissions
+            <a class="link" href="GVirConfigStoragePool.html" title="GVirConfigStoragePool">GVirConfigStoragePool</a>
+            GVirConfigStoragePoolSource
+            GVirConfigStoragePoolTarget
+            GVirConfigStorageVolBackingStore
+            <a class="link" href="GVirConfigStorageVol.html" title="GVirConfigStorageVol">GVirConfigStorageVol</a>
+            GVirConfigStorageVolTarget
+        GVirConfigXmlDoc
+    GEnum
+        GVirConfigDomainChannelTargetType
+        GVirConfigDomainClockOffset
+        GVirConfigDomainConsoleTargetType
+        GVirConfigDomainDiskBus
+        GVirConfigDomainDiskCacheType
+        GVirConfigDomainDiskGuestDeviceType
+        GVirConfigDomainDiskSnapshotType
+        GVirConfigDomainDiskType
+        GVirConfigDomainFilesysAccessType
+        GVirConfigDomainFilesysDriverType
+        GVirConfigDomainFilesysType
+        GVirConfigDomainInputBus
+        GVirConfigDomainInputDeviceType
+        GVirConfigDomainInterfaceLinkState
+        <a class="link" href="GVirConfigDomain.html#GVirConfigDomainLifecycleAction">GVirConfigDomainLifecycleAction</a>
+        <a class="link" href="GVirConfigDomain.html#GVirConfigDomainLifecycleEvent">GVirConfigDomainLifecycleEvent</a>
+        GVirConfigDomainMemballoonModel
+        GVirConfigDomainOsBootDevice
+        GVirConfigDomainOsSmBiosMode
+        GVirConfigDomainOsType
+        GVirConfigDomainSeclabelType
+        GVirConfigDomainSoundModel
+        GVirConfigDomainVideoModel
+        <a class="link" href="GVirConfigDomain.html#GVirConfigDomainVirtType">GVirConfigDomainVirtType</a>
+        <a class="link" href="GVirConfigStoragePool.html#GVirConfigStoragePoolType">GVirConfigStoragePoolType</a>
 </pre>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.18</div>
+          Generated by GTK-Doc V1.18.1</div>
 </body>
 </html>

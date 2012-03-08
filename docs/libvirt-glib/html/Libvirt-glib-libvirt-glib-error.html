@@ -1,0 +1,307 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>libvirt-glib-error</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
+<link rel="home" href="index.html" title="Libvirt-glib Reference Manual">
+<link rel="up" href="ch01.html" title="Libvirt-glib">
+<link rel="prev" href="Libvirt-glib-libvirt-glib-main.html" title="libvirt-glib-main">
+<link rel="next" href="Libvirt-glib-libvirt-glib-event.html" title="libvirt-glib-event">
+<meta name="generator" content="GTK-Doc V1.18.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="Libvirt-glib-libvirt-glib-main.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Libvirt-glib Reference Manual</th>
+<td><a accesskey="n" href="Libvirt-glib-libvirt-glib-event.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#Libvirt-glib-libvirt-glib-error.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#Libvirt-glib-libvirt-glib-error.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="Libvirt-glib-libvirt-glib-error"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="Libvirt-glib-libvirt-glib-error.top_of_page"></a>libvirt-glib-error</span></h2>
+<p>libvirt-glib-error</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="Libvirt-glib-libvirt-glib-error.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis"><span class="returnvalue">GError</span> *            <a class="link" href="Libvirt-glib-libvirt-glib-error.html#gvir-error-new" title="gvir_error_new ()">gvir_error_new</a>                      (<em class="parameter"><code><span class="type">GQuark</span> domain</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> code</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *format</code></em>,
+                                                         <em class="parameter"><code>...</code></em>);
+<span class="returnvalue">GError</span> *            <a class="link" href="Libvirt-glib-libvirt-glib-error.html#gvir-error-new-literal" title="gvir_error_new_literal ()">gvir_error_new_literal</a>              (<em class="parameter"><code><span class="type">GQuark</span> domain</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> code</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *message</code></em>);
+<span class="returnvalue">GError</span> *            <a class="link" href="Libvirt-glib-libvirt-glib-error.html#gvir-error-new-valist" title="gvir_error_new_valist ()">gvir_error_new_valist</a>               (<em class="parameter"><code><span class="type">GQuark</span> domain</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> code</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *format</code></em>,
+                                                         <em class="parameter"><code><span class="type">va_list</span> args</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="Libvirt-glib-libvirt-glib-error.html#gvir-set-error" title="gvir_set_error ()">gvir_set_error</a>                      (<em class="parameter"><code><span class="type">GError</span> **error</code></em>,
+                                                         <em class="parameter"><code><span class="type">GQuark</span> domain</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> code</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *format</code></em>,
+                                                         <em class="parameter"><code>...</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="Libvirt-glib-libvirt-glib-error.html#gvir-set-error-literal" title="gvir_set_error_literal ()">gvir_set_error_literal</a>              (<em class="parameter"><code><span class="type">GError</span> **error</code></em>,
+                                                         <em class="parameter"><code><span class="type">GQuark</span> domain</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> code</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *message</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="Libvirt-glib-libvirt-glib-error.html#gvir-set-error-valist" title="gvir_set_error_valist ()">gvir_set_error_valist</a>               (<em class="parameter"><code><span class="type">GError</span> **error</code></em>,
+                                                         <em class="parameter"><code><span class="type">GQuark</span> domain</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> code</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *format</code></em>,
+                                                         <em class="parameter"><code><span class="type">va_list</span> args</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="Libvirt-glib-libvirt-glib-error.description"></a><h2>Description</h2>
+</div>
+<div class="refsect1">
+<a name="Libvirt-glib-libvirt-glib-error.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="gvir-error-new"></a><h3>gvir_error_new ()</h3>
+<pre class="programlisting"><span class="returnvalue">GError</span> *            gvir_error_new                      (<em class="parameter"><code><span class="type">GQuark</span> domain</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> code</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *format</code></em>,
+                                                         <em class="parameter"><code>...</code></em>);</pre>
+<p>
+Creates a new <span class="type">GError</span> with the given <em class="parameter"><code>domain</code></em> and <em class="parameter"><code>code</code></em>,
+and a message formatted with <em class="parameter"><code>format</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>domain</code></em> :</span></p></td>
+<td>error domain</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>code</code></em> :</span></p></td>
+<td>error code</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>format</code></em> :</span></p></td>
+<td>printf()-style format for error message</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>Varargs</code></em> :</span></p></td>
+<td>parameters for message format</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>a new <span class="type">GError</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-error-new-literal"></a><h3>gvir_error_new_literal ()</h3>
+<pre class="programlisting"><span class="returnvalue">GError</span> *            gvir_error_new_literal              (<em class="parameter"><code><span class="type">GQuark</span> domain</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> code</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *message</code></em>);</pre>
+<p>
+Creates a new <span class="type">GError</span>; unlike <a class="link" href="Libvirt-glib-libvirt-glib-error.html#gvir-error-new" title="gvir_error_new ()"><code class="function">gvir_error_new()</code></a>, <em class="parameter"><code>message</code></em> is
+not a <code class="function">printf()</code>-style format string. Use this function if
+<em class="parameter"><code>message</code></em> contains text you don't have control over,
+that could include <code class="function">printf()</code> escape sequences.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>domain</code></em> :</span></p></td>
+<td>error domain</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>code</code></em> :</span></p></td>
+<td>error code</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>message</code></em> :</span></p></td>
+<td>error message</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>a new <span class="type">GError</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-error-new-valist"></a><h3>gvir_error_new_valist ()</h3>
+<pre class="programlisting"><span class="returnvalue">GError</span> *            gvir_error_new_valist               (<em class="parameter"><code><span class="type">GQuark</span> domain</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> code</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *format</code></em>,
+                                                         <em class="parameter"><code><span class="type">va_list</span> args</code></em>);</pre>
+<p>
+Creates a new <span class="type">GError</span> with the given <em class="parameter"><code>domain</code></em> and <em class="parameter"><code>code</code></em>,
+and a message formatted with <em class="parameter"><code>format</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>domain</code></em> :</span></p></td>
+<td>error domain</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>code</code></em> :</span></p></td>
+<td>error code</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>format</code></em> :</span></p></td>
+<td>printf()-style format for error message</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>args</code></em> :</span></p></td>
+<td>
+<span class="type">va_list</span> of parameters for the message format</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>a new <span class="type">GError</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-set-error"></a><h3>gvir_set_error ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gvir_set_error                      (<em class="parameter"><code><span class="type">GError</span> **error</code></em>,
+                                                         <em class="parameter"><code><span class="type">GQuark</span> domain</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> code</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *format</code></em>,
+                                                         <em class="parameter"><code>...</code></em>);</pre>
+<p>
+If <em class="parameter"><code>error</code></em> is NULL this does nothing. Otherwise it
+creates a new <span class="type">GError</span> with the given <em class="parameter"><code>domain</code></em> and <em class="parameter"><code>code</code></em>,
+and a message formatted with <em class="parameter"><code>format</code></em>, and stores it
+in <em class="parameter"><code>error</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
+<td>pointer to error location</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>domain</code></em> :</span></p></td>
+<td>error domain</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>code</code></em> :</span></p></td>
+<td>error code</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>format</code></em> :</span></p></td>
+<td>printf()-style format for error message</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>Varargs</code></em> :</span></p></td>
+<td>parameters for message format</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-set-error-literal"></a><h3>gvir_set_error_literal ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gvir_set_error_literal              (<em class="parameter"><code><span class="type">GError</span> **error</code></em>,
+                                                         <em class="parameter"><code><span class="type">GQuark</span> domain</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> code</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *message</code></em>);</pre>
+<p>
+If <em class="parameter"><code>error</code></em> is NULL this does nothing. Otherwise it
+creates a new <span class="type">GError</span> and stores it in <em class="parameter"><code>error</code></em>; unlike
+<a class="link" href="Libvirt-glib-libvirt-glib-error.html#gvir-set-error" title="gvir_set_error ()"><code class="function">gvir_set_error()</code></a>, <em class="parameter"><code>message</code></em> is not a <code class="function">printf()</code>-style
+format string. Use this function if <em class="parameter"><code>message</code></em> contains
+text you don't have control over, that could include
+<code class="function">printf()</code> escape sequences.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
+<td>pointer to error location</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>domain</code></em> :</span></p></td>
+<td>error domain</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>code</code></em> :</span></p></td>
+<td>error code</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>message</code></em> :</span></p></td>
+<td>error message</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-set-error-valist"></a><h3>gvir_set_error_valist ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gvir_set_error_valist               (<em class="parameter"><code><span class="type">GError</span> **error</code></em>,
+                                                         <em class="parameter"><code><span class="type">GQuark</span> domain</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> code</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *format</code></em>,
+                                                         <em class="parameter"><code><span class="type">va_list</span> args</code></em>);</pre>
+<p>
+If <em class="parameter"><code>error</code></em> is NULL this does nothing. Otherwise it
+creates a new <span class="type">GError</span> with the given <em class="parameter"><code>domain</code></em> and <em class="parameter"><code>code</code></em>,
+and a message formatted with <em class="parameter"><code>format</code></em>, and stores it
+in <em class="parameter"><code>error</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
+<td>pointer to error location</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>domain</code></em> :</span></p></td>
+<td>error domain</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>code</code></em> :</span></p></td>
+<td>error code</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>format</code></em> :</span></p></td>
+<td>printf()-style format for error message</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>args</code></em> :</span></p></td>
+<td>
+<span class="type">va_list</span> of parameters for the message format</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.18.1</div>
+</body>
+</html>

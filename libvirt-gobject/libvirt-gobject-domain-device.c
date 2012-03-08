@@ -37,6 +37,7 @@
 struct _GVirDomainDevicePrivate
 {
     GVirDomain *domain;
+    GVirConfigDomainDevice *config;
 };
 
 G_DEFINE_ABSTRACT_TYPE(GVirDomainDevice, gvir_domain_device, G_TYPE_OBJECT);
@@ -44,6 +45,7 @@ G_DEFINE_ABSTRACT_TYPE(GVirDomainDevice, gvir_domain_device, G_TYPE_OBJECT);
 enum {
     PROP_0,
     PROP_DOMAIN,
+    PROP_CONFIG,
 };
 
 static void gvir_domain_device_get_property(GObject *object,
@@ -57,6 +59,10 @@ static void gvir_domain_device_get_property(GObject *object,
     switch (prop_id) {
     case PROP_DOMAIN:
         g_value_set_object(value, priv->domain);
+        break;
+
+    case PROP_CONFIG:
+        g_value_set_object(value, priv->config);
         break;
 
     default:
@@ -79,6 +85,11 @@ static void gvir_domain_device_set_property(GObject *object,
         priv->domain = g_value_dup_object(value);
         break;
 
+    case PROP_CONFIG:
+        g_clear_object(&priv->config);
+        priv->config = g_value_dup_object(value);
+        break;
+
     default:
         G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
     }
@@ -93,6 +104,7 @@ static void gvir_domain_device_finalize(GObject *object)
     g_debug("Finalize GVirDomainDevice=%p", self);
 
     g_clear_object(&priv->domain);
+    g_clear_object(&priv->config);
 
     G_OBJECT_CLASS(gvir_domain_device_parent_class)->finalize(object);
 }
@@ -115,6 +127,16 @@ static void gvir_domain_device_class_init(GVirDomainDeviceClass *klass)
                                                         G_PARAM_CONSTRUCT_ONLY |
                                                         G_PARAM_STATIC_STRINGS));
 
+    g_object_class_install_property(object_class,
+                                    PROP_CONFIG,
+                                    g_param_spec_object("config",
+                                                        "Config",
+                                                        "The configuration",
+                                                        GVIR_CONFIG_TYPE_DOMAIN_DEVICE,
+                                                        G_PARAM_READWRITE |
+                                                        G_PARAM_CONSTRUCT_ONLY |
+                                                        G_PARAM_STATIC_STRINGS));
+
     g_type_class_add_private(klass, sizeof(GVirDomainDevicePrivate));
 }
 
@@ -133,4 +155,48 @@ virDomainPtr gvir_domain_device_get_domain_handle(GVirDomainDevice *self)
     g_object_get(self->priv->domain, "handle", &handle, NULL);
 
     return handle;
+}
+
+/**
+ * gvir_domain_device_get_domain:
+ * @device: the domain device
+ *
+ * Returns: (transfer full): the associated domain
+ */
+GVirDomain *gvir_domain_device_get_domain(GVirDomainDevice *device)
+{
+    return g_object_ref (device->priv->domain);
+}
+
+/**
+ * gvir_domain_device_get_config:
+ * @device: the domain device
+ *
+ * Returns: (transfer full): the config
+ */
+GVirConfigDomainDevice *gvir_domain_device_get_config(GVirDomainDevice *device)
+{
+    return g_object_ref (device->priv->config);
+}
+
+G_GNUC_INTERNAL GVirDomainDevice *gvir_domain_device_new(GVirDomain *domain,
+                                                         GVirConfigDomainDevice *config)
+{
+    GType type;
+
+    g_return_val_if_fail(GVIR_IS_DOMAIN(domain), NULL);
+    g_return_val_if_fail(GVIR_CONFIG_IS_DOMAIN_DEVICE(config), NULL);
+
+    if (GVIR_CONFIG_IS_DOMAIN_DISK(config)) {
+        type = GVIR_TYPE_DOMAIN_DISK;
+    } else if (GVIR_CONFIG_IS_DOMAIN_INTERFACE(config)) {
+        type = GVIR_TYPE_DOMAIN_INTERFACE;
+    } else {
+        g_debug("Unknown device type: %s", G_OBJECT_TYPE_NAME(config));
+        return NULL;
+    }
+
+    return GVIR_DOMAIN_DEVICE(g_object_new(type,
+                                           "config", config,
+                                           "domain", domain, NULL));
 }

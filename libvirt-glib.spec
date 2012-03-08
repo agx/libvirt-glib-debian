@@ -21,7 +21,7 @@
 %endif
 
 Name: libvirt-glib
-Version: 0.0.5
+Version: 0.0.6
 Release: 1%{?dist}%{?extra_release}
 Summary: libvirt glib integration for events
 Group: Development/Libraries

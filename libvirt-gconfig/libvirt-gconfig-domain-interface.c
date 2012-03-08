@@ -57,7 +57,7 @@ void gvir_config_domain_interface_set_ifname(GVirConfigDomainInterface *interfac
     g_return_if_fail(GVIR_CONFIG_IS_DOMAIN_INTERFACE(interface));
 
     gvir_config_object_replace_child_with_attribute(GVIR_CONFIG_OBJECT(interface),
-                                                    "target", "device", ifname);
+                                                    "target", "dev", ifname);
 }
 
 void gvir_config_domain_interface_set_link_state(GVirConfigDomainInterface *interface,
@@ -94,6 +94,41 @@ void gvir_config_domain_interface_set_model(GVirConfigDomainInterface *interface
 
     gvir_config_object_replace_child_with_attribute(GVIR_CONFIG_OBJECT(interface),
                                                     "model", "type", model);
+}
+
+char *gvir_config_domain_interface_get_ifname(GVirConfigDomainInterface *interface)
+{
+    g_return_val_if_fail(GVIR_CONFIG_IS_DOMAIN_INTERFACE(interface), NULL);
+
+    return gvir_config_object_get_attribute(GVIR_CONFIG_OBJECT(interface),
+                                            "target", "dev");
+}
+
+GVirConfigDomainInterfaceLinkState gvir_config_domain_interface_get_link_state(GVirConfigDomainInterface *interface)
+{
+    g_return_val_if_fail(GVIR_CONFIG_IS_DOMAIN_INTERFACE(interface),
+                         GVIR_CONFIG_DOMAIN_INTERFACE_LINK_STATE_DEFAULT);
+
+    return gvir_config_object_get_attribute_genum(GVIR_CONFIG_OBJECT(interface),
+                                                  "link", "state",
+                                                  GVIR_CONFIG_TYPE_DOMAIN_INTERFACE_LINK_STATE,
+                                                  GVIR_CONFIG_DOMAIN_INTERFACE_LINK_STATE_DEFAULT);
+}
+
+char *gvir_config_domain_interface_get_mac(GVirConfigDomainInterface *interface)
+{
+    g_return_val_if_fail(GVIR_CONFIG_IS_DOMAIN_INTERFACE(interface), NULL);
+
+    return gvir_config_object_get_attribute(GVIR_CONFIG_OBJECT(interface),
+                                            "mac", "address");
+}
+
+char *gvir_config_domain_interface_get_model(GVirConfigDomainInterface *interface)
+{
+    g_return_val_if_fail(GVIR_CONFIG_IS_DOMAIN_INTERFACE(interface), NULL);
+
+    return gvir_config_object_get_attribute(GVIR_CONFIG_OBJECT(interface),
+                                            "model", "type");
 }
 
 G_GNUC_INTERNAL GVirConfigDomainDevice *
