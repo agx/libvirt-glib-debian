@@ -10,6 +10,9 @@ override_dh_auto_configure:
 override_dh_strip:
 	dh_strip -plibvirt-glib-1.0-0 --dbg-package=libvirt-glib-1.0-0-dbg
 
+override_dh_auto_clean:
+	[ ! -f Makefile ] || make clean
+
 override_dh_makeshlibs:
 	dh_makeshlibs -a
 	dh_girepository
