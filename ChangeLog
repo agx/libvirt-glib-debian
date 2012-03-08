@@ -1,3 +1,70 @@
+2012-03-05  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Release 0.0.6
+
+	Distribute GNUmakefile, cfg.mk and maint.mk files
+
+2012-03-02  Marc-André Lureau  <marcandre.lureau@redhat.com>
+
+	Don't leak GVirStream
+	Do not give away a reference to virStreamEventAddCallback, but manage
+	stream life-time and event instead.
+
+	It seems to be a bug in current implementation of libvirt
+	remoteStreamCallbackFree() that doesn't call the free/notify cb for
+	some reason. (even if it did, I am not sure it would work correctly,
+	so I prefer that patch)
+
+2012-03-02  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Correct a check
+
+2012-03-01  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	RFC: Empty statistics for user-mode interfaces
+	One of the limitations of user-mode networking of libvirt is that you
+	can't get statistics for it (not yet, at least). Instead of erroring-out
+	in that case, simply return empty statistics result and spit a debug
+	message.
+
+	I will merge this into my 'Remove now redundant 'path' property' patch
+	once someone tells me that this makes sense. :)
+
+	Add gvir_domain_get_devices()
+	Currently we only support existing DomainDevice implementations:
+	DomainDisk and DomainInterface.
+
+	Remove now redundant 'path' property
+	Remove now redundant 'path' property from GVirDomainDevice subclasses.
+	These classes now have access to their configurations, from which they
+	can easily get the path (among other properties) internally.
+
+2012-02-29  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Add 'config' property to GVirDomainDevice
+	GVirDomainDevice should have an associated GVirConfigDomainDevice.
+
+	Getters for GVirConfigDomainInterface attributes
+
+	Add gvir_domain_device_get_domain()
+	Getter for the associated domain of a domain device.
+
+	Set correct target node attribute for domain interface
+	gvir_config_domain_interface_set_ifname() should be setting 'dev'
+	attribute under 'target', not 'device'.
+
+	Add gvir_domain_disk_resize()
+	Binding for virDomainBlockResize().
+
+2012-02-28  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Bump version
+
+2012-02-20  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Use strncpy rather than g_utf8_strncpy
+	We need to copy fixed number of bytes (not characters) so use strncpy.
+
 2012-02-20  Daniel P. Berrange  <berrange@redhat.com>
 
 	Add notes for 0.0.5 release
@@ -306,7 +373,7 @@
 
 	Add gvir_gconfig_object_remove_attribute helper
 
-2012-01-04  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+2012-01-05  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
 
 	Add docs for gvir_config_domain_set/get_memory
 	Its not obvious what units these functions deal with so docs are
@@ -441,12 +508,12 @@
 
 	Only enable vala for Fedora 16 and later
 
-2011-12-06  Daniel P. Berrange  <berrange@redhat.com>
-
 	Allow cancelling gvir_stream_send_all & gvir_stream_receive_all
 	Add GCancellable parameters to gvir_stream_send_all and
 	gvir_stream_receive_all to allow I/O to be interrupted
 	before completion
+
+2011-12-06  Daniel P. Berrange  <berrange@redhat.com>
 
 	Add flags for controling how domains are started
 
@@ -1049,8 +1116,6 @@
 
 	Release 0.0.2
 
-2011-11-21  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
-
 	Add API to redefine an existing domain
 
 2011-11-18  Guido Günther  <agx@sigxcpu.org>
@@ -1305,11 +1370,9 @@
 
 	Fix vapigen on uninstalled environment
 
-2011-10-20  Marc-André Lureau  <marcandre.lureau@redhat.com>
-
 	Fix GIR scanner on uninstalled environment
 
-2011-10-19  Marc-André Lureau  <marcandre.lureau@redhat.com>
+2011-10-20  Marc-André Lureau  <marcandre.lureau@redhat.com>
 
 	Fix wrong signals arguments
 
@@ -1449,9 +1512,9 @@
 	Actually provide gvir_storage_vol_get_path()
 	This was only declared in header previously but not implemented.
 
-2011-09-27  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
-
 	Refactor two very huge functions a bit
+
+2011-09-27  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
 
 	Plug a leak
 
@@ -1469,9 +1532,9 @@
 
 	Ability to create new domains
 
-2011-09-26  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
-
 	Remove redundant empty line
+
+2011-09-26  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
 
 	Fix some obvious c&p mistakes
 
