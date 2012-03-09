@@ -1,3 +1,11 @@
+libvirt-glib (0.0.6-1) experimental; urgency=low
+
+  * New upstream version 0.0.6
+  * [941ceb1] Unconfuse dh.  The GNUMakefile makes it things we're a Make type
+    project otherwise.
+
+ -- Guido Günther <agx@sigxcpu.org>  Fri, 09 Mar 2012 13:24:02 +0100
+
 libvirt-glib (0.0.5-1) experimental; urgency=low
 
   * [4882ac8] Change section of introspection data to introspection
