@@ -1,7 +1,13 @@
+libvirt-glib (0.0.7-1) experimental; urgency=low
+
+  * [901d3d1] New upstream version 0.0.7 (Closes: #666690)
+
+ -- Guido Günther <agx@sigxcpu.org>  Tue, 03 Apr 2012 13:27:28 +0200
+
 libvirt-glib (0.0.6-1) experimental; urgency=low
 
   * New upstream version 0.0.6
-  * [941ceb1] Unconfuse dh.  The GNUMakefile makes it things we're a Make type
+  * [941ceb1] Unconfuse dh.  The GNUMakefile makes it think we're a Make type
     project otherwise.
 
  -- Guido Günther <agx@sigxcpu.org>  Fri, 09 Mar 2012 13:24:02 +0100
