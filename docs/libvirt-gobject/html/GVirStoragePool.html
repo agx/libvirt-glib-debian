@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="Libvirt-gobject">
 <link rel="prev" href="GVirSecret.html" title="GVirSecret">
 <link rel="next" href="GVirStorageVol.html" title="GVirStorageVol">
-<meta name="generator" content="GTK-Doc V1.18.1 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.18 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -45,57 +45,57 @@
 struct              <a class="link" href="GVirStoragePool.html#GVirStoragePoolClass" title="struct GVirStoragePoolClass">GVirStoragePoolClass</a>;
 struct              <a class="link" href="GVirStoragePool.html#GVirStoragePoolInfo-struct" title="struct GVirStoragePoolInfo">GVirStoragePoolInfo</a>;
 enum                <a class="link" href="GVirStoragePool.html#GVirStoragePoolState" title="enum GVirStoragePoolState">GVirStoragePoolState</a>;
-<span class="returnvalue">gboolean</span>            <a class="link" href="GVirStoragePool.html#gvir-storage-pool-build" title="gvir_storage_pool_build ()">gvir_storage_pool_build</a>             (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="GVirStoragePool.html#gvir-storage-pool-build" title="gvir_storage_pool_build ()">gvir_storage_pool_build</a>             (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="GVirStoragePool.html#gvir-storage-pool-build-async" title="gvir_storage_pool_build_async ()">gvir_storage_pool_build_async</a>       (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
-                                                         <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
-                                                         <em class="parameter"><code><span class="type">GAsyncReadyCallback</span> callback</code></em>,
-                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);
-<span class="returnvalue">gboolean</span>            <a class="link" href="GVirStoragePool.html#gvir-storage-pool-build-finish" title="gvir_storage_pool_build_finish ()">gvir_storage_pool_build_finish</a>      (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
-                                                         <em class="parameter"><code><span class="type">GAsyncResult</span> *result</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="GVirStoragePool.html#gvir-storage-pool-build-finish" title="gvir_storage_pool_build_finish ()">gvir_storage_pool_build_finish</a>      (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
 <a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class="returnvalue">GVirStorageVol</span></a> *    <a class="link" href="GVirStoragePool.html#gvir-storage-pool-create-volume" title="gvir_storage_pool_create_volume ()">gvir_storage_pool_create_volume</a>     (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
-                                                         <em class="parameter"><code><span class="type">GVirConfigStorageVol</span> *conf</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
-<span class="returnvalue">GVirConfigStoragePool</span> * <a class="link" href="GVirStoragePool.html#gvir-storage-pool-get-config" title="gvir_storage_pool_get_config ()">gvir_storage_pool_get_config</a>    (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
+                                                         <em class="parameter"><code><a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigStorageVol.html"><span class="type">GVirConfigStorageVol</span></a> *conf</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
+<a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigStoragePool.html"><span class="returnvalue">GVirConfigStoragePool</span></a> * <a class="link" href="GVirStoragePool.html#gvir-storage-pool-get-config" title="gvir_storage_pool_get_config ()">gvir_storage_pool_get_config</a>    (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
 <a class="link" href="GVirStoragePool.html#GVirStoragePoolInfo"><span class="returnvalue">GVirStoragePoolInfo</span></a> * <a class="link" href="GVirStoragePool.html#gvir-storage-pool-get-info" title="gvir_storage_pool_get_info ()">gvir_storage_pool_get_info</a>        (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
-const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirStoragePool.html#gvir-storage-pool-get-name" title="gvir_storage_pool_get_name ()">gvir_storage_pool_get_name</a>          (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>);
-const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirStoragePool.html#gvir-storage-pool-get-uuid" title="gvir_storage_pool_get_uuid ()">gvir_storage_pool_get_uuid</a>          (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>);
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
+const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="GVirStoragePool.html#gvir-storage-pool-get-name" title="gvir_storage_pool_get_name ()">gvir_storage_pool_get_name</a>          (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>);
+const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="GVirStoragePool.html#gvir-storage-pool-get-uuid" title="gvir_storage_pool_get_uuid ()">gvir_storage_pool_get_uuid</a>          (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>);
 <a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class="returnvalue">GVirStorageVol</span></a> *    <a class="link" href="GVirStoragePool.html#gvir-storage-pool-get-volume" title="gvir_storage_pool_get_volume ()">gvir_storage_pool_get_volume</a>        (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
-                                                         <em class="parameter"><code>const <span class="type">gchar</span> *name</code></em>);
-<span class="returnvalue">GList</span> *             <a class="link" href="GVirStoragePool.html#gvir-storage-pool-get-volumes" title="gvir_storage_pool_get_volumes ()">gvir_storage_pool_get_volumes</a>       (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>);
-<span class="returnvalue">gboolean</span>            <a class="link" href="GVirStoragePool.html#gvir-storage-pool-refresh" title="gvir_storage_pool_refresh ()">gvir_storage_pool_refresh</a>           (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
-                                                         <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
+                                                         <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *name</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *             <a class="link" href="GVirStoragePool.html#gvir-storage-pool-get-volumes" title="gvir_storage_pool_get_volumes ()">gvir_storage_pool_get_volumes</a>       (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="GVirStoragePool.html#gvir-storage-pool-refresh" title="gvir_storage_pool_refresh ()">gvir_storage_pool_refresh</a>           (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="GVirStoragePool.html#gvir-storage-pool-refresh-async" title="gvir_storage_pool_refresh_async ()">gvir_storage_pool_refresh_async</a>     (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
-                                                         <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
-                                                         <em class="parameter"><code><span class="type">GAsyncReadyCallback</span> callback</code></em>,
-                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);
-<span class="returnvalue">gboolean</span>            <a class="link" href="GVirStoragePool.html#gvir-storage-pool-refresh-finish" title="gvir_storage_pool_refresh_finish ()">gvir_storage_pool_refresh_finish</a>    (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
-                                                         <em class="parameter"><code><span class="type">GAsyncResult</span> *result</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
-<span class="returnvalue">gboolean</span>            <a class="link" href="GVirStoragePool.html#gvir-storage-pool-start" title="gvir_storage_pool_start ()">gvir_storage_pool_start</a>             (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="GVirStoragePool.html#gvir-storage-pool-refresh-finish" title="gvir_storage_pool_refresh_finish ()">gvir_storage_pool_refresh_finish</a>    (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="GVirStoragePool.html#gvir-storage-pool-start" title="gvir_storage_pool_start ()">gvir_storage_pool_start</a>             (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="GVirStoragePool.html#gvir-storage-pool-start-async" title="gvir_storage_pool_start_async ()">gvir_storage_pool_start_async</a>       (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
-                                                         <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
-                                                         <em class="parameter"><code><span class="type">GAsyncReadyCallback</span> callback</code></em>,
-                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);
-<span class="returnvalue">gboolean</span>            <a class="link" href="GVirStoragePool.html#gvir-storage-pool-start-finish" title="gvir_storage_pool_start_finish ()">gvir_storage_pool_start_finish</a>      (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
-                                                         <em class="parameter"><code><span class="type">GAsyncResult</span> *result</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="GVirStoragePool.html#gvir-storage-pool-start-finish" title="gvir_storage_pool_start_finish ()">gvir_storage_pool_start_finish</a>      (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
 </pre>
 </div>
 <div class="refsect1">
 <a name="GVirStoragePool.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
-  GObject
+  <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
    +----GVirStoragePool
 </pre>
 <pre class="synopsis">
@@ -154,9 +154,9 @@ const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirS
 <hr>
 <div class="refsect2">
 <a name="gvir-storage-pool-build"></a><h3>gvir_storage_pool_build ()</h3>
-<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_storage_pool_build             (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gvir_storage_pool_build             (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -170,7 +170,7 @@ const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirS
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>err</code></em> :</span></p></td>
-<td>return location for any <span class="type">GError</span>
+<td>return location for any <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a>
 </td>
 </tr>
 <tr>
@@ -185,10 +185,10 @@ const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirS
 <div class="refsect2">
 <a name="gvir-storage-pool-build-async"></a><h3>gvir_storage_pool_build_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                gvir_storage_pool_build_async       (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
-                                                         <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
-                                                         <em class="parameter"><code><span class="type">GAsyncReadyCallback</span> callback</code></em>,
-                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);</pre>
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -221,9 +221,9 @@ const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirS
 <hr>
 <div class="refsect2">
 <a name="gvir-storage-pool-build-finish"></a><h3>gvir_storage_pool_build_finish ()</h3>
-<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_storage_pool_build_finish      (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
-                                                         <em class="parameter"><code><span class="type">GAsyncResult</span> *result</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gvir_storage_pool_build_finish      (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -238,7 +238,7 @@ const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirS
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>err</code></em> :</span></p></td>
-<td>return location for any <span class="type">GError</span>
+<td>return location for any <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a>
 </td>
 </tr>
 <tr>
@@ -253,8 +253,8 @@ const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirS
 <div class="refsect2">
 <a name="gvir-storage-pool-create-volume"></a><h3>gvir_storage_pool_create_volume ()</h3>
 <pre class="programlisting"><a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class="returnvalue">GVirStorageVol</span></a> *    gvir_storage_pool_create_volume     (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
-                                                         <em class="parameter"><code><span class="type">GVirConfigStorageVol</span> *conf</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
+                                                         <em class="parameter"><code><a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigStorageVol.html"><span class="type">GVirConfigStorageVol</span></a> *conf</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -264,12 +264,8 @@ const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirS
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>conf</code></em> :</span></p></td>
-<td>the configuration for the new volume</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the newly created volume. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
-</td>
+<td>the configuration for the new volume
+Returns: (transfer full): the newly created volume</td>
 </tr>
 </tbody>
 </table></div>
@@ -277,9 +273,9 @@ const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirS
 <hr>
 <div class="refsect2">
 <a name="gvir-storage-pool-get-config"></a><h3>gvir_storage_pool_get_config ()</h3>
-<pre class="programlisting"><span class="returnvalue">GVirConfigStoragePool</span> * gvir_storage_pool_get_config    (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigStoragePool.html"><span class="returnvalue">GVirConfigStoragePool</span></a> * gvir_storage_pool_get_config    (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -289,12 +285,8 @@ const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirS
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
-<td>the flags</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the config. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
-</td>
+<td>the flags
+Returns: (transfer full): the config</td>
 </tr>
 </tbody>
 </table></div>
@@ -303,37 +295,31 @@ const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirS
 <div class="refsect2">
 <a name="gvir-storage-pool-get-info"></a><h3>gvir_storage_pool_get_info ()</h3>
 <pre class="programlisting"><a class="link" href="GVirStoragePool.html#GVirStoragePoolInfo"><span class="returnvalue">GVirStoragePoolInfo</span></a> * gvir_storage_pool_get_info        (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
-<tbody>
-<tr>
+<tbody><tr>
 <td><p><span class="term"><em class="parameter"><code>pool</code></em> :</span></p></td>
-<td>the storage_pool</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the info. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
-</td>
-</tr>
-</tbody>
+<td>the storage_pool
+Returns: (transfer full): the info</td>
+</tr></tbody>
 </table></div>
 </div>
 <hr>
 <div class="refsect2">
 <a name="gvir-storage-pool-get-name"></a><h3>gvir_storage_pool_get_name ()</h3>
-<pre class="programlisting">const <span class="returnvalue">gchar</span> *       gvir_storage_pool_get_name          (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>);</pre>
+<pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       gvir_storage_pool_get_name          (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
 <a name="gvir-storage-pool-get-uuid"></a><h3>gvir_storage_pool_get_uuid ()</h3>
-<pre class="programlisting">const <span class="returnvalue">gchar</span> *       gvir_storage_pool_get_uuid          (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>);</pre>
+<pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       gvir_storage_pool_get_uuid          (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
 <a name="gvir-storage-pool-get-volume"></a><h3>gvir_storage_pool_get_volume ()</h3>
 <pre class="programlisting"><a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class="returnvalue">GVirStorageVol</span></a> *    gvir_storage_pool_get_volume        (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
-                                                         <em class="parameter"><code>const <span class="type">gchar</span> *name</code></em>);</pre>
+                                                         <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *name</code></em>);</pre>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -356,7 +342,7 @@ const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirS
 <hr>
 <div class="refsect2">
 <a name="gvir-storage-pool-get-volumes"></a><h3>gvir_storage_pool_get_volumes ()</h3>
-<pre class="programlisting"><span class="returnvalue">GList</span> *             gvir_storage_pool_get_volumes       (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>);</pre>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *             gvir_storage_pool_get_volumes       (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>);</pre>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -376,9 +362,9 @@ of <a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class
 <hr>
 <div class="refsect2">
 <a name="gvir-storage-pool-refresh"></a><h3>gvir_storage_pool_refresh ()</h3>
-<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_storage_pool_refresh           (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
-                                                         <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gvir_storage_pool_refresh           (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -398,9 +384,9 @@ of <a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class
 <div class="refsect2">
 <a name="gvir-storage-pool-refresh-async"></a><h3>gvir_storage_pool_refresh_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                gvir_storage_pool_refresh_async     (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
-                                                         <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
-                                                         <em class="parameter"><code><span class="type">GAsyncReadyCallback</span> callback</code></em>,
-                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);</pre>
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -429,9 +415,9 @@ of <a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class
 <hr>
 <div class="refsect2">
 <a name="gvir-storage-pool-refresh-finish"></a><h3>gvir_storage_pool_refresh_finish ()</h3>
-<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_storage_pool_refresh_finish    (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
-                                                         <em class="parameter"><code><span class="type">GAsyncResult</span> *result</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gvir_storage_pool_refresh_finish    (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -450,9 +436,9 @@ of <a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class
 <hr>
 <div class="refsect2">
 <a name="gvir-storage-pool-start"></a><h3>gvir_storage_pool_start ()</h3>
-<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_storage_pool_start             (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gvir_storage_pool_start             (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -466,7 +452,7 @@ of <a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>err</code></em> :</span></p></td>
-<td>return location for any <span class="type">GError</span>
+<td>return location for any <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a>
 </td>
 </tr>
 <tr>
@@ -481,10 +467,10 @@ of <a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class
 <div class="refsect2">
 <a name="gvir-storage-pool-start-async"></a><h3>gvir_storage_pool_start_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                gvir_storage_pool_start_async       (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
-                                                         <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
-                                                         <em class="parameter"><code><span class="type">GAsyncReadyCallback</span> callback</code></em>,
-                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);</pre>
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -517,9 +503,9 @@ of <a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class
 <hr>
 <div class="refsect2">
 <a name="gvir-storage-pool-start-finish"></a><h3>gvir_storage_pool_start_finish ()</h3>
-<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_storage_pool_start_finish      (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
-                                                         <em class="parameter"><code><span class="type">GAsyncResult</span> *result</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gvir_storage_pool_start_finish      (<em class="parameter"><code><a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a> *pool</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -534,7 +520,7 @@ of <a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>err</code></em> :</span></p></td>
-<td>return location for any <span class="type">GError</span>
+<td>return location for any <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a>
 </td>
 </tr>
 <tr>
@@ -557,6 +543,6 @@ of <a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.18.1</div>
+          Generated by GTK-Doc V1.18</div>
 </body>
 </html>

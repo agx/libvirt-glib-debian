@@ -32,9 +32,9 @@
     <keyword type="property" name="The &quot;schema&quot; property" link="GVirConfigObject.html#GVirConfigObject--schema"/>
     <keyword type="struct" name="struct GVirConfigDomain" link="GVirConfigDomain.html#GVirConfigDomain-struct"/>
     <keyword type="struct" name="struct GVirConfigDomainClass" link="GVirConfigDomain.html#GVirConfigDomainClass"/>
-    <keyword type="enum" name="enum GVirConfigDomainLifecycleAction" link="GVirConfigDomain.html#GVirConfigDomainLifecycleAction-enum"/>
-    <keyword type="enum" name="enum GVirConfigDomainLifecycleEvent" link="GVirConfigDomain.html#GVirConfigDomainLifecycleEvent-enum"/>
-    <keyword type="enum" name="enum GVirConfigDomainVirtType" link="GVirConfigDomain.html#GVirConfigDomainVirtType-enum"/>
+    <keyword type="enum" name="enum GVirConfigDomainLifecycleAction" link="GVirConfigDomain.html#GVirConfigDomainLifecycleAction"/>
+    <keyword type="enum" name="enum GVirConfigDomainLifecycleEvent" link="GVirConfigDomain.html#GVirConfigDomainLifecycleEvent"/>
+    <keyword type="enum" name="enum GVirConfigDomainVirtType" link="GVirConfigDomain.html#GVirConfigDomainVirtType"/>
     <keyword type="function" name="gvir_config_domain_add_device ()" link="GVirConfigDomain.html#gvir-config-domain-add-device"/>
     <keyword type="function" name="gvir_config_domain_get_custom_xml ()" link="GVirConfigDomain.html#gvir-config-domain-get-custom-xml"/>
     <keyword type="function" name="gvir_config_domain_get_description ()" link="GVirConfigDomain.html#gvir-config-domain-get-description"/>
@@ -88,7 +88,7 @@
     <keyword type="function" name="gvir_config_secret_new_from_xml ()" link="GVirConfigSecret.html#gvir-config-secret-new-from-xml"/>
     <keyword type="struct" name="struct GVirConfigStoragePool" link="GVirConfigStoragePool.html#GVirConfigStoragePool-struct"/>
     <keyword type="struct" name="struct GVirConfigStoragePoolClass" link="GVirConfigStoragePool.html#GVirConfigStoragePoolClass"/>
-    <keyword type="enum" name="enum GVirConfigStoragePoolType" link="GVirConfigStoragePool.html#GVirConfigStoragePoolType-enum"/>
+    <keyword type="enum" name="enum GVirConfigStoragePoolType" link="GVirConfigStoragePool.html#GVirConfigStoragePoolType"/>
     <keyword type="function" name="gvir_config_storage_pool_new ()" link="GVirConfigStoragePool.html#gvir-config-storage-pool-new"/>
     <keyword type="function" name="gvir_config_storage_pool_new_from_xml ()" link="GVirConfigStoragePool.html#gvir-config-storage-pool-new-from-xml"/>
     <keyword type="function" name="gvir_config_storage_pool_set_allocation ()" link="GVirConfigStoragePool.html#gvir-config-storage-pool-set-allocation"/>

@@ -57,10 +57,7 @@
 <ANCHOR id="GVirConnection-domain-removed" href="Libvirt-gobject/GVirConnection.html#GVirConnection-domain-removed">
 <ANCHOR id="GVirDomain" href="Libvirt-gobject/GVirDomain.html">
 <ANCHOR id="GVirDomain.synopsis" href="Libvirt-gobject/GVirDomain.html#GVirDomain.synopsis">
-<ANCHOR id="GVirDomainDeleteFlags" href="Libvirt-gobject/GVirDomain.html#GVirDomainDeleteFlags">
 <ANCHOR id="GVirDomainInfo" href="Libvirt-gobject/GVirDomain.html#GVirDomainInfo">
-<ANCHOR id="GVirDomainStartFlags" href="Libvirt-gobject/GVirDomain.html#GVirDomainStartFlags">
-<ANCHOR id="GVirDomainState" href="Libvirt-gobject/GVirDomain.html#GVirDomainState">
 <ANCHOR id="GVirDomain.object-hierarchy" href="Libvirt-gobject/GVirDomain.html#GVirDomain.object-hierarchy">
 <ANCHOR id="GVirDomain.properties" href="Libvirt-gobject/GVirDomain.html#GVirDomain.properties">
 <ANCHOR id="GVirDomain.signals" href="Libvirt-gobject/GVirDomain.html#GVirDomain.signals">
@@ -68,13 +65,13 @@
 <ANCHOR id="GVirDomain.details" href="Libvirt-gobject/GVirDomain.html#GVirDomain.details">
 <ANCHOR id="GVirDomain-struct" href="Libvirt-gobject/GVirDomain.html#GVirDomain-struct">
 <ANCHOR id="GVirDomainClass" href="Libvirt-gobject/GVirDomain.html#GVirDomainClass">
-<ANCHOR id="GVirDomainDeleteFlags-enum" href="Libvirt-gobject/GVirDomain.html#GVirDomainDeleteFlags-enum">
+<ANCHOR id="GVirDomainDeleteFlags" href="Libvirt-gobject/GVirDomain.html#GVirDomainDeleteFlags">
 <ANCHOR id="GVIR-DOMAIN-DELETE-NONE:CAPS" href="Libvirt-gobject/GVirDomain.html#GVIR-DOMAIN-DELETE-NONE:CAPS">
 <ANCHOR id="GVIR-DOMAIN-DELETE-SAVED-STATE:CAPS" href="Libvirt-gobject/GVirDomain.html#GVIR-DOMAIN-DELETE-SAVED-STATE:CAPS">
 <ANCHOR id="GVIR-DOMAIN-DELETE-SNAPSHOTS-METADATA:CAPS" href="Libvirt-gobject/GVirDomain.html#GVIR-DOMAIN-DELETE-SNAPSHOTS-METADATA:CAPS">
 <ANCHOR id="GVirDomainInfo-struct" href="Libvirt-gobject/GVirDomain.html#GVirDomainInfo-struct">
-<ANCHOR id="GVirDomainStartFlags-enum" href="Libvirt-gobject/GVirDomain.html#GVirDomainStartFlags-enum">
-<ANCHOR id="GVirDomainState-enum" href="Libvirt-gobject/GVirDomain.html#GVirDomainState-enum">
+<ANCHOR id="GVirDomainStartFlags" href="Libvirt-gobject/GVirDomain.html#GVirDomainStartFlags">
+<ANCHOR id="GVirDomainState" href="Libvirt-gobject/GVirDomain.html#GVirDomainState">
 <ANCHOR id="gvir-domain-delete" href="Libvirt-gobject/GVirDomain.html#gvir-domain-delete">
 <ANCHOR id="gvir-domain-get-config" href="Libvirt-gobject/GVirDomain.html#gvir-domain-get-config">
 <ANCHOR id="gvir-domain-get-devices" href="Libvirt-gobject/GVirDomain.html#gvir-domain-get-devices">

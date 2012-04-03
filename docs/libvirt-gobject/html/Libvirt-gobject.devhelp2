@@ -70,10 +70,10 @@
     <keyword type="signal" name="The &quot;domain-removed&quot; signal" link="GVirConnection.html#GVirConnection-domain-removed"/>
     <keyword type="struct" name="struct GVirDomain" link="GVirDomain.html#GVirDomain-struct"/>
     <keyword type="struct" name="struct GVirDomainClass" link="GVirDomain.html#GVirDomainClass"/>
-    <keyword type="enum" name="enum GVirDomainDeleteFlags" link="GVirDomain.html#GVirDomainDeleteFlags-enum"/>
+    <keyword type="enum" name="enum GVirDomainDeleteFlags" link="GVirDomain.html#GVirDomainDeleteFlags"/>
     <keyword type="struct" name="struct GVirDomainInfo" link="GVirDomain.html#GVirDomainInfo-struct"/>
-    <keyword type="enum" name="enum GVirDomainStartFlags" link="GVirDomain.html#GVirDomainStartFlags-enum"/>
-    <keyword type="enum" name="enum GVirDomainState" link="GVirDomain.html#GVirDomainState-enum"/>
+    <keyword type="enum" name="enum GVirDomainStartFlags" link="GVirDomain.html#GVirDomainStartFlags"/>
+    <keyword type="enum" name="enum GVirDomainState" link="GVirDomain.html#GVirDomainState"/>
     <keyword type="function" name="gvir_domain_delete ()" link="GVirDomain.html#gvir-domain-delete"/>
     <keyword type="function" name="gvir_domain_get_config ()" link="GVirDomain.html#gvir-domain-get-config"/>
     <keyword type="function" name="gvir_domain_get_devices ()" link="GVirDomain.html#gvir-domain-get-devices"/>

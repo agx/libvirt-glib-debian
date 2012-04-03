@@ -53,28 +53,27 @@ G_GNUC_INTERNAL GVirConfigDomainDevice *
 gvir_config_domain_graphics_new_from_tree(GVirConfigXmlDoc *doc,
                                           xmlNodePtr tree)
 {
-    xmlChar *type;
+    const char *type;
     GType gtype;
 
     type = gvir_config_xml_get_attribute_content(tree, "type");
     if (type == NULL)
         return NULL;
 
-    if (xmlStrEqual(type, (xmlChar*)"sdl")) {
+    if (g_str_equal(type, "sdl")) {
         gtype = GVIR_CONFIG_TYPE_DOMAIN_GRAPHICS_SDL;
-    } else if (xmlStrEqual(type, (xmlChar*)"vnc")) {
+    } else if (g_str_equal(type, "vnc")) {
         gtype = GVIR_CONFIG_TYPE_DOMAIN_GRAPHICS_VNC;
-    } else if (xmlStrEqual(type, (xmlChar*)"spice")) {
+    } else if (g_str_equal(type, "spice")) {
         gtype = GVIR_CONFIG_TYPE_DOMAIN_GRAPHICS_SPICE;
-    } else if (xmlStrEqual(type, (xmlChar*)"rdp")) {
+    } else if (g_str_equal(type, "rdp")) {
         goto unimplemented;
-    } else if (xmlStrEqual(type, (xmlChar*)"desktop")) {
+    } else if (g_str_equal(type, "desktop")) {
         goto unimplemented;
     } else {
         g_debug("Unknown graphics node: %s", type);
         return NULL;
     }
-    xmlFree(type);
 
     return GVIR_CONFIG_DOMAIN_DEVICE(gvir_config_object_new_from_tree(gtype, doc, NULL, tree));
 

@@ -1,3 +1,83 @@
+2012-03-30  Daniel P. Berrange  <berrange@redhat.com>
+
+	Update NEWS for 0.0.7 release
+
+	Update RPM specs to required libvirt 0.9.10
+
+	Fix typo s/ACCESS_SQUASHED/ACCESS_SQUASH/
+
+	Fix generation of docs in a VPATH builder
+	The DOC_SOURCE_DIR variable was missing the $(top_srcdir) variable
+	so it could not find the source files when run from a VPATH build.
+	Empirically the previous comment saying that $(top_srcdir) was not
+	needed is wrong.
+
+2012-03-28  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Do not encode entities in XML attributes
+	libxml2 will properly escape < > and " in XML attribute content. If
+	we use xmlEncodeEntitiesReentrant for attributes, this causes issues
+	with UTF8 filenames (gvir_config_domain_disk_set_source for example):
+	the filename UTF8 characters will be substituted with entities
+	(é -> &#xE9;), but when it uses this filename, libvirt will use it as
+	is and will fail to find the file.
+	I've tested that with this change gnome-boxes can open ISOs in directories
+	with 'é' in their names, and in directories with '&foo;xx<' in their names.
+
+	Remove unneeded call in libvirt-gconfig test
+	Because of a copy and paste error, the test program is making an
+	unneeded call to gvir_config_domain_channel_set_target_type
+	when setting up its USB redirection device.
+
+2012-03-22  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Bump version
+
+2012-03-14  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Add GVirConfigDomainRedirdev
+	This is used to add the SPICE USB redirection channel. Even if
+	the libvirt doc doesn't document it with the other devices deriving
+	from GVirConfigDomainChardev, I think it makes sense to have this
+	class derivers from GVirConfigDomainChardev too since it needs a
+	GVirConfigDomainChardevSource, and it's documented as using a
+	character device for redirection.
+
+	Add LibvirtGConfigDomainChardevSourceSpiceVmc
+	This is needed to be able to add the SPICE agent channels
+
+2012-03-13  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Fix GVIR_CONFIG_DOMAIN_CHANNEL_TARGET_GUESTFWD name
+	It was called GVIR_CONFIG_DOMAIN_CONSOLE_TARGET_GUESTFWD, which in
+	turn confused glib-mkenums, leading to a wrong value being generated
+	in the XML when trying to use this enumeration.
+
+2012-03-12  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Remove the _glib xml helpers
+	The reason for them being there was that they were more expensive
+	than the helpers returning an xmlChar* (additional g_strdup). Now
+	that we are returning a pointer to const data inside the xml node,
+	the _glib helpers only use is to cast from const xmlChar * to
+	const char *. Removing them makes the code simpler.
+
+2012-03-12  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	All string getters should return 'const'
+	There is no need for all the memory (de)allocations and especially
+	forcing the app developers to free the strings. They can always
+	g_strdup() the returned string if they need.
+
+	Reviewer and co-author: Christophe Fergeau <cfergeau@redhat.com>
+
+2012-03-06  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Keep domain devices list sorted
+	While we don't guarantee the order of devices in the list returned from
+	gvir_domain_get_devices(), its not a bad idea to keep them sorted the
+	same way we get them from configuration (XML).
+
 2012-03-05  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
 
 	Release 0.0.6
@@ -15,11 +95,9 @@
 	some reason. (even if it did, I am not sure it would work correctly,
 	so I prefer that patch)
 
-2012-03-02  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+2012-03-01  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
 
 	Correct a check
-
-2012-03-01  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
 
 	RFC: Empty statistics for user-mode interfaces
 	One of the limitations of user-mode networking of libvirt is that you
@@ -373,7 +451,7 @@
 
 	Add gvir_gconfig_object_remove_attribute helper
 
-2012-01-05  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+2012-01-04  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
 
 	Add docs for gvir_config_domain_set/get_memory
 	Its not obvious what units these functions deal with so docs are
@@ -508,12 +586,12 @@
 
 	Only enable vala for Fedora 16 and later
 
+2011-12-06  Daniel P. Berrange  <berrange@redhat.com>
+
 	Allow cancelling gvir_stream_send_all & gvir_stream_receive_all
 	Add GCancellable parameters to gvir_stream_send_all and
 	gvir_stream_receive_all to allow I/O to be interrupted
 	before completion
-
-2011-12-06  Daniel P. Berrange  <berrange@redhat.com>
 
 	Add flags for controling how domains are started
 
@@ -1116,6 +1194,8 @@
 
 	Release 0.0.2
 
+2011-11-21  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
 	Add API to redefine an existing domain
 
 2011-11-18  Guido Günther  <agx@sigxcpu.org>
@@ -1370,9 +1450,11 @@
 
 	Fix vapigen on uninstalled environment
 
+2011-10-20  Marc-André Lureau  <marcandre.lureau@redhat.com>
+
 	Fix GIR scanner on uninstalled environment
 
-2011-10-20  Marc-André Lureau  <marcandre.lureau@redhat.com>
+2011-10-19  Marc-André Lureau  <marcandre.lureau@redhat.com>
 
 	Fix wrong signals arguments
 
@@ -1512,9 +1594,9 @@
 	Actually provide gvir_storage_vol_get_path()
 	This was only declared in header previously but not implemented.
 
-	Refactor two very huge functions a bit
-
 2011-09-27  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Refactor two very huge functions a bit
 
 	Plug a leak
 
@@ -1532,9 +1614,9 @@
 
 	Ability to create new domains
 
-	Remove redundant empty line
-
 2011-09-26  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Remove redundant empty line
 
 	Fix some obvious c&p mistakes
 

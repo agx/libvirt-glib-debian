@@ -17,6 +17,7 @@ GCONFIG_HEADER_FILES = \
 			libvirt-gconfig-domain-chardev.h \
 			libvirt-gconfig-domain-chardev-source.h \
 			libvirt-gconfig-domain-chardev-source-pty.h \
+			libvirt-gconfig-domain-chardev-source-spicevmc.h \
 			libvirt-gconfig-domain-clock.h \
 			libvirt-gconfig-domain-console.h \
 			libvirt-gconfig-domain-device.h \
@@ -34,6 +35,7 @@ GCONFIG_HEADER_FILES = \
 			libvirt-gconfig-domain-memballoon.h \
 			libvirt-gconfig-domain-os.h \
 			libvirt-gconfig-domain-parallel.h \
+			libvirt-gconfig-domain-redirdev.h \
 			libvirt-gconfig-domain-seclabel.h \
 			libvirt-gconfig-domain-serial.h \
 			libvirt-gconfig-domain-snapshot.h \
@@ -68,6 +70,7 @@ GCONFIG_SOURCE_FILES = \
 			libvirt-gconfig-domain-chardev.c \
 			libvirt-gconfig-domain-chardev-source.c \
 			libvirt-gconfig-domain-chardev-source-pty.c \
+			libvirt-gconfig-domain-chardev-source-spicevmc.c \
 			libvirt-gconfig-domain-clock.c \
 			libvirt-gconfig-domain-console.c \
 			libvirt-gconfig-domain-device.c \
@@ -85,6 +88,7 @@ GCONFIG_SOURCE_FILES = \
 			libvirt-gconfig-domain-memballoon.c \
 			libvirt-gconfig-domain-os.c \
 			libvirt-gconfig-domain-parallel.c \
+			libvirt-gconfig-domain-redirdev.c \
 			libvirt-gconfig-domain-seclabel.c \
 			libvirt-gconfig-domain-serial.c \
 			libvirt-gconfig-domain-snapshot.c \

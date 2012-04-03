@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="Libvirt-gobject">
 <link rel="prev" href="GVirStorageVol.html" title="GVirStorageVol">
 <link rel="next" href="object-tree.html" title="Object Hierarchy">
-<meta name="generator" content="GTK-Doc V1.18.1 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.18 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -44,54 +44,54 @@
 <pre class="synopsis">struct              <a class="link" href="GVirStream.html#GVirStream-struct" title="struct GVirStream">GVirStream</a>;
 struct              <a class="link" href="GVirStream.html#GVirStreamClass" title="struct GVirStreamClass">GVirStreamClass</a>;
 enum                <a class="link" href="GVirStream.html#GVirStreamIOCondition" title="enum GVirStreamIOCondition">GVirStreamIOCondition</a>;
-<span class="returnvalue">gboolean</span>            (<a class="link" href="GVirStream.html#GVirStreamIOFunc" title="GVirStreamIOFunc ()">*GVirStreamIOFunc</a>)                 (<em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            (<a class="link" href="GVirStream.html#GVirStreamIOFunc" title="GVirStreamIOFunc ()">*GVirStreamIOFunc</a>)                 (<em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
                                                          <em class="parameter"><code><a class="link" href="GVirStream.html#GVirStreamIOCondition" title="enum GVirStreamIOCondition"><span class="type">GVirStreamIOCondition</span></a> cond</code></em>,
-                                                         <em class="parameter"><code><span class="type">gpointer</span> opaque</code></em>);
-<span class="returnvalue">gint</span>                (<a class="link" href="GVirStream.html#GVirStreamSinkFunc" title="GVirStreamSinkFunc ()">*GVirStreamSinkFunc</a>)               (<em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
-                                                         <em class="parameter"><code>const <span class="type">gchar</span> *buf</code></em>,
-                                                         <em class="parameter"><code><span class="type">gsize</span> nbytes</code></em>,
-                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);
-<span class="returnvalue">gint</span>                (<a class="link" href="GVirStream.html#GVirStreamSourceFunc" title="GVirStreamSourceFunc ()">*GVirStreamSourceFunc</a>)             (<em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
-                                                         <em class="parameter"><code><span class="type">gchar</span> *buf</code></em>,
-                                                         <em class="parameter"><code><span class="type">gsize</span> nbytes</code></em>,
-                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);
-<span class="returnvalue">guint</span>               <a class="link" href="GVirStream.html#gvir-stream-add-watch" title="gvir_stream_add_watch ()">gvir_stream_add_watch</a>               (<em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="GVirStream.html#GVirStreamIOCondition" title="enum GVirStreamIOCondition"><span class="type">GVirStreamIOCondition</span></a> cond</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="GVirStream.html#GVirStreamIOFunc" title="GVirStreamIOFunc ()"><span class="type">GVirStreamIOFunc</span></a> func</code></em>,
-                                                         <em class="parameter"><code><span class="type">gpointer</span> opaque</code></em>);
-<span class="returnvalue">guint</span>               <a class="link" href="GVirStream.html#gvir-stream-add-watch-full" title="gvir_stream_add_watch_full ()">gvir_stream_add_watch_full</a>          (<em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
-                                                         <em class="parameter"><code><span class="type">gint</span> priority</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> opaque</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a>                (<a class="link" href="GVirStream.html#GVirStreamSinkFunc" title="GVirStreamSinkFunc ()">*GVirStreamSinkFunc</a>)               (<em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *buf</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gsize"><span class="type">gsize</span></a> nbytes</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a>                (<a class="link" href="GVirStream.html#GVirStreamSourceFunc" title="GVirStreamSourceFunc ()">*GVirStreamSourceFunc</a>)             (<em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *buf</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gsize"><span class="type">gsize</span></a> nbytes</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>               <a class="link" href="GVirStream.html#gvir-stream-add-watch" title="gvir_stream_add_watch ()">gvir_stream_add_watch</a>               (<em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
                                                          <em class="parameter"><code><a class="link" href="GVirStream.html#GVirStreamIOCondition" title="enum GVirStreamIOCondition"><span class="type">GVirStreamIOCondition</span></a> cond</code></em>,
                                                          <em class="parameter"><code><a class="link" href="GVirStream.html#GVirStreamIOFunc" title="GVirStreamIOFunc ()"><span class="type">GVirStreamIOFunc</span></a> func</code></em>,
-                                                         <em class="parameter"><code><span class="type">gpointer</span> opaque</code></em>,
-                                                         <em class="parameter"><code><span class="type">GDestroyNotify</span> notify</code></em>);
-<span class="returnvalue">gssize</span>              <a class="link" href="GVirStream.html#gvir-stream-receive" title="gvir_stream_receive ()">gvir_stream_receive</a>                 (<em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
-                                                         <em class="parameter"><code><span class="type">gchar</span> *buffer</code></em>,
-                                                         <em class="parameter"><code><span class="type">gsize</span> size</code></em>,
-                                                         <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);
-<span class="returnvalue">gssize</span>              <a class="link" href="GVirStream.html#gvir-stream-receive-all" title="gvir_stream_receive_all ()">gvir_stream_receive_all</a>             (<em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
-                                                         <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> opaque</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>               <a class="link" href="GVirStream.html#gvir-stream-add-watch-full" title="gvir_stream_add_watch_full ()">gvir_stream_add_watch_full</a>          (<em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a> priority</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="GVirStream.html#GVirStreamIOCondition" title="enum GVirStreamIOCondition"><span class="type">GVirStreamIOCondition</span></a> cond</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="GVirStream.html#GVirStreamIOFunc" title="GVirStreamIOFunc ()"><span class="type">GVirStreamIOFunc</span></a> func</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> opaque</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Datasets.html#GDestroyNotify"><span class="type">GDestroyNotify</span></a> notify</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gssize"><span class="returnvalue">gssize</span></a>              <a class="link" href="GVirStream.html#gvir-stream-receive" title="gvir_stream_receive ()">gvir_stream_receive</a>                 (<em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *buffer</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gsize"><span class="type">gsize</span></a> size</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gssize"><span class="returnvalue">gssize</span></a>              <a class="link" href="GVirStream.html#gvir-stream-receive-all" title="gvir_stream_receive_all ()">gvir_stream_receive_all</a>             (<em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                                                          <em class="parameter"><code><a class="link" href="GVirStream.html#GVirStreamSinkFunc" title="GVirStreamSinkFunc ()"><span class="type">GVirStreamSinkFunc</span></a> func</code></em>,
-                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);
-<span class="returnvalue">gssize</span>              <a class="link" href="GVirStream.html#gvir-stream-send" title="gvir_stream_send ()">gvir_stream_send</a>                    (<em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
-                                                         <em class="parameter"><code>const <span class="type">gchar</span> *buffer</code></em>,
-                                                         <em class="parameter"><code><span class="type">gsize</span> size</code></em>,
-                                                         <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);
-<span class="returnvalue">gssize</span>              <a class="link" href="GVirStream.html#gvir-stream-send-all" title="gvir_stream_send_all ()">gvir_stream_send_all</a>                (<em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
-                                                         <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gssize"><span class="returnvalue">gssize</span></a>              <a class="link" href="GVirStream.html#gvir-stream-send" title="gvir_stream_send ()">gvir_stream_send</a>                    (<em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *buffer</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gsize"><span class="type">gsize</span></a> size</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gssize"><span class="returnvalue">gssize</span></a>              <a class="link" href="GVirStream.html#gvir-stream-send-all" title="gvir_stream_send_all ()">gvir_stream_send_all</a>                (<em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                                                          <em class="parameter"><code><a class="link" href="GVirStream.html#GVirStreamSourceFunc" title="GVirStreamSourceFunc ()"><span class="type">GVirStreamSourceFunc</span></a> func</code></em>,
-                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);
 </pre>
 </div>
 <div class="refsect1">
 <a name="GVirStream.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
-  GObject
-   +----GIOStream
+  <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+   +----<a href="http://library.gnome.org/devel/gio/unstable/GIOStream.html">GIOStream</a>
          +----GVirStream
 </pre>
 </div>
@@ -134,17 +134,17 @@ enum                <a class="link" href="GVirStream.html#GVirStreamIOCondition"
 <hr>
 <div class="refsect2">
 <a name="GVirStreamIOFunc"></a><h3>GVirStreamIOFunc ()</h3>
-<pre class="programlisting"><span class="returnvalue">gboolean</span>            (*GVirStreamIOFunc)                 (<em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            (*GVirStreamIOFunc)                 (<em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
                                                          <em class="parameter"><code><a class="link" href="GVirStream.html#GVirStreamIOCondition" title="enum GVirStreamIOCondition"><span class="type">GVirStreamIOCondition</span></a> cond</code></em>,
-                                                         <em class="parameter"><code><span class="type">gpointer</span> opaque</code></em>);</pre>
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> opaque</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
 <a name="GVirStreamSinkFunc"></a><h3>GVirStreamSinkFunc ()</h3>
-<pre class="programlisting"><span class="returnvalue">gint</span>                (*GVirStreamSinkFunc)               (<em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
-                                                         <em class="parameter"><code>const <span class="type">gchar</span> *buf</code></em>,
-                                                         <em class="parameter"><code><span class="type">gsize</span> nbytes</code></em>,
-                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);</pre>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a>                (*GVirStreamSinkFunc)               (<em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *buf</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gsize"><span class="type">gsize</span></a> nbytes</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -164,11 +164,8 @@ enum                <a class="link" href="GVirStream.html#GVirStreamIOCondition"
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
-<td>user data passed to the function</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the number of bytes filled, 0 upon end
+<td>user data passed to the function
+Returns: the number of bytes filled, 0 upon end
 of file, or -1 upon error</td>
 </tr>
 </tbody>
@@ -177,10 +174,10 @@ of file, or -1 upon error</td>
 <hr>
 <div class="refsect2">
 <a name="GVirStreamSourceFunc"></a><h3>GVirStreamSourceFunc ()</h3>
-<pre class="programlisting"><span class="returnvalue">gint</span>                (*GVirStreamSourceFunc)             (<em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
-                                                         <em class="parameter"><code><span class="type">gchar</span> *buf</code></em>,
-                                                         <em class="parameter"><code><span class="type">gsize</span> nbytes</code></em>,
-                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);</pre>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a>                (*GVirStreamSourceFunc)             (<em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *buf</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gsize"><span class="type">gsize</span></a> nbytes</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -200,11 +197,8 @@ of file, or -1 upon error</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
-<td>user data passed to the function</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the number of bytes filled, 0 upon end
+<td>user data passed to the function
+Returns: the number of bytes filled, 0 upon end
 of file, or -1 upon error</td>
 </tr>
 </tbody>
@@ -213,20 +207,20 @@ of file, or -1 upon error</td>
 <hr>
 <div class="refsect2">
 <a name="gvir-stream-add-watch"></a><h3>gvir_stream_add_watch ()</h3>
-<pre class="programlisting"><span class="returnvalue">guint</span>               gvir_stream_add_watch               (<em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>               gvir_stream_add_watch               (<em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
                                                          <em class="parameter"><code><a class="link" href="GVirStream.html#GVirStreamIOCondition" title="enum GVirStreamIOCondition"><span class="type">GVirStreamIOCondition</span></a> cond</code></em>,
                                                          <em class="parameter"><code><a class="link" href="GVirStream.html#GVirStreamIOFunc" title="GVirStreamIOFunc ()"><span class="type">GVirStreamIOFunc</span></a> func</code></em>,
-                                                         <em class="parameter"><code><span class="type">gpointer</span> opaque</code></em>);</pre>
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> opaque</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
 <a name="gvir-stream-add-watch-full"></a><h3>gvir_stream_add_watch_full ()</h3>
-<pre class="programlisting"><span class="returnvalue">guint</span>               gvir_stream_add_watch_full          (<em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
-                                                         <em class="parameter"><code><span class="type">gint</span> priority</code></em>,
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>               gvir_stream_add_watch_full          (<em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a> priority</code></em>,
                                                          <em class="parameter"><code><a class="link" href="GVirStream.html#GVirStreamIOCondition" title="enum GVirStreamIOCondition"><span class="type">GVirStreamIOCondition</span></a> cond</code></em>,
                                                          <em class="parameter"><code><a class="link" href="GVirStream.html#GVirStreamIOFunc" title="GVirStreamIOFunc ()"><span class="type">GVirStreamIOFunc</span></a> func</code></em>,
-                                                         <em class="parameter"><code><span class="type">gpointer</span> opaque</code></em>,
-                                                         <em class="parameter"><code><span class="type">GDestroyNotify</span> notify</code></em>);</pre>
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> opaque</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Datasets.html#GDestroyNotify"><span class="type">GDestroyNotify</span></a> notify</code></em>);</pre>
 <p>
 Adds a watch for <em class="parameter"><code>stream</code></em> to the mainloop
 </p>
@@ -270,11 +264,11 @@ Rename to: gvir_stream_add_watch</td>
 <hr>
 <div class="refsect2">
 <a name="gvir-stream-receive"></a><h3>gvir_stream_receive ()</h3>
-<pre class="programlisting"><span class="returnvalue">gssize</span>              gvir_stream_receive                 (<em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
-                                                         <em class="parameter"><code><span class="type">gchar</span> *buffer</code></em>,
-                                                         <em class="parameter"><code><span class="type">gsize</span> size</code></em>,
-                                                         <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gssize"><span class="returnvalue">gssize</span></a>              gvir_stream_receive                 (<em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *buffer</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gsize"><span class="type">gsize</span></a> size</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>
 Receive data (up to <em class="parameter"><code>size</code></em> bytes) from a stream.
 On error -1 is returned and <em class="parameter"><code>error</code></em> is set accordingly.
@@ -285,7 +279,7 @@ On error -1 is returned and <em class="parameter"><code>error</code></em> is set
 data will be returned in future calls to <a class="link" href="GVirStream.html#gvir-stream-receive" title="gvir_stream_receive ()"><code class="function">gvir_stream_receive()</code></a>.
 </p>
 <p>
-If there is no data available, a <code class="literal">G_IO_ERROR_WOULD_BLOCK</code> error will be
+If there is no data available, a <a href="http://library.gnome.org/devel/gio/unstable/gio-GIOError.html#G-IO-ERROR-WOULD-BLOCK:CAPS"><code class="literal">G_IO_ERROR_WOULD_BLOCK</code></a> error will be
 returned.
 </p>
 <div class="variablelist"><table border="0">
@@ -306,13 +300,13 @@ bytes long).</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
-<td>a <code class="literal">GCancellable</code> or <a href="/home/zeenix/jhbuild/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>. <span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span>
+<td>a <a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><code class="literal">GCancellable</code></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>. <span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span>
 </td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
 <td>
-<span class="type">GError</span> for error reporting, or <a href="/home/zeenix/jhbuild/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a> to ignore.</td>
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> for error reporting, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a> to ignore.</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
@@ -325,11 +319,16 @@ or -1 on error.</td>
 <hr>
 <div class="refsect2">
 <a name="gvir-stream-receive-all"></a><h3>gvir_stream_receive_all ()</h3>
-<pre class="programlisting"><span class="returnvalue">gssize</span>              gvir_stream_receive_all             (<em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
-                                                         <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gssize"><span class="returnvalue">gssize</span></a>              gvir_stream_receive_all             (<em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                                                          <em class="parameter"><code><a class="link" href="GVirStream.html#GVirStreamSinkFunc" title="GVirStreamSinkFunc ()"><span class="type">GVirStreamSinkFunc</span></a> func</code></em>,
-                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>
+Receive the entire data stream, sending the data to the
+requested data sink. This is simply a convenient alternative
+to virStreamRecv, for apps that do blocking-I/o.
+</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -348,15 +347,9 @@ or -1 on error.</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
-<td>data to be passed to <em class="parameter"><code>callback</code></em>. <span class="annotation">[<acronym title="This parameter is a 'user_data', for callbacks; many bindings can pass NULL here."><span class="acronym">closure</span></acronym>]</span>
+<td>data to be passed to <em class="parameter"><code>callback</code></em>
+Returns: the number of bytes consumed or -1 upon error. <span class="annotation">[<acronym title="This parameter is a 'user_data', for callbacks; many bindings can pass NULL here."><span class="acronym">closure</span></acronym>]</span>
 </td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the number of bytes consumed or -1 upon error
-Receive the entire data stream, sending the data to the
-requested data sink. This is simply a convenient alternative
-to virStreamRecv, for apps that do blocking-I/o.</td>
 </tr>
 </tbody>
 </table></div>
@@ -364,11 +357,11 @@ to virStreamRecv, for apps that do blocking-I/o.</td>
 <hr>
 <div class="refsect2">
 <a name="gvir-stream-send"></a><h3>gvir_stream_send ()</h3>
-<pre class="programlisting"><span class="returnvalue">gssize</span>              gvir_stream_send                    (<em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
-                                                         <em class="parameter"><code>const <span class="type">gchar</span> *buffer</code></em>,
-                                                         <em class="parameter"><code><span class="type">gsize</span> size</code></em>,
-                                                         <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gssize"><span class="returnvalue">gssize</span></a>              gvir_stream_send                    (<em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *buffer</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gsize"><span class="type">gsize</span></a> size</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>
 Send data (up to <em class="parameter"><code>size</code></em> bytes) from a stream.
 On error -1 is returned and <em class="parameter"><code>error</code></em> is set accordingly.
@@ -379,7 +372,7 @@ On error -1 is returned and <em class="parameter"><code>error</code></em> is set
 data will be returned in future calls to <a class="link" href="GVirStream.html#gvir-stream-send" title="gvir_stream_send ()"><code class="function">gvir_stream_send()</code></a>.
 </p>
 <p>
-If there is no data available, a <code class="literal">G_IO_ERROR_WOULD_BLOCK</code> error will be
+If there is no data available, a <a href="http://library.gnome.org/devel/gio/unstable/gio-GIOError.html#G-IO-ERROR-WOULD-BLOCK:CAPS"><code class="literal">G_IO_ERROR_WOULD_BLOCK</code></a> error will be
 returned.
 </p>
 <div class="variablelist"><table border="0">
@@ -400,13 +393,13 @@ bytes long).</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
-<td>a <code class="literal">GCancellable</code> or <a href="/home/zeenix/jhbuild/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>. <span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span>
+<td>a <a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><code class="literal">GCancellable</code></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>. <span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span>
 </td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
 <td>
-<span class="type">GError</span> for error reporting, or <a href="/home/zeenix/jhbuild/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a> to ignore.</td>
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> for error reporting, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a> to ignore.</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
@@ -419,11 +412,16 @@ or -1 on error.</td>
 <hr>
 <div class="refsect2">
 <a name="gvir-stream-send-all"></a><h3>gvir_stream_send_all ()</h3>
-<pre class="programlisting"><span class="returnvalue">gssize</span>              gvir_stream_send_all                (<em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
-                                                         <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gssize"><span class="returnvalue">gssize</span></a>              gvir_stream_send_all                (<em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                                                          <em class="parameter"><code><a class="link" href="GVirStream.html#GVirStreamSourceFunc" title="GVirStreamSourceFunc ()"><span class="type">GVirStreamSourceFunc</span></a> func</code></em>,
-                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>
+Send the entire data stream, sending the data to the
+requested data source. This is simply a convenient alternative
+to virStreamRecv, for apps that do blocking-I/o.
+</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -442,15 +440,9 @@ or -1 on error.</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
-<td>data to be passed to <em class="parameter"><code>callback</code></em>. <span class="annotation">[<acronym title="This parameter is a 'user_data', for callbacks; many bindings can pass NULL here."><span class="acronym">closure</span></acronym>]</span>
+<td>data to be passed to <em class="parameter"><code>callback</code></em>
+Returns: the number of bytes consumed or -1 upon error. <span class="annotation">[<acronym title="This parameter is a 'user_data', for callbacks; many bindings can pass NULL here."><span class="acronym">closure</span></acronym>]</span>
 </td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the number of bytes consumed or -1 upon error
-Send the entire data stream, sending the data to the
-requested data source. This is simply a convenient alternative
-to virStreamRecv, for apps that do blocking-I/o.</td>
 </tr>
 </tbody>
 </table></div>
@@ -467,6 +459,6 @@ to virStreamRecv, for apps that do blocking-I/o.</td>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.18.1</div>
+          Generated by GTK-Doc V1.18</div>
 </body>
 </html>
