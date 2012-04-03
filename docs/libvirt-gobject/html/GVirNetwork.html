@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="Libvirt-gobject">
 <link rel="prev" href="GVirNetworkFilter.html" title="GVirNetworkFilter">
 <link rel="next" href="GVirNodeDevice.html" title="GVirNodeDevice">
-<meta name="generator" content="GTK-Doc V1.18.1 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.18 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -43,17 +43,17 @@
 <a name="GVirNetwork.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">struct              <a class="link" href="GVirNetwork.html#GVirNetwork-struct" title="struct GVirNetwork">GVirNetwork</a>;
 struct              <a class="link" href="GVirNetwork.html#GVirNetworkClass" title="struct GVirNetworkClass">GVirNetworkClass</a>;
-<span class="returnvalue">GVirConfigNetwork</span> * <a class="link" href="GVirNetwork.html#gvir-network-get-config" title="gvir_network_get_config ()">gvir_network_get_config</a>             (<em class="parameter"><code><a class="link" href="GVirNetwork.html" title="GVirNetwork"><span class="type">GVirNetwork</span></a> *network</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
-const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirNetwork.html#gvir-network-get-name" title="gvir_network_get_name ()">gvir_network_get_name</a>               (<em class="parameter"><code><a class="link" href="GVirNetwork.html" title="GVirNetwork"><span class="type">GVirNetwork</span></a> *network</code></em>);
-const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirNetwork.html#gvir-network-get-uuid" title="gvir_network_get_uuid ()">gvir_network_get_uuid</a>               (<em class="parameter"><code><a class="link" href="GVirNetwork.html" title="GVirNetwork"><span class="type">GVirNetwork</span></a> *network</code></em>);
+<a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigNetwork.html"><span class="returnvalue">GVirConfigNetwork</span></a> * <a class="link" href="GVirNetwork.html#gvir-network-get-config" title="gvir_network_get_config ()">gvir_network_get_config</a>             (<em class="parameter"><code><a class="link" href="GVirNetwork.html" title="GVirNetwork"><span class="type">GVirNetwork</span></a> *network</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
+const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="GVirNetwork.html#gvir-network-get-name" title="gvir_network_get_name ()">gvir_network_get_name</a>               (<em class="parameter"><code><a class="link" href="GVirNetwork.html" title="GVirNetwork"><span class="type">GVirNetwork</span></a> *network</code></em>);
+const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="GVirNetwork.html#gvir-network-get-uuid" title="gvir_network_get_uuid ()">gvir_network_get_uuid</a>               (<em class="parameter"><code><a class="link" href="GVirNetwork.html" title="GVirNetwork"><span class="type">GVirNetwork</span></a> *network</code></em>);
 </pre>
 </div>
 <div class="refsect1">
 <a name="GVirNetwork.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
-  GObject
+  <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
    +----GVirNetwork
 </pre>
 </div>
@@ -88,9 +88,9 @@ const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirN
 <hr>
 <div class="refsect2">
 <a name="gvir-network-get-config"></a><h3>gvir_network_get_config ()</h3>
-<pre class="programlisting"><span class="returnvalue">GVirConfigNetwork</span> * gvir_network_get_config             (<em class="parameter"><code><a class="link" href="GVirNetwork.html" title="GVirNetwork"><span class="type">GVirNetwork</span></a> *network</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigNetwork.html"><span class="returnvalue">GVirConfigNetwork</span></a> * gvir_network_get_config             (<em class="parameter"><code><a class="link" href="GVirNetwork.html" title="GVirNetwork"><span class="type">GVirNetwork</span></a> *network</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -100,12 +100,8 @@ const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirN
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
-<td>the flags</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the config. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
-</td>
+<td>the flags
+Returns: (transfer full): the config</td>
 </tr>
 </tbody>
 </table></div>
@@ -113,12 +109,12 @@ const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirN
 <hr>
 <div class="refsect2">
 <a name="gvir-network-get-name"></a><h3>gvir_network_get_name ()</h3>
-<pre class="programlisting">const <span class="returnvalue">gchar</span> *       gvir_network_get_name               (<em class="parameter"><code><a class="link" href="GVirNetwork.html" title="GVirNetwork"><span class="type">GVirNetwork</span></a> *network</code></em>);</pre>
+<pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       gvir_network_get_name               (<em class="parameter"><code><a class="link" href="GVirNetwork.html" title="GVirNetwork"><span class="type">GVirNetwork</span></a> *network</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
 <a name="gvir-network-get-uuid"></a><h3>gvir_network_get_uuid ()</h3>
-<pre class="programlisting">const <span class="returnvalue">gchar</span> *       gvir_network_get_uuid               (<em class="parameter"><code><a class="link" href="GVirNetwork.html" title="GVirNetwork"><span class="type">GVirNetwork</span></a> *network</code></em>);</pre>
+<pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       gvir_network_get_uuid               (<em class="parameter"><code><a class="link" href="GVirNetwork.html" title="GVirNetwork"><span class="type">GVirNetwork</span></a> *network</code></em>);</pre>
 </div>
 </div>
 <div class="refsect1">
@@ -132,6 +128,6 @@ const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirN
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.18.1</div>
+          Generated by GTK-Doc V1.18</div>
 </body>
 </html>

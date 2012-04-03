@@ -274,7 +274,7 @@ gvir_config_object_get_xml_node(GVirConfigObject *config)
     return config->priv->node;
 }
 
-G_GNUC_INTERNAL char *
+G_GNUC_INTERNAL const char *
 gvir_config_object_get_node_content(GVirConfigObject *object,
                                     const char *node_name)
 {
@@ -284,10 +284,10 @@ gvir_config_object_get_node_content(GVirConfigObject *object,
     if (node == NULL)
         return NULL;
 
-    return gvir_config_xml_get_child_element_content_glib(node, node_name);
+    return gvir_config_xml_get_child_element_content(node, node_name);
 }
 
-G_GNUC_INTERNAL char *
+G_GNUC_INTERNAL const char *
 gvir_config_object_get_attribute(GVirConfigObject *object,
                                  const char *node_name,
                                  const char *attr_name)
@@ -306,7 +306,7 @@ gvir_config_object_get_attribute(GVirConfigObject *object,
             return NULL;
     }
 
-    return gvir_config_xml_get_attribute_content_glib(node, attr_name);
+    return gvir_config_xml_get_attribute_content(node, attr_name);
 }
 
 static xmlNodePtr
@@ -559,7 +559,7 @@ gvir_config_object_get_node_content_uint64(GVirConfigObject *object,
                                            const char *node_name)
 {
     xmlNodePtr node;
-    xmlChar *str;
+    const char *str;
     guint64 value;
 
     node = gvir_config_object_get_xml_node(GVIR_CONFIG_OBJECT(object));
@@ -570,8 +570,7 @@ gvir_config_object_get_node_content_uint64(GVirConfigObject *object,
     if (!str)
         return 0;
 
-    value = g_ascii_strtoull((char *)str, NULL, 0);
-    xmlFree(str);
+    value = g_ascii_strtoull(str, NULL, 0);
 
     return value;
 }
@@ -583,7 +582,7 @@ gvir_config_object_get_node_content_genum(GVirConfigObject *object,
                                           gint default_value)
 {
     xmlNodePtr node;
-    xmlChar *str;
+    const char *str;
     gint value;
 
     node = gvir_config_object_get_xml_node(GVIR_CONFIG_OBJECT(object));
@@ -594,8 +593,7 @@ gvir_config_object_get_node_content_genum(GVirConfigObject *object,
     if (!str)
         return default_value;
 
-    value = gvir_config_genum_get_value(enum_type, (char *)str, default_value);
-    xmlFree(str);
+    value = gvir_config_genum_get_value(enum_type, str, default_value);
 
     return value;
 }
@@ -608,7 +606,7 @@ gvir_config_object_get_attribute_genum(GVirConfigObject *object,
                                        gint default_value)
 {
     xmlNodePtr node;
-    xmlChar *attr_val;
+    const char *attr_val;
     gint value;
 
     g_return_val_if_fail(attr_name != NULL, default_value);
@@ -627,9 +625,8 @@ gvir_config_object_get_attribute_genum(GVirConfigObject *object,
     if (attr_val == NULL)
         return default_value;
 
-    value = gvir_config_genum_get_value(enum_type, (char *)attr_val,
+    value = gvir_config_genum_get_value(enum_type, attr_val,
                                         default_value);
-    xmlFree(attr_val);
 
     return value;
 }
@@ -714,7 +711,6 @@ gvir_config_object_set_attribute(GVirConfigObject *object, ...)
     while (TRUE) {
         const char *name;
         const char *value;
-        xmlChar *encoded_value;
 
         name = va_arg(args, const char *);
         if (name == NULL) {
@@ -726,9 +722,7 @@ gvir_config_object_set_attribute(GVirConfigObject *object, ...)
             g_warn_if_reached();
             break;
         }
-        encoded_value = xmlEncodeEntitiesReentrant(doc, (xmlChar*)value);
-        xmlNewProp(object->priv->node, (xmlChar *)name, encoded_value);
-        xmlFree(encoded_value);
+        xmlNewProp(object->priv->node, (xmlChar *)name, (xmlChar *)value);
     }
     va_end(args);
 }
@@ -783,17 +777,11 @@ gvir_config_object_set_attribute_with_type(GVirConfigObject *object, ...)
                 str = g_strdup_printf("%d", val);
                 break;
             }
-            case G_TYPE_STRING: {
-                xmlDocPtr doc;
-                xmlChar *enc_str;
-
+            case G_TYPE_STRING:
                 str = va_arg(args, char *);
-                g_object_get(G_OBJECT(object->priv->doc), "doc", &doc, NULL);
-                enc_str = xmlEncodeEntitiesReentrant(doc, (xmlChar*)str);
-                str = g_strdup((char *)enc_str);
-                xmlFree(enc_str);
+                xmlNewProp(object->priv->node, (xmlChar *)name, (xmlChar *)str);
+                str = NULL;
                 break;
-            }
             case G_TYPE_BOOLEAN: {
                 gboolean val;
                 val = va_arg(args, gboolean);

@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="Libvirt-gobject">
 <link rel="prev" href="GVirNetwork.html" title="GVirNetwork">
 <link rel="next" href="GVirSecret.html" title="GVirSecret">
-<meta name="generator" content="GTK-Doc V1.18.1 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.18 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -43,16 +43,16 @@
 <a name="GVirNodeDevice.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">struct              <a class="link" href="GVirNodeDevice.html#GVirNodeDevice-struct" title="struct GVirNodeDevice">GVirNodeDevice</a>;
 struct              <a class="link" href="GVirNodeDevice.html#GVirNodeDeviceClass" title="struct GVirNodeDeviceClass">GVirNodeDeviceClass</a>;
-<span class="returnvalue">GVirConfigNodeDevice</span> * <a class="link" href="GVirNodeDevice.html#gvir-node-device-get-config" title="gvir_node_device_get_config ()">gvir_node_device_get_config</a>      (<em class="parameter"><code><a class="link" href="GVirNodeDevice.html" title="GVirNodeDevice"><span class="type">GVirNodeDevice</span></a> *device</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
-const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirNodeDevice.html#gvir-node-device-get-name" title="gvir_node_device_get_name ()">gvir_node_device_get_name</a>           (<em class="parameter"><code><a class="link" href="GVirNodeDevice.html" title="GVirNodeDevice"><span class="type">GVirNodeDevice</span></a> *device</code></em>);
+<a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigNodeDevice.html"><span class="returnvalue">GVirConfigNodeDevice</span></a> * <a class="link" href="GVirNodeDevice.html#gvir-node-device-get-config" title="gvir_node_device_get_config ()">gvir_node_device_get_config</a>      (<em class="parameter"><code><a class="link" href="GVirNodeDevice.html" title="GVirNodeDevice"><span class="type">GVirNodeDevice</span></a> *device</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
+const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="GVirNodeDevice.html#gvir-node-device-get-name" title="gvir_node_device_get_name ()">gvir_node_device_get_name</a>           (<em class="parameter"><code><a class="link" href="GVirNodeDevice.html" title="GVirNodeDevice"><span class="type">GVirNodeDevice</span></a> *device</code></em>);
 </pre>
 </div>
 <div class="refsect1">
 <a name="GVirNodeDevice.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
-  GObject
+  <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
    +----GVirNodeDevice
 </pre>
 </div>
@@ -84,9 +84,9 @@ const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirN
 <hr>
 <div class="refsect2">
 <a name="gvir-node-device-get-config"></a><h3>gvir_node_device_get_config ()</h3>
-<pre class="programlisting"><span class="returnvalue">GVirConfigNodeDevice</span> * gvir_node_device_get_config      (<em class="parameter"><code><a class="link" href="GVirNodeDevice.html" title="GVirNodeDevice"><span class="type">GVirNodeDevice</span></a> *device</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigNodeDevice.html"><span class="returnvalue">GVirConfigNodeDevice</span></a> * gvir_node_device_get_config      (<em class="parameter"><code><a class="link" href="GVirNodeDevice.html" title="GVirNodeDevice"><span class="type">GVirNodeDevice</span></a> *device</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -96,12 +96,8 @@ const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirN
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
-<td>the flags</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the config. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
-</td>
+<td>the flags
+Returns: (transfer full): the config</td>
 </tr>
 </tbody>
 </table></div>
@@ -109,7 +105,7 @@ const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirN
 <hr>
 <div class="refsect2">
 <a name="gvir-node-device-get-name"></a><h3>gvir_node_device_get_name ()</h3>
-<pre class="programlisting">const <span class="returnvalue">gchar</span> *       gvir_node_device_get_name           (<em class="parameter"><code><a class="link" href="GVirNodeDevice.html" title="GVirNodeDevice"><span class="type">GVirNodeDevice</span></a> *device</code></em>);</pre>
+<pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       gvir_node_device_get_name           (<em class="parameter"><code><a class="link" href="GVirNodeDevice.html" title="GVirNodeDevice"><span class="type">GVirNodeDevice</span></a> *device</code></em>);</pre>
 </div>
 </div>
 <div class="refsect1">
@@ -123,6 +119,6 @@ const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirN
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.18.1</div>
+          Generated by GTK-Doc V1.18</div>
 </body>
 </html>

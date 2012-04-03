@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="Libvirt-gobject">
 <link rel="prev" href="GVirInterface.html" title="GVirInterface">
 <link rel="next" href="GVirNetworkFilter.html" title="GVirNetworkFilter">
-<meta name="generator" content="GTK-Doc V1.18.1 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.18 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -46,8 +46,8 @@ struct              <a class="link" href="GVirManager.html#GVirManagerClass" tit
 <span class="returnvalue">void</span>                <a class="link" href="GVirManager.html#gvir-manager-add-connection" title="gvir_manager_add_connection ()">gvir_manager_add_connection</a>         (<em class="parameter"><code><a class="link" href="GVirManager.html" title="GVirManager"><span class="type">GVirManager</span></a> *man</code></em>,
                                                          <em class="parameter"><code><a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a> *conn</code></em>);
 <a class="link" href="GVirConnection.html" title="GVirConnection"><span class="returnvalue">GVirConnection</span></a> *    <a class="link" href="GVirManager.html#gvir-manager-find-connection-by-uri" title="gvir_manager_find_connection_by_uri ()">gvir_manager_find_connection_by_uri</a> (<em class="parameter"><code><a class="link" href="GVirManager.html" title="GVirManager"><span class="type">GVirManager</span></a> *man</code></em>,
-                                                         <em class="parameter"><code>const <span class="type">gchar</span> *uri</code></em>);
-<span class="returnvalue">GList</span> *             <a class="link" href="GVirManager.html#gvir-manager-get-connections" title="gvir_manager_get_connections ()">gvir_manager_get_connections</a>        (<em class="parameter"><code><a class="link" href="GVirManager.html" title="GVirManager"><span class="type">GVirManager</span></a> *man</code></em>);
+                                                         <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *uri</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *             <a class="link" href="GVirManager.html#gvir-manager-get-connections" title="gvir_manager_get_connections ()">gvir_manager_get_connections</a>        (<em class="parameter"><code><a class="link" href="GVirManager.html" title="GVirManager"><span class="type">GVirManager</span></a> *man</code></em>);
 <a class="link" href="GVirManager.html" title="GVirManager"><span class="returnvalue">GVirManager</span></a> *       <a class="link" href="GVirManager.html#gvir-manager-new" title="gvir_manager_new ()">gvir_manager_new</a>                    (<em class="parameter"><code><span class="type">void</span></code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="GVirManager.html#gvir-manager-remove-connection" title="gvir_manager_remove_connection ()">gvir_manager_remove_connection</a>      (<em class="parameter"><code><a class="link" href="GVirManager.html" title="GVirManager"><span class="type">GVirManager</span></a> *man</code></em>,
                                                          <em class="parameter"><code><a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a> *conn</code></em>);
@@ -56,15 +56,15 @@ struct              <a class="link" href="GVirManager.html#GVirManagerClass" tit
 <div class="refsect1">
 <a name="GVirManager.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
-  GObject
+  <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
    +----GVirManager
 </pre>
 </div>
 <div class="refsect1">
 <a name="GVirManager.signals"></a><h2>Signals</h2>
 <pre class="synopsis">
-  "<a class="link" href="GVirManager.html#GVirManager-connection-added" title='The "connection-added" signal'>connection-added</a>"                               : <code class="literal">Run First</code>
-  "<a class="link" href="GVirManager.html#GVirManager-connection-removed" title='The "connection-removed" signal'>connection-removed</a>"                             : <code class="literal">Run First</code>
+  "<a class="link" href="GVirManager.html#GVirManager-connection-added" title='The "connection-added" signal'>connection-added</a>"                               : <a href="http://library.gnome.org/devel/gobject/unstable/gobject-Signals.html#G-SIGNAL-RUN-FIRST:CAPS"><code class="literal">Run First</code></a>
+  "<a class="link" href="GVirManager.html#GVirManager-connection-removed" title='The "connection-removed" signal'>connection-removed</a>"                             : <a href="http://library.gnome.org/devel/gobject/unstable/gobject-Signals.html#G-SIGNAL-RUN-FIRST:CAPS"><code class="literal">Run First</code></a>
 </pre>
 </div>
 <div class="refsect1">
@@ -100,28 +100,12 @@ struct              <a class="link" href="GVirManager.html#GVirManagerClass" tit
 <div class="refsect2">
 <a name="gvir-manager-find-connection-by-uri"></a><h3>gvir_manager_find_connection_by_uri ()</h3>
 <pre class="programlisting"><a class="link" href="GVirConnection.html" title="GVirConnection"><span class="returnvalue">GVirConnection</span></a> *    gvir_manager_find_connection_by_uri (<em class="parameter"><code><a class="link" href="GVirManager.html" title="GVirManager"><span class="type">GVirManager</span></a> *man</code></em>,
-                                                         <em class="parameter"><code>const <span class="type">gchar</span> *uri</code></em>);</pre>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody><tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the connection,or NULL. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>][<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span>
-</td>
-</tr></tbody>
-</table></div>
+                                                         <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *uri</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
 <a name="gvir-manager-get-connections"></a><h3>gvir_manager_get_connections ()</h3>
-<pre class="programlisting"><span class="returnvalue">GList</span> *             gvir_manager_get_connections        (<em class="parameter"><code><a class="link" href="GVirManager.html" title="GVirManager"><span class="type">GVirManager</span></a> *man</code></em>);</pre>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody><tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the connections. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>][<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> GVirConnection]</span>
-</td>
-</tr></tbody>
-</table></div>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *             gvir_manager_get_connections        (<em class="parameter"><code><a class="link" href="GVirManager.html" title="GVirManager"><span class="type">GVirManager</span></a> *man</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
@@ -141,19 +125,19 @@ struct              <a class="link" href="GVirManager.html#GVirManagerClass" tit
 <a name="GVirManager-connection-added"></a><h3>The <code class="literal">"connection-added"</code> signal</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="GVirManager.html" title="GVirManager"><span class="type">GVirManager</span></a>    *gvirmanager,
                                                         <a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a> *arg1,
-                                                        <span class="type">gpointer</span>        user_data)        : <code class="literal">Run First</code></pre>
+                                                        <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>        user_data)        : <a href="http://library.gnome.org/devel/gobject/unstable/gobject-Signals.html#G-SIGNAL-RUN-FIRST:CAPS"><code class="literal">Run First</code></a></pre>
 </div>
 <hr>
 <div class="refsect2">
 <a name="GVirManager-connection-removed"></a><h3>The <code class="literal">"connection-removed"</code> signal</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="GVirManager.html" title="GVirManager"><span class="type">GVirManager</span></a>    *gvirmanager,
                                                         <a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a> *arg1,
-                                                        <span class="type">gpointer</span>        user_data)        : <code class="literal">Run First</code></pre>
+                                                        <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>        user_data)        : <a href="http://library.gnome.org/devel/gobject/unstable/gobject-Signals.html#G-SIGNAL-RUN-FIRST:CAPS"><code class="literal">Run First</code></a></pre>
 </div>
 </div>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.18.1</div>
+          Generated by GTK-Doc V1.18</div>
 </body>
 </html>

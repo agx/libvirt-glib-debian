@@ -1,6 +1,5 @@
 gvir_connection_get_type
 gvir_connection_handle_get_type
-gvir_domain_delete_flags_get_type
 gvir_domain_device_get_type
 gvir_domain_disk_get_type
 gvir_domain_disk_stats_get_type
@@ -11,8 +10,6 @@ gvir_domain_interface_get_type
 gvir_domain_interface_stats_get_type
 gvir_domain_snapshot_get_type
 gvir_domain_snapshot_handle_get_type
-gvir_domain_start_flags_get_type
-gvir_domain_state_get_type
 gvir_interface_get_type
 gvir_interface_handle_get_type
 gvir_manager_get_type

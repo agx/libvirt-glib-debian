@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="Libvirt-gconfig">
 <link rel="prev" href="GVirConfigSecret.html" title="GVirConfigSecret">
 <link rel="next" href="GVirConfigStorageVol.html" title="GVirConfigStorageVol">
-<meta name="generator" content="GTK-Doc V1.18.1 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.18 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -39,27 +39,27 @@
 </tr></table></div>
 <div class="refsynopsisdiv">
 <a name="GVirConfigStoragePool.synopsis"></a><h2>Synopsis</h2>
-<a name="GVirConfigStoragePoolType"></a><pre class="synopsis">struct              <a class="link" href="GVirConfigStoragePool.html#GVirConfigStoragePool-struct" title="struct GVirConfigStoragePool">GVirConfigStoragePool</a>;
+<pre class="synopsis">struct              <a class="link" href="GVirConfigStoragePool.html#GVirConfigStoragePool-struct" title="struct GVirConfigStoragePool">GVirConfigStoragePool</a>;
 struct              <a class="link" href="GVirConfigStoragePool.html#GVirConfigStoragePoolClass" title="struct GVirConfigStoragePoolClass">GVirConfigStoragePoolClass</a>;
-enum                <a class="link" href="GVirConfigStoragePool.html#GVirConfigStoragePoolType-enum" title="enum GVirConfigStoragePoolType">GVirConfigStoragePoolType</a>;
+enum                <a class="link" href="GVirConfigStoragePool.html#GVirConfigStoragePoolType" title="enum GVirConfigStoragePoolType">GVirConfigStoragePoolType</a>;
 <a class="link" href="GVirConfigStoragePool.html" title="GVirConfigStoragePool"><span class="returnvalue">GVirConfigStoragePool</span></a> * <a class="link" href="GVirConfigStoragePool.html#gvir-config-storage-pool-new" title="gvir_config_storage_pool_new ()">gvir_config_storage_pool_new</a>    (<em class="parameter"><code><span class="type">void</span></code></em>);
 <a class="link" href="GVirConfigStoragePool.html" title="GVirConfigStoragePool"><span class="returnvalue">GVirConfigStoragePool</span></a> * <a class="link" href="GVirConfigStoragePool.html#gvir-config-storage-pool-new-from-xml" title="gvir_config_storage_pool_new_from_xml ()">gvir_config_storage_pool_new_from_xml</a>
-                                                        (<em class="parameter"><code>const <span class="type">gchar</span> *xml</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);
+                                                        (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *xml</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="GVirConfigStoragePool.html#gvir-config-storage-pool-set-allocation" title="gvir_config_storage_pool_set_allocation ()">gvir_config_storage_pool_set_allocation</a>
                                                         (<em class="parameter"><code><a class="link" href="GVirConfigStoragePool.html" title="GVirConfigStoragePool"><span class="type">GVirConfigStoragePool</span></a> *pool</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint64</span> allocation</code></em>);
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint64"><span class="type">guint64</span></a> allocation</code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="GVirConfigStoragePool.html#gvir-config-storage-pool-set-available" title="gvir_config_storage_pool_set_available ()">gvir_config_storage_pool_set_available</a>
                                                         (<em class="parameter"><code><a class="link" href="GVirConfigStoragePool.html" title="GVirConfigStoragePool"><span class="type">GVirConfigStoragePool</span></a> *pool</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint64</span> available</code></em>);
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint64"><span class="type">guint64</span></a> available</code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="GVirConfigStoragePool.html#gvir-config-storage-pool-set-capacity" title="gvir_config_storage_pool_set_capacity ()">gvir_config_storage_pool_set_capacity</a>
                                                         (<em class="parameter"><code><a class="link" href="GVirConfigStoragePool.html" title="GVirConfigStoragePool"><span class="type">GVirConfigStoragePool</span></a> *pool</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint64</span> capacity</code></em>);
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint64"><span class="type">guint64</span></a> capacity</code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="GVirConfigStoragePool.html#gvir-config-storage-pool-set-name" title="gvir_config_storage_pool_set_name ()">gvir_config_storage_pool_set_name</a>   (<em class="parameter"><code><a class="link" href="GVirConfigStoragePool.html" title="GVirConfigStoragePool"><span class="type">GVirConfigStoragePool</span></a> *pool</code></em>,
                                                          <em class="parameter"><code>const <span class="type">char</span> *name</code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="GVirConfigStoragePool.html#gvir-config-storage-pool-set-pool-type" title="gvir_config_storage_pool_set_pool_type ()">gvir_config_storage_pool_set_pool_type</a>
                                                         (<em class="parameter"><code><a class="link" href="GVirConfigStoragePool.html" title="GVirConfigStoragePool"><span class="type">GVirConfigStoragePool</span></a> *pool</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="GVirConfigStoragePool.html#GVirConfigStoragePoolType"><span class="type">GVirConfigStoragePoolType</span></a> type</code></em>);
+                                                         <em class="parameter"><code><a class="link" href="GVirConfigStoragePool.html#GVirConfigStoragePoolType" title="enum GVirConfigStoragePoolType"><span class="type">GVirConfigStoragePoolType</span></a> type</code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="GVirConfigStoragePool.html#gvir-config-storage-pool-set-source" title="gvir_config_storage_pool_set_source ()">gvir_config_storage_pool_set_source</a> (<em class="parameter"><code><a class="link" href="GVirConfigStoragePool.html" title="GVirConfigStoragePool"><span class="type">GVirConfigStoragePool</span></a> *pool</code></em>,
                                                          <em class="parameter"><code><span class="type">GVirConfigStoragePoolSource</span> *source</code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="GVirConfigStoragePool.html#gvir-config-storage-pool-set-target" title="gvir_config_storage_pool_set_target ()">gvir_config_storage_pool_set_target</a> (<em class="parameter"><code><a class="link" href="GVirConfigStoragePool.html" title="GVirConfigStoragePool"><span class="type">GVirConfigStoragePool</span></a> *pool</code></em>,
@@ -71,13 +71,9 @@ enum                <a class="link" href="GVirConfigStoragePool.html#GVirConfigS
 <div class="refsect1">
 <a name="GVirConfigStoragePool.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
-  GObject
+  <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
    +----<a class="link" href="GVirConfigObject.html" title="GVirConfigObject">GVirConfigObject</a>
          +----GVirConfigStoragePool
-</pre>
-<pre class="synopsis">
-  GEnum
-   +----GVirConfigStoragePoolType
 </pre>
 </div>
 <div class="refsect1">
@@ -101,7 +97,7 @@ enum                <a class="link" href="GVirConfigStoragePool.html#GVirConfigS
 </div>
 <hr>
 <div class="refsect2">
-<a name="GVirConfigStoragePoolType-enum"></a><h3>enum GVirConfigStoragePoolType</h3>
+<a name="GVirConfigStoragePoolType"></a><h3>enum GVirConfigStoragePoolType</h3>
 <pre class="programlisting">typedef enum {
     GVIR_CONFIG_STORAGE_POOL_TYPE_DIR,
     GVIR_CONFIG_STORAGE_POOL_TYPE_FS,
@@ -123,29 +119,29 @@ enum                <a class="link" href="GVirConfigStoragePool.html#GVirConfigS
 <div class="refsect2">
 <a name="gvir-config-storage-pool-new-from-xml"></a><h3>gvir_config_storage_pool_new_from_xml ()</h3>
 <pre class="programlisting"><a class="link" href="GVirConfigStoragePool.html" title="GVirConfigStoragePool"><span class="returnvalue">GVirConfigStoragePool</span></a> * gvir_config_storage_pool_new_from_xml
-                                                        (<em class="parameter"><code>const <span class="type">gchar</span> *xml</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+                                                        (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *xml</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
 <a name="gvir-config-storage-pool-set-allocation"></a><h3>gvir_config_storage_pool_set_allocation ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                gvir_config_storage_pool_set_allocation
                                                         (<em class="parameter"><code><a class="link" href="GVirConfigStoragePool.html" title="GVirConfigStoragePool"><span class="type">GVirConfigStoragePool</span></a> *pool</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint64</span> allocation</code></em>);</pre>
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint64"><span class="type">guint64</span></a> allocation</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
 <a name="gvir-config-storage-pool-set-available"></a><h3>gvir_config_storage_pool_set_available ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                gvir_config_storage_pool_set_available
                                                         (<em class="parameter"><code><a class="link" href="GVirConfigStoragePool.html" title="GVirConfigStoragePool"><span class="type">GVirConfigStoragePool</span></a> *pool</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint64</span> available</code></em>);</pre>
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint64"><span class="type">guint64</span></a> available</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
 <a name="gvir-config-storage-pool-set-capacity"></a><h3>gvir_config_storage_pool_set_capacity ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                gvir_config_storage_pool_set_capacity
                                                         (<em class="parameter"><code><a class="link" href="GVirConfigStoragePool.html" title="GVirConfigStoragePool"><span class="type">GVirConfigStoragePool</span></a> *pool</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint64</span> capacity</code></em>);</pre>
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint64"><span class="type">guint64</span></a> capacity</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
@@ -158,7 +154,7 @@ enum                <a class="link" href="GVirConfigStoragePool.html#GVirConfigS
 <a name="gvir-config-storage-pool-set-pool-type"></a><h3>gvir_config_storage_pool_set_pool_type ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                gvir_config_storage_pool_set_pool_type
                                                         (<em class="parameter"><code><a class="link" href="GVirConfigStoragePool.html" title="GVirConfigStoragePool"><span class="type">GVirConfigStoragePool</span></a> *pool</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="GVirConfigStoragePool.html#GVirConfigStoragePoolType"><span class="type">GVirConfigStoragePoolType</span></a> type</code></em>);</pre>
+                                                         <em class="parameter"><code><a class="link" href="GVirConfigStoragePool.html#GVirConfigStoragePoolType" title="enum GVirConfigStoragePoolType"><span class="type">GVirConfigStoragePoolType</span></a> type</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
@@ -182,6 +178,6 @@ enum                <a class="link" href="GVirConfigStoragePool.html#GVirConfigS
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.18.1</div>
+          Generated by GTK-Doc V1.18</div>
 </body>
 </html>
