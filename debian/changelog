@@ -1,3 +1,9 @@
+libvirt-glib (0.0.7-2) experimental; urgency=low
+
+  * [ec963a2] Bump required version in symbols file (Closes: #667683)
+
+ -- Guido Günther <agx@sigxcpu.org>  Wed, 11 Apr 2012 13:55:51 +0200
+
 libvirt-glib (0.0.7-1) experimental; urgency=low
 
   * [901d3d1] New upstream version 0.0.7 (Closes: #666690)
