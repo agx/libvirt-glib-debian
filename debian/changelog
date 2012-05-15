@@ -1,3 +1,10 @@
+libvirt-glib (0.0.8-1) unstable; urgency=low
+
+  * [f9495f9] New upstream version 0.0.8 (Closes: #673018)
+  * [fc3a90f] Bump symbol versions
+
+ -- Guido Günther <agx@sigxcpu.org>  Tue, 15 May 2012 15:32:30 +0200
+
 libvirt-glib (0.0.7-3) unstable; urgency=low
 
   * Upload to unstable
