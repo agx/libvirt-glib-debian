@@ -87,6 +87,8 @@ gvir_domain_get_config
 gvir_domain_get_devices
 gvir_domain_get_id
 gvir_domain_get_info
+gvir_domain_get_info_async
+gvir_domain_get_info_finish
 gvir_domain_get_name
 gvir_domain_get_persistent
 gvir_domain_get_saved

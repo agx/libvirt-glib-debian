@@ -13,6 +13,9 @@ GCONFIG_HEADER_FILES = \
 			libvirt-gconfig-object.h \
 			libvirt-gconfig-capabilities.h \
 			libvirt-gconfig-domain.h \
+			libvirt-gconfig-domain-address.h \
+			libvirt-gconfig-domain-address-pci.h \
+			libvirt-gconfig-domain-address-usb.h \
 			libvirt-gconfig-domain-channel.h \
 			libvirt-gconfig-domain-chardev.h \
 			libvirt-gconfig-domain-chardev-source.h \
@@ -20,6 +23,8 @@ GCONFIG_HEADER_FILES = \
 			libvirt-gconfig-domain-chardev-source-spicevmc.h \
 			libvirt-gconfig-domain-clock.h \
 			libvirt-gconfig-domain-console.h \
+			libvirt-gconfig-domain-controller.h \
+			libvirt-gconfig-domain-controller-usb.h \
 			libvirt-gconfig-domain-device.h \
 			libvirt-gconfig-domain-disk.h \
 			libvirt-gconfig-domain-filesys.h \
@@ -41,6 +46,8 @@ GCONFIG_HEADER_FILES = \
 			libvirt-gconfig-domain-snapshot.h \
 			libvirt-gconfig-domain-sound.h \
 			libvirt-gconfig-domain-timer.h \
+			libvirt-gconfig-domain-timer-pit.h \
+			libvirt-gconfig-domain-timer-rtc.h \
 			libvirt-gconfig-domain-video.h \
 			libvirt-gconfig-helpers.h \
 			libvirt-gconfig-interface.h \
@@ -66,6 +73,9 @@ GCONFIG_SOURCE_FILES = \
 			libvirt-gconfig-main.c \
 			libvirt-gconfig-capabilities.c \
 			libvirt-gconfig-domain.c \
+			libvirt-gconfig-domain-address.c \
+			libvirt-gconfig-domain-address-pci.c \
+			libvirt-gconfig-domain-address-usb.c \
 			libvirt-gconfig-domain-channel.c \
 			libvirt-gconfig-domain-chardev.c \
 			libvirt-gconfig-domain-chardev-source.c \
@@ -73,6 +83,8 @@ GCONFIG_SOURCE_FILES = \
 			libvirt-gconfig-domain-chardev-source-spicevmc.c \
 			libvirt-gconfig-domain-clock.c \
 			libvirt-gconfig-domain-console.c \
+			libvirt-gconfig-domain-controller.c \
+			libvirt-gconfig-domain-controller-usb.c \
 			libvirt-gconfig-domain-device.c \
 			libvirt-gconfig-domain-disk.c \
 			libvirt-gconfig-domain-filesys.c \
@@ -94,6 +106,8 @@ GCONFIG_SOURCE_FILES = \
 			libvirt-gconfig-domain-snapshot.c \
 			libvirt-gconfig-domain-sound.c \
 			libvirt-gconfig-domain-timer.c \
+			libvirt-gconfig-domain-timer-pit.c \
+			libvirt-gconfig-domain-timer-rtc.c \
 			libvirt-gconfig-domain-video.c \
 			libvirt-gconfig-helpers.c \
 			libvirt-gconfig-interface.c \

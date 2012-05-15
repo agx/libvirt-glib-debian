@@ -43,6 +43,63 @@ const char *features[] = { "foo", "bar", "baz", NULL };
     g_free(alloced_str); \
 } G_STMT_END
 
+
+static GVirConfigDomainControllerUsb *
+create_usb_controller(GVirConfigDomainControllerUsbModel model, guint indx,
+                      GVirConfigDomainControllerUsb *master, guint start_port,
+                      guint domain, guint bus, guint slot, guint function,
+                      gboolean multifunction)
+{
+    GVirConfigDomainControllerUsb *controller;
+    GVirConfigDomainAddressPci *address;
+
+    controller = gvir_config_domain_controller_usb_new();
+    gvir_config_domain_controller_usb_set_model(controller, model);
+    gvir_config_domain_controller_set_index(GVIR_CONFIG_DOMAIN_CONTROLLER(controller), indx);
+    if (master)
+        gvir_config_domain_controller_usb_set_master(controller, master, start_port);
+    address = gvir_config_domain_address_pci_new();
+    gvir_config_domain_address_pci_set_domain(address, domain);
+    gvir_config_domain_address_pci_set_bus(address, bus);
+    gvir_config_domain_address_pci_set_slot(address, slot);
+    gvir_config_domain_address_pci_set_function(address, function);
+    if (multifunction)
+        gvir_config_domain_address_pci_set_multifunction(address, multifunction);
+    gvir_config_domain_controller_set_address(GVIR_CONFIG_DOMAIN_CONTROLLER(controller),
+                                              GVIR_CONFIG_DOMAIN_ADDRESS(address));
+    g_object_unref(G_OBJECT(address));
+
+    return controller;
+}
+
+static GVirConfigDomainRedirdev *
+create_redirdev(guint bus, guint port)
+{
+    GVirConfigDomainRedirdev *redirdev;
+    GVirConfigDomainAddressUsb *address;
+    GVirConfigDomainChardevSourceSpiceVmc *spicevmc;
+    gchar *port_str;
+
+    redirdev = gvir_config_domain_redirdev_new();
+    gvir_config_domain_redirdev_set_bus(redirdev,
+                                        GVIR_CONFIG_DOMAIN_REDIRDEV_BUS_USB);
+    spicevmc = gvir_config_domain_chardev_source_spicevmc_new();
+    gvir_config_domain_chardev_set_source(GVIR_CONFIG_DOMAIN_CHARDEV(redirdev),
+                                          GVIR_CONFIG_DOMAIN_CHARDEV_SOURCE(spicevmc));
+    g_object_unref(G_OBJECT(spicevmc));
+
+    address = gvir_config_domain_address_usb_new();
+    gvir_config_domain_address_usb_set_bus(address, bus);
+    port_str = g_strdup_printf("%d", port);
+    gvir_config_domain_address_usb_set_port(address, port_str);
+    g_free(port_str);
+    gvir_config_domain_redirdev_set_address(redirdev,
+                                            GVIR_CONFIG_DOMAIN_ADDRESS(address));
+    g_object_unref(G_OBJECT(address));
+
+    return redirdev;
+}
+
 int main(int argc, char **argv)
 {
     GVirConfigDomain *domain;
@@ -76,9 +133,26 @@ int main(int argc, char **argv)
 
     /* clock node */
     GVirConfigDomainClock *klock;
+    GVirConfigDomainTimerPit *pit;
+    GVirConfigDomainTimerRtc *rtc;
 
     klock = gvir_config_domain_clock_new();
     gvir_config_domain_clock_set_offset(klock, GVIR_CONFIG_DOMAIN_CLOCK_UTC);
+
+    pit = gvir_config_domain_timer_pit_new();
+    gvir_config_domain_timer_set_tick_policy(GVIR_CONFIG_DOMAIN_TIMER(pit),
+                                             GVIR_CONFIG_DOMAIN_TIMER_TICK_POLICY_DELAY);
+    gvir_config_domain_clock_add_timer(klock, GVIR_CONFIG_DOMAIN_TIMER(pit));
+    g_assert(gvir_config_domain_timer_get_tick_policy(GVIR_CONFIG_DOMAIN_TIMER(pit)) == GVIR_CONFIG_DOMAIN_TIMER_TICK_POLICY_DELAY);
+    g_object_unref(G_OBJECT(pit));
+
+    rtc = gvir_config_domain_timer_rtc_new();
+    gvir_config_domain_timer_set_tick_policy(GVIR_CONFIG_DOMAIN_TIMER(rtc),
+                                             GVIR_CONFIG_DOMAIN_TIMER_TICK_POLICY_CATCHUP);
+    gvir_config_domain_clock_add_timer(klock, GVIR_CONFIG_DOMAIN_TIMER(rtc));
+    g_assert(gvir_config_domain_timer_get_tick_policy(GVIR_CONFIG_DOMAIN_TIMER(rtc)) == GVIR_CONFIG_DOMAIN_TIMER_TICK_POLICY_CATCHUP);
+    g_object_unref(G_OBJECT(rtc));
+
     gvir_config_domain_set_clock(domain, klock);
     g_object_unref(G_OBJECT(klock));
 
@@ -106,6 +180,7 @@ int main(int argc, char **argv)
     gvir_config_domain_disk_set_type(disk, GVIR_CONFIG_DOMAIN_DISK_FILE);
     gvir_config_domain_disk_set_guest_device_type(disk, GVIR_CONFIG_DOMAIN_DISK_GUEST_DEVICE_DISK);
     gvir_config_domain_disk_set_source(disk, "/tmp/foo/bar");
+    gvir_config_domain_disk_set_startup_policy (disk, GVIR_CONFIG_DOMAIN_DISK_STARTUP_POLICY_REQUISITE);
     gvir_config_domain_disk_set_driver_name(disk, "foo");
     gvir_config_domain_disk_set_driver_type(disk, "bar");
     gvir_config_domain_disk_set_driver_name(disk, "qemu");
@@ -117,6 +192,7 @@ int main(int argc, char **argv)
 
     g_assert(gvir_config_domain_disk_get_disk_type(disk) == GVIR_CONFIG_DOMAIN_DISK_FILE);
     g_assert(gvir_config_domain_disk_get_guest_device_type(disk) == GVIR_CONFIG_DOMAIN_DISK_GUEST_DEVICE_DISK);
+    g_assert(gvir_config_domain_disk_get_startup_policy (disk) == GVIR_CONFIG_DOMAIN_DISK_STARTUP_POLICY_REQUISITE);
     g_str_const_check(gvir_config_domain_disk_get_source(disk), "/tmp/foo/bar");
     g_assert(gvir_config_domain_disk_get_driver_cache(disk) == GVIR_CONFIG_DOMAIN_DISK_CACHE_NONE);
     g_str_const_check(gvir_config_domain_disk_get_driver_name(disk), "qemu");
@@ -199,17 +275,37 @@ int main(int argc, char **argv)
     devices = g_list_append(devices, GVIR_CONFIG_DOMAIN_DEVICE(channel));
 
     /* spice usb redirection */
+    GVirConfigDomainControllerUsb *ehci;
+    GVirConfigDomainControllerUsb *uhci1;
+    GVirConfigDomainControllerUsb *uhci2;
+    GVirConfigDomainControllerUsb *uhci3;
     GVirConfigDomainRedirdev *redirdev;
 
-    redirdev = gvir_config_domain_redirdev_new();
-    gvir_config_domain_redirdev_set_bus(redirdev,
-                                        GVIR_CONFIG_DOMAIN_REDIRDEV_BUS_USB);
-    spicevmc = gvir_config_domain_chardev_source_spicevmc_new();
-    gvir_config_domain_chardev_set_source(GVIR_CONFIG_DOMAIN_CHARDEV(redirdev),
-                                          GVIR_CONFIG_DOMAIN_CHARDEV_SOURCE(spicevmc));
-    g_object_unref(G_OBJECT(spicevmc));
-    devices = g_list_append(devices, GVIR_CONFIG_DOMAIN_DEVICE(redirdev));
+    ehci = create_usb_controller(GVIR_CONFIG_DOMAIN_CONTROLLER_USB_MODEL_ICH9_EHCI1,
+                                 1, NULL, 0, 0, 0, 8, 7, FALSE);
+    devices = g_list_append(devices, GVIR_CONFIG_DOMAIN_DEVICE(ehci));
+    uhci1 = create_usb_controller(GVIR_CONFIG_DOMAIN_CONTROLLER_USB_MODEL_ICH9_UHCI1,
+                                  7, ehci, 0, 0, 0, 8, 0, TRUE);
+    devices = g_list_append(devices, GVIR_CONFIG_DOMAIN_DEVICE(uhci1));
+    uhci2 = create_usb_controller(GVIR_CONFIG_DOMAIN_CONTROLLER_USB_MODEL_ICH9_UHCI2,
+                                  7, ehci, 2, 0, 0, 8, 1, FALSE);
+    devices = g_list_append(devices, GVIR_CONFIG_DOMAIN_DEVICE(uhci2));
+    uhci3 = create_usb_controller(GVIR_CONFIG_DOMAIN_CONTROLLER_USB_MODEL_ICH9_UHCI3,
+                                  7, ehci, 4, 0, 0, 8, 2, FALSE);
+    g_assert(gvir_config_domain_controller_get_index(GVIR_CONFIG_DOMAIN_CONTROLLER(uhci1)) == 1);
+    devices = g_list_append(devices, GVIR_CONFIG_DOMAIN_DEVICE(uhci3));
 
+
+    /* three redirdev channels allows to redirect a maximum of 3 USB
+     * devices at a time. The address which create_redirdev assigns to the
+     * redirdev object is optional
+     */
+    redirdev = create_redirdev(0, 3);
+    devices = g_list_append(devices, GVIR_CONFIG_DOMAIN_DEVICE(redirdev));
+    redirdev = create_redirdev(0, 4);
+    devices = g_list_append(devices, GVIR_CONFIG_DOMAIN_DEVICE(redirdev));
+    redirdev = create_redirdev(0, 5);
+    devices = g_list_append(devices, GVIR_CONFIG_DOMAIN_DEVICE(redirdev));
 
     gvir_config_domain_set_devices(domain, devices);
     g_list_foreach(devices, (GFunc)g_object_unref, NULL);
