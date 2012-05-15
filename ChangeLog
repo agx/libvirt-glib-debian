@@ -1,4 +1,130 @@
+2012-04-27  Daniel P. Berrange  <berrange@redhat.com>
+
+	Prep NEWS for 0.0.8 release
+
+2012-04-27  Daniel P. Berrange  <dan@berrange.com>
+
+	Add Michael to AUTHORS
+
+2012-04-27  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Add GVirConfigDomainTimerPit class
+
+	Add GVirConfigDomainTimerRtc class
+
+	Implement gvir_config_domain_clock_add_timer
+
+	Implement gvir_config_domain_timer_[gs]et_tick_policy
+
+	Make GVirConfigDomainTimer abstract
+	Specialized timer classes will inherit from it
+
+2012-04-24  Michal Privoznik  <mprivozn@redhat.com>
+
+	test-domain-create: Don't shadow global variable
+	In function create_usb_controller variable 'index' shadows a global
+	declaration.
+
+2012-04-19  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Add async variant of gvir_domain_get_info()
+
+	Correct some minor typos in docs
+
+2012-04-18  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Parse GVirConfigDomainRedirdev nodes
+	Update gvir_config_domain_device_new_from_tree to handle
+	GVirConfigDomainRedirdev nodes
+
+	Parse GVirConfigDomainController nodes
+	Update gvir_config_domain_device_new_from_tree to handle
+	GVirConfigDomainController nodes. For now, libvirt-gconfig only
+	has a GVirConfigDomainControllerUsb class, so only this type of
+	controllers can be parsed.
+
+2012-04-17  Christophe Fergeau  <cfergeau@redhat.com>
+
+	test-domain-create: set an address for redirdev devices
+
+	Implement gvir_config_domain_redirdev_set_address
+
+	Implement GVirConfigDomainAddressUsb
+
+	Improve USB device creation in test-domain-create
+
+	Implement gvir_config_domain_controller_set_address
+
+	Implement GVirConfigDomainAddressPci
+	It already has the needed setters.
+
+	Add GVirConfigDomainAddress abstract type
+	This is an abstract type which will be the base class for device
+	addresses.
+
+	test-domain-create: add USB controller creation
+
+	Implement gvir_config_domain_controller_usb_set_master
+
+	Add gvir_config_domain_controller_usb_set_model
+
+	Add GVirConfigDomainControllerUsb boilerplate
+
+	Implement gvir_config_domain_controller_[gs]et_index
+
+	Add GVirConfigDomainController skeleton
+
+2012-04-12  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Getter/setter for disk source's startupPolicy attribute
+
+2012-04-12  Guido Günther  <agx@sigxcpu.org>
+
+	Explicitly link conn-test against libvirt-gconfig libvirt-glib
+	otherwise the build fails with:
+
+	$ CCLD   conn-test
+	../libvirt-gobject/.libs/libvirt-gobject-1.0.so: undefined reference to `gvir_config_domain_new_from_xml@LIBVIRT_GCONFIG_0.0.4'
+	../libvirt-gobject/.libs/libvirt-gobject-1.0.so: undefined reference to `gvir_set_error@LIBVIRT_GLIB_0.0.4'
+	../libvirt-gobject/.libs/libvirt-gobject-1.0.so: undefined reference to `gvir_config_network_new_from_xml@LIBVIRT_GCONFIG_0.0.4'
+	../libvirt-gobject/.libs/libvirt-gobject-1.0.so: undefined reference to `gvir_config_storage_pool_new_from_xml@LIBVIRT_GCONFIG_0.0.4'
+	../libvirt-gobject/.libs/libvirt-gobject-1.0.so: undefined reference to `gvir_config_init_check@LIBVIRT_GCONFIG_0.0.4'
+	../libvirt-gobject/.libs/libvirt-gobject-1.0.so: undefined reference to `gvir_config_domain_get_type@LIBVIRT_GCONFIG_0.0.4'
+	../libvirt-gobject/.libs/libvirt-gobject-1.0.so: undefined reference to `gvir_config_object_to_xml@LIBVIRT_GCONFIG_0.0.4'
+	../libvirt-gobject/.libs/libvirt-gobject-1.0.so: undefined reference to `gvir_event_register@LIBVIRT_GLIB_0.0.4'
+	../libvirt-gobject/.libs/libvirt-gobject-1.0.so: undefined reference to `gvir_init_check@LIBVIRT_GLIB_0.0.4'
+	../libvirt-gobject/.libs/libvirt-gobject-1.0.so: undefined reference to `gvir_config_domain_get_devices@LIBVIRT_GCONFIG_0.0.4'
+	../libvirt-gobject/.libs/libvirt-gobject-1.0.so: undefined reference to `gvir_config_storage_vol_new_from_xml@LIBVIRT_GCONFIG_0.0.4'
+	../libvirt-gobject/.libs/libvirt-gobject-1.0.so: undefined reference to `gvir_config_secret_new_from_xml@LIBVIRT_GCONFIG_0.0.4'
+	../libvirt-gobject/.libs/libvirt-gobject-1.0.so: undefined reference to `gvir_config_interface_new_from_xml@LIBVIRT_GCONFIG_0.0.4'
+	../libvirt-gobject/.libs/libvirt-gobject-1.0.so: undefined reference to `gvir_config_domain_disk_get_type@LIBVIRT_GCONFIG_0.0.4'
+	../libvirt-gobject/.libs/libvirt-gobject-1.0.so: undefined reference to `gvir_config_domain_disk_get_target_dev@LIBVIRT_GCONFIG_0.0.4'
+	../libvirt-gobject/.libs/libvirt-gobject-1.0.so: undefined reference to `gvir_config_domain_interface_get_type@LIBVIRT_GCONFIG_0.0.4'
+	../libvirt-gobject/.libs/libvirt-gobject-1.0.so: undefined reference to `gvir_config_node_device_new_from_xml@LIBVIRT_GCONFIG_0.0.4'
+	../libvirt-gobject/.libs/libvirt-gobject-1.0.so: undefined reference to `gvir_config_domain_device_get_type@LIBVIRT_GCONFIG_0.0.4'
+	../libvirt-gobject/.libs/libvirt-gobject-1.0.so: undefined reference to `gvir_config_object_get_type@LIBVIRT_GCONFIG_0.0.4'
+	../libvirt-gobject/.libs/libvirt-gobject-1.0.so: undefined reference to `gvir_error_new_literal@LIBVIRT_GLIB_0.0.4'
+	../libvirt-gobject/.libs/libvirt-gobject-1.0.so: undefined reference to `gvir_config_domain_snapshot_new_from_xml@LIBVIRT_GCONFIG_0.0.4'
+	../libvirt-gobject/.libs/libvirt-gobject-1.0.so: undefined reference to `gvir_config_network_filter_new_from_xml@LIBVIRT_GCONFIG_0.0.4'
+	../libvirt-gobject/.libs/libvirt-gobject-1.0.so: undefined reference to `gvir_set_error_literal@LIBVIRT_GLIB_0.0.4'
+	../libvirt-gobject/.libs/libvirt-gobject-1.0.so: undefined reference to `gvir_config_domain_interface_get_ifname@LIBVIRT_GCONFIG_0.0.4'
+	collect2: ld returned 1 exit status
+
+	This is caused by a Debian specific libtool change that doesn't emit the
+	dependency_libs in the .la file.
+
+2012-04-11  Guido Günther  <agx@sigxcpu.org>
+
+	Raise symbol version number
+	since new symbols were introduced since 0.0.4
+
+2012-04-04  Daniel P. Berrange  <berrange@redhat.com>
+
+	Ensure libvirt-gobject-devel pulls in libvirt-devel RPM
+
 2012-03-30  Daniel P. Berrange  <berrange@redhat.com>
+
+	Bump release number
 
 	Update NEWS for 0.0.7 release
 

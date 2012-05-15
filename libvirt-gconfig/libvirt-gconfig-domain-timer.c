@@ -23,6 +23,7 @@
 #include <config.h>
 
 #include "libvirt-gconfig/libvirt-gconfig.h"
+#include "libvirt-gconfig/libvirt-gconfig-private.h"
 
 #define GVIR_CONFIG_DOMAIN_TIMER_GET_PRIVATE(obj)                         \
         (G_TYPE_INSTANCE_GET_PRIVATE((obj), GVIR_CONFIG_TYPE_DOMAIN_TIMER, GVirConfigDomainTimerPrivate))
@@ -32,7 +33,7 @@ struct _GVirConfigDomainTimerPrivate
     gboolean unused;
 };
 
-G_DEFINE_TYPE(GVirConfigDomainTimer, gvir_config_domain_timer, GVIR_CONFIG_TYPE_OBJECT);
+G_DEFINE_ABSTRACT_TYPE(GVirConfigDomainTimer, gvir_config_domain_timer, GVIR_CONFIG_TYPE_OBJECT);
 
 
 static void gvir_config_domain_timer_class_init(GVirConfigDomainTimerClass *klass)
@@ -48,22 +49,27 @@ static void gvir_config_domain_timer_init(GVirConfigDomainTimer *timer)
     timer->priv = GVIR_CONFIG_DOMAIN_TIMER_GET_PRIVATE(timer);
 }
 
-
-GVirConfigDomainTimer *gvir_config_domain_timer_new(void)
+void gvir_config_domain_timer_set_tick_policy(GVirConfigDomainTimer *timer,
+                                              GVirConfigDomainTimerTickPolicy policy)
 {
-    GVirConfigObject *object;
+    g_return_if_fail(GVIR_CONFIG_IS_DOMAIN_TIMER(timer));
 
-    object = gvir_config_object_new(GVIR_CONFIG_TYPE_DOMAIN_TIMER, "timer", NULL);
-    return GVIR_CONFIG_DOMAIN_TIMER(object);
+    gvir_config_object_set_attribute_with_type(GVIR_CONFIG_OBJECT(timer),
+                                               "tickpolicy",
+                                               GVIR_CONFIG_TYPE_DOMAIN_TIMER_TICK_POLICY,
+                                               policy,
+                                               NULL);
 }
 
-
-GVirConfigDomainTimer *gvir_config_domain_timer_new_from_xml(const gchar *xml,
-                                                GError **error)
+GVirConfigDomainTimerTickPolicy
+gvir_config_domain_timer_get_tick_policy(GVirConfigDomainTimer *timer)
 {
-    GVirConfigObject *object;
+    g_return_val_if_fail(GVIR_CONFIG_IS_DOMAIN_TIMER(timer),
+                         GVIR_CONFIG_DOMAIN_TIMER_TICK_POLICY_DELAY);
 
-    object = gvir_config_object_new_from_xml(GVIR_CONFIG_TYPE_DOMAIN_TIMER,
-                                             "timer", NULL, xml, error);
-    return GVIR_CONFIG_DOMAIN_TIMER(object);
+    return gvir_config_object_get_attribute_genum(GVIR_CONFIG_OBJECT(timer),
+                                                  NULL,
+                                                  "tickpolicy",
+                                                  GVIR_CONFIG_TYPE_DOMAIN_TIMER_TICK_POLICY,
+                                                  GVIR_CONFIG_DOMAIN_TIMER_TICK_POLICY_DELAY);
 }

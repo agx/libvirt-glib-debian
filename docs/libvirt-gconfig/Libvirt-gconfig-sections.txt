@@ -63,6 +63,65 @@ gvir_config_domain_get_type
 </SECTION>
 
 <SECTION>
+<FILE>libvirt-gconfig-domain-address</FILE>
+<TITLE>GVirConfigDomainAddress</TITLE>
+GVirConfigDomainAddress
+GVirConfigDomainAddressClass
+<SUBSECTION Standard>
+GVIR_CONFIG_DOMAIN_ADDRESS
+GVIR_CONFIG_DOMAIN_ADDRESS_CLASS
+GVIR_CONFIG_DOMAIN_ADDRESS_GET_CLASS
+GVIR_CONFIG_IS_DOMAIN_ADDRESS
+GVIR_CONFIG_IS_DOMAIN_ADDRESS_CLASS
+GVIR_CONFIG_TYPE_DOMAIN_ADDRESS
+GVirConfigDomainAddressPrivate
+gvir_config_domain_address_get_type
+</SECTION>
+
+<SECTION>
+<FILE>libvirt-gconfig-domain-address-pci</FILE>
+<TITLE>GVirConfigDomainAddressPci</TITLE>
+GVirConfigDomainAddressPci
+GVirConfigDomainAddressPciClass
+gvir_config_domain_address_pci_new
+gvir_config_domain_address_pci_new_from_xml
+gvir_config_domain_address_pci_set_bus
+gvir_config_domain_address_pci_set_domain
+gvir_config_domain_address_pci_set_function
+gvir_config_domain_address_pci_set_multifunction
+gvir_config_domain_address_pci_set_slot
+<SUBSECTION Standard>
+GVIR_CONFIG_DOMAIN_ADDRESS_PCI
+GVIR_CONFIG_DOMAIN_ADDRESS_PCI_CLASS
+GVIR_CONFIG_DOMAIN_ADDRESS_PCI_GET_CLASS
+GVIR_CONFIG_IS_DOMAIN_ADDRESS_PCI
+GVIR_CONFIG_IS_DOMAIN_ADDRESS_PCI_CLASS
+GVIR_CONFIG_TYPE_DOMAIN_ADDRESS_PCI
+GVirConfigDomainAddressPciPrivate
+gvir_config_domain_address_pci_get_type
+</SECTION>
+
+<SECTION>
+<FILE>libvirt-gconfig-domain-address-usb</FILE>
+<TITLE>GVirConfigDomainAddressUsb</TITLE>
+GVirConfigDomainAddressUsb
+GVirConfigDomainAddressUsbClass
+gvir_config_domain_address_usb_new
+gvir_config_domain_address_usb_new_from_xml
+gvir_config_domain_address_usb_set_bus
+gvir_config_domain_address_usb_set_port
+<SUBSECTION Standard>
+GVIR_CONFIG_DOMAIN_ADDRESS_USB
+GVIR_CONFIG_DOMAIN_ADDRESS_USB_CLASS
+GVIR_CONFIG_DOMAIN_ADDRESS_USB_GET_CLASS
+GVIR_CONFIG_IS_DOMAIN_ADDRESS_USB
+GVIR_CONFIG_IS_DOMAIN_ADDRESS_USB_CLASS
+GVIR_CONFIG_TYPE_DOMAIN_ADDRESS_USB
+GVirConfigDomainAddressUsbPrivate
+gvir_config_domain_address_usb_get_type
+</SECTION>
+
+<SECTION>
 <FILE>libvirt-gconfig-domain-channel</FILE>
 <TITLE>GVirConfigDomainChannel</TITLE>
 GVirConfigDomainChannel
@@ -159,6 +218,7 @@ gvir_config_domain_chardev_source_spicevmc_get_type
 GVirConfigDomainClock
 GVirConfigDomainClockClass
 GVirConfigDomainClockOffset
+gvir_config_domain_clock_add_timer
 gvir_config_domain_clock_new
 gvir_config_domain_clock_new_from_xml
 gvir_config_domain_clock_set_offset
@@ -196,6 +256,46 @@ gvir_config_domain_console_get_type
 </SECTION>
 
 <SECTION>
+<FILE>libvirt-gconfig-domain-controller</FILE>
+<TITLE>GVirConfigDomainController</TITLE>
+GVirConfigDomainController
+GVirConfigDomainControllerClass
+gvir_config_domain_controller_get_index
+gvir_config_domain_controller_set_address
+gvir_config_domain_controller_set_index
+<SUBSECTION Standard>
+GVIR_CONFIG_DOMAIN_CONTROLLER
+GVIR_CONFIG_DOMAIN_CONTROLLER_CLASS
+GVIR_CONFIG_DOMAIN_CONTROLLER_GET_CLASS
+GVIR_CONFIG_IS_DOMAIN_CONTROLLER
+GVIR_CONFIG_IS_DOMAIN_CONTROLLER_CLASS
+GVIR_CONFIG_TYPE_DOMAIN_CONTROLLER
+GVirConfigDomainControllerPrivate
+gvir_config_domain_controller_get_type
+</SECTION>
+
+<SECTION>
+<FILE>libvirt-gconfig-domain-controller-usb</FILE>
+<TITLE>GVirConfigDomainControllerUsb</TITLE>
+GVirConfigDomainControllerUsb
+GVirConfigDomainControllerUsbClass
+GVirConfigDomainControllerUsbModel
+gvir_config_domain_controller_usb_new
+gvir_config_domain_controller_usb_new_from_xml
+gvir_config_domain_controller_usb_set_master
+gvir_config_domain_controller_usb_set_model
+<SUBSECTION Standard>
+GVIR_CONFIG_DOMAIN_CONTROLLER_USB
+GVIR_CONFIG_DOMAIN_CONTROLLER_USB_CLASS
+GVIR_CONFIG_DOMAIN_CONTROLLER_USB_GET_CLASS
+GVIR_CONFIG_IS_DOMAIN_CONTROLLER_USB
+GVIR_CONFIG_IS_DOMAIN_CONTROLLER_USB_CLASS
+GVIR_CONFIG_TYPE_DOMAIN_CONTROLLER_USB
+GVirConfigDomainControllerUsbPrivate
+gvir_config_domain_controller_usb_get_type
+</SECTION>
+
+<SECTION>
 <FILE>libvirt-gconfig-domain-device</FILE>
 <TITLE>GVirConfigDomainDevice</TITLE>
 GVirConfigDomainDevice
@@ -213,6 +313,7 @@ gvir_config_domain_device_get_type
 
 <SECTION>
 <FILE>libvirt-gconfig-domain-device-private</FILE>
+gvir_config_domain_controller_new_from_tree
 gvir_config_domain_device_new_from_tree
 gvir_config_domain_disk_new_from_tree
 gvir_config_domain_graphics_new_from_tree
@@ -228,6 +329,7 @@ GVirConfigDomainDiskCacheType
 GVirConfigDomainDiskClass
 GVirConfigDomainDiskGuestDeviceType
 GVirConfigDomainDiskSnapshotType
+GVirConfigDomainDiskStartupPolicy
 GVirConfigDomainDiskType
 gvir_config_domain_disk_get_disk_type
 gvir_config_domain_disk_get_driver_cache
@@ -236,6 +338,7 @@ gvir_config_domain_disk_get_driver_type
 gvir_config_domain_disk_get_guest_device_type
 gvir_config_domain_disk_get_snapshot_type
 gvir_config_domain_disk_get_source
+gvir_config_domain_disk_get_startup_policy
 gvir_config_domain_disk_get_target_bus
 gvir_config_domain_disk_get_target_dev
 gvir_config_domain_disk_new
@@ -247,6 +350,7 @@ gvir_config_domain_disk_set_guest_device_type
 gvir_config_domain_disk_set_readonly
 gvir_config_domain_disk_set_snapshot_type
 gvir_config_domain_disk_set_source
+gvir_config_domain_disk_set_startup_policy
 gvir_config_domain_disk_set_target_bus
 gvir_config_domain_disk_set_target_dev
 gvir_config_domain_disk_set_type
@@ -550,6 +654,7 @@ GVirConfigDomainRedirdevBus
 GVirConfigDomainRedirdevClass
 gvir_config_domain_redirdev_new
 gvir_config_domain_redirdev_new_from_xml
+gvir_config_domain_redirdev_set_address
 gvir_config_domain_redirdev_set_bus
 <SUBSECTION Standard>
 GVIR_CONFIG_DOMAIN_REDIRDEV
@@ -646,8 +751,9 @@ gvir_config_domain_sound_get_type
 <TITLE>GVirConfigDomainTimer</TITLE>
 GVirConfigDomainTimer
 GVirConfigDomainTimerClass
-gvir_config_domain_timer_new
-gvir_config_domain_timer_new_from_xml
+GVirConfigDomainTimerTickPolicy
+gvir_config_domain_timer_get_tick_policy
+gvir_config_domain_timer_set_tick_policy
 <SUBSECTION Standard>
 GVIR_CONFIG_DOMAIN_TIMER
 GVIR_CONFIG_DOMAIN_TIMER_CLASS
@@ -657,6 +763,42 @@ GVIR_CONFIG_IS_DOMAIN_TIMER_CLASS
 GVIR_CONFIG_TYPE_DOMAIN_TIMER
 GVirConfigDomainTimerPrivate
 gvir_config_domain_timer_get_type
+</SECTION>
+
+<SECTION>
+<FILE>libvirt-gconfig-domain-timer-pit</FILE>
+<TITLE>GVirConfigDomainTimerPit</TITLE>
+GVirConfigDomainTimerPit
+GVirConfigDomainTimerPitClass
+gvir_config_domain_timer_pit_new
+gvir_config_domain_timer_pit_new_from_xml
+<SUBSECTION Standard>
+GVIR_CONFIG_DOMAIN_TIMER_PIT
+GVIR_CONFIG_DOMAIN_TIMER_PIT_CLASS
+GVIR_CONFIG_DOMAIN_TIMER_PIT_GET_CLASS
+GVIR_CONFIG_IS_DOMAIN_TIMER_PIT
+GVIR_CONFIG_IS_DOMAIN_TIMER_PIT_CLASS
+GVIR_CONFIG_TYPE_DOMAIN_TIMER_PIT
+GVirConfigDomainTimerPitPrivate
+gvir_config_domain_timer_pit_get_type
+</SECTION>
+
+<SECTION>
+<FILE>libvirt-gconfig-domain-timer-rtc</FILE>
+<TITLE>GVirConfigDomainTimerRtc</TITLE>
+GVirConfigDomainTimerRtc
+GVirConfigDomainTimerRtcClass
+gvir_config_domain_timer_rtc_new
+gvir_config_domain_timer_rtc_new_from_xml
+<SUBSECTION Standard>
+GVIR_CONFIG_DOMAIN_TIMER_RTC
+GVIR_CONFIG_DOMAIN_TIMER_RTC_CLASS
+GVIR_CONFIG_DOMAIN_TIMER_RTC_GET_CLASS
+GVIR_CONFIG_IS_DOMAIN_TIMER_RTC
+GVIR_CONFIG_IS_DOMAIN_TIMER_RTC_CLASS
+GVIR_CONFIG_TYPE_DOMAIN_TIMER_RTC
+GVirConfigDomainTimerRtcPrivate
+gvir_config_domain_timer_rtc_get_type
 </SECTION>
 
 <SECTION>

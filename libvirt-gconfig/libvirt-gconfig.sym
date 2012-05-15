@@ -1,4 +1,4 @@
-LIBVIRT_GCONFIG_0.0.4 {
+LIBVIRT_GCONFIG_0.0.8 {
   global:
 	gvir_config_init_check;
 	gvir_config_init;
@@ -34,6 +34,23 @@ LIBVIRT_GCONFIG_0.0.4 {
 	gvir_config_domain_set_virt_type;
 	gvir_config_domain_virt_type_get_type;
 
+	gvir_config_domain_address_get_type;
+
+	gvir_config_domain_address_pci_get_type;
+	gvir_config_domain_address_pci_new;
+	gvir_config_domain_address_pci_new_from_xml;
+	gvir_config_domain_address_pci_set_bus;
+	gvir_config_domain_address_pci_set_domain;
+	gvir_config_domain_address_pci_set_function;
+	gvir_config_domain_address_pci_set_multifunction;
+	gvir_config_domain_address_pci_set_slot;
+
+	gvir_config_domain_address_usb_get_type;
+	gvir_config_domain_address_usb_new;
+	gvir_config_domain_address_usb_new_from_xml;
+	gvir_config_domain_address_usb_set_bus;
+	gvir_config_domain_address_usb_set_port;
+
 	gvir_config_domain_channel_get_type;
 	gvir_config_domain_channel_new;
 	gvir_config_domain_channel_new_from_xml;
@@ -59,6 +76,7 @@ LIBVIRT_GCONFIG_0.0.4 {
 	gvir_config_domain_clock_offset_get_type;
 	gvir_config_domain_clock_new;
 	gvir_config_domain_clock_new_from_xml;
+	gvir_config_domain_clock_add_timer;
 	gvir_config_domain_clock_set_offset;
 	gvir_config_domain_clock_set_timezone;
 	gvir_config_domain_clock_set_variable_offset;
@@ -69,6 +87,18 @@ LIBVIRT_GCONFIG_0.0.4 {
 	gvir_config_domain_console_set_target_type;
 	gvir_config_domain_console_target_type_get_type;
 
+	gvir_config_domain_controller_get_type;
+	gvir_config_domain_controller_set_address;
+	gvir_config_domain_controller_get_index;
+	gvir_config_domain_controller_set_index;
+
+	gvir_config_domain_controller_usb_get_type;
+	gvir_config_domain_controller_usb_model_get_type;
+	gvir_config_domain_controller_usb_new;
+	gvir_config_domain_controller_usb_new_from_xml;
+	gvir_config_domain_controller_usb_set_master;
+	gvir_config_domain_controller_usb_set_model;
+
 	gvir_config_domain_device_get_type;
 
 	gvir_config_domain_disk_get_type;
@@ -76,6 +106,7 @@ LIBVIRT_GCONFIG_0.0.4 {
 	gvir_config_domain_disk_cache_type_get_type;
 	gvir_config_domain_disk_guest_device_type_get_type;
 	gvir_config_domain_disk_snapshot_type_get_type;
+	gvir_config_domain_disk_startup_policy_get_type;
 	gvir_config_domain_disk_type_get_type;
 	gvir_config_domain_disk_new;
 	gvir_config_domain_disk_new_from_xml;
@@ -91,6 +122,8 @@ LIBVIRT_GCONFIG_0.0.4 {
 	gvir_config_domain_disk_set_snapshot_type;
 	gvir_config_domain_disk_get_source;
 	gvir_config_domain_disk_set_source;
+	gvir_config_domain_disk_get_startup_policy;
+	gvir_config_domain_disk_set_startup_policy;
 	gvir_config_domain_disk_get_target_bus;
 	gvir_config_domain_disk_set_target_bus;
 	gvir_config_domain_disk_get_target_dev;
@@ -201,6 +234,7 @@ LIBVIRT_GCONFIG_0.0.4 {
 	gvir_config_domain_redirdev_bus_get_type;
 	gvir_config_domain_redirdev_new;
 	gvir_config_domain_redirdev_new_from_xml;
+	gvir_config_domain_redirdev_set_address;
 	gvir_config_domain_redirdev_set_bus;
 
 	gvir_config_domain_seclabel_get_type;
@@ -227,8 +261,17 @@ LIBVIRT_GCONFIG_0.0.4 {
 	gvir_config_domain_sound_set_model;
 
 	gvir_config_domain_timer_get_type;
-	gvir_config_domain_timer_new;
-	gvir_config_domain_timer_new_from_xml;
+	gvir_config_domain_timer_tick_policy_get_type;
+	gvir_config_domain_timer_get_tick_policy;
+	gvir_config_domain_timer_set_tick_policy;
+
+	gvir_config_domain_timer_pit_get_type;
+	gvir_config_domain_timer_pit_new;
+	gvir_config_domain_timer_pit_new_from_xml;
+
+	gvir_config_domain_timer_rtc_get_type;
+	gvir_config_domain_timer_rtc_new;
+	gvir_config_domain_timer_rtc_new_from_xml;
 
 	gvir_config_domain_video_get_type;
 	gvir_config_domain_video_model_get_type;

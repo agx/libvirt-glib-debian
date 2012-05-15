@@ -59,6 +59,30 @@
 </dt>
 <dd></dd>
 <dt>
+GVirConfigDomainAddress, struct in GVirConfigDomainAddress
+</dt>
+<dd></dd>
+<dt>
+GVirConfigDomainAddressClass, struct in GVirConfigDomainAddress
+</dt>
+<dd></dd>
+<dt>
+GVirConfigDomainAddressPci, struct in GVirConfigDomainAddressPci
+</dt>
+<dd></dd>
+<dt>
+GVirConfigDomainAddressPciClass, struct in GVirConfigDomainAddressPci
+</dt>
+<dd></dd>
+<dt>
+GVirConfigDomainAddressUsb, struct in GVirConfigDomainAddressUsb
+</dt>
+<dd></dd>
+<dt>
+GVirConfigDomainAddressUsbClass, struct in GVirConfigDomainAddressUsb
+</dt>
+<dd></dd>
+<dt>
 GVirConfigDomainChannel, struct in GVirConfigDomainChannel
 </dt>
 <dd></dd>
@@ -131,6 +155,26 @@ GVirConfigDomainConsoleTargetType, enum in GVirConfigDomainConsole
 </dt>
 <dd></dd>
 <dt>
+GVirConfigDomainController, struct in GVirConfigDomainController
+</dt>
+<dd></dd>
+<dt>
+GVirConfigDomainControllerClass, struct in GVirConfigDomainController
+</dt>
+<dd></dd>
+<dt>
+GVirConfigDomainControllerUsb, struct in GVirConfigDomainControllerUsb
+</dt>
+<dd></dd>
+<dt>
+GVirConfigDomainControllerUsbClass, struct in GVirConfigDomainControllerUsb
+</dt>
+<dd></dd>
+<dt>
+GVirConfigDomainControllerUsbModel, enum in GVirConfigDomainControllerUsb
+</dt>
+<dd></dd>
+<dt>
 GVirConfigDomainDevice, struct in GVirConfigDomainDevice
 </dt>
 <dd></dd>
@@ -160,6 +204,10 @@ GVirConfigDomainDiskGuestDeviceType, enum in GVirConfigDomainDisk
 <dd></dd>
 <dt>
 GVirConfigDomainDiskSnapshotType, enum in GVirConfigDomainDisk
+</dt>
+<dd></dd>
+<dt>
+GVirConfigDomainDiskStartupPolicy, enum in GVirConfigDomainDisk
 </dt>
 <dd></dd>
 <dt>
@@ -379,6 +427,26 @@ GVirConfigDomainTimerClass, struct in GVirConfigDomainTimer
 </dt>
 <dd></dd>
 <dt>
+GVirConfigDomainTimerPit, struct in GVirConfigDomainTimerPit
+</dt>
+<dd></dd>
+<dt>
+GVirConfigDomainTimerPitClass, struct in GVirConfigDomainTimerPit
+</dt>
+<dd></dd>
+<dt>
+GVirConfigDomainTimerRtc, struct in GVirConfigDomainTimerRtc
+</dt>
+<dd></dd>
+<dt>
+GVirConfigDomainTimerRtcClass, struct in GVirConfigDomainTimerRtc
+</dt>
+<dd></dd>
+<dt>
+GVirConfigDomainTimerTickPolicy, enum in GVirConfigDomainTimer
+</dt>
+<dd></dd>
+<dt>
 GVirConfigDomainVideo, struct in GVirConfigDomainVideo
 </dt>
 <dd></dd>
@@ -539,6 +607,50 @@ GVirConfigXmlNodeIterator, user_function in libvirt-gconfig-helpers-private
 </dt>
 <dd></dd>
 <dt>
+gvir_config_domain_address_pci_new, function in GVirConfigDomainAddressPci
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_address_pci_new_from_xml, function in GVirConfigDomainAddressPci
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_address_pci_set_bus, function in GVirConfigDomainAddressPci
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_address_pci_set_domain, function in GVirConfigDomainAddressPci
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_address_pci_set_function, function in GVirConfigDomainAddressPci
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_address_pci_set_multifunction, function in GVirConfigDomainAddressPci
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_address_pci_set_slot, function in GVirConfigDomainAddressPci
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_address_usb_new, function in GVirConfigDomainAddressUsb
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_address_usb_new_from_xml, function in GVirConfigDomainAddressUsb
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_address_usb_set_bus, function in GVirConfigDomainAddressUsb
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_address_usb_set_port, function in GVirConfigDomainAddressUsb
+</dt>
+<dd></dd>
+<dt>
 <a class="link" href="GVirConfigDomain.html#gvir-config-domain-add-device" title="gvir_config_domain_add_device ()">gvir_config_domain_add_device</a>, function in <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain">GVirConfigDomain</a>
 </dt>
 <dd></dd>
@@ -579,6 +691,10 @@ gvir_config_domain_chardev_source_spicevmc_new_from_xml, function in GVirConfigD
 </dt>
 <dd></dd>
 <dt>
+gvir_config_domain_clock_add_timer, function in GVirConfigDomainClock
+</dt>
+<dd></dd>
+<dt>
 gvir_config_domain_clock_new, function in GVirConfigDomainClock
 </dt>
 <dd></dd>
@@ -611,6 +727,38 @@ gvir_config_domain_console_set_target_type, function in GVirConfigDomainConsole
 </dt>
 <dd></dd>
 <dt>
+gvir_config_domain_controller_get_index, function in GVirConfigDomainController
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_controller_new_from_tree, function in libvirt-gconfig-domain-device-private
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_controller_set_address, function in GVirConfigDomainController
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_controller_set_index, function in GVirConfigDomainController
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_controller_usb_new, function in GVirConfigDomainControllerUsb
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_controller_usb_new_from_xml, function in GVirConfigDomainControllerUsb
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_controller_usb_set_master, function in GVirConfigDomainControllerUsb
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_controller_usb_set_model, function in GVirConfigDomainControllerUsb
+</dt>
+<dd></dd>
+<dt>
 gvir_config_domain_device_new_from_tree, function in libvirt-gconfig-domain-device-private
 </dt>
 <dd></dd>
@@ -640,6 +788,10 @@ gvir_config_domain_disk_get_snapshot_type, function in GVirConfigDomainDisk
 <dd></dd>
 <dt>
 gvir_config_domain_disk_get_source, function in GVirConfigDomainDisk
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_disk_get_startup_policy, function in GVirConfigDomainDisk
 </dt>
 <dd></dd>
 <dt>
@@ -688,6 +840,10 @@ gvir_config_domain_disk_set_snapshot_type, function in GVirConfigDomainDisk
 <dd></dd>
 <dt>
 gvir_config_domain_disk_set_source, function in GVirConfigDomainDisk
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_disk_set_startup_policy, function in GVirConfigDomainDisk
 </dt>
 <dd></dd>
 <dt>
@@ -1003,6 +1159,10 @@ gvir_config_domain_redirdev_new_from_xml, function in GVirConfigDomainRedirdev
 </dt>
 <dd></dd>
 <dt>
+gvir_config_domain_redirdev_set_address, function in GVirConfigDomainRedirdev
+</dt>
+<dd></dd>
+<dt>
 gvir_config_domain_redirdev_set_bus, function in GVirConfigDomainRedirdev
 </dt>
 <dd></dd>
@@ -1111,11 +1271,27 @@ gvir_config_domain_source_pty_set_path, function in GVirConfigDomainChardevSourc
 </dt>
 <dd></dd>
 <dt>
-gvir_config_domain_timer_new, function in GVirConfigDomainTimer
+gvir_config_domain_timer_get_tick_policy, function in GVirConfigDomainTimer
 </dt>
 <dd></dd>
 <dt>
-gvir_config_domain_timer_new_from_xml, function in GVirConfigDomainTimer
+gvir_config_domain_timer_pit_new, function in GVirConfigDomainTimerPit
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_timer_pit_new_from_xml, function in GVirConfigDomainTimerPit
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_timer_rtc_new, function in GVirConfigDomainTimerRtc
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_timer_rtc_new_from_xml, function in GVirConfigDomainTimerRtc
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_timer_set_tick_policy, function in GVirConfigDomainTimer
 </dt>
 <dd></dd>
 <dt>

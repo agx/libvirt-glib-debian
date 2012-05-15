@@ -1,7 +1,7 @@
 /*
  * libvirt-gconfig.h: libvirt gconfig integration
  *
- * Copyright (C) 2010-2011 Red Hat, Inc.
+ * Copyright (C) 2010-2012 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -30,6 +30,9 @@
 #include <libvirt-gconfig/libvirt-gconfig-object.h>
 #include <libvirt-gconfig/libvirt-gconfig-capabilities.h>
 #include <libvirt-gconfig/libvirt-gconfig-domain.h>
+#include <libvirt-gconfig/libvirt-gconfig-domain-address.h>
+#include <libvirt-gconfig/libvirt-gconfig-domain-address-pci.h>
+#include <libvirt-gconfig/libvirt-gconfig-domain-address-usb.h>
 #include <libvirt-gconfig/libvirt-gconfig-domain-chardev.h>
 #include <libvirt-gconfig/libvirt-gconfig-domain-chardev-source.h>
 #include <libvirt-gconfig/libvirt-gconfig-domain-chardev-source-pty.h>
@@ -37,6 +40,8 @@
 #include <libvirt-gconfig/libvirt-gconfig-domain-channel.h>
 #include <libvirt-gconfig/libvirt-gconfig-domain-clock.h>
 #include <libvirt-gconfig/libvirt-gconfig-domain-console.h>
+#include <libvirt-gconfig/libvirt-gconfig-domain-controller.h>
+#include <libvirt-gconfig/libvirt-gconfig-domain-controller-usb.h>
 #include <libvirt-gconfig/libvirt-gconfig-domain-device.h>
 #include <libvirt-gconfig/libvirt-gconfig-domain-disk.h>
 #include <libvirt-gconfig/libvirt-gconfig-domain-filesys.h>
@@ -58,6 +63,8 @@
 #include <libvirt-gconfig/libvirt-gconfig-domain-snapshot.h>
 #include <libvirt-gconfig/libvirt-gconfig-domain-sound.h>
 #include <libvirt-gconfig/libvirt-gconfig-domain-timer.h>
+#include <libvirt-gconfig/libvirt-gconfig-domain-timer-pit.h>
+#include <libvirt-gconfig/libvirt-gconfig-domain-timer-rtc.h>
 #include <libvirt-gconfig/libvirt-gconfig-domain-video.h>
 #include <libvirt-gconfig/libvirt-gconfig-enum-types.h>
 #include <libvirt-gconfig/libvirt-gconfig-helpers.h>

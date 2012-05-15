@@ -20,8 +20,10 @@
 %define with_vala 1
 %endif
 
+%define libvirt_version 0.9.10
+
 Name: libvirt-glib
-Version: 0.0.7
+Version: 0.0.8
 Release: 1%{?dist}%{?extra_release}
 Summary: libvirt glib integration for events
 Group: Development/Libraries
@@ -31,7 +33,7 @@ Source0: ftp://libvirt.org/libvirt/glib/%{name}-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires: glib2-devel >= 2.22.0
-BuildRequires: libvirt-devel >= 0.9.10
+BuildRequires: libvirt-devel >= %{libvirt_version}
 BuildRequires: python-devel
 %if %{with_introspection}
 BuildRequires: gobject-introspection-devel
@@ -70,6 +72,7 @@ Summary: libvirt object APIs for managing virtualization hosts development files
 Requires: %{name}-devel = %{version}-%{release}
 Requires: libvirt-gconfig-devel = %{version}-%{release}
 Requires: libvirt-gobject = %{version}-%{release}
+Requires: libvirt-devel >=  %{libvirt_version}
 
 %if %{with_python}
 %package python

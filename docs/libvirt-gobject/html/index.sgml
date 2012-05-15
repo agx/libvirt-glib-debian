@@ -77,6 +77,8 @@
 <ANCHOR id="gvir-domain-get-devices" href="Libvirt-gobject/GVirDomain.html#gvir-domain-get-devices">
 <ANCHOR id="gvir-domain-get-id" href="Libvirt-gobject/GVirDomain.html#gvir-domain-get-id">
 <ANCHOR id="gvir-domain-get-info" href="Libvirt-gobject/GVirDomain.html#gvir-domain-get-info">
+<ANCHOR id="gvir-domain-get-info-async" href="Libvirt-gobject/GVirDomain.html#gvir-domain-get-info-async">
+<ANCHOR id="gvir-domain-get-info-finish" href="Libvirt-gobject/GVirDomain.html#gvir-domain-get-info-finish">
 <ANCHOR id="gvir-domain-get-name" href="Libvirt-gobject/GVirDomain.html#gvir-domain-get-name">
 <ANCHOR id="gvir-domain-get-persistent" href="Libvirt-gobject/GVirDomain.html#gvir-domain-get-persistent">
 <ANCHOR id="gvir-domain-get-saved" href="Libvirt-gobject/GVirDomain.html#gvir-domain-get-saved">

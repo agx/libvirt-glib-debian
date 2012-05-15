@@ -79,6 +79,8 @@
     <keyword type="function" name="gvir_domain_get_devices ()" link="GVirDomain.html#gvir-domain-get-devices"/>
     <keyword type="function" name="gvir_domain_get_id ()" link="GVirDomain.html#gvir-domain-get-id"/>
     <keyword type="function" name="gvir_domain_get_info ()" link="GVirDomain.html#gvir-domain-get-info"/>
+    <keyword type="function" name="gvir_domain_get_info_async ()" link="GVirDomain.html#gvir-domain-get-info-async"/>
+    <keyword type="function" name="gvir_domain_get_info_finish ()" link="GVirDomain.html#gvir-domain-get-info-finish"/>
     <keyword type="function" name="gvir_domain_get_name ()" link="GVirDomain.html#gvir-domain-get-name"/>
     <keyword type="function" name="gvir_domain_get_persistent ()" link="GVirDomain.html#gvir-domain-get-persistent"/>
     <keyword type="function" name="gvir_domain_get_saved ()" link="GVirDomain.html#gvir-domain-get-saved"/>
