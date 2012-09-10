@@ -1,3 +1,10 @@
+libvirt-glib (0.1.2-1) unstable; urgency=low
+
+  * [d14bf12] New upstream version 0.1.2
+  * [8eb4d1c] Update symbols file
+
+ -- Guido Günther <agx@sigxcpu.org>  Mon, 10 Sep 2012 08:44:07 +0200
+
 libvirt-glib (0.0.8-1) unstable; urgency=low
 
   * [f9495f9] New upstream version 0.0.8 (Closes: #673018)
