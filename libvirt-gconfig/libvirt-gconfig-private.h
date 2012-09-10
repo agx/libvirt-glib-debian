@@ -23,6 +23,7 @@
 #ifndef __LIBVIRT_GCONFIG_PRIVATE_H__
 #define __LIBVIRT_GCONFIG_PRIVATE_H__
 
+#include <libvirt-gconfig/libvirt-gconfig-capabilities-cpu-private.h>
 #include <libvirt-gconfig/libvirt-gconfig-domain-device-private.h>
 #include <libvirt-gconfig/libvirt-gconfig-helpers-private.h>
 #include <libvirt-gconfig/libvirt-gconfig-object-private.h>

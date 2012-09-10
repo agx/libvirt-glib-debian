@@ -71,6 +71,10 @@ GVirConfigStoragePoolTarget *gvir_config_storage_pool_target_new_from_xml(const 
     return GVIR_CONFIG_STORAGE_POOL_TARGET(object);
 }
 
+/**
+ * gvir_config_storage_pool_target_set_path:
+ * @path: (allow-none):
+ */
 void gvir_config_storage_pool_target_set_path(GVirConfigStoragePoolTarget *target,
                                               const char *path)
 {
@@ -80,12 +84,18 @@ void gvir_config_storage_pool_target_set_path(GVirConfigStoragePoolTarget *targe
                                         "path", path);
 }
 
+/**
+ * gvir_config_storage_pool_perms_set_permissions:
+ * @perms: (allow-none):
+ */
 void gvir_config_storage_pool_target_set_permissions(GVirConfigStoragePoolTarget *target,
                                                      GVirConfigStoragePermissions *perms)
 {
     g_return_if_fail(GVIR_CONFIG_IS_STORAGE_POOL_TARGET(target));
-    g_return_if_fail(GVIR_CONFIG_IS_STORAGE_PERMISSIONS(perms));
+    g_return_if_fail(perms == NULL ||
+                     GVIR_CONFIG_IS_STORAGE_PERMISSIONS(perms));
 
     gvir_config_object_attach_replace(GVIR_CONFIG_OBJECT(target),
+                                      "permissions",
                                       GVIR_CONFIG_OBJECT(perms));
 }

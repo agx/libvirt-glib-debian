@@ -182,11 +182,13 @@ G_DEFINE_BOXED_TYPE(GVirNetworkFilterHandle, gvir_network_filter_handle,
 
 const gchar *gvir_network_filter_get_name(GVirNetworkFilter *filter)
 {
-    GVirNetworkFilterPrivate *priv = filter->priv;
     const char *name;
 
-    if (!(name = virNWFilterGetName(priv->handle))) {
-        g_warning("Failed to get network_filter name on %p", priv->handle);
+    g_return_val_if_fail(GVIR_IS_NETWORK_FILTER(filter), NULL);
+
+    if (!(name = virNWFilterGetName(filter->priv->handle))) {
+        g_warning("Failed to get network_filter name on %p",
+                  filter->priv->handle);
         return NULL;
     }
 
@@ -206,16 +208,24 @@ const gchar *gvir_network_filter_get_uuid(GVirNetworkFilter *filter)
  * gvir_network_filter_get_config:
  * @filter: the network_filter
  * @flags: the flags
- * Returns: (transfer full): the config
+ * @err: Place-holder for possible errors
+ *
+ * Returns: (transfer full): the config. The returned object should be
+ * unreffed with g_object_unref() when no longer needed.
+
  */
 GVirConfigNetworkFilter *gvir_network_filter_get_config
                                 (GVirNetworkFilter *filter,
                                  guint flags,
                                  GError **err)
 {
-    GVirNetworkFilterPrivate *priv = filter->priv;
+    GVirNetworkFilterPrivate *priv;
     gchar *xml;
 
+    g_return_val_if_fail(GVIR_IS_NETWORK_FILTER(filter), NULL);
+    g_return_val_if_fail(err == NULL || *err == NULL, NULL);
+
+    priv = filter->priv;
     if (!(xml = virNWFilterGetXMLDesc(priv->handle, flags))) {
         gvir_set_error_literal(err, GVIR_NETWORK_FILTER_ERROR,
                                0,

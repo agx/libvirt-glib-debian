@@ -47,8 +47,15 @@
 struct              <a class="link" href="GVirDomain.html#GVirDomainClass" title="struct GVirDomainClass">GVirDomainClass</a>;
 enum                <a class="link" href="GVirDomain.html#GVirDomainDeleteFlags" title="enum GVirDomainDeleteFlags">GVirDomainDeleteFlags</a>;
 struct              <a class="link" href="GVirDomain.html#GVirDomainInfo-struct" title="struct GVirDomainInfo">GVirDomainInfo</a>;
+enum                <a class="link" href="GVirDomain.html#GVirDomainShutdownFlags" title="enum GVirDomainShutdownFlags">GVirDomainShutdownFlags</a>;
+enum                <a class="link" href="GVirDomain.html#GVirDomainSnapshotCreateFlags" title="enum GVirDomainSnapshotCreateFlags">GVirDomainSnapshotCreateFlags</a>;
 enum                <a class="link" href="GVirDomain.html#GVirDomainStartFlags" title="enum GVirDomainStartFlags">GVirDomainStartFlags</a>;
 enum                <a class="link" href="GVirDomain.html#GVirDomainState" title="enum GVirDomainState">GVirDomainState</a>;
+enum                <a class="link" href="GVirDomain.html#GVirDomainXMLFlags" title="enum GVirDomainXMLFlags">GVirDomainXMLFlags</a>;
+<a class="link" href="GVirDomainSnapshot.html" title="GVirDomainSnapshot"><span class="returnvalue">GVirDomainSnapshot</span></a> * <a class="link" href="GVirDomain.html#gvir-domain-create-snapshot" title="gvir_domain_create_snapshot ()">gvir_domain_create_snapshot</a>        (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigDomainSnapshot.html"><span class="type">GVirConfigDomainSnapshot</span></a> *custom_conf</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="GVirDomain.html#gvir-domain-delete" title="gvir_domain_delete ()">gvir_domain_delete</a>                  (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
@@ -87,6 +94,13 @@ const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.htm
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="GVirDomain.html#gvir-domain-resume" title="gvir_domain_resume ()">gvir_domain_resume</a>                  (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="GVirDomain.html#gvir-domain-resume-async" title="gvir_domain_resume_async ()">gvir_domain_resume_async</a>            (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="GVirDomain.html#gvir-domain-resume-finish" title="gvir_domain_resume_finish ()">gvir_domain_resume_finish</a>           (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="GVirDomain.html#gvir-domain-save" title="gvir_domain_save ()">gvir_domain_save</a>                    (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
                                                          <em class="parameter"><code>unsigned <span class="type">int</span> flags</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
@@ -96,6 +110,21 @@ const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.htm
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="GVirDomain.html#gvir-domain-save-finish" title="gvir_domain_save_finish ()">gvir_domain_save_finish</a>             (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="GVirDomain.html#gvir-domain-save-to-file" title="gvir_domain_save_to_file ()">gvir_domain_save_to_file</a>            (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *filename</code></em>,
+                                                         <em class="parameter"><code><a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigDomain.html"><span class="type">GVirConfigDomain</span></a> *custom_conf</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="GVirDomain.html#gvir-domain-save-to-file-async" title="gvir_domain_save_to_file_async ()">gvir_domain_save_to_file_async</a>      (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *filename</code></em>,
+                                                         <em class="parameter"><code><a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigDomain.html"><span class="type">GVirConfigDomain</span></a> *custom_conf</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="GVirDomain.html#gvir-domain-save-to-file-finish" title="gvir_domain_save_to_file_finish ()">gvir_domain_save_to_file_finish</a>     (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="GVirDomain.html#gvir-domain-screenshot" title="gvir_domain_screenshot ()">gvir_domain_screenshot</a>              (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
@@ -111,6 +140,14 @@ const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.htm
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="GVirDomain.html#gvir-domain-start" title="gvir_domain_start ()">gvir_domain_start</a>                   (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="GVirDomain.html#gvir-domain-start-async" title="gvir_domain_start_async ()">gvir_domain_start_async</a>             (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="GVirDomain.html#gvir-domain-start-finish" title="gvir_domain_start_finish ()">gvir_domain_start_finish</a>            (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="GVirDomain.html#gvir-domain-stop" title="gvir_domain_stop ()">gvir_domain_stop</a>                    (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
@@ -218,6 +255,103 @@ const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.htm
 </div>
 <hr>
 <div class="refsect2">
+<a name="GVirDomainShutdownFlags"></a><h3>enum GVirDomainShutdownFlags</h3>
+<pre class="programlisting">typedef enum {
+    GVIR_DOMAIN_SHUTDOWN_NONE           = 0,
+    GVIR_DOMAIN_SHUTDOWN_ACPI_POWER_BTN = VIR_DOMAIN_SHUTDOWN_ACPI_POWER_BTN,
+    GVIR_DOMAIN_SHUTDOWN_GUEST_AGENT    = VIR_DOMAIN_SHUTDOWN_GUEST_AGENT,
+} GVirDomainShutdownFlags;
+</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><a name="GVIR-DOMAIN-SHUTDOWN-NONE:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_SHUTDOWN_NONE</code></span></p></td>
+<td>No flags, hypervisor choice
+</td>
+</tr>
+<tr>
+<td><p><a name="GVIR-DOMAIN-SHUTDOWN-ACPI-POWER-BTN:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_SHUTDOWN_ACPI_POWER_BTN</code></span></p></td>
+<td>Send ACPI event
+</td>
+</tr>
+<tr>
+<td><p><a name="GVIR-DOMAIN-SHUTDOWN-GUEST-AGENT:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_SHUTDOWN_GUEST_AGENT</code></span></p></td>
+<td>Use guest agent
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GVirDomainSnapshotCreateFlags"></a><h3>enum GVirDomainSnapshotCreateFlags</h3>
+<pre class="programlisting">typedef enum {
+    GVIR_DOMAIN_SNAPSHOT_NONE         = 0,
+    GVIR_DOMAIN_SNAPSHOT_REDEFINE     = VIR_DOMAIN_SNAPSHOT_CREATE_REDEFINE,
+    GVIR_DOMAIN_SNAPSHOT_CURRENT      = VIR_DOMAIN_SNAPSHOT_CREATE_CURRENT,
+    GVIR_DOMAIN_SNAPSHOT_NO_METADATA  = VIR_DOMAIN_SNAPSHOT_CREATE_NO_METADATA,
+    GVIR_DOMAIN_SNAPSHOT_HALT         = VIR_DOMAIN_SNAPSHOT_CREATE_HALT,
+    GVIR_DOMAIN_SNAPSHOT_DISK_ONLY    = VIR_DOMAIN_SNAPSHOT_CREATE_DISK_ONLY,
+    GVIR_DOMAIN_SNAPSHOT_REUSE_EXT    = VIR_DOMAIN_SNAPSHOT_CREATE_REUSE_EXT,
+    GVIR_DOMAIN_SNAPSHOT_QUIESCE      = VIR_DOMAIN_SNAPSHOT_CREATE_QUIESCE,
+    GVIR_DOMAIN_SNAPSHOT_ATOMIC       = VIR_DOMAIN_SNAPSHOT_CREATE_ATOMIC,
+} GVirDomainSnapshotCreateFlags;
+</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><a name="GVIR-DOMAIN-SNAPSHOT-NONE:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_SNAPSHOT_NONE</code></span></p></td>
+<td>No flags
+</td>
+</tr>
+<tr>
+<td><p><a name="GVIR-DOMAIN-SNAPSHOT-REDEFINE:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_SNAPSHOT_REDEFINE</code></span></p></td>
+<td>Restore or alter metadata
+</td>
+</tr>
+<tr>
+<td><p><a name="GVIR-DOMAIN-SNAPSHOT-CURRENT:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_SNAPSHOT_CURRENT</code></span></p></td>
+<td>With redefine, make snapshot current
+</td>
+</tr>
+<tr>
+<td><p><a name="GVIR-DOMAIN-SNAPSHOT-NO-METADATA:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_SNAPSHOT_NO_METADATA</code></span></p></td>
+<td>Make snapshot without remembering it
+</td>
+</tr>
+<tr>
+<td><p><a name="GVIR-DOMAIN-SNAPSHOT-HALT:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_SNAPSHOT_HALT</code></span></p></td>
+<td>Stop running guest after snapshot
+</td>
+</tr>
+<tr>
+<td><p><a name="GVIR-DOMAIN-SNAPSHOT-DISK-ONLY:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_SNAPSHOT_DISK_ONLY</code></span></p></td>
+<td>Disk snapshot, not system checkpoint
+</td>
+</tr>
+<tr>
+<td><p><a name="GVIR-DOMAIN-SNAPSHOT-REUSE-EXT:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_SNAPSHOT_REUSE_EXT</code></span></p></td>
+<td>Reuse any existing external files
+</td>
+</tr>
+<tr>
+<td><p><a name="GVIR-DOMAIN-SNAPSHOT-QUIESCE:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_SNAPSHOT_QUIESCE</code></span></p></td>
+<td>Use guest agent to quiesce all mounter
+                               file systems within the domain
+</td>
+</tr>
+<tr>
+<td><p><a name="GVIR-DOMAIN-SNAPSHOT-ATOMIC:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_SNAPSHOT_ATOMIC</code></span></p></td>
+<td>Atomically avoid partial changes
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
 <a name="GVirDomainStartFlags"></a><h3>enum GVirDomainStartFlags</h3>
 <pre class="programlisting">typedef enum {
     GVIR_DOMAIN_START_NONE         = 0,
@@ -241,6 +375,80 @@ const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.htm
     GVIR_DOMAIN_STATE_CRASHED = 6  /* the domain is crashed */
 } GVirDomainState;
 </pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GVirDomainXMLFlags"></a><h3>enum GVirDomainXMLFlags</h3>
+<pre class="programlisting">typedef enum {
+    GVIR_DOMAIN_XML_NONE            = 0,
+    GVIR_DOMAIN_XML_SECURE          = VIR_DOMAIN_XML_SECURE,
+    GVIR_DOMAIN_XML_INACTIVE        = VIR_DOMAIN_XML_INACTIVE,
+    GVIR_DOMAIN_XML_UPDATE_CPU      = VIR_DOMAIN_XML_UPDATE_CPU,
+} GVirDomainXMLFlags;
+</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><a name="GVIR-DOMAIN-XML-NONE:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_XML_NONE</code></span></p></td>
+<td>No flags
+</td>
+</tr>
+<tr>
+<td><p><a name="GVIR-DOMAIN-XML-SECURE:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_XML_SECURE</code></span></p></td>
+<td>Dump security sensitive information too
+</td>
+</tr>
+<tr>
+<td><p><a name="GVIR-DOMAIN-XML-INACTIVE:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_XML_INACTIVE</code></span></p></td>
+<td>Dump inactive domain information
+</td>
+</tr>
+<tr>
+<td><p><a name="GVIR-DOMAIN-XML-UPDATE-CPU:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_XML_UPDATE_CPU</code></span></p></td>
+<td>Update guest CPU requirements according to host CPU
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-domain-create-snapshot"></a><h3>gvir_domain_create_snapshot ()</h3>
+<pre class="programlisting"><a class="link" href="GVirDomainSnapshot.html" title="GVirDomainSnapshot"><span class="returnvalue">GVirDomainSnapshot</span></a> * gvir_domain_create_snapshot        (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigDomainSnapshot.html"><span class="type">GVirConfigDomainSnapshot</span></a> *custom_conf</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dom</code></em> :</span></p></td>
+<td>the domain</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>custom_conf</code></em> :</span></p></td>
+<td>configuration of snapshot or NULL. <span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
+<td>bitwise-OR of <a class="link" href="GVirDomain.html#GVirDomainSnapshotCreateFlags" title="enum GVirDomainSnapshotCreateFlags"><span class="type">GVirDomainSnapshotCreateFlags</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em> :</span></p></td>
+<td>Place-holder for error or NULL. <span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>snapshot of domain. The returned object should be
+unreffed when no longer needed. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
 </div>
 <hr>
 <div class="refsect2">
@@ -277,8 +485,13 @@ const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.htm
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
-<td>the flags
-Returns: (transfer full): the config</td>
+<td>the <a class="link" href="GVirDomain.html#GVirDomainXMLFlags" title="enum GVirDomainXMLFlags"><code class="literal">GVirDomainXMLFlags</code></a> flags</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the config. The returned object should be
+unreffed with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a> when no longer needed. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+</td>
 </tr>
 </tbody>
 </table></div>
@@ -289,7 +502,9 @@ Returns: (transfer full): the config</td>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *             gvir_domain_get_devices             (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *domain</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
 <p>
-Gets the list of devices attached to <em class="parameter"><code>domain</code></em>
+Gets the list of devices attached to <em class="parameter"><code>domain</code></em>. The returned list should
+be freed with <a href="http://library.gnome.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#g-list-free"><code class="function">g_list_free()</code></a>, after its elements have been unreffed with
+<a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a>.
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -324,11 +539,18 @@ allocated <a href="http://library.gnome.org/devel/glib/unstable/glib-Doubly-Link
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
-<tbody><tr>
+<tbody>
+<tr>
 <td><p><span class="term"><em class="parameter"><code>dom</code></em> :</span></p></td>
-<td>the domain
-Returns: (transfer full): the info</td>
-</tr></tbody>
+<td>the domain</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the info. The returned object should be
+unreffed with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a> when no longer needed. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
 </table></div>
 </div>
 <hr>
@@ -393,7 +615,8 @@ Finishes the operation started by <a class="link" href="GVirDomain.html#gvir-dom
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the info. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+<td>the info. The returned object should be
+unreffed with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a> when no longer needed. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -560,11 +783,57 @@ socket pair file descriptor passed in as <em class="parameter"><code>fd</code></
 <td>the domain</td>
 </tr>
 <tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em> :</span></p></td>
+<td>Place-holder for possible errors</td>
+</tr>
+<tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>TRUE on success</td>
 </tr>
 </tbody>
 </table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-domain-resume-async"></a><h3>gvir_domain_resume_async ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gvir_domain_resume_async            (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+<p>
+Asynchronous variant of <a class="link" href="GVirDomain.html#gvir-domain-resume" title="gvir_domain_resume ()"><span class="type">gvir_domain_resume</span></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dom</code></em> :</span></p></td>
+<td>the domain to resume</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
+<td>cancellation object. <span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>completion callback. <span class="annotation">[<acronym title="The callback is valid until first called."><span class="acronym">scope async</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>opaque data for callback. <span class="annotation">[<acronym title="This parameter is a 'user_data', for callbacks; many bindings can pass NULL here."><span class="acronym">closure</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-domain-resume-finish"></a><h3>gvir_domain_resume_finish ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gvir_domain_resume_finish           (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
@@ -673,6 +942,124 @@ Finishes the operation started by <a class="link" href="GVirDomain.html#gvir-dom
 </div>
 <hr>
 <div class="refsect2">
+<a name="gvir-domain-save-to-file"></a><h3>gvir_domain_save_to_file ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gvir_domain_save_to_file            (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *filename</code></em>,
+                                                         <em class="parameter"><code><a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigDomain.html"><span class="type">GVirConfigDomain</span></a> *custom_conf</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dom</code></em> :</span></p></td>
+<td>the domain</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>filename</code></em> :</span></p></td>
+<td>path to the output file</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>custom_conf</code></em> :</span></p></td>
+<td>configuration for domain or NULL. <span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
+<td>the flags</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>TRUE on success, FALSE otherwise</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-domain-save-to-file-async"></a><h3>gvir_domain_save_to_file_async ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gvir_domain_save_to_file_async      (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *filename</code></em>,
+                                                         <em class="parameter"><code><a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigDomain.html"><span class="type">GVirConfigDomain</span></a> *custom_conf</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+<p>
+Asynchronous variant of <a class="link" href="GVirDomain.html#gvir-domain-save-to-file" title="gvir_domain_save_to_file ()"><span class="type">gvir_domain_save_to_file</span></a>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dom</code></em> :</span></p></td>
+<td>the domain</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>filename</code></em> :</span></p></td>
+<td>path to output file</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>custom_conf</code></em> :</span></p></td>
+<td>configuration for domain or NULL. <span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
+<td>the flags</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
+<td>cancallation object. <span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>completion callback. <span class="annotation">[<acronym title="The callback is valid until first called."><span class="acronym">scope async</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>opaque data for callback. <span class="annotation">[<acronym title="This parameter is a 'user_data', for callbacks; many bindings can pass NULL here."><span class="acronym">closure</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-domain-save-to-file-finish"></a><h3>gvir_domain_save_to_file_finish ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gvir_domain_save_to_file_finish     (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
+<p>
+Finishes the operation started by <a class="link" href="GVirDomain.html#gvir-domain-save-to-file-async" title="gvir_domain_save_to_file_async ()"><span class="type">gvir_domain_save_to_file_async</span></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dom</code></em> :</span></p></td>
+<td>the domain to save</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>result</code></em> :</span></p></td>
+<td>async method result. <span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em> :</span></p></td>
+<td>Place-holder for possible errors</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>TRUE if domain was saved successfully, FALSE otherwise.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
 <a name="gvir-domain-screenshot"></a><h3>gvir_domain_screenshot ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             gvir_domain_screenshot              (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
                                                          <em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
@@ -696,7 +1083,8 @@ Finishes the operation started by <a class="link" href="GVirDomain.html#gvir-dom
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>mime-type of the image format, or NULL upon error. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+<td>a newly allocated string containing the
+mime-type of the image format, or NULL upon error. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -753,7 +1141,7 @@ affect until domain reboots.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
-<td>the flags</td>
+<td>the <a class="link" href="GVirDomain.html#GVirDomainShutdownFlags" title="enum GVirDomainShutdownFlags"><code class="literal">GVirDomainShutdownFlags</code></a> flags</td>
 </tr>
 </tbody>
 </table></div>
@@ -777,6 +1165,53 @@ affect until domain reboots.
 </tr>
 </tbody>
 </table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-domain-start-async"></a><h3>gvir_domain_start_async ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gvir_domain_start_async             (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+<p>
+Asynchronous variant of <a class="link" href="GVirDomain.html#gvir-domain-start" title="gvir_domain_start ()"><span class="type">gvir_domain_start</span></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dom</code></em> :</span></p></td>
+<td>the domain</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
+<td>the flags</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
+<td>cancellation object. <span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>completion callback. <span class="annotation">[<acronym title="The callback is valid until first called."><span class="acronym">scope async</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>opaque data for callback. <span class="annotation">[<acronym title="This parameter is a 'user_data', for callbacks; many bindings can pass NULL here."><span class="acronym">closure</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-domain-start-finish"></a><h3>gvir_domain_start_finish ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gvir_domain_start_finish            (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">

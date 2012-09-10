@@ -31,6 +31,53 @@
 
 #include "libvirt-glib/libvirt-glib.h"
 
+/**
+ * SECTION:libvirt-glib-event
+ * @short_description: Integrate libvirt with the GMain event framework
+ * @title: Event loop
+ * @stability: Stable
+ * @include: libvirt-glib/libvirt-glib.h
+ *
+ * The libvirt API has the ability to provide applications with asynchronous
+ * notifications of interesting events. To enable this functionality though,
+ * applications must provide libvirt with an event loop implementation. The
+ * libvirt-glib API provides such an implementation, which naturally integrates
+ * with the GMain event loop framework.
+ *
+ * To enable use of the GMain event loop glue, the <code>gvir_event_register()</code>
+ * should be invoked. Once this is done, it is mandatory to have the default
+ * GMain event loop run by a thread in the application, usually the primary
+ * thread, eg by using <code>gtk_main()</code> or <code>g_application_run()</code>
+ *
+ * <example>
+ * <title>Registering for events with a GTK application</title>
+ * <programlisting><![CDATA[
+ * int main(int argc, char **argv) {
+ *   ...setup...
+ *   gvir_event_register();
+ *   ...more setup...
+ *   gtk_main();
+ *   return 0;
+ * }
+ * ]]></programlisting>
+ * </example>
+ *
+ * <example>
+ * <title>Registering for events using Appplication</title>
+ * <programlisting><![CDATA[
+ * int main(int argc, char **argv) {
+ *   ...setup...
+ *   GApplication *app = ...create some impl of GApplication...
+ *   gvir_event_register();
+ *   ...more setup...
+ *   g_application_run(app);
+ *   return 0;
+ * }
+ * ]]></programlisting>
+ * </example>
+ */
+
+
 #if GLIB_CHECK_VERSION(2, 31, 0)
 #define g_mutex_new() g_new0(GMutex, 1)
 #endif
@@ -40,7 +87,7 @@ struct gvir_event_handle
     int watch;
     int fd;
     int events;
-    int enabled;
+    int removed;
     GIOChannel *channel;
     guint source;
     virEventHandleCallback cb;
@@ -52,6 +99,7 @@ struct gvir_event_timeout
 {
     int timer;
     int interval;
+    int removed;
     guint source;
     virEventTimeoutCallback cb;
     void *opaque;
@@ -83,7 +131,7 @@ gvir_event_handle_dispatch(GIOChannel *source G_GNUC_UNUSED,
     if (condition & G_IO_ERR)
         events |= VIR_EVENT_HANDLE_ERROR;
 
-    g_debug("Dispatch handler %d %d %p\n", data->fd, events, data->opaque);
+    g_debug("Dispatch handler %p %d %d %d %p\n", data, data->watch, data->fd, events, data->opaque);
 
     (data->cb)(data->watch, data->fd, events, data->opaque);
 
@@ -119,7 +167,7 @@ gvir_event_handle_add(int fd,
     data->channel = g_io_channel_unix_new(fd);
     data->ff = ff;
 
-    g_debug("Add handle %d %d %p\n", data->fd, events, data->opaque);
+    g_debug("Add handle %p %d %d %d %p\n", data, data->watch, data->fd, events, data->opaque);
 
     data->source = g_io_add_watch(data->channel,
                                   cond,
@@ -136,7 +184,7 @@ gvir_event_handle_add(int fd,
 }
 
 static struct gvir_event_handle *
-gvir_event_handle_find(int watch, guint *idx)
+gvir_event_handle_find(int watch)
 {
     guint i;
 
@@ -148,9 +196,7 @@ gvir_event_handle_find(int watch, guint *idx)
             continue;
         }
 
-        if (h->watch == watch) {
-            if (idx != NULL)
-                *idx = i;
+        if ((h->watch == watch) && !h->removed) {
             return h;
         }
     }
@@ -166,11 +212,13 @@ gvir_event_handle_update(int watch,
 
     g_mutex_lock(eventlock);
 
-    data = gvir_event_handle_find(watch, NULL);
+    data = gvir_event_handle_find(watch);
     if (!data) {
         g_debug("Update for missing handle watch %d", watch);
         goto cleanup;
     }
+
+    g_debug("Update handle %p %d %d %d\n", data, watch, data->fd, events);
 
     if (events) {
         GIOCondition cond = 0;
@@ -211,7 +259,9 @@ _event_handle_remove(gpointer data)
     if (h->ff)
         (h->ff)(h->opaque);
 
+    g_mutex_lock(eventlock);
     g_ptr_array_remove_fast(handles, h);
+    g_mutex_unlock(eventlock);
 
     return FALSE;
 }
@@ -221,17 +271,16 @@ gvir_event_handle_remove(int watch)
 {
     struct gvir_event_handle *data;
     int ret = -1;
-    guint idx;
 
     g_mutex_lock(eventlock);
 
-    data = gvir_event_handle_find(watch, &idx);
+    data = gvir_event_handle_find(watch);
     if (!data) {
         g_debug("Remove of missing watch %d", watch);
         goto cleanup;
     }
 
-    g_debug("Remove handle %d %d\n", watch, data->fd);
+    g_debug("Remove handle %p %d %d\n", data, watch, data->fd);
 
     if (!data->source)
         goto cleanup;
@@ -239,6 +288,11 @@ gvir_event_handle_remove(int watch)
     g_source_remove(data->source);
     data->source = 0;
     data->events = 0;
+    /* since the actual watch deletion is done asynchronously, a handle_update call may
+     * reschedule the watch before it's fully deleted, that's why we need to mark it as
+     * 'removed' to prevent reuse
+     */
+    data->removed = TRUE;
     g_idle_add(_event_handle_remove, data);
 
     ret = 0;
@@ -294,7 +348,7 @@ gvir_event_timeout_add(int interval,
 
 
 static struct gvir_event_timeout *
-gvir_event_timeout_find(int timer, guint *idx)
+gvir_event_timeout_find(int timer)
 {
     guint i;
 
@@ -308,9 +362,7 @@ gvir_event_timeout_find(int timer, guint *idx)
             continue;
         }
 
-        if (t->timer == timer) {
-            if (idx != NULL)
-                *idx = i;
+        if ((t->timer == timer) && !t->removed) {
             return t;
         }
     }
@@ -327,7 +379,7 @@ gvir_event_timeout_update(int timer,
 
     g_mutex_lock(eventlock);
 
-    data = gvir_event_timeout_find(timer, NULL);
+    data = gvir_event_timeout_find(timer);
     if (!data) {
         g_debug("Update of missing timer %d", timer);
         goto cleanup;
@@ -337,7 +389,7 @@ gvir_event_timeout_update(int timer,
 
     if (interval >= 0) {
         if (data->source)
-            goto cleanup;
+            g_source_remove(data->source);
 
         data->interval = interval;
         data->source = g_timeout_add(data->interval,
@@ -363,7 +415,9 @@ _event_timeout_remove(gpointer data)
     if (t->ff)
         (t->ff)(t->opaque);
 
+    g_mutex_lock(eventlock);
     g_ptr_array_remove_fast(timeouts, t);
+    g_mutex_unlock(eventlock);
 
     return FALSE;
 }
@@ -372,12 +426,11 @@ static int
 gvir_event_timeout_remove(int timer)
 {
     struct gvir_event_timeout *data;
-    guint idx;
     int ret = -1;
 
     g_mutex_lock(eventlock);
 
-    data = gvir_event_timeout_find(timer, &idx);
+    data = gvir_event_timeout_find(timer);
     if (!data) {
         g_debug("Remove of missing timer %d", timer);
         goto cleanup;
@@ -390,6 +443,11 @@ gvir_event_timeout_remove(int timer)
 
     g_source_remove(data->source);
     data->source = 0;
+    /* since the actual timeout deletion is done asynchronously, a timeout_update call may
+     * reschedule the timeout before it's fully deleted, that's why we need to mark it as
+     * 'removed' to prevent reuse
+     */
+    data->removed = TRUE;
     g_idle_add(_event_timeout_remove, data);
 
     ret = 0;
@@ -414,6 +472,24 @@ static gpointer event_register_once(gpointer data G_GNUC_UNUSED)
     return NULL;
 }
 
+
+/**
+ * gvir_event_register:
+ *
+ * Registers a libvirt event loop implementation that is backed
+ * by the default <code>GMain</code> context. If invoked more
+ * than once this method will be a no-op. Applications should,
+ * however, take care not to register any another non-GLib
+ * event loop with libvirt.
+ *
+ * After invoking this method, it is mandatory to run the
+ * default GMain event loop. Typically this can be satisfied
+ * by invoking <code>gtk_main</code> or <code>g_application_run</code>
+ * in the application's main thread. Failure to run the event
+ * loop will mean no libvirt events get dispatched, and the
+ * libvirt keepalive timer will kill off libvirt connections
+ * frequently.
+ */
 void gvir_event_register(void)
 {
     static GOnce once = G_ONCE_INIT;

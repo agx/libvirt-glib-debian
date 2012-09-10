@@ -48,6 +48,7 @@ enum                <a class="link" href="GVirConfigDomain.html#GVirConfigDomain
 enum                <a class="link" href="GVirConfigDomain.html#GVirConfigDomainVirtType" title="enum GVirConfigDomainVirtType">GVirConfigDomainVirtType</a>;
 <span class="returnvalue">void</span>                <a class="link" href="GVirConfigDomain.html#gvir-config-domain-add-device" title="gvir_config_domain_add_device ()">gvir_config_domain_add_device</a>       (<em class="parameter"><code><a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a> *domain</code></em>,
                                                          <em class="parameter"><code><span class="type">GVirConfigDomainDevice</span> *device</code></em>);
+<span class="returnvalue">GVirConfigDomainCpu</span> * <a class="link" href="GVirConfigDomain.html#gvir-config-domain-get-cpu" title="gvir_config_domain_get_cpu ()">gvir_config_domain_get_cpu</a>        (<em class="parameter"><code><a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a> *domain</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="GVirConfigDomain.html#gvir-config-domain-get-custom-xml" title="gvir_config_domain_get_custom_xml ()">gvir_config_domain_get_custom_xml</a>   (<em class="parameter"><code><a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a> *domain</code></em>,
                                                          <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *ns_uri</code></em>);
 const <span class="returnvalue">char</span> *        <a class="link" href="GVirConfigDomain.html#gvir-config-domain-get-description" title="gvir_config_domain_get_description ()">gvir_config_domain_get_description</a>  (<em class="parameter"><code><a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a> *domain</code></em>);
@@ -55,12 +56,18 @@ const <span class="returnvalue">char</span> *        <a class="link" href="GVirC
 <a href="http://library.gnome.org/devel/gobject/unstable/gobject-Boxed-Types.html#GStrv"><span class="returnvalue">GStrv</span></a>               <a class="link" href="GVirConfigDomain.html#gvir-config-domain-get-features" title="gvir_config_domain_get_features ()">gvir_config_domain_get_features</a>     (<em class="parameter"><code><a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a> *domain</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint64"><span class="returnvalue">guint64</span></a>             <a class="link" href="GVirConfigDomain.html#gvir-config-domain-get-memory" title="gvir_config_domain_get_memory ()">gvir_config_domain_get_memory</a>       (<em class="parameter"><code><a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a> *domain</code></em>);
 const <span class="returnvalue">char</span> *        <a class="link" href="GVirConfigDomain.html#gvir-config-domain-get-name" title="gvir_config_domain_get_name ()">gvir_config_domain_get_name</a>         (<em class="parameter"><code><a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a> *domain</code></em>);
+<span class="returnvalue">GVirConfigDomainOs</span> * <a class="link" href="GVirConfigDomain.html#gvir-config-domain-get-os" title="gvir_config_domain_get_os ()">gvir_config_domain_get_os</a>          (<em class="parameter"><code><a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a> *domain</code></em>);
+const <span class="returnvalue">char</span> *        <a class="link" href="GVirConfigDomain.html#gvir-config-domain-get-title" title="gvir_config_domain_get_title ()">gvir_config_domain_get_title</a>        (<em class="parameter"><code><a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a> *domain</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint64"><span class="returnvalue">guint64</span></a>             <a class="link" href="GVirConfigDomain.html#gvir-config-domain-get-vcpus" title="gvir_config_domain_get_vcpus ()">gvir_config_domain_get_vcpus</a>        (<em class="parameter"><code><a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a> *domain</code></em>);
+<a class="link" href="GVirConfigDomain.html#GVirConfigDomainVirtType" title="enum GVirConfigDomainVirtType"><span class="returnvalue">GVirConfigDomainVirtType</span></a> <a class="link" href="GVirConfigDomain.html#gvir-config-domain-get-virt-type" title="gvir_config_domain_get_virt_type ()">gvir_config_domain_get_virt_type</a>
+                                                        (<em class="parameter"><code><a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a> *domain</code></em>);
 <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="returnvalue">GVirConfigDomain</span></a> *  <a class="link" href="GVirConfigDomain.html#gvir-config-domain-new" title="gvir_config_domain_new ()">gvir_config_domain_new</a>              (<em class="parameter"><code><span class="type">void</span></code></em>);
 <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="returnvalue">GVirConfigDomain</span></a> *  <a class="link" href="GVirConfigDomain.html#gvir-config-domain-new-from-xml" title="gvir_config_domain_new_from_xml ()">gvir_config_domain_new_from_xml</a>     (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *xml</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="GVirConfigDomain.html#gvir-config-domain-set-clock" title="gvir_config_domain_set_clock ()">gvir_config_domain_set_clock</a>        (<em class="parameter"><code><a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a> *domain</code></em>,
                                                          <em class="parameter"><code><span class="type">GVirConfigDomainClock</span> *klock</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="GVirConfigDomain.html#gvir-config-domain-set-cpu" title="gvir_config_domain_set_cpu ()">gvir_config_domain_set_cpu</a>          (<em class="parameter"><code><a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a> *domain</code></em>,
+                                                         <em class="parameter"><code><span class="type">GVirConfigDomainCpu</span> *cpu</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="GVirConfigDomain.html#gvir-config-domain-set-custom-xml" title="gvir_config_domain_set_custom_xml ()">gvir_config_domain_set_custom_xml</a>   (<em class="parameter"><code><a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a> *domain</code></em>,
                                                          <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *xml</code></em>,
                                                          <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *ns</code></em>,
@@ -83,6 +90,8 @@ const <span class="returnvalue">char</span> *        <a class="link" href="GVirC
                                                          <em class="parameter"><code><span class="type">GVirConfigDomainOs</span> *os</code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="GVirConfigDomain.html#gvir-config-domain-set-seclabel" title="gvir_config_domain_set_seclabel ()">gvir_config_domain_set_seclabel</a>     (<em class="parameter"><code><a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a> *domain</code></em>,
                                                          <em class="parameter"><code><span class="type">GVirConfigDomainSeclabel</span> *seclabel</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="GVirConfigDomain.html#gvir-config-domain-set-title" title="gvir_config_domain_set_title ()">gvir_config_domain_set_title</a>        (<em class="parameter"><code><a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a> *domain</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *title</code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="GVirConfigDomain.html#gvir-config-domain-set-vcpus" title="gvir_config_domain_set_vcpus ()">gvir_config_domain_set_vcpus</a>        (<em class="parameter"><code><a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a> *domain</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint64"><span class="type">guint64</span></a> vcpu_count</code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="GVirConfigDomain.html#gvir-config-domain-set-virt-type" title="gvir_config_domain_set_virt_type ()">gvir_config_domain_set_virt_type</a>    (<em class="parameter"><code><a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a> *domain</code></em>,
@@ -104,6 +113,7 @@ const <span class="returnvalue">char</span> *        <a class="link" href="GVirC
   "<a class="link" href="GVirConfigDomain.html#GVirConfigDomain--features" title='The "features" property'>features</a>"                 <a href="http://library.gnome.org/devel/gobject/unstable/gobject-Boxed-Types.html#GStrv"><span class="type">GStrv</span></a>                 : Read / Write
   "<a class="link" href="GVirConfigDomain.html#GVirConfigDomain--memory" title='The "memory" property'>memory</a>"                   <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint64"><span class="type">guint64</span></a>               : Read / Write
   "<a class="link" href="GVirConfigDomain.html#GVirConfigDomain--name" title='The "name" property'>name</a>"                     <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
+  "<a class="link" href="GVirConfigDomain.html#GVirConfigDomain--title" title='The "title" property'>title</a>"                    <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
   "<a class="link" href="GVirConfigDomain.html#GVirConfigDomain--vcpu" title='The "vcpu" property'>vcpu</a>"                     <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint64"><span class="type">guint64</span></a>               : Read / Write
 </pre>
 </div>
@@ -179,6 +189,30 @@ const <span class="returnvalue">char</span> *        <a class="link" href="GVirC
 </div>
 <hr>
 <div class="refsect2">
+<a name="gvir-config-domain-get-cpu"></a><h3>gvir_config_domain_get_cpu ()</h3>
+<pre class="programlisting"><span class="returnvalue">GVirConfigDomainCpu</span> * gvir_config_domain_get_cpu        (<em class="parameter"><code><a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a> *domain</code></em>);</pre>
+<p>
+Gets the CPU configuration of <em class="parameter"><code>domain</code></em>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>domain</code></em> :</span></p></td>
+<td>a <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>A <span class="type">GVirConfigDomainCpu</span>. The returned object
+should be unreffed with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a> when no longer needed. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
 <a name="gvir-config-domain-get-custom-xml"></a><h3>gvir_config_domain_get_custom_xml ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             gvir_config_domain_get_custom_xml   (<em class="parameter"><code><a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a> *domain</code></em>,
                                                          <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *ns_uri</code></em>);</pre>
@@ -193,21 +227,46 @@ const <span class="returnvalue">char</span> *        <a class="link" href="GVirC
 <a name="gvir-config-domain-get-devices"></a><h3>gvir_config_domain_get_devices ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *             gvir_config_domain_get_devices      (<em class="parameter"><code><a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a> *domain</code></em>);</pre>
 <p>
-Gets the list of devices attached to <em class="parameter"><code>domain</code></em>
+Gets the list of devices attached to <em class="parameter"><code>domain</code></em>.  The returned list should
+be freed with <a href="http://library.gnome.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#g-list-free"><code class="function">g_list_free()</code></a>, after its elements have been unreffed with
+<a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a>.
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
-<tbody><tr>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>domain</code></em> :</span></p></td>
+<td>a <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a>
+</td>
+</tr>
+<tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>a newly allocated <a href="http://library.gnome.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="type">GList</span></a> of <span class="type">GVirConfigDomainDevice</span>. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> LibvirtGConfig.DomainDevice][<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
-</tr></tbody>
+</tr>
+</tbody>
 </table></div>
 </div>
 <hr>
 <div class="refsect2">
 <a name="gvir-config-domain-get-features"></a><h3>gvir_config_domain_get_features ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/gobject/unstable/gobject-Boxed-Types.html#GStrv"><span class="returnvalue">GStrv</span></a>               gvir_config_domain_get_features     (<em class="parameter"><code><a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a> *domain</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>domain</code></em> :</span></p></td>
+<td>a <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>The returned list should be freed with
+<a href="http://library.gnome.org/devel/glib/unstable/glib-String-Utility-Functions.html#g-strfreev"><code class="function">g_strfreev()</code></a> when no longer needed. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
 </div>
 <hr>
 <div class="refsect2">
@@ -218,7 +277,8 @@ Gets the list of devices attached to <em class="parameter"><code>domain</code></
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>domain</code></em> :</span></p></td>
-<td>A domain configuration object.</td>
+<td>a <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a>
+</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
@@ -234,8 +294,43 @@ Gets the list of devices attached to <em class="parameter"><code>domain</code></
 </div>
 <hr>
 <div class="refsect2">
+<a name="gvir-config-domain-get-os"></a><h3>gvir_config_domain_get_os ()</h3>
+<pre class="programlisting"><span class="returnvalue">GVirConfigDomainOs</span> * gvir_config_domain_get_os          (<em class="parameter"><code><a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a> *domain</code></em>);</pre>
+<p>
+Gets the operating system configuration of <em class="parameter"><code>domain</code></em>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>domain</code></em> :</span></p></td>
+<td>a <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>A <span class="type">GVirConfigDomainOs</span>. The returned
+object should be unreffed with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a> when no longer needed. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-config-domain-get-title"></a><h3>gvir_config_domain_get_title ()</h3>
+<pre class="programlisting">const <span class="returnvalue">char</span> *        gvir_config_domain_get_title        (<em class="parameter"><code><a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a> *domain</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
 <a name="gvir-config-domain-get-vcpus"></a><h3>gvir_config_domain_get_vcpus ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint64"><span class="returnvalue">guint64</span></a>             gvir_config_domain_get_vcpus        (<em class="parameter"><code><a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a> *domain</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-config-domain-get-virt-type"></a><h3>gvir_config_domain_get_virt_type ()</h3>
+<pre class="programlisting"><a class="link" href="GVirConfigDomain.html#GVirConfigDomainVirtType" title="enum GVirConfigDomainVirtType"><span class="returnvalue">GVirConfigDomainVirtType</span></a> gvir_config_domain_get_virt_type
+                                                        (<em class="parameter"><code><a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a> *domain</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
@@ -253,6 +348,42 @@ Gets the list of devices attached to <em class="parameter"><code>domain</code></
 <a name="gvir-config-domain-set-clock"></a><h3>gvir_config_domain_set_clock ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                gvir_config_domain_set_clock        (<em class="parameter"><code><a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a> *domain</code></em>,
                                                          <em class="parameter"><code><span class="type">GVirConfigDomainClock</span> *klock</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>domain</code></em> :</span></p></td>
+<td>a <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>klock</code></em> :</span></p></td>
+<td>. <span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-config-domain-set-cpu"></a><h3>gvir_config_domain_set_cpu ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gvir_config_domain_set_cpu          (<em class="parameter"><code><a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a> *domain</code></em>,
+                                                         <em class="parameter"><code><span class="type">GVirConfigDomainCpu</span> *cpu</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>domain</code></em> :</span></p></td>
+<td>a <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cpu</code></em> :</span></p></td>
+<td>. <span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
 </div>
 <hr>
 <div class="refsect2">
@@ -268,6 +399,21 @@ Gets the list of devices attached to <em class="parameter"><code>domain</code></
 <a name="gvir-config-domain-set-description"></a><h3>gvir_config_domain_set_description ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                gvir_config_domain_set_description  (<em class="parameter"><code><a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a> *domain</code></em>,
                                                          <em class="parameter"><code>const <span class="type">char</span> *description</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>domain</code></em> :</span></p></td>
+<td>a <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>description</code></em> :</span></p></td>
+<td>. <span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
 </div>
 <hr>
 <div class="refsect2">
@@ -276,11 +422,18 @@ Gets the list of devices attached to <em class="parameter"><code>domain</code></
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="type">GList</span></a> *devices</code></em>);</pre>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
-<tbody><tr>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>domain</code></em> :</span></p></td>
+<td>a <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a>
+</td>
+</tr>
+<tr>
 <td><p><span class="term"><em class="parameter"><code>devices</code></em> :</span></p></td>
 <td>. <span class="annotation">[<acronym title="Parameter for input. Default is transfer none."><span class="acronym">in</span></acronym>][<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> LibvirtGConfig.DomainDevice]</span>
 </td>
-</tr></tbody>
+</tr>
+</tbody>
 </table></div>
 </div>
 <hr>
@@ -309,7 +462,8 @@ Sets the amount of RAM allocated to <em class="parameter"><code>domain</code></e
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>domain</code></em> :</span></p></td>
-<td>A domain configuration object.</td>
+<td>a <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a>
+</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>memory</code></em> :</span></p></td>
@@ -323,18 +477,88 @@ Sets the amount of RAM allocated to <em class="parameter"><code>domain</code></e
 <a name="gvir-config-domain-set-name"></a><h3>gvir_config_domain_set_name ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                gvir_config_domain_set_name         (<em class="parameter"><code><a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a> *domain</code></em>,
                                                          <em class="parameter"><code>const <span class="type">char</span> *name</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>domain</code></em> :</span></p></td>
+<td>a <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>name</code></em> :</span></p></td>
+<td>. <span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
 </div>
 <hr>
 <div class="refsect2">
 <a name="gvir-config-domain-set-os"></a><h3>gvir_config_domain_set_os ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                gvir_config_domain_set_os           (<em class="parameter"><code><a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a> *domain</code></em>,
                                                          <em class="parameter"><code><span class="type">GVirConfigDomainOs</span> *os</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>domain</code></em> :</span></p></td>
+<td>a <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>os</code></em> :</span></p></td>
+<td>the os configuration to set. <span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
 </div>
 <hr>
 <div class="refsect2">
 <a name="gvir-config-domain-set-seclabel"></a><h3>gvir_config_domain_set_seclabel ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                gvir_config_domain_set_seclabel     (<em class="parameter"><code><a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a> *domain</code></em>,
                                                          <em class="parameter"><code><span class="type">GVirConfigDomainSeclabel</span> *seclabel</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>domain</code></em> :</span></p></td>
+<td>a <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>seclabel</code></em> :</span></p></td>
+<td>the security label configuration to set. <span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-config-domain-set-title"></a><h3>gvir_config_domain_set_title ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gvir_config_domain_set_title        (<em class="parameter"><code><a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a> *domain</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *title</code></em>);</pre>
+<p>
+Sets the title of the domain. This is an optional short textual description of the domain. Passing a NULL <em class="parameter"><code>title</code></em>
+unsets the current domain title.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>domain</code></em> :</span></p></td>
+<td>a <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>title</code></em> :</span></p></td>
+<td>title of the domain. <span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
 </div>
 <hr>
 <div class="refsect2">
@@ -375,6 +599,13 @@ Sets the amount of RAM allocated to <em class="parameter"><code>domain</code></e
 <a name="GVirConfigDomain--name"></a><h3>The <code class="literal">"name"</code> property</h3>
 <pre class="programlisting">  "name"                     <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
 <p>Domain Name.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GVirConfigDomain--title"></a><h3>The <code class="literal">"title"</code> property</h3>
+<pre class="programlisting">  "title"                    <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
+<p>A short description - title - of the domain.</p>
 <p>Default value: NULL</p>
 </div>
 <hr>

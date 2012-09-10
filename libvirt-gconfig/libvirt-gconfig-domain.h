@@ -31,6 +31,7 @@
 #include <libvirt-gconfig/libvirt-gconfig-domain-os.h>
 #include <libvirt-gconfig/libvirt-gconfig-domain-device.h>
 #include <libvirt-gconfig/libvirt-gconfig-domain-seclabel.h>
+#include <libvirt-gconfig/libvirt-gconfig-domain-cpu.h>
 
 G_BEGIN_DECLS
 
@@ -99,6 +100,7 @@ GType gvir_config_domain_get_type(void);
 GVirConfigDomain *gvir_config_domain_new_from_xml(const gchar *xml, GError **error);
 GVirConfigDomain *gvir_config_domain_new(void);
 
+GVirConfigDomainVirtType gvir_config_domain_get_virt_type(GVirConfigDomain *domain);
 void gvir_config_domain_set_virt_type(GVirConfigDomain *domain, GVirConfigDomainVirtType type);
 const char *gvir_config_domain_get_name(GVirConfigDomain *domain);
 void gvir_config_domain_set_name(GVirConfigDomain *domain, const char *name);
@@ -114,10 +116,13 @@ void gvir_config_domain_set_features(GVirConfigDomain *domain,
                                      const GStrv features);
 void gvir_config_domain_set_clock(GVirConfigDomain *domain,
                                   GVirConfigDomainClock *klock);
+GVirConfigDomainOs *gvir_config_domain_get_os(GVirConfigDomain *domain);
 void gvir_config_domain_set_os(GVirConfigDomain *domain,
                                GVirConfigDomainOs *os);
 void gvir_config_domain_set_seclabel(GVirConfigDomain *domain,
                                      GVirConfigDomainSeclabel *seclabel);
+const char *gvir_config_domain_get_title(GVirConfigDomain *domain);
+void gvir_config_domain_set_title(GVirConfigDomain *domain, const char *title);
 void gvir_config_domain_set_devices(GVirConfigDomain *domain,
                                     GList *devices);
 void gvir_config_domain_add_device(GVirConfigDomain *domain,
@@ -133,6 +138,9 @@ gboolean gvir_config_domain_set_custom_xml(GVirConfigDomain *domain,
                                            GError **error);
 gchar *gvir_config_domain_get_custom_xml(GVirConfigDomain *domain,
                                          const gchar *ns_uri);
+GVirConfigDomainCpu *gvir_config_domain_get_cpu(GVirConfigDomain *domain);
+void gvir_config_domain_set_cpu(GVirConfigDomain *domain,
+                                GVirConfigDomainCpu *cpu);
 
 G_END_DECLS
 

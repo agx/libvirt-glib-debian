@@ -93,6 +93,18 @@ struct              <a class="link" href="GVirConnection.html#GVirNodeInfo-struc
 <a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="returnvalue">GVirStoragePool</span></a> *   <a class="link" href="GVirConnection.html#gvir-connection-find-storage-pool-by-name" title="gvir_connection_find_storage_pool_by_name ()">gvir_connection_find_storage_pool_by_name</a>
                                                         (<em class="parameter"><code><a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a> *conn</code></em>,
                                                          <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *name</code></em>);
+<a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigCapabilities.html"><span class="returnvalue">GVirConfigCapabilities</span></a> * <a class="link" href="GVirConnection.html#gvir-connection-get-capabilities" title="gvir_connection_get_capabilities ()">gvir_connection_get_capabilities</a>
+                                                        (<em class="parameter"><code><a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a> *conn</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="GVirConnection.html#gvir-connection-get-capabilities-async" title="gvir_connection_get_capabilities_async ()">gvir_connection_get_capabilities_async</a>
+                                                        (<em class="parameter"><code><a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a> *conn</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
+<a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigCapabilities.html"><span class="returnvalue">GVirConfigCapabilities</span></a> * <a class="link" href="GVirConnection.html#gvir-connection-get-capabilities-finish" title="gvir_connection_get_capabilities_finish ()">gvir_connection_get_capabilities_finish</a>
+                                                        (<em class="parameter"><code><a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a> *conn</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
 <a class="link" href="GVirDomain.html" title="GVirDomain"><span class="returnvalue">GVirDomain</span></a> *        <a class="link" href="GVirConnection.html#gvir-connection-get-domain" title="gvir_connection_get_domain ()">gvir_connection_get_domain</a>          (<em class="parameter"><code><a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a> *conn</code></em>,
                                                          <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *uuid</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *             <a class="link" href="GVirConnection.html#gvir-connection-get-domains" title="gvir_connection_get_domains ()">gvir_connection_get_domains</a>         (<em class="parameter"><code><a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a> *conn</code></em>);
@@ -129,6 +141,24 @@ const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.htm
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="GVirConnection.html#gvir-connection-open-finish" title="gvir_connection_open_finish ()">gvir_connection_open_finish</a>         (<em class="parameter"><code><a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a> *conn</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="GVirConnection.html#gvir-connection-restore-domain-from-file" title="gvir_connection_restore_domain_from_file ()">gvir_connection_restore_domain_from_file</a>
+                                                        (<em class="parameter"><code><a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a> *conn</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *filename</code></em>,
+                                                         <em class="parameter"><code><a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigDomain.html"><span class="type">GVirConfigDomain</span></a> *custom_conf</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="GVirConnection.html#gvir-connection-restore-domain-from-file-async" title="gvir_connection_restore_domain_from_file_async ()">gvir_connection_restore_domain_from_file_async</a>
+                                                        (<em class="parameter"><code><a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a> *conn</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *filename</code></em>,
+                                                         <em class="parameter"><code><a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigDomain.html"><span class="type">GVirConfigDomain</span></a> *custom_conf</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="GVirConnection.html#gvir-connection-restore-domain-from-file-finish" title="gvir_connection_restore_domain_from_file_finish ()">gvir_connection_restore_domain_from_file_finish</a>
+                                                        (<em class="parameter"><code><a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a> *conn</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
 <a class="link" href="GVirDomain.html" title="GVirDomain"><span class="returnvalue">GVirDomain</span></a> *        <a class="link" href="GVirConnection.html#gvir-connection-start-domain" title="gvir_connection_start_domain ()">gvir_connection_start_domain</a>        (<em class="parameter"><code><a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a> *conn</code></em>,
@@ -227,7 +257,7 @@ The returned domain will initially be in the shutoff state.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>conn</code></em> :</span></p></td>
-<td>the connection on which to create the domain</td>
+<td>a <a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a> on which to create the domain</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>conf</code></em> :</span></p></td>
@@ -235,7 +265,9 @@ The returned domain will initially be in the shutoff state.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the newly created domain. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+<td>the newly created domain, or NULL if an error
+occurred. The returned object should be unreffed with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a>
+when no longer needed. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -253,7 +285,7 @@ The returned domain will initially be in the shutoff state.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>conn</code></em> :</span></p></td>
-<td>the connection on which to create the pool</td>
+<td>a <a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a> on which to create the pool</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>conf</code></em> :</span></p></td>
@@ -270,7 +302,9 @@ The returned domain will initially be in the shutoff state.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the newly created storage pool. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+<td>the newly created storage pool, or NULL if an
+error occurred. The returned list should be freed with <a href="http://library.gnome.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#g-list-free"><code class="function">g_list_free()</code></a>,
+after its elements have been unreffed with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a>. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -287,7 +321,8 @@ The returned domain will initially be in the shutoff state.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>conn</code></em> :</span></p></td>
-<td>the connection</td>
+<td>a <a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a>
+</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
@@ -309,7 +344,8 @@ The returned domain will initially be in the shutoff state.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>conn</code></em> :</span></p></td>
-<td>the connection</td>
+<td>a <a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a>
+</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
@@ -341,7 +377,8 @@ The returned domain will initially be in the shutoff state.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>conn</code></em> :</span></p></td>
-<td>the connection</td>
+<td>a <a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a>
+</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>result</code></em> :</span></p></td>
@@ -362,7 +399,8 @@ The returned domain will initially be in the shutoff state.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>conn</code></em> :</span></p></td>
-<td>the connection</td>
+<td>a <a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a>
+</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
@@ -385,7 +423,8 @@ The returned domain will initially be in the shutoff state.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>conn</code></em> :</span></p></td>
-<td>the connection</td>
+<td>a <a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a>
+</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
@@ -417,7 +456,8 @@ The returned domain will initially be in the shutoff state.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>conn</code></em> :</span></p></td>
-<td>the connection</td>
+<td>a <a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a>
+</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>result</code></em> :</span></p></td>
@@ -436,12 +476,18 @@ The returned domain will initially be in the shutoff state.
 <col align="left" valign="top">
 <tbody>
 <tr>
+<td><p><span class="term"><em class="parameter"><code>conn</code></em> :</span></p></td>
+<td>a <a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a>
+</td>
+</tr>
+<tr>
 <td><p><span class="term"><em class="parameter"><code>id</code></em> :</span></p></td>
 <td>id of the requested domain</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the <a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a>, or NULL. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+<td>the <a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a>, or NULL. The returned
+object should be unreffed with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a> when no longer needed. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -456,12 +502,18 @@ The returned domain will initially be in the shutoff state.
 <col align="left" valign="top">
 <tbody>
 <tr>
+<td><p><span class="term"><em class="parameter"><code>conn</code></em> :</span></p></td>
+<td>a <a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a>
+</td>
+</tr>
+<tr>
 <td><p><span class="term"><em class="parameter"><code>name</code></em> :</span></p></td>
 <td>name of the requested domain</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the <a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a>, or NULL. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+<td>the <a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a>, or NULL. The returned
+object should be unreffed with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a> when no longer needed. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -498,12 +550,111 @@ The returned domain will initially be in the shutoff state.
 <col align="left" valign="top">
 <tbody>
 <tr>
+<td><p><span class="term"><em class="parameter"><code>conn</code></em> :</span></p></td>
+<td>a <a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a>
+</td>
+</tr>
+<tr>
 <td><p><span class="term"><em class="parameter"><code>name</code></em> :</span></p></td>
 <td>name of the requested storage pool</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the <a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a>, or NULL. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+<td>the <a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a>, or NULL. The returned
+object should be unreffed with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a> when no longer needed. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-connection-get-capabilities"></a><h3>gvir_connection_get_capabilities ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigCapabilities.html"><span class="returnvalue">GVirConfigCapabilities</span></a> * gvir_connection_get_capabilities
+                                                        (<em class="parameter"><code><a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a> *conn</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conn</code></em> :</span></p></td>
+<td>a <a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em> :</span></p></td>
+<td>return location for any <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>a <a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigCapabilities.html"><span class="type">GVirConfigCapabilities</span></a> or NULL.  The
+returned object should be unreffed with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a> when no longer
+needed. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-connection-get-capabilities-async"></a><h3>gvir_connection_get_capabilities_async ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gvir_connection_get_capabilities_async
+                                                        (<em class="parameter"><code><a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a> *conn</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conn</code></em> :</span></p></td>
+<td>a <a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
+<td>cancellation object. <span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>completion callback. <span class="annotation">[<acronym title="The callback is valid until first called."><span class="acronym">scope async</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>opaque data for callback. <span class="annotation">[<acronym title="This parameter is a 'user_data', for callbacks; many bindings can pass NULL here."><span class="acronym">closure</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-connection-get-capabilities-finish"></a><h3>gvir_connection_get_capabilities_finish ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigCapabilities.html"><span class="returnvalue">GVirConfigCapabilities</span></a> * gvir_connection_get_capabilities_finish
+                                                        (<em class="parameter"><code><a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a> *conn</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conn</code></em> :</span></p></td>
+<td>a <a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>result</code></em> :</span></p></td>
+<td>async method result. <span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>a <a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigCapabilities.html"><span class="type">GVirConfigCapabilities</span></a> or NULL. The
+returned object should be unreffed with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a> when no longer
+needed. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -518,12 +669,18 @@ The returned domain will initially be in the shutoff state.
 <col align="left" valign="top">
 <tbody>
 <tr>
+<td><p><span class="term"><em class="parameter"><code>conn</code></em> :</span></p></td>
+<td>a <a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a>
+</td>
+</tr>
+<tr>
 <td><p><span class="term"><em class="parameter"><code>uuid</code></em> :</span></p></td>
 <td>uuid string of the requested domain</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the <a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a>, or NULL. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+<td>the <a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a>, or NULL. The returned
+object should be unreffed with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a> when no longer needed. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -533,13 +690,25 @@ The returned domain will initially be in the shutoff state.
 <div class="refsect2">
 <a name="gvir-connection-get-domains"></a><h3>gvir_connection_get_domains ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *             gvir_connection_get_domains         (<em class="parameter"><code><a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a> *conn</code></em>);</pre>
+<p>
+Gets a list of the domains available through <em class="parameter"><code>conn</code></em>.
+</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
-<tbody><tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>List of <a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a>. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> LibvirtGObject.Domain][<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conn</code></em> :</span></p></td>
+<td>a <a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a>
 </td>
-</tr></tbody>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>List
+of <a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a>. The returned list should be freed with <a href="http://library.gnome.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#g-list-free"><code class="function">g_list_free()</code></a>,
+after its elements have been unreffed with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a>. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> LibvirtGObject.Domain][<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
 </table></div>
 </div>
 <hr>
@@ -596,7 +765,8 @@ The returned domain will initially be in the shutoff state.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>conn</code></em> :</span></p></td>
-<td>the connection</td>
+<td>a <a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a>
+</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>err</code></em> :</span></p></td>
@@ -605,7 +775,9 @@ The returned domain will initially be in the shutoff state.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the info. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+<td>the info, or NULL if an error occurred. The
+returned object should be unreffed with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a> when no longer
+needed. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -631,12 +803,18 @@ The returned domain will initially be in the shutoff state.
 <col align="left" valign="top">
 <tbody>
 <tr>
+<td><p><span class="term"><em class="parameter"><code>conn</code></em> :</span></p></td>
+<td>a <a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a>
+</td>
+</tr>
+<tr>
 <td><p><span class="term"><em class="parameter"><code>uuid</code></em> :</span></p></td>
 <td>uuid string of the requested storage pool</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the <a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a>, or NULL. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+<td>the <a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a>, or NULL. The returned
+object should be unreffed with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a> when no longer needed. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -646,14 +824,26 @@ The returned domain will initially be in the shutoff state.
 <div class="refsect2">
 <a name="gvir-connection-get-storage-pools"></a><h3>gvir_connection_get_storage_pools ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *             gvir_connection_get_storage_pools   (<em class="parameter"><code><a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a> *conn</code></em>);</pre>
+<p>
+Gets a list of the storage pools available through <em class="parameter"><code>conn</code></em>.
+</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
-<tbody><tr>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conn</code></em> :</span></p></td>
+<td>a <a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a>
+</td>
+</tr>
+<tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>List
-of <a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a>. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> LibvirtGObject.StoragePool][<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+of <a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span class="type">GVirStoragePool</span></a>. The returned list should be freed with
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#g-list-free"><code class="function">g_list_free()</code></a>, after its elements have been unreffed with
+<a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a>. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> LibvirtGObject.StoragePool][<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
-</tr></tbody>
+</tr>
+</tbody>
 </table></div>
 </div>
 <hr>
@@ -665,12 +855,18 @@ of <a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span cla
 <col align="left" valign="top">
 <tbody>
 <tr>
+<td><p><span class="term"><em class="parameter"><code>conn</code></em> :</span></p></td>
+<td>a <a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a>
+</td>
+</tr>
+<tr>
 <td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
 <td>flags to use for the stream</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> stream, or NULL. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+<td>a <a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> stream, or NULL.The returned
+object should be unreffed with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a> when no longer needed. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -702,7 +898,8 @@ of <a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span cla
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>conn</code></em> :</span></p></td>
-<td>the connection</td>
+<td>a <a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a>
+</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
@@ -724,7 +921,8 @@ of <a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span cla
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>conn</code></em> :</span></p></td>
-<td>the connection</td>
+<td>a <a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a>
+</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
@@ -755,12 +953,140 @@ of <a class="link" href="GVirStoragePool.html" title="GVirStoragePool"><span cla
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>conn</code></em> :</span></p></td>
-<td>the connection</td>
+<td>a <a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a>
+</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>result</code></em> :</span></p></td>
 <td>async method result. <span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span>
 </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-connection-restore-domain-from-file"></a><h3>gvir_connection_restore_domain_from_file ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gvir_connection_restore_domain_from_file
+                                                        (<em class="parameter"><code><a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a> *conn</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *filename</code></em>,
+                                                         <em class="parameter"><code><a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigDomain.html"><span class="type">GVirConfigDomain</span></a> *custom_conf</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
+<p>
+Restores the domain saved with <a class="link" href="GVirDomain.html#gvir-domain-save-to-file" title="gvir_domain_save_to_file ()"><span class="type">gvir_domain_save_to_file</span></a>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conn</code></em> :</span></p></td>
+<td>a <a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>filename</code></em> :</span></p></td>
+<td>path to input file</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>custom_conf</code></em> :</span></p></td>
+<td>configuration for domain or NULL. <span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
+<td>the flags</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>TRUE on success, FALSE otherwise</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-connection-restore-domain-from-file-async"></a><h3>gvir_connection_restore_domain_from_file_async ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gvir_connection_restore_domain_from_file_async
+                                                        (<em class="parameter"><code><a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a> *conn</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *filename</code></em>,
+                                                         <em class="parameter"><code><a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigDomain.html"><span class="type">GVirConfigDomain</span></a> *custom_conf</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+<p>
+Asynchronous variant of <a class="link" href="GVirConnection.html#gvir-connection-restore-domain-from-file" title="gvir_connection_restore_domain_from_file ()"><span class="type">gvir_connection_restore_domain_from_file</span></a>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conn</code></em> :</span></p></td>
+<td>a <a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>filename</code></em> :</span></p></td>
+<td>path to input file</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>custom_conf</code></em> :</span></p></td>
+<td>configuration for domain. <span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
+<td>the flags</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
+<td>cancellation object. <span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>completion callback. <span class="annotation">[<acronym title="The callback is valid until first called."><span class="acronym">scope async</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>opaque data for callback. <span class="annotation">[<acronym title="This parameter is a 'user_data', for callbacks; many bindings can pass NULL here."><span class="acronym">closure</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-connection-restore-domain-from-file-finish"></a><h3>gvir_connection_restore_domain_from_file_finish ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gvir_connection_restore_domain_from_file_finish
+                                                        (<em class="parameter"><code><a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a> *conn</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
+<p>
+Finishes the operation started by <span class="type">gvir_restore_domain_from_file_async</span>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conn</code></em> :</span></p></td>
+<td>a <a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>result</code></em> :</span></p></td>
+<td>async method result. <span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em> :</span></p></td>
+<td>Place-holder for possible errors</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>TRUE if domain was restored successfully, FALSE otherwise.</td>
 </tr>
 </tbody>
 </table></div>
@@ -781,7 +1107,7 @@ The returned domain will initially be running.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>conn</code></em> :</span></p></td>
-<td>the connection on which to create the domain</td>
+<td>a <a class="link" href="GVirConnection.html" title="GVirConnection"><span class="type">GVirConnection</span></a> on which to create the domain</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>conf</code></em> :</span></p></td>
@@ -789,7 +1115,9 @@ The returned domain will initially be running.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the newly created domain. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+<td>the newly created domain, or NULL if an error
+occurred. The returned object should be unreffed with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a>
+when no longer needed. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>

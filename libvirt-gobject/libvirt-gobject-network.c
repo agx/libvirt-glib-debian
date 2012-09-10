@@ -180,11 +180,12 @@ G_DEFINE_BOXED_TYPE(GVirNetworkHandle, gvir_network_handle,
 
 const gchar *gvir_network_get_name(GVirNetwork *network)
 {
-    GVirNetworkPrivate *priv = network->priv;
     const char *name;
 
-    if (!(name = virNetworkGetName(priv->handle))) {
-        g_warning("Failed to get network name on %p", priv->handle);
+    g_return_val_if_fail(GVIR_IS_NETWORK(network), NULL);
+
+    if (!(name = virNetworkGetName(network->priv->handle))) {
+        g_warning("Failed to get network name on %p", network->priv->handle);
         return NULL;
     }
 
@@ -203,15 +204,22 @@ const gchar *gvir_network_get_uuid(GVirNetwork *network)
  * gvir_network_get_config:
  * @network: the network
  * @flags: the flags
- * Returns: (transfer full): the config
+ * @err: Place-holder for possible errors
+ *
+ * Returns: (transfer full): the config. The returned object should be
+ * unreffed with g_object_unref() when no longer needed.
  */
 GVirConfigNetwork *gvir_network_get_config(GVirNetwork *network,
                                            guint flags,
                                            GError **err)
 {
-    GVirNetworkPrivate *priv = network->priv;
+    GVirNetworkPrivate *priv;
     gchar *xml;
 
+    g_return_val_if_fail(GVIR_IS_NETWORK(network), NULL);
+    g_return_val_if_fail(err == NULL || *err == NULL, NULL);
+
+    priv = network->priv;
     if (!(xml = virNetworkGetXMLDesc(priv->handle, flags))) {
         gvir_set_error_literal(err, GVIR_NETWORK_ERROR,
                                0,

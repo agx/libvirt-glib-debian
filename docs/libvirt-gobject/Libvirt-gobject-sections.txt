@@ -36,6 +36,9 @@ gvir_connection_find_interface_by_mac
 gvir_connection_find_network_by_name
 gvir_connection_find_network_filter_by_name
 gvir_connection_find_storage_pool_by_name
+gvir_connection_get_capabilities
+gvir_connection_get_capabilities_async
+gvir_connection_get_capabilities_finish
 gvir_connection_get_domain
 gvir_connection_get_domains
 gvir_connection_get_interface
@@ -58,6 +61,9 @@ gvir_connection_new
 gvir_connection_open
 gvir_connection_open_async
 gvir_connection_open_finish
+gvir_connection_restore_domain_from_file
+gvir_connection_restore_domain_from_file_async
+gvir_connection_restore_domain_from_file_finish
 gvir_connection_start_domain
 <SUBSECTION Standard>
 GVIR_CONNECTION
@@ -80,8 +86,12 @@ GVirDomain
 GVirDomainClass
 GVirDomainDeleteFlags
 GVirDomainInfo
+GVirDomainShutdownFlags
+GVirDomainSnapshotCreateFlags
 GVirDomainStartFlags
 GVirDomainState
+GVirDomainXMLFlags
+gvir_domain_create_snapshot
 gvir_domain_delete
 gvir_domain_get_config
 gvir_domain_get_devices
@@ -97,13 +107,20 @@ gvir_domain_open_console
 gvir_domain_open_graphics
 gvir_domain_reboot
 gvir_domain_resume
+gvir_domain_resume_async
+gvir_domain_resume_finish
 gvir_domain_save
 gvir_domain_save_async
 gvir_domain_save_finish
+gvir_domain_save_to_file
+gvir_domain_save_to_file_async
+gvir_domain_save_to_file_finish
 gvir_domain_screenshot
 gvir_domain_set_config
 gvir_domain_shutdown
 gvir_domain_start
+gvir_domain_start_async
+gvir_domain_start_finish
 gvir_domain_stop
 gvir_domain_suspend
 <SUBSECTION Standard>
@@ -412,11 +429,13 @@ GVirStorageVolInfo
 GVirStorageVolResizeFlags
 GVirStorageVolType
 gvir_storage_vol_delete
+gvir_storage_vol_download
 gvir_storage_vol_get_config
 gvir_storage_vol_get_info
 gvir_storage_vol_get_name
 gvir_storage_vol_get_path
 gvir_storage_vol_resize
+gvir_storage_vol_upload
 <SUBSECTION Standard>
 GVIR_IS_STORAGE_VOL
 GVIR_IS_STORAGE_VOL_CLASS

@@ -16,14 +16,12 @@
 %if 0%{?rhel} && 0%{?rhel} < 7
 %define with_python 1
 %endif
-%if 0%{with_introspection} && 0%{?fedora} > 15
-%define with_vala 1
-%endif
+%define with_vala %{with_introspection}
 
 %define libvirt_version 0.9.10
 
 Name: libvirt-glib
-Version: 0.0.8
+Version: 0.1.2
 Release: 1%{?dist}%{?extra_release}
 Summary: libvirt glib integration for events
 Group: Development/Libraries
