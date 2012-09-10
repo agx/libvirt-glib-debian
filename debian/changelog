@@ -1,4 +1,4 @@
-libvirt-glib (0.1.2-1) unstable; urgency=low
+libvirt-glib (0.1.2-1) experimental; urgency=low
 
   * [d14bf12] New upstream version 0.1.2
   * [4700825] Ship development documentation
