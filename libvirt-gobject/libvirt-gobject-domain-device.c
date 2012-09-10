@@ -161,10 +161,14 @@ virDomainPtr gvir_domain_device_get_domain_handle(GVirDomainDevice *self)
  * gvir_domain_device_get_domain:
  * @device: the domain device
  *
- * Returns: (transfer full): the associated domain
+ * Returns: (transfer full): the associated domain. The returned object
+ * should be unreffed with g_object_unref() when no longer needed.
+
  */
 GVirDomain *gvir_domain_device_get_domain(GVirDomainDevice *device)
 {
+    g_return_val_if_fail(GVIR_IS_DOMAIN_DEVICE(device), NULL);
+
     return g_object_ref (device->priv->domain);
 }
 
@@ -172,10 +176,14 @@ GVirDomain *gvir_domain_device_get_domain(GVirDomainDevice *device)
  * gvir_domain_device_get_config:
  * @device: the domain device
  *
- * Returns: (transfer full): the config
+ * Returns: (transfer full): the config. The returned object should be
+ * unreffed with g_object_unref() when no longer needed.
+
  */
 GVirConfigDomainDevice *gvir_domain_device_get_config(GVirDomainDevice *device)
 {
+    g_return_val_if_fail(GVIR_IS_DOMAIN_DEVICE(device), NULL);
+
     return g_object_ref (device->priv->config);
 }
 

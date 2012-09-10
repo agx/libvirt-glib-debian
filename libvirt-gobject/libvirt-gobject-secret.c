@@ -191,15 +191,23 @@ const gchar *gvir_secret_get_uuid(GVirSecret *secret)
  * gvir_secret_get_config:
  * @secret: the secret
  * @flags: the flags
- * Returns: (transfer full): the config
+ * @err: Place-holder for possible errors
+ *
+ * Returns: (transfer full): the config. The returned object should be
+ * unreffed with g_object_unref() when no longer needed.
+
  */
 GVirConfigSecret *gvir_secret_get_config(GVirSecret *secret,
                                          guint flags,
                                          GError **err)
 {
-    GVirSecretPrivate *priv = secret->priv;
+    GVirSecretPrivate *priv;
     gchar *xml;
 
+    g_return_val_if_fail(GVIR_IS_SECRET(secret), NULL);
+    g_return_val_if_fail(err == NULL || *err == NULL, NULL);
+
+    priv = secret->priv;
     if (!(xml = virSecretGetXMLDesc(priv->handle, flags))) {
         gvir_set_error_literal(err, GVIR_SECRET_ERROR,
                                0,

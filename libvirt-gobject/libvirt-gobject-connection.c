@@ -41,7 +41,6 @@ struct _GVirConnectionPrivate
 
     GHashTable *domains;
     GHashTable *pools;
-    gboolean    domain_event;
 };
 
 G_DEFINE_TYPE(GVirConnection, gvir_connection, G_TYPE_OBJECT);
@@ -401,14 +400,21 @@ static int domain_event_cb(virConnectPtr conn G_GNUC_UNUSED,
 
 /**
  * gvir_connection_open:
- * @conn: the connection
+ * @conn: a #GVirConnection
  * @cancellable: (allow-none)(transfer none): cancellation object
  */
 gboolean gvir_connection_open(GVirConnection *conn,
                               GCancellable *cancellable,
                               GError **err)
 {
-    GVirConnectionPrivate *priv = conn->priv;
+    GVirConnectionPrivate *priv;
+
+    g_return_val_if_fail(GVIR_IS_CONNECTION(conn), FALSE);
+    g_return_val_if_fail((cancellable == NULL) || G_IS_CANCELLABLE(cancellable),
+                         FALSE);
+    g_return_val_if_fail((err == NULL) || (*err == NULL), FALSE);
+
+    priv = conn->priv;
 
     if (g_cancellable_set_error_if_cancelled(cancellable, err))
         return FALSE;
@@ -447,9 +453,7 @@ gboolean gvir_connection_open(GVirConnection *conn,
         free(uri);
     }
 
-    if (virConnectDomainEventRegister(priv->conn, domain_event_cb, conn, NULL) != -1)
-        priv->domain_event = TRUE;
-    else
+    if (virConnectDomainEventRegister(priv->conn, domain_event_cb, conn, NULL) == -1)
         g_warning("Failed to register domain events, ignoring");
 
     g_mutex_unlock(priv->lock);
@@ -477,7 +481,7 @@ gvir_connection_open_helper(GSimpleAsyncResult *res,
 
 /**
  * gvir_connection_open_async:
- * @conn: the connection
+ * @conn: a #GVirConnection
  * @cancellable: (allow-none)(transfer none): cancellation object
  * @callback: (scope async): completion callback
  * @user_data: (closure): opaque data for callback
@@ -488,6 +492,9 @@ void gvir_connection_open_async(GVirConnection *conn,
                                 gpointer user_data)
 {
     GSimpleAsyncResult *res;
+
+    g_return_if_fail(GVIR_IS_CONNECTION(conn));
+    g_return_if_fail((cancellable == NULL) || G_IS_CANCELLABLE(cancellable));
 
     res = g_simple_async_result_new(G_OBJECT(conn),
                                     callback,
@@ -503,7 +510,7 @@ void gvir_connection_open_async(GVirConnection *conn,
 
 /**
  * gvir_connection_open_finish:
- * @conn: the connection
+ * @conn: a #GVirConnection
  * @result: (transfer none): async method result
  */
 gboolean gvir_connection_open_finish(GVirConnection *conn,
@@ -524,8 +531,12 @@ gboolean gvir_connection_open_finish(GVirConnection *conn,
 
 gboolean gvir_connection_is_open(GVirConnection *conn)
 {
-    GVirConnectionPrivate *priv = conn->priv;
+    GVirConnectionPrivate *priv;
     gboolean open = TRUE;
+
+    g_return_val_if_fail(GVIR_IS_CONNECTION(conn), FALSE);
+
+    priv = conn->priv;
     g_mutex_lock(priv->lock);
     if (!priv->conn)
         open = FALSE;
@@ -535,7 +546,12 @@ gboolean gvir_connection_is_open(GVirConnection *conn)
 
 void gvir_connection_close(GVirConnection *conn)
 {
-    GVirConnectionPrivate *priv = conn->priv;
+    GVirConnectionPrivate *priv;
+
+    g_return_if_fail(GVIR_IS_CONNECTION(conn));
+
+    priv = conn->priv;
+
     g_debug("Close GVirConnection=%p", conn);
 
     g_mutex_lock(priv->lock);
@@ -552,7 +568,6 @@ void gvir_connection_close(GVirConnection *conn)
 
     if (priv->conn) {
         virConnectDomainEventDeregister(priv->conn, domain_event_cb);
-        priv->domain_event = FALSE;
         virConnectClose(priv->conn);
         priv->conn = NULL;
     }
@@ -610,14 +625,14 @@ error:
 
 /**
  * gvir_connection_fetch_domains:
- * @conn: the connection
+ * @conn: a #GVirConnection
  * @cancellable: (allow-none)(transfer none): cancellation object
  */
 gboolean gvir_connection_fetch_domains(GVirConnection *conn,
                                        GCancellable *cancellable,
                                        GError **err)
 {
-    GVirConnectionPrivate *priv = conn->priv;
+    GVirConnectionPrivate *priv;
     GHashTable *doms;
     gchar **inactive = NULL;
     gint ninactive = 0;
@@ -628,6 +643,12 @@ gboolean gvir_connection_fetch_domains(GVirConnection *conn,
     virConnectPtr vconn = NULL;
     GError *lerr = NULL;
 
+    g_return_val_if_fail(GVIR_IS_CONNECTION(conn), FALSE);
+    g_return_val_if_fail((cancellable == NULL) || G_IS_CANCELLABLE(cancellable),
+                         FALSE);
+    g_return_val_if_fail((err == NULL) || (*err == NULL), FALSE);
+
+    priv = conn->priv;
     g_mutex_lock(priv->lock);
     if (!priv->conn) {
         g_set_error_literal(err, GVIR_CONNECTION_ERROR,
@@ -739,14 +760,14 @@ cleanup:
 
 /**
  * gvir_connection_fetch_storage_pools:
- * @conn: the connection
+ * @conn: a #GVirConnection
  * @cancellable: (allow-none)(transfer none): cancellation object
  */
 gboolean gvir_connection_fetch_storage_pools(GVirConnection *conn,
                                              GCancellable *cancellable,
                                              GError **err)
 {
-    GVirConnectionPrivate *priv = conn->priv;
+    GVirConnectionPrivate *priv;
     GHashTable *pools;
     gchar **inactive = NULL;
     gint ninactive = 0;
@@ -757,6 +778,12 @@ gboolean gvir_connection_fetch_storage_pools(GVirConnection *conn,
     virConnectPtr vconn = NULL;
     GError *lerr = NULL;
 
+    g_return_val_if_fail(GVIR_IS_CONNECTION(conn), FALSE);
+    g_return_val_if_fail((cancellable == NULL) || G_IS_CANCELLABLE(cancellable),
+                         FALSE);
+    g_return_val_if_fail((err == NULL) || (*err == NULL), FALSE);
+
+    priv = conn->priv;
     g_mutex_lock(priv->lock);
     if (!priv->conn) {
         g_set_error_literal(err, GVIR_CONNECTION_ERROR,
@@ -883,7 +910,7 @@ gvir_connection_fetch_domains_helper(GSimpleAsyncResult *res,
 
 /**
  * gvir_connection_fetch_domains_async:
- * @conn: the connection
+ * @conn: a #GVirConnection
  * @cancellable: (allow-none)(transfer none): cancellation object
  * @callback: (scope async): completion callback
  * @user_data: (closure): opaque data for callback
@@ -894,6 +921,9 @@ void gvir_connection_fetch_domains_async(GVirConnection *conn,
                                          gpointer user_data)
 {
     GSimpleAsyncResult *res;
+
+    g_return_if_fail(GVIR_IS_CONNECTION(conn));
+    g_return_if_fail((cancellable == NULL) || G_IS_CANCELLABLE(cancellable));
 
     res = g_simple_async_result_new(G_OBJECT(conn),
                                     callback,
@@ -908,7 +938,7 @@ void gvir_connection_fetch_domains_async(GVirConnection *conn,
 
 /**
  * gvir_connection_fetch_domains_finish:
- * @conn: the connection
+ * @conn: a #GVirConnection
  * @result: (transfer none): async method result
  */
 gboolean gvir_connection_fetch_domains_finish(GVirConnection *conn,
@@ -942,7 +972,7 @@ gvir_connection_fetch_pools_helper(GSimpleAsyncResult *res,
 
 /**
  * gvir_connection_fetch_storage_pools_async:
- * @conn: the connection
+ * @conn: a #GVirConnection
  * @cancellable: (allow-none)(transfer none): cancellation object
  * @callback: (scope async): completion callback
  * @user_data: (closure): opaque data for callback
@@ -953,6 +983,9 @@ void gvir_connection_fetch_storage_pools_async(GVirConnection *conn,
                                                gpointer user_data)
 {
     GSimpleAsyncResult *res;
+
+    g_return_if_fail(GVIR_IS_CONNECTION(conn));
+    g_return_if_fail((cancellable == NULL) || G_IS_CANCELLABLE(cancellable));
 
     res = g_simple_async_result_new(G_OBJECT(conn),
                                     callback,
@@ -967,7 +1000,7 @@ void gvir_connection_fetch_storage_pools_async(GVirConnection *conn,
 
 /**
  * gvir_connection_fetch_storage_pools_finish:
- * @conn: the connection
+ * @conn: a #GVirConnection
  * @result: (transfer none): async method result
  */
 gboolean gvir_connection_fetch_storage_pools_finish(GVirConnection *conn,
@@ -987,8 +1020,9 @@ gboolean gvir_connection_fetch_storage_pools_finish(GVirConnection *conn,
 
 const gchar *gvir_connection_get_uri(GVirConnection *conn)
 {
-    GVirConnectionPrivate *priv = conn->priv;
-    return priv->uri;
+    g_return_val_if_fail(GVIR_IS_CONNECTION(conn), NULL);
+
+    return conn->priv->uri;
 }
 
 static void gvir_domain_ref(gpointer obj, gpointer ignore G_GNUC_UNUSED)
@@ -998,14 +1032,22 @@ static void gvir_domain_ref(gpointer obj, gpointer ignore G_GNUC_UNUSED)
 
 /**
  * gvir_connection_get_domains:
+ * @conn: a #GVirConnection
  *
- * Return value: (element-type LibvirtGObject.Domain) (transfer full): List of #GVirDomain
+ * Gets a list of the domains available through @conn.
+ *
+ * Return value: (element-type LibvirtGObject.Domain) (transfer full): List
+ * of #GVirDomain. The returned list should be freed with g_list_free(),
+ * after its elements have been unreffed with g_object_unref().
  */
 GList *gvir_connection_get_domains(GVirConnection *conn)
 {
-    GVirConnectionPrivate *priv = conn->priv;
+    GVirConnectionPrivate *priv;
     GList *domains = NULL;
 
+    g_return_val_if_fail(GVIR_IS_CONNECTION(conn), NULL);
+
+    priv = conn->priv;
     g_mutex_lock(priv->lock);
     if (priv->domains != NULL) {
         domains = g_hash_table_get_values(priv->domains);
@@ -1018,15 +1060,23 @@ GList *gvir_connection_get_domains(GVirConnection *conn)
 
 /**
  * gvir_connection_get_storage_pools:
+ * @conn: a #GVirConnection
+ *
+ * Gets a list of the storage pools available through @conn.
  *
  * Return value: (element-type LibvirtGObject.StoragePool) (transfer full): List
- * of #GVirStoragePool
+ * of #GVirStoragePool. The returned list should be freed with
+ * g_list_free(), after its elements have been unreffed with
+ * g_object_unref().
  */
 GList *gvir_connection_get_storage_pools(GVirConnection *conn)
 {
-    GVirConnectionPrivate *priv = conn->priv;
+    GVirConnectionPrivate *priv;
     GList *pools = NULL;
 
+    g_return_val_if_fail(GVIR_IS_CONNECTION(conn), NULL);
+
+    priv = conn->priv;
     g_mutex_lock(priv->lock);
     if (priv->pools != NULL) {
         pools = g_hash_table_get_values(priv->pools);
@@ -1039,15 +1089,22 @@ GList *gvir_connection_get_storage_pools(GVirConnection *conn)
 
 /**
  * gvir_connection_get_domain:
+ * @conn: a #GVirConnection
  * @uuid: uuid string of the requested domain
  *
- * Return value: (transfer full): the #GVirDomain, or NULL
+ * Return value: (transfer full): the #GVirDomain, or NULL. The returned
+ * object should be unreffed with g_object_unref() when no longer needed.
  */
 GVirDomain *gvir_connection_get_domain(GVirConnection *conn,
                                        const gchar *uuid)
 {
-    GVirConnectionPrivate *priv = conn->priv;
+    GVirConnectionPrivate *priv;
     GVirDomain *dom;
+
+    g_return_val_if_fail(GVIR_IS_CONNECTION(conn), NULL);
+    g_return_val_if_fail(uuid != NULL, NULL);
+
+    priv = conn->priv;
     g_mutex_lock(priv->lock);
     dom = g_hash_table_lookup(priv->domains, uuid);
     if (dom)
@@ -1058,16 +1115,22 @@ GVirDomain *gvir_connection_get_domain(GVirConnection *conn,
 
 /**
  * gvir_connection_get_storage_pool:
+ * @conn: a #GVirConnection
  * @uuid: uuid string of the requested storage pool
  *
- * Return value: (transfer full): the #GVirStoragePool, or NULL
+ * Return value: (transfer full): the #GVirStoragePool, or NULL. The returned
+ * object should be unreffed with g_object_unref() when no longer needed.
  */
 GVirStoragePool *gvir_connection_get_storage_pool(GVirConnection *conn,
                                                   const gchar *uuid)
 {
-    GVirConnectionPrivate *priv = conn->priv;
+    GVirConnectionPrivate *priv;
     GVirStoragePool *pool;
 
+    g_return_val_if_fail(GVIR_IS_CONNECTION(conn), NULL);
+    g_return_val_if_fail(uuid != NULL, NULL);
+
+    priv = conn->priv;
     g_mutex_lock(priv->lock);
     pool = g_hash_table_lookup(priv->pools, uuid);
     if (pool)
@@ -1079,17 +1142,22 @@ GVirStoragePool *gvir_connection_get_storage_pool(GVirConnection *conn,
 
 /**
  * gvir_connection_find_domain_by_id:
+ * @conn: a #GVirConnection
  * @id: id of the requested domain
  *
- * Return value: (transfer full): the #GVirDomain, or NULL
+ * Return value: (transfer full): the #GVirDomain, or NULL. The returned
+ * object should be unreffed with g_object_unref() when no longer needed.
  */
 GVirDomain *gvir_connection_find_domain_by_id(GVirConnection *conn,
                                               gint id)
 {
-    GVirConnectionPrivate *priv = conn->priv;
+    GVirConnectionPrivate *priv;
     GHashTableIter iter;
     gpointer key, value;
 
+    g_return_val_if_fail(GVIR_IS_CONNECTION(conn), NULL);
+
+    priv = conn->priv;
     g_mutex_lock(priv->lock);
     g_hash_table_iter_init(&iter, priv->domains);
 
@@ -1111,17 +1179,23 @@ GVirDomain *gvir_connection_find_domain_by_id(GVirConnection *conn,
 
 /**
  * gvir_connection_find_domain_by_name:
+ * @conn: a #GVirConnection
  * @name: name of the requested domain
  *
- * Return value: (transfer full): the #GVirDomain, or NULL
+ * Return value: (transfer full): the #GVirDomain, or NULL. The returned
+ * object should be unreffed with g_object_unref() when no longer needed.
  */
 GVirDomain *gvir_connection_find_domain_by_name(GVirConnection *conn,
                                                 const gchar *name)
 {
-    GVirConnectionPrivate *priv = conn->priv;
+    GVirConnectionPrivate *priv;
     GHashTableIter iter;
     gpointer key, value;
 
+    g_return_val_if_fail(GVIR_IS_CONNECTION(conn), NULL);
+    g_return_val_if_fail(name != NULL, NULL);
+
+    priv = conn->priv;
     g_mutex_lock(priv->lock);
     g_hash_table_iter_init(&iter, priv->domains);
 
@@ -1145,17 +1219,23 @@ GVirDomain *gvir_connection_find_domain_by_name(GVirConnection *conn,
 
 /**
  * gvir_connection_find_storage_pool_by_name:
+ * @conn: a #GVirConnection
  * @name: name of the requested storage pool
  *
- * Return value: (transfer full): the #GVirStoragePool, or NULL
+ * Return value: (transfer full): the #GVirStoragePool, or NULL. The returned
+ * object should be unreffed with g_object_unref() when no longer needed.
  */
 GVirStoragePool *gvir_connection_find_storage_pool_by_name(GVirConnection *conn,
                                                            const gchar *name)
 {
-    GVirConnectionPrivate *priv = conn->priv;
+    GVirConnectionPrivate *priv;
     GHashTableIter iter;
     gpointer key, value;
 
+    g_return_val_if_fail(GVIR_IS_CONNECTION(conn), NULL);
+    g_return_val_if_fail(name != NULL, NULL);
+
+    priv = conn->priv;
     g_mutex_lock(priv->lock);
     g_hash_table_iter_init(&iter, priv->pools);
 
@@ -1197,9 +1277,11 @@ G_DEFINE_BOXED_TYPE(GVirConnectionHandle, gvir_connection_handle,
 
 /**
  * gvir_connection_get_stream:
+ * @conn: a #GVirConnection
  * @flags: flags to use for the stream
  *
- * Return value: (transfer full): a #GVirStream stream, or NULL
+ * Return value: (transfer full): a #GVirStream stream, or NULL.The returned
+ * object should be unreffed with g_object_unref() when no longer needed.
  */
 GVirStream *gvir_connection_get_stream(GVirConnection *self,
                                        guint flags)
@@ -1219,13 +1301,15 @@ GVirStream *gvir_connection_get_stream(GVirConnection *self,
 
 /**
  * gvir_connection_create_domain:
- * @conn: the connection on which to create the domain
+ * @conn: a #GVirConnection on which to create the domain
  * @conf: the configuration for the new domain
  *
  * Create the configuration file for a new persistent domain.
  * The returned domain will initially be in the shutoff state.
  *
- * Returns: (transfer full): the newly created domain
+ * Returns: (transfer full): the newly created domain, or NULL if an error
+ * occurred. The returned object should be unreffed with g_object_unref()
+ * when no longer needed.
  */
 GVirDomain *gvir_connection_create_domain(GVirConnection *conn,
                                           GVirConfigDomain *conf,
@@ -1233,12 +1317,17 @@ GVirDomain *gvir_connection_create_domain(GVirConnection *conn,
 {
     gchar *xml;
     virDomainPtr handle;
-    GVirConnectionPrivate *priv = conn->priv;
+    GVirConnectionPrivate *priv;
+
+    g_return_val_if_fail(GVIR_IS_CONNECTION(conn), NULL);
+    g_return_val_if_fail(GVIR_CONFIG_IS_DOMAIN(conf), NULL);
+    g_return_val_if_fail((err == NULL) || (*err == NULL), NULL);
 
     xml = gvir_config_object_to_xml(GVIR_CONFIG_OBJECT(conf));
 
     g_return_val_if_fail(xml != NULL, NULL);
 
+    priv = conn->priv;
     handle = virDomainDefineXML(priv->conn, xml);
     g_free(xml);
     if (!handle) {
@@ -1265,13 +1354,15 @@ GVirDomain *gvir_connection_create_domain(GVirConnection *conn,
 
 /**
  * gvir_connection_start_domain:
- * @conn: the connection on which to create the domain
+ * @conn: a #GVirConnection on which to create the domain
  * @conf: the configuration for the new domain
  *
  * Start a new transient domain without persistent configuration.
  * The returned domain will initially be running.
  *
- * Returns: (transfer full): the newly created domain
+ * Returns: (transfer full): the newly created domain, or NULL if an error
+ * occurred. The returned object should be unreffed with g_object_unref()
+ * when no longer needed.
  */
 GVirDomain *gvir_connection_start_domain(GVirConnection *conn,
                                          GVirConfigDomain *conf,
@@ -1280,12 +1371,17 @@ GVirDomain *gvir_connection_start_domain(GVirConnection *conn,
 {
     gchar *xml;
     virDomainPtr handle;
-    GVirConnectionPrivate *priv = conn->priv;
+    GVirConnectionPrivate *priv;
+
+    g_return_val_if_fail(GVIR_IS_CONNECTION(conn), NULL);
+    g_return_val_if_fail(GVIR_CONFIG_IS_DOMAIN(conf), NULL);
+    g_return_val_if_fail((err == NULL) || (*err == NULL), NULL);
 
     xml = gvir_config_object_to_xml(GVIR_CONFIG_OBJECT(conf));
 
     g_return_val_if_fail(xml != NULL, NULL);
 
+    priv = conn->priv;
     handle = virDomainCreateXML(priv->conn, xml, flags);
     g_free(xml);
     if (!handle) {
@@ -1312,12 +1408,14 @@ GVirDomain *gvir_connection_start_domain(GVirConnection *conn,
 
 /**
  * gvir_connection_create_storage_pool:
- * @conn: the connection on which to create the pool
+ * @conn: a #GVirConnection on which to create the pool
  * @conf: the configuration for the new storage pool
  * @flags:  the flags
  * @err: return location for any #GError
  *
- * Returns: (transfer full): the newly created storage pool
+ * Returns: (transfer full): the newly created storage pool, or NULL if an
+ * error occurred. The returned list should be freed with g_list_free(),
+ * after its elements have been unreffed with g_object_unref().
  */
 GVirStoragePool *gvir_connection_create_storage_pool
                                 (GVirConnection *conn,
@@ -1326,12 +1424,17 @@ GVirStoragePool *gvir_connection_create_storage_pool
                                  GError **err) {
     const gchar *xml;
     virStoragePoolPtr handle;
-    GVirConnectionPrivate *priv = conn->priv;
+    GVirConnectionPrivate *priv;
+
+    g_return_val_if_fail(GVIR_IS_CONNECTION(conn), NULL);
+    g_return_val_if_fail(GVIR_CONFIG_IS_STORAGE_POOL(conf), NULL);
+    g_return_val_if_fail((err == NULL) || (*err == NULL), NULL);
 
     xml = gvir_config_object_to_xml(GVIR_CONFIG_OBJECT(conf));
 
     g_return_val_if_fail(xml != NULL, NULL);
 
+    priv = conn->priv;
     if (!(handle = virStoragePoolDefineXML(priv->conn, xml, flags))) {
         gvir_set_error_literal(err, GVIR_CONNECTION_ERROR,
                                flags,
@@ -1356,18 +1459,24 @@ GVirStoragePool *gvir_connection_create_storage_pool
 
 /**
  * gvir_connection_get_node_info:
- * @conn: the connection
+ * @conn: a #GVirConnection
  * @err: return location for any #GError
  *
- * Returns: (transfer full): the info
+ * Returns: (transfer full): the info, or NULL if an error occurred. The
+ * returned object should be unreffed with g_object_unref() when no longer
+ * needed.
  */
 GVirNodeInfo *gvir_connection_get_node_info(GVirConnection *conn,
                                             GError **err)
 {
-    GVirConnectionPrivate *priv = conn->priv;
+    GVirConnectionPrivate *priv;
     virNodeInfo info;
     GVirNodeInfo *ret;
 
+    g_return_val_if_fail(GVIR_IS_CONNECTION(conn), NULL);
+    g_return_val_if_fail((err == NULL) || (*err == NULL), NULL);
+
+    priv = conn->priv;
     if (virNodeGetInfo(priv->conn, &info) < 0) {
         gvir_set_error_literal(err, GVIR_CONNECTION_ERROR,
                                0,
@@ -1386,4 +1495,278 @@ GVirNodeInfo *gvir_connection_get_node_info(GVirConnection *conn,
     ret->threads = info.threads;
 
     return ret;
+}
+
+/**
+ * gvir_connection_get_capabilities:
+ * @conn: a #GVirConnection
+ * @err: return location for any #GError
+ *
+ * Return value: (transfer full): a #GVirConfigCapabilities or NULL.  The
+ * returned object should be unreffed with g_object_unref() when no longer
+ * needed.
+ */
+GVirConfigCapabilities *gvir_connection_get_capabilities(GVirConnection *conn,
+                                                         GError **err)
+{
+    GVirConfigCapabilities *caps;
+    char *caps_xml;
+
+    g_return_val_if_fail(GVIR_IS_CONNECTION(conn), NULL);
+    g_return_val_if_fail(err == NULL || *err == NULL, NULL);
+    g_return_val_if_fail(conn->priv->conn, NULL);
+
+    caps_xml = virConnectGetCapabilities(conn->priv->conn);
+    if (caps_xml == NULL) {
+        gvir_set_error_literal(err, GVIR_CONNECTION_ERROR,
+                               0,
+                               "Unable to get capabilities");
+        return NULL;
+    }
+
+    caps = gvir_config_capabilities_new_from_xml(caps_xml, err);
+    free(caps_xml);
+
+    return caps;
+}
+
+static void
+gvir_connection_get_capabilities_helper(GSimpleAsyncResult *res,
+                                        GObject *object,
+                                        GCancellable *cancellable)
+{
+    GVirConnection *conn = GVIR_CONNECTION(object);
+    GError *err = NULL;
+    GVirConfigCapabilities *caps;
+
+    caps = gvir_connection_get_capabilities(conn, &err);
+    if (caps == NULL) {
+        g_simple_async_result_take_error(res, err);
+
+        return;
+    }
+
+    g_simple_async_result_set_op_res_gpointer(res, caps, g_object_unref);
+}
+
+/**
+ * gvir_connection_get_capabilities_async:
+ * @conn: a #GVirConnection
+ * @cancellable: (allow-none)(transfer none): cancellation object
+ * @callback: (scope async): completion callback
+ * @user_data: (closure): opaque data for callback
+ */
+void gvir_connection_get_capabilities_async(GVirConnection *conn,
+                                            GCancellable *cancellable,
+                                            GAsyncReadyCallback callback,
+                                            gpointer user_data)
+{
+    GSimpleAsyncResult *res;
+
+    g_return_if_fail(GVIR_IS_CONNECTION(conn));
+    g_return_if_fail((cancellable == NULL) || G_IS_CANCELLABLE(cancellable));
+
+    res = g_simple_async_result_new(G_OBJECT(conn),
+                                    callback,
+                                    user_data,
+                                    gvir_connection_get_capabilities_async);
+    g_simple_async_result_run_in_thread(res,
+                                        gvir_connection_get_capabilities_helper,
+                                        G_PRIORITY_DEFAULT,
+                                        cancellable);
+    g_object_unref(res);
+}
+
+/**
+ * gvir_connection_get_capabilities_finish:
+ * @conn: a #GVirConnection
+ * @result: (transfer none): async method result
+ *
+ * Return value: (transfer full): a #GVirConfigCapabilities or NULL. The
+ * returned object should be unreffed with g_object_unref() when no longer
+ * needed.
+ */
+GVirConfigCapabilities *
+gvir_connection_get_capabilities_finish(GVirConnection *conn,
+                                        GAsyncResult *result,
+                                        GError **err)
+{
+    GVirConfigCapabilities *caps;
+
+    g_return_val_if_fail(GVIR_IS_CONNECTION(conn), NULL);
+    g_return_val_if_fail(g_simple_async_result_is_valid(result, G_OBJECT(conn),
+                                                        gvir_connection_get_capabilities_async),
+                         NULL);
+
+    if (g_simple_async_result_propagate_error(G_SIMPLE_ASYNC_RESULT(result), err))
+        return NULL;
+
+    caps = g_simple_async_result_get_op_res_gpointer(G_SIMPLE_ASYNC_RESULT(result));
+
+    return g_object_ref(caps);
+}
+
+/**
+ * gvir_connection_restore_domain_from_file:
+ * @conn: a #GVirConnection
+ * @filename: path to input file
+ * @custom_conf: (allow-none): configuration for domain or NULL
+ * @flags: the flags
+ *
+ * Restores the domain saved with #gvir_domain_save_to_file
+ *
+ * Returns: TRUE on success, FALSE otherwise
+ */
+gboolean gvir_connection_restore_domain_from_file(GVirConnection *conn,
+                                                  gchar *filename,
+                                                  GVirConfigDomain *custom_conf,
+                                                  guint flags,
+                                                  GError **err)
+{
+    GVirConnectionPrivate *priv;
+    int ret;
+
+    g_return_val_if_fail(GVIR_IS_CONNECTION(conn), FALSE);
+    g_return_val_if_fail((filename != NULL), FALSE);
+    g_return_val_if_fail((err == NULL) || (*err == NULL), FALSE);
+
+    priv = conn->priv;
+
+    if (flags || (custom_conf != NULL)) {
+        gchar *custom_xml = NULL;
+
+       if (custom_conf != NULL)
+           custom_xml = gvir_config_object_to_xml(GVIR_CONFIG_OBJECT(custom_conf));
+
+       ret = virDomainRestoreFlags(priv->conn, filename, custom_xml, flags);
+       g_free (custom_xml);
+    }
+    else {
+       ret = virDomainRestore(priv->conn, filename);
+    }
+
+    if (ret < 0) {
+        gvir_set_error_literal(err, GVIR_CONNECTION_ERROR,
+                              0,
+                              "Unable to restore domain");
+
+       return FALSE;
+    }
+
+    return TRUE;
+}
+
+typedef struct {
+    gchar *filename;
+    GVirConfigDomain *custom_conf;
+    guint flags;
+} RestoreDomainFromFileData;
+
+static void restore_domain_from_file_data_free(RestoreDomainFromFileData *data)
+{
+    g_free(data->filename);
+    g_clear_object(&data->custom_conf);
+    g_slice_free(RestoreDomainFromFileData, data);
+}
+
+static void
+gvir_connection_restore_domain_from_file_helper
+                               (GSimpleAsyncResult *res,
+                                GObject *object,
+                                GCancellable *cancellable G_GNUC_UNUSED)
+{
+    GVirConnection *conn = GVIR_CONNECTION(object);
+    RestoreDomainFromFileData *data;
+    GError *err = NULL;
+
+    data = g_simple_async_result_get_op_res_gpointer(res);
+
+    if (!gvir_connection_restore_domain_from_file(conn,
+                                                  data->filename,
+                                                  data->custom_conf,
+                                                  data->flags,
+                                                  &err))
+       g_simple_async_result_take_error(res, err);
+}
+
+/**
+ * gvir_connection_restore_domain_from_file_async:
+ * @conn: a #GVirConnection
+ * @filename: path to input file
+ * @custom_conf: (allow-none): configuration for domain
+ * @flags: the flags
+ * @cancellable: (allow-none) (transfer none): cancellation object
+ * @callback: (scope async): completion callback
+ * @user_data: (closure): opaque data for callback
+ *
+ * Asynchronous variant of #gvir_connection_restore_domain_from_file
+ */
+void
+gvir_connection_restore_domain_from_file_async(GVirConnection *conn,
+                                               gchar *filename,
+                                               GVirConfigDomain *custom_conf,
+                                               guint flags,
+                                               GCancellable *cancellable,
+                                               GAsyncReadyCallback callback,
+                                               gpointer user_data)
+{
+    GSimpleAsyncResult *res;
+    RestoreDomainFromFileData *data;
+
+    g_return_if_fail(GVIR_IS_CONNECTION(conn));
+    g_return_if_fail(filename != NULL);
+    g_return_if_fail((cancellable == NULL) || G_IS_CANCELLABLE(cancellable));
+
+    data = g_slice_new0(RestoreDomainFromFileData);
+    data->filename = g_strdup(filename);
+    if (custom_conf != NULL)
+        data->custom_conf = g_object_ref(custom_conf);
+    data->flags = flags;
+
+    res = g_simple_async_result_new
+                         (G_OBJECT(conn),
+                          callback,
+                          user_data,
+                          gvir_connection_restore_domain_from_file_async);
+    g_simple_async_result_set_op_res_gpointer
+                          (res,
+                           data,
+                           (GDestroyNotify)restore_domain_from_file_data_free);
+
+    g_simple_async_result_run_in_thread
+                          (res,
+                           gvir_connection_restore_domain_from_file_helper,
+                           G_PRIORITY_DEFAULT,
+                           cancellable);
+
+    g_object_unref(res);
+}
+
+/**
+ * gvir_connection_restore_domain_from_file_finish:
+ * @conn: a #GVirConnection
+ * @result: (transfer none): async method result
+ * @err: Place-holder for possible errors
+ *
+ * Finishes the operation started by #gvir_restore_domain_from_file_async.
+ *
+ * Returns: TRUE if domain was restored successfully, FALSE otherwise.
+ */
+gboolean
+gvir_connection_restore_domain_from_file_finish(GVirConnection *conn,
+                                                GAsyncResult *result,
+                                                GError **err)
+{
+    g_return_val_if_fail(GVIR_IS_CONNECTION(conn), FALSE);
+    g_return_val_if_fail(g_simple_async_result_is_valid
+                           (result,
+                            G_OBJECT(conn),
+                            gvir_connection_restore_domain_from_file_async),
+                            FALSE);
+
+     if (g_simple_async_result_propagate_error(G_SIMPLE_ASYNC_RESULT(result),
+                                               err))
+         return FALSE;
+
+    return TRUE;
 }

@@ -27,16 +27,21 @@
 <ANCHOR id="GVirConfigDomainLifecycleEvent" href="Libvirt-gconfig/GVirConfigDomain.html#GVirConfigDomainLifecycleEvent">
 <ANCHOR id="GVirConfigDomainVirtType" href="Libvirt-gconfig/GVirConfigDomain.html#GVirConfigDomainVirtType">
 <ANCHOR id="gvir-config-domain-add-device" href="Libvirt-gconfig/GVirConfigDomain.html#gvir-config-domain-add-device">
+<ANCHOR id="gvir-config-domain-get-cpu" href="Libvirt-gconfig/GVirConfigDomain.html#gvir-config-domain-get-cpu">
 <ANCHOR id="gvir-config-domain-get-custom-xml" href="Libvirt-gconfig/GVirConfigDomain.html#gvir-config-domain-get-custom-xml">
 <ANCHOR id="gvir-config-domain-get-description" href="Libvirt-gconfig/GVirConfigDomain.html#gvir-config-domain-get-description">
 <ANCHOR id="gvir-config-domain-get-devices" href="Libvirt-gconfig/GVirConfigDomain.html#gvir-config-domain-get-devices">
 <ANCHOR id="gvir-config-domain-get-features" href="Libvirt-gconfig/GVirConfigDomain.html#gvir-config-domain-get-features">
 <ANCHOR id="gvir-config-domain-get-memory" href="Libvirt-gconfig/GVirConfigDomain.html#gvir-config-domain-get-memory">
 <ANCHOR id="gvir-config-domain-get-name" href="Libvirt-gconfig/GVirConfigDomain.html#gvir-config-domain-get-name">
+<ANCHOR id="gvir-config-domain-get-os" href="Libvirt-gconfig/GVirConfigDomain.html#gvir-config-domain-get-os">
+<ANCHOR id="gvir-config-domain-get-title" href="Libvirt-gconfig/GVirConfigDomain.html#gvir-config-domain-get-title">
 <ANCHOR id="gvir-config-domain-get-vcpus" href="Libvirt-gconfig/GVirConfigDomain.html#gvir-config-domain-get-vcpus">
+<ANCHOR id="gvir-config-domain-get-virt-type" href="Libvirt-gconfig/GVirConfigDomain.html#gvir-config-domain-get-virt-type">
 <ANCHOR id="gvir-config-domain-new" href="Libvirt-gconfig/GVirConfigDomain.html#gvir-config-domain-new">
 <ANCHOR id="gvir-config-domain-new-from-xml" href="Libvirt-gconfig/GVirConfigDomain.html#gvir-config-domain-new-from-xml">
 <ANCHOR id="gvir-config-domain-set-clock" href="Libvirt-gconfig/GVirConfigDomain.html#gvir-config-domain-set-clock">
+<ANCHOR id="gvir-config-domain-set-cpu" href="Libvirt-gconfig/GVirConfigDomain.html#gvir-config-domain-set-cpu">
 <ANCHOR id="gvir-config-domain-set-custom-xml" href="Libvirt-gconfig/GVirConfigDomain.html#gvir-config-domain-set-custom-xml">
 <ANCHOR id="gvir-config-domain-set-description" href="Libvirt-gconfig/GVirConfigDomain.html#gvir-config-domain-set-description">
 <ANCHOR id="gvir-config-domain-set-devices" href="Libvirt-gconfig/GVirConfigDomain.html#gvir-config-domain-set-devices">
@@ -46,6 +51,7 @@
 <ANCHOR id="gvir-config-domain-set-name" href="Libvirt-gconfig/GVirConfigDomain.html#gvir-config-domain-set-name">
 <ANCHOR id="gvir-config-domain-set-os" href="Libvirt-gconfig/GVirConfigDomain.html#gvir-config-domain-set-os">
 <ANCHOR id="gvir-config-domain-set-seclabel" href="Libvirt-gconfig/GVirConfigDomain.html#gvir-config-domain-set-seclabel">
+<ANCHOR id="gvir-config-domain-set-title" href="Libvirt-gconfig/GVirConfigDomain.html#gvir-config-domain-set-title">
 <ANCHOR id="gvir-config-domain-set-vcpus" href="Libvirt-gconfig/GVirConfigDomain.html#gvir-config-domain-set-vcpus">
 <ANCHOR id="gvir-config-domain-set-virt-type" href="Libvirt-gconfig/GVirConfigDomain.html#gvir-config-domain-set-virt-type">
 <ANCHOR id="GVirConfigDomain.property-details" href="Libvirt-gconfig/GVirConfigDomain.html#GVirConfigDomain.property-details">
@@ -53,6 +59,7 @@
 <ANCHOR id="GVirConfigDomain--features" href="Libvirt-gconfig/GVirConfigDomain.html#GVirConfigDomain--features">
 <ANCHOR id="GVirConfigDomain--memory" href="Libvirt-gconfig/GVirConfigDomain.html#GVirConfigDomain--memory">
 <ANCHOR id="GVirConfigDomain--name" href="Libvirt-gconfig/GVirConfigDomain.html#GVirConfigDomain--name">
+<ANCHOR id="GVirConfigDomain--title" href="Libvirt-gconfig/GVirConfigDomain.html#GVirConfigDomain--title">
 <ANCHOR id="GVirConfigDomain--vcpu" href="Libvirt-gconfig/GVirConfigDomain.html#GVirConfigDomain--vcpu">
 <ANCHOR id="GVirConfigDomainSnapshot" href="Libvirt-gconfig/GVirConfigDomainSnapshot.html">
 <ANCHOR id="GVirConfigDomainSnapshot.synopsis" href="Libvirt-gconfig/GVirConfigDomainSnapshot.html#GVirConfigDomainSnapshot.synopsis">
@@ -147,6 +154,8 @@
 <ANCHOR id="GVirConfigCapabilities.details" href="Libvirt-gconfig/GVirConfigCapabilities.html#GVirConfigCapabilities.details">
 <ANCHOR id="GVirConfigCapabilities-struct" href="Libvirt-gconfig/GVirConfigCapabilities.html#GVirConfigCapabilities-struct">
 <ANCHOR id="GVirConfigCapabilitiesClass" href="Libvirt-gconfig/GVirConfigCapabilities.html#GVirConfigCapabilitiesClass">
+<ANCHOR id="gvir-config-capabilities-get-guests" href="Libvirt-gconfig/GVirConfigCapabilities.html#gvir-config-capabilities-get-guests">
+<ANCHOR id="gvir-config-capabilities-get-host" href="Libvirt-gconfig/GVirConfigCapabilities.html#gvir-config-capabilities-get-host">
 <ANCHOR id="gvir-config-capabilities-new" href="Libvirt-gconfig/GVirConfigCapabilities.html#gvir-config-capabilities-new">
 <ANCHOR id="gvir-config-capabilities-new-from-xml" href="Libvirt-gconfig/GVirConfigCapabilities.html#gvir-config-capabilities-new-from-xml">
 <ANCHOR id="annotation-glossterm-array" href="Libvirt-gconfig/annotation-glossary.html#annotation-glossterm-array">

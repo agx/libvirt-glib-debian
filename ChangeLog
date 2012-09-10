@@ -1,3 +1,350 @@
+2012-08-20  Daniel P. Berrange  <berrange@redhat.com>
+
+	Update NEWS for 0.1.2 release
+
+	Don't hold events lock when dispatching free callbacks
+	The _event_timeout_remove and _event_handle_remove methods
+	were holding onto the global lock when invoking the free
+	callback. This is a violation of the libvirt events API
+	contract which requires free callbacks to be invoked in
+	a re-entrant safe context.
+
+2012-08-09  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Fix small typo in error message ('downlaod')
+
+2012-08-07  Marc-André Lureau  <marcandre.lureau@redhat.com>
+
+	libvirt-gobject.sym: fix resume() symbols version
+
+	Post-release version bump
+
+2012-08-07  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Add async variant of gvir_domain_resume()
+
+2012-08-06  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Release 0.1.1
+
+2012-08-03  Jovanka Gulicoska  <jovanka.gulicoska@gmail.com>
+
+	Add bindings for virDomainSnapshotCreateFlags
+
+	Add bindings for virDomainSnapshotCreateXML()
+
+2012-07-31  Jovanka Gulicoska  <jovanka.gulicoska@gmail.com>
+
+	Add bindings for virDomainRestore*()
+
+2012-07-20  Marc-André Lureau  <marcandre.lureau@redhat.com>
+
+	gobject: add GVir.DomainShutdownFlags binding
+
+2012-07-18  Marc-André Lureau  <marcandre.lureau@redhat.com>
+
+	gobject: add GVir.DomainXMLFlags binding
+
+	Post-release version bump
+
+2012-07-16  Daniel P. Berrange  <berrange@redhat.com>
+
+	Update NEWS for 0.1.0 release
+
+	Add Jovanka Gulicoska to AUTHORS
+
+2012-07-14  Jovanka Gulicoska  <jovanka.gulicoska@gmail.com>
+
+	Add bindings for virStorageDownload() & virStorageUpload()
+
+	Add bindings for virDomainSave*()
+
+2012-06-27  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Test cases for new domain CPU APIs
+
+	Add GVirConfigDomainCpu class
+	API to handle 'domain/cpu' nodes.
+
+	Make GVirConfigCapabilitiesCpu.get_features virtual
+	Also provide helper function for subclasses that will have the exact
+	same implementation except that they'll return instances of another type
+	(subclasses of GVirConfigDomainCpuFeature rather than
+	GVirConfigDomainCpuFeature itself).
+
+2012-06-26  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Add GVirConfigDomainCpuFeature class
+	API to handle 'domain/cpu/feature' nodes.
+
+	Add gvir_config_capabilities_cpu_feature_set_name()
+	Setter for CapabilitiesCpuFeature.name.
+
+	Setters for CapabilitiesCpuTopology props
+
+	Add gvir_config_capabilities_cpu_topology_new*
+	Provide constructor methods for GVirConfigCapabilitiesCpuTopology.
+
+	Setters/adders for GVirConfigCapabilitiesCpu props
+	- gvir_config_capabilities_cpu_add_feature
+	- gvir_config_capabilities_cpu_set_topology
+
+2012-06-25  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Add API doc for GVirConfigDomainControllerUsb
+
+2012-06-25  Daniel P. Berrange  <berrange@redhat.com>
+
+	Bump version to 0.1.0
+
+	Update NEWS for 0.0.9 release
+
+	Move gvir_config_domain_filesys_set_ram_usage sym to correct version block
+
+	Tweaks to mingw-libvirt-glib.spec.in
+
+	Add support for domain filesystems with type=bind|ram
+	This adds support for filesystems with type=bind or type=ram,
+
+	eg
+
+	   <filesystem type='bind'>
+	     <source dir="/some/guest/file"/>
+	     <target dir=/other/guest/file"/>
+	   </filesystem>
+
+	And
+
+	   <filesystem type='ram'>
+	      <source usage='102400'/>
+	      <target dir='/run'/>
+	   </filesystem>
+
+2012-06-25  Christophe Fergeau  <cfergeau@redhat.com>
+
+	mainloop: don't reschedule deleted timeouts/watches
+	The deletion of libvirt timeouts/watches is done in 2 steps:
+	- the first step is synchronous and unregisters the timeout/watch
+	  from glib mainloop
+	- the second step is asynchronous and triggered from the first step.
+	  It releases the memory used for bookkeeping for the timeout/watch
+	  being deleted
+
+	This is done this way to avoid some possible deadlocks when
+	reentering the sync callback while freeing the memory associated
+	with the timeout/watch.
+
+	However, it's possible to call gvir_event_update_handle after
+	gvir_event_remove_handle but before _event_handle_remove does
+	the final cleanup. When this happen, _update_handle will reregister
+	the handle with glib mainloop, and bad things will happen when
+	a glib callback is triggered for this event after _event_handle_remove
+	has freed the memory associated with this handle watch.
+
+	This commit marks the timeouts and watches as removed in the
+	synchronous _remove callback and makes sure removed timeouts/watches
+	are ignored in _update callbacks.
+
+	mainloop: protect 'handles' and 'timeouts' against concurrent accesses
+	Timeout and watch deletion is done from an idle callback. However,
+	we cannot assume that all libvirt event calls (the callbacks passed
+	to virEventRegisterImpl) will be done from the mainloop thread. It's
+	thus possible that a libvirt event call will run a thread while
+	one of the idle deletion callbacks runs.
+	Given that the 'handles' and 'timeouts' arrays are shared among all
+	threads, we need to make sure we hold the 'eventlock' mutex before
+	modifying them.
+
+	mainloop: remove unused gvir_event_{handle,timeout}_update arg
+
+	mainloop: add missing debug message
+	All timeout and watch additions/updates/removals are logged except
+	successful watch updates. This commit adds such a log message.
+
+	mainloop: improve handle operations debug messages
+	Make sure the watch ID and the address of the structure libvirt-glib
+	uses to watch the handle are always printed to make tracking operation
+	on the same watch easier.
+
+2012-06-23  Marc-André Lureau  <marcandre.lureau@redhat.com>
+
+	Add async version of gvir_domain_start
+
+2012-06-20  Daniel P. Berrange  <berrange@redhat.com>
+
+	Switch over to mingw64 toolchain for Windows builds
+
+2012-06-19  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Add getter for GVirConfigDomainOs.os_type
+
+2012-06-18  Daniel P. Berrange  <berrange@redhat.com>
+
+	Remove bogus check against -1 of gvir_config_genum_get_value return value
+	The gvir_config_domain_disk class was checking the return value
+	of gvir_config_genum_get_value against -1. This is impossible,
+	since this method will return the default enum value
+
+	Fix generation of filesystem device source XML element
+	When setting the filesystem source type, the code forgot to
+	update priv->type. Thus when setting the source element,
+	the incorrect attribute was being used.
+
+2012-06-13  Christophe Fergeau  <cfergeau@redhat.com>
+
+	build: allow building with newer glibc-headers and -O0
+	Commit log and autoconf snippet written by Eric Blake for libvirt.
+
+	glibc 2.15 (on Fedora 17) coupled with explicit disabling of
+	optimization during development dies a painful death:
+
+	In file included from /usr/include/limits.h:27:0,
+	                 from /usr/lib/gcc/x86_64-redhat-linux/4.7.0/include/limits.h:169,.
+	                 from /usr/lib/gcc/x86_64-redhat-linux/4.7.0/include/syslimits.h:7,
+	                 from /usr/lib/gcc/x86_64-redhat-linux/4.7.0/include/limits.h:34,
+	                 from util/bitmap.c:26:
+	/usr/include/features.h:314:4: error: #warning _FORTIFY_SOURCE requires compiling with optimization (-O) [-Werror=cpp]
+	cc1: all warnings being treated as errors
+
+	Work around this by only conditionally defining _FORTIFY_SOURCE,
+	in the case where glibc can actually use it.  The trick is using
+	AH_VERBATIM instead of AC_DEFINE.
+
+	* m4/virt-compile-warnings.m4 (LIBVIRT_GLIB_COMPILE_WARNINGS): Squelch
+	_FORTIFY_SOURCE when needed to avoid glibc #warnings.
+
+2012-06-04  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	API to get/set domain title
+
+2012-06-01  Michal Privoznik  <mprivozn@redhat.com>
+
+	glib-events: Allow zero timeouts for timer
+	In libvirt, it's perfectly possible and widely used to have disabled
+	timers (timeout=-1) and fire them up 'randomly' with timeout=0.
+	However, with current mapping into glib mainloop it's not possible
+	and causing troubles.
+
+2012-05-25  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	API to deal with topology information of CPU capabilities
+
+	Add gvir_config_object_get_attribute_uint64()
+	Another internal libvirt-gconfig helper to get uint64 XML attributes.
+
+2012-05-23  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Check arguments to public libvirt-gobject methods
+	Some public methods in libvirt-gobject don't have g_return_if_fail
+	checks on their arguments. It happens that GNOME Boxes tries to call
+	gvir_connection_find_storage_pool_by_name with a NULL GVirConnection
+	causing a crash https://bugzilla.gnome.org/show_bug.cgi?id=676216 While
+	GNOME Boxes needs to be fixed not to pass an invalid value to this
+	function, it's better if libvirt-object sanity checks the argument it is
+	passed by the caller before using them.  In this commit, I've went over
+	all libvirt-gobject public functions to add g_return_if_fail checks
+	where needed.
+
+2012-05-22  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Add getter for GVirConfigDomainOS.arch
+
+2012-05-21  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Check arguments to public GVirConfigObject methods
+	GVirConfigObject public methods don't have g_return_if_fail checks
+	on their arguments. It happens that GNOME Boxes tries to call
+	gvir_config_object_to_xml with a NULL GVirConfigObject causing a
+	crash https://bugzilla.gnome.org/show_bug.cgi?id=676308
+	While GNOME Boxes needs to be fixed not to pass an invalid value
+	to gvir_config_object_to_xml, it's better if libvirt-gconfig sanity
+	checks the argument it is passed by the caller before using them.
+
+2012-05-16  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Add getter for GVirConfigDomain.virt_type
+
+2012-05-15  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Make sure %with_vala is defined for newer RHELs
+	We want to build the vala bindings on recent RHELs. Given than
+	%with_introspection is defined for fedora >= 15 and rhel > 6 which
+	are exactly the versions for which we want to build the vala bindings,
+	and given that the vala bindings are to be disabled when introspection
+	is disabled, we can set %with_vala to the same value as %with_introspection.
+
+2012-05-15  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Forgotten fixes to capabilities API test app
+
+2012-05-14  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Add missing domain OS type enums
+
+	Add some tests for new capabilities APIs
+
+	Add guest capabilities API
+	Not quite complete but its a good start.
+
+	Add host capabilities API
+	Not quite complete but its a good start.
+
+2012-05-11  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Make memory-handling more explicit in API doc
+	Explain how the return value of the (transfer full) methods should
+	be freed. I also made some cosmetic changes in the API doc of some
+	of the files as I was modifying them.
+
+2012-05-11  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	API to get capabilities from connection
+
+	Add gvir_config_domain_os_get_boot_devices()
+
+	Allow unsetting of object properties
+	This changes gvir_config_object_attach_replace to accept a NULL
+	child object. Since we need to be able to find the node to remove
+	when this happens, gvir_config_object_attach_replace gets a third
+	argument with the name of the node to add/remove.
+
+	Allow unsetting of string properties
+	This changes gvir_config_object_set_node_content to accept a NULL
+	content and to remove the corresponding node when this happens
+
+	Add gvir_config_domain_get_os()
+
+2012-05-10  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	More internal helpers for GVirConfigObject subclasses
+	- gvir_config_object_get_child()
+	- gvir_config_object_get_child_with_type()
+
+2012-05-09  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Correct gvir_config_domain_source_pty_set_path()
+	This function should set 'path' as attribute of 'source' node rather
+	than as child node.
+
+2012-05-08  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Remove a redundant struct field
+
+2012-05-02  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Corrections to satisfy latest GIR
+
+2012-05-02  Daniel P. Berrange  <berrange@redhat.com>
+
+	Add complete docs for the Libvirt GLib library
+	Flesh out the section intros for each of the Libvirt GLib
+	library modules, providing using examples where needed, and
+	adding any missing function docs.
+
+2012-05-01  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Bump version
+
 2012-04-27  Daniel P. Berrange  <berrange@redhat.com>
 
 	Prep NEWS for 0.0.8 release

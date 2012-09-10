@@ -31,6 +31,7 @@ G_BEGIN_DECLS
 
 #include <libvirt-gobject/libvirt-gobject-stream.h>
 #include <libvirt/libvirt.h>
+#include <libvirt-gobject/libvirt-gobject-domain-snapshot.h>
 
 #define GVIR_TYPE_DOMAIN            (gvir_domain_get_type ())
 #define GVIR_DOMAIN(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GVIR_TYPE_DOMAIN, GVirDomain))
@@ -102,6 +103,58 @@ typedef enum {
     GVIR_DOMAIN_DELETE_SNAPSHOTS_METADATA = VIR_DOMAIN_UNDEFINE_SNAPSHOTS_METADATA,
 } GVirDomainDeleteFlags;
 
+/**
+ * GVirDomainXMLFlags:
+ * @GVIR_DOMAIN_XML_NONE: No flags
+ * @GVIR_DOMAIN_XML_SECURE: Dump security sensitive information too
+ * @GVIR_DOMAIN_XML_INACTIVE: Dump inactive domain information
+ * @GVIR_DOMAIN_XML_UPDATE_CPU: Update guest CPU requirements according to host CPU
+ */
+typedef enum {
+    GVIR_DOMAIN_XML_NONE            = 0,
+    GVIR_DOMAIN_XML_SECURE          = VIR_DOMAIN_XML_SECURE,
+    GVIR_DOMAIN_XML_INACTIVE        = VIR_DOMAIN_XML_INACTIVE,
+    GVIR_DOMAIN_XML_UPDATE_CPU      = VIR_DOMAIN_XML_UPDATE_CPU,
+} GVirDomainXMLFlags;
+
+/**
+ * GVirDomainShutdownFlags:
+ * @GVIR_DOMAIN_SHUTDOWN_NONE: No flags, hypervisor choice
+ * @GVIR_DOMAIN_SHUTDOWN_ACPI_POWER_BTN: Send ACPI event
+ * @GVIR_DOMAIN_SHUTDOWN_GUEST_AGENT: Use guest agent
+ *
+ */
+typedef enum {
+    GVIR_DOMAIN_SHUTDOWN_NONE           = 0,
+    GVIR_DOMAIN_SHUTDOWN_ACPI_POWER_BTN = VIR_DOMAIN_SHUTDOWN_ACPI_POWER_BTN,
+    GVIR_DOMAIN_SHUTDOWN_GUEST_AGENT    = VIR_DOMAIN_SHUTDOWN_GUEST_AGENT,
+} GVirDomainShutdownFlags;
+
+/**
+ * GVirDomainSnapshotCreateFlags:
+ * @GVIR_DOMAIN_SNAPSHOT_NONE: No flags
+ * @GVIR_DOMAIN_SNAPSHOT_REDEFINE: Restore or alter metadata
+ * @GVIR_DOMAIN_SNAPSHOT_CURRENT: With redefine, make snapshot current
+ * @GVIR_DOMAIN_SNAPSHOT_NO_METADATA: Make snapshot without remembering it
+ * @GVIR_DOMAIN_SNAPSHOT_HALT: Stop running guest after snapshot
+ * @GVIR_DOMAIN_SNAPSHOT_DISK_ONLY: Disk snapshot, not system checkpoint
+ * @GVIR_DOMAIN_SNAPSHOT_REUSE_EXT: Reuse any existing external files
+ * @GVIR_DOMAIN_SNAPSHOT_QUIESCE: Use guest agent to quiesce all mounter
+ *                                file systems within the domain
+ * @GVIR_DOMAIN_SNAPSHOT_ATOMIC: Atomically avoid partial changes
+ */
+typedef enum {
+    GVIR_DOMAIN_SNAPSHOT_NONE         = 0,
+    GVIR_DOMAIN_SNAPSHOT_REDEFINE     = VIR_DOMAIN_SNAPSHOT_CREATE_REDEFINE,
+    GVIR_DOMAIN_SNAPSHOT_CURRENT      = VIR_DOMAIN_SNAPSHOT_CREATE_CURRENT,
+    GVIR_DOMAIN_SNAPSHOT_NO_METADATA  = VIR_DOMAIN_SNAPSHOT_CREATE_NO_METADATA,
+    GVIR_DOMAIN_SNAPSHOT_HALT         = VIR_DOMAIN_SNAPSHOT_CREATE_HALT,
+    GVIR_DOMAIN_SNAPSHOT_DISK_ONLY    = VIR_DOMAIN_SNAPSHOT_CREATE_DISK_ONLY,
+    GVIR_DOMAIN_SNAPSHOT_REUSE_EXT    = VIR_DOMAIN_SNAPSHOT_CREATE_REUSE_EXT,
+    GVIR_DOMAIN_SNAPSHOT_QUIESCE      = VIR_DOMAIN_SNAPSHOT_CREATE_QUIESCE,
+    GVIR_DOMAIN_SNAPSHOT_ATOMIC       = VIR_DOMAIN_SNAPSHOT_CREATE_ATOMIC,
+} GVirDomainSnapshotCreateFlags;
+
 typedef struct _GVirDomainInfo GVirDomainInfo;
 struct _GVirDomainInfo
 {
@@ -124,8 +177,24 @@ gint gvir_domain_get_id(GVirDomain *dom,
 gboolean gvir_domain_start(GVirDomain *dom,
                            guint flags,
                            GError **err);
+void gvir_domain_start_async(GVirDomain *dom,
+                             guint flags,
+                             GCancellable *cancellable,
+                             GAsyncReadyCallback callback,
+                             gpointer user_data);
+gboolean gvir_domain_start_finish(GVirDomain *dom,
+                                  GAsyncResult *result,
+                                  GError **err);
+
 gboolean gvir_domain_resume(GVirDomain *dom,
                             GError **err);
+void gvir_domain_resume_async(GVirDomain *dom,
+                              GCancellable *cancellable,
+                              GAsyncReadyCallback callback,
+                              gpointer user_data);
+gboolean gvir_domain_resume_finish(GVirDomain *dom,
+                                   GAsyncResult *result,
+                                   GError **err);
 gboolean gvir_domain_stop(GVirDomain *dom,
                           guint flags,
                           GError **err);
@@ -138,6 +207,24 @@ gboolean gvir_domain_shutdown(GVirDomain *dom,
 gboolean gvir_domain_reboot(GVirDomain *dom,
                             guint flags,
                             GError **err);
+
+gboolean gvir_domain_save_to_file(GVirDomain *dom,
+                                  gchar *filename,
+                                  GVirConfigDomain *custom_conf,
+                                  guint flags,
+                                  GError **err);
+
+void gvir_domain_save_to_file_async(GVirDomain *dom,
+                                    gchar *filename,
+                                    GVirConfigDomain *custom_conf,
+                                    guint flags,
+                                    GCancellable *cancellable,
+                                    GAsyncReadyCallback callback,
+                                    gpointer user_data);
+
+gboolean gvir_domain_save_to_file_finish(GVirDomain *dom,
+                                         GAsyncResult *result,
+                                         GError **err);
 
 GVirDomainInfo *gvir_domain_get_info(GVirDomain *dom,
                                      GError **err);
@@ -192,6 +279,12 @@ gboolean gvir_domain_get_saved(GVirDomain *dom);
 
 GList *gvir_domain_get_devices(GVirDomain *domain,
                                GError **err);
+
+GVirDomainSnapshot *
+gvir_domain_create_snapshot(GVirDomain *dom,
+                            GVirConfigDomainSnapshot *custom_conf,
+                            guint flags,
+                            GError **err);
 
 G_END_DECLS
 

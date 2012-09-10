@@ -59,7 +59,9 @@ struct _GVirConfigDomainOsClass
 typedef enum {
     GVIR_CONFIG_DOMAIN_OS_TYPE_HVM,
     GVIR_CONFIG_DOMAIN_OS_TYPE_LINUX,
-    GVIR_CONFIG_DOMAIN_OS_TYPE_EXE
+    GVIR_CONFIG_DOMAIN_OS_TYPE_EXE,
+    GVIR_CONFIG_DOMAIN_OS_TYPE_XEN,
+    GVIR_CONFIG_DOMAIN_OS_TYPE_UML
 } GVirConfigDomainOsType;
 
 typedef enum {
@@ -81,7 +83,10 @@ GVirConfigDomainOs *gvir_config_domain_os_new(void);
 GVirConfigDomainOs *gvir_config_domain_os_new_from_xml(const gchar *xml, GError **error);
 
 void gvir_config_domain_os_set_os_type(GVirConfigDomainOs *os, GVirConfigDomainOsType type);
+GVirConfigDomainOsType gvir_config_domain_os_get_os_type(GVirConfigDomainOs *os);
+const char *gvir_config_domain_os_get_arch(GVirConfigDomainOs *os);
 void gvir_config_domain_os_set_arch(GVirConfigDomainOs *os, const char *arch);
+GList *gvir_config_domain_os_get_boot_devices(GVirConfigDomainOs *os);
 void gvir_config_domain_os_set_boot_devices(GVirConfigDomainOs *os, GList *boot_devices);
 void gvir_config_domain_os_set_kernel(GVirConfigDomainOs *os, const char *kernel);
 void gvir_config_domain_os_set_ramdisk(GVirConfigDomainOs *os, const char *ramdisk);

@@ -24,6 +24,7 @@
 #include <config.h>
 
 #include "libvirt-gconfig/libvirt-gconfig.h"
+#include "libvirt-gconfig/libvirt-gconfig-private.h"
 
 #define GVIR_CONFIG_CAPABILITIES_GET_PRIVATE(obj)                         \
         (G_TYPE_INSTANCE_GET_PRIVATE((obj), GVIR_CONFIG_TYPE_CAPABILITIES, GVirConfigCapabilitiesPrivate))
@@ -42,11 +43,11 @@ static void gvir_config_capabilities_class_init(GVirConfigCapabilitiesClass *kla
 }
 
 
-static void gvir_config_capabilities_init(GVirConfigCapabilities *conn)
+static void gvir_config_capabilities_init(GVirConfigCapabilities *caps)
 {
-    g_debug("Init GVirConfigCapabilities=%p", conn);
+    g_debug("Init GVirConfigCapabilities=%p", caps);
 
-    conn->priv = GVIR_CONFIG_CAPABILITIES_GET_PRIVATE(conn);
+    caps->priv = GVIR_CONFIG_CAPABILITIES_GET_PRIVATE(caps);
 }
 
 
@@ -54,8 +55,6 @@ GVirConfigCapabilities *gvir_config_capabilities_new(void)
 {
     GVirConfigObject *object;
 
-    /* FIXME: what is the XML root of the capability node? I suspect it is
-     * either 'guest' or 'host' */
     object = gvir_config_object_new(GVIR_CONFIG_TYPE_CAPABILITIES,
                                     "capabilities",
                                     DATADIR "/libvirt/schemas/capability.rng");
@@ -67,11 +66,86 @@ GVirConfigCapabilities *gvir_config_capabilities_new_from_xml(const gchar *xml,
 {
     GVirConfigObject *object;
 
-    /* FIXME: what is the XML root of the capability node? I suspect it is
-     * either 'guest' or 'host' */
     object = gvir_config_object_new_from_xml(GVIR_CONFIG_TYPE_CAPABILITIES,
                                              "capabilities",
                                              DATADIR "/libvirt/schemas/capability.rng",
                                              xml, error);
     return GVIR_CONFIG_CAPABILITIES(object);
+}
+
+/**
+ * gvir_config_capabilities_get_host:
+ *
+ * Gets the host capabilities.
+ *
+ * Returns: (transfer full): a new #GVirConfigCapabilitiesHost.
+ */
+GVirConfigCapabilitiesHost *
+gvir_config_capabilities_get_host(GVirConfigCapabilities *caps)
+{
+    GVirConfigObject *object;
+
+    g_return_val_if_fail(GVIR_CONFIG_IS_CAPABILITIES(caps), NULL);
+
+    object = gvir_config_object_get_child_with_type
+                                (GVIR_CONFIG_OBJECT(caps),
+                                 "host",
+                                 GVIR_CONFIG_TYPE_CAPABILITIES_HOST);
+
+    return GVIR_CONFIG_CAPABILITIES_HOST(object);
+}
+
+struct GetGuestData {
+    GVirConfigXmlDoc *doc;
+    const gchar *schema;
+    GList *guests;
+};
+
+static gboolean add_guest(xmlNodePtr node, gpointer opaque)
+{
+    struct GetGuestData* data = (struct GetGuestData*)opaque;
+    GVirConfigObject *object;
+
+    if (g_strcmp0((const gchar *)node->name, "guest") != 0)
+        return TRUE;
+
+    object = gvir_config_object_new_from_tree(GVIR_CONFIG_TYPE_CAPABILITIES_GUEST,
+                                              data->doc,
+                                              data->schema,
+                                              node);
+    if (object != NULL)
+        data->guests = g_list_append(data->guests, object);
+    else
+        g_debug("Failed to parse %s node", node->name);
+
+    return TRUE;
+}
+
+/**
+ * gvir_config_capabilities_get_guests:
+ *
+ * Gets the list of guest capabilities.
+ *
+ * Returns: (element-type LibvirtGConfig.CapabilitiesGuest) (transfer full):
+ * a newly allocated #GList of #GVirConfigCapabilitiesGuest.
+ */
+GList *
+gvir_config_capabilities_get_guests(GVirConfigCapabilities *caps)
+{
+    struct GetGuestData data;
+
+    g_return_val_if_fail(GVIR_CONFIG_IS_CAPABILITIES(caps), NULL);
+
+    g_object_get(G_OBJECT(caps), "doc", &data.doc, NULL);
+    data.schema = gvir_config_object_get_schema(GVIR_CONFIG_OBJECT(caps));
+    data.guests = NULL;
+
+    gvir_config_object_foreach_child(GVIR_CONFIG_OBJECT(caps),
+                                     NULL,
+                                     add_guest,
+                                     &data);
+
+    g_clear_object(&data.doc);
+
+    return data.guests;
 }

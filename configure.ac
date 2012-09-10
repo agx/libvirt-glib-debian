@@ -1,4 +1,4 @@
-AC_INIT(libvirt-glib, 0.0.8)
+AC_INIT(libvirt-glib, 0.1.2)
 AC_CONFIG_SRCDIR(libvirt-glib/libvirt-glib-main.c)
 AC_CONFIG_AUX_DIR([build-aux])
 AM_CONFIG_HEADER(config.h)
@@ -259,10 +259,11 @@ AC_OUTPUT(Makefile
           vapi/Makefile
           docs/Makefile
           docs/libvirt-glib/Makefile
+          docs/libvirt-glib/version.xml
           docs/libvirt-gobject/Makefile
           docs/libvirt-gconfig/Makefile
           libvirt-glib-1.0.pc
           libvirt-gconfig-1.0.pc
           libvirt-gobject-1.0.pc
           libvirt-glib.spec
-          mingw32-libvirt-glib.spec)
+          mingw-libvirt-glib.spec)

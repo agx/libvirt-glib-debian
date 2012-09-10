@@ -36,16 +36,21 @@
     <keyword type="enum" name="enum GVirConfigDomainLifecycleEvent" link="GVirConfigDomain.html#GVirConfigDomainLifecycleEvent"/>
     <keyword type="enum" name="enum GVirConfigDomainVirtType" link="GVirConfigDomain.html#GVirConfigDomainVirtType"/>
     <keyword type="function" name="gvir_config_domain_add_device ()" link="GVirConfigDomain.html#gvir-config-domain-add-device"/>
+    <keyword type="function" name="gvir_config_domain_get_cpu ()" link="GVirConfigDomain.html#gvir-config-domain-get-cpu"/>
     <keyword type="function" name="gvir_config_domain_get_custom_xml ()" link="GVirConfigDomain.html#gvir-config-domain-get-custom-xml"/>
     <keyword type="function" name="gvir_config_domain_get_description ()" link="GVirConfigDomain.html#gvir-config-domain-get-description"/>
     <keyword type="function" name="gvir_config_domain_get_devices ()" link="GVirConfigDomain.html#gvir-config-domain-get-devices"/>
     <keyword type="function" name="gvir_config_domain_get_features ()" link="GVirConfigDomain.html#gvir-config-domain-get-features"/>
     <keyword type="function" name="gvir_config_domain_get_memory ()" link="GVirConfigDomain.html#gvir-config-domain-get-memory"/>
     <keyword type="function" name="gvir_config_domain_get_name ()" link="GVirConfigDomain.html#gvir-config-domain-get-name"/>
+    <keyword type="function" name="gvir_config_domain_get_os ()" link="GVirConfigDomain.html#gvir-config-domain-get-os"/>
+    <keyword type="function" name="gvir_config_domain_get_title ()" link="GVirConfigDomain.html#gvir-config-domain-get-title"/>
     <keyword type="function" name="gvir_config_domain_get_vcpus ()" link="GVirConfigDomain.html#gvir-config-domain-get-vcpus"/>
+    <keyword type="function" name="gvir_config_domain_get_virt_type ()" link="GVirConfigDomain.html#gvir-config-domain-get-virt-type"/>
     <keyword type="function" name="gvir_config_domain_new ()" link="GVirConfigDomain.html#gvir-config-domain-new"/>
     <keyword type="function" name="gvir_config_domain_new_from_xml ()" link="GVirConfigDomain.html#gvir-config-domain-new-from-xml"/>
     <keyword type="function" name="gvir_config_domain_set_clock ()" link="GVirConfigDomain.html#gvir-config-domain-set-clock"/>
+    <keyword type="function" name="gvir_config_domain_set_cpu ()" link="GVirConfigDomain.html#gvir-config-domain-set-cpu"/>
     <keyword type="function" name="gvir_config_domain_set_custom_xml ()" link="GVirConfigDomain.html#gvir-config-domain-set-custom-xml"/>
     <keyword type="function" name="gvir_config_domain_set_description ()" link="GVirConfigDomain.html#gvir-config-domain-set-description"/>
     <keyword type="function" name="gvir_config_domain_set_devices ()" link="GVirConfigDomain.html#gvir-config-domain-set-devices"/>
@@ -55,12 +60,14 @@
     <keyword type="function" name="gvir_config_domain_set_name ()" link="GVirConfigDomain.html#gvir-config-domain-set-name"/>
     <keyword type="function" name="gvir_config_domain_set_os ()" link="GVirConfigDomain.html#gvir-config-domain-set-os"/>
     <keyword type="function" name="gvir_config_domain_set_seclabel ()" link="GVirConfigDomain.html#gvir-config-domain-set-seclabel"/>
+    <keyword type="function" name="gvir_config_domain_set_title ()" link="GVirConfigDomain.html#gvir-config-domain-set-title"/>
     <keyword type="function" name="gvir_config_domain_set_vcpus ()" link="GVirConfigDomain.html#gvir-config-domain-set-vcpus"/>
     <keyword type="function" name="gvir_config_domain_set_virt_type ()" link="GVirConfigDomain.html#gvir-config-domain-set-virt-type"/>
     <keyword type="property" name="The &quot;description&quot; property" link="GVirConfigDomain.html#GVirConfigDomain--description"/>
     <keyword type="property" name="The &quot;features&quot; property" link="GVirConfigDomain.html#GVirConfigDomain--features"/>
     <keyword type="property" name="The &quot;memory&quot; property" link="GVirConfigDomain.html#GVirConfigDomain--memory"/>
     <keyword type="property" name="The &quot;name&quot; property" link="GVirConfigDomain.html#GVirConfigDomain--name"/>
+    <keyword type="property" name="The &quot;title&quot; property" link="GVirConfigDomain.html#GVirConfigDomain--title"/>
     <keyword type="property" name="The &quot;vcpu&quot; property" link="GVirConfigDomain.html#GVirConfigDomain--vcpu"/>
     <keyword type="struct" name="struct GVirConfigDomainSnapshot" link="GVirConfigDomainSnapshot.html#GVirConfigDomainSnapshot-struct"/>
     <keyword type="struct" name="struct GVirConfigDomainSnapshotClass" link="GVirConfigDomainSnapshot.html#GVirConfigDomainSnapshotClass"/>
@@ -110,6 +117,8 @@
     <keyword type="function" name="gvir_config_storage_vol_set_target ()" link="GVirConfigStorageVol.html#gvir-config-storage-vol-set-target"/>
     <keyword type="struct" name="struct GVirConfigCapabilities" link="GVirConfigCapabilities.html#GVirConfigCapabilities-struct"/>
     <keyword type="struct" name="struct GVirConfigCapabilitiesClass" link="GVirConfigCapabilities.html#GVirConfigCapabilitiesClass"/>
+    <keyword type="function" name="gvir_config_capabilities_get_guests ()" link="GVirConfigCapabilities.html#gvir-config-capabilities-get-guests"/>
+    <keyword type="function" name="gvir_config_capabilities_get_host ()" link="GVirConfigCapabilities.html#gvir-config-capabilities-get-host"/>
     <keyword type="function" name="gvir_config_capabilities_new ()" link="GVirConfigCapabilities.html#gvir-config-capabilities-new"/>
     <keyword type="function" name="gvir_config_capabilities_new_from_xml ()" link="GVirConfigCapabilities.html#gvir-config-capabilities-new-from-xml"/>
   </functions>

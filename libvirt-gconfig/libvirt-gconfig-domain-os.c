@@ -81,6 +81,23 @@ void gvir_config_domain_os_set_os_type(GVirConfigDomainOs *os,
                                         "type", type_str);
 }
 
+GVirConfigDomainOsType gvir_config_domain_os_get_os_type(GVirConfigDomainOs *os)
+{
+    g_return_val_if_fail(GVIR_CONFIG_IS_DOMAIN_OS(os),
+                         GVIR_CONFIG_DOMAIN_OS_TYPE_HVM);
+
+    return gvir_config_object_get_node_content_genum
+            (GVIR_CONFIG_OBJECT(os),
+             "type",
+             GVIR_CONFIG_TYPE_DOMAIN_OS_TYPE,
+             GVIR_CONFIG_DOMAIN_OS_TYPE_HVM);
+}
+
+/**
+ * gvir_config_domain_os_set_kernel:
+ * @os: a #GVirConfigDomainOs
+ * @kernel: (allow-none): The kernel path
+ */
 void gvir_config_domain_os_set_kernel(GVirConfigDomainOs *os,
                                       const char * kernel)
 {
@@ -88,6 +105,11 @@ void gvir_config_domain_os_set_kernel(GVirConfigDomainOs *os,
                                         "kernel", kernel);
 }
 
+/**
+ * gvir_config_domain_os_set_ramdisk:
+ * @os: a #GVirConfigDomainOs
+ * @ramdisk: (allow-none): The ramdisk path
+ */
 void gvir_config_domain_os_set_ramdisk(GVirConfigDomainOs *os,
                                        const char * ramdisk)
 {
@@ -95,6 +117,11 @@ void gvir_config_domain_os_set_ramdisk(GVirConfigDomainOs *os,
                                         "initrd", ramdisk);
 }
 
+/**
+ * gvir_config_domain_os_set_cmdline:
+ * @os: a #GVirConfigDomainOs
+ * @cmdline: (allow-none): The direct boot commandline
+ */
 void gvir_config_domain_os_set_cmdline(GVirConfigDomainOs *os,
                                        const char * cmdline)
 {
@@ -102,6 +129,11 @@ void gvir_config_domain_os_set_cmdline(GVirConfigDomainOs *os,
                                         "cmdline", cmdline);
 }
 
+/**
+ * gvir_config_domain_os_set_init:
+ * @os: a #GVirConfigDomainOs
+ * @init: (allow-none):
+ */
 void gvir_config_domain_os_set_init(GVirConfigDomainOs *os,
                                     const char * init)
 {
@@ -109,6 +141,11 @@ void gvir_config_domain_os_set_init(GVirConfigDomainOs *os,
                                         "init", init);
 }
 
+/**
+ * gvir_config_domain_os_set_loader:
+ * @os: a #GVirConfigDomainOs
+ * @loader: (allow-none):
+ */
 void gvir_config_domain_os_set_loader(GVirConfigDomainOs *os,
                                       const char * loader)
 {
@@ -163,6 +200,7 @@ void gvir_config_domain_os_set_smbios_mode(GVirConfigDomainOs *os,
 
 /**
  * gvir_config_domain_os_set_boot_devices:
+ * @os: a #GVirConfigDomainOs
  * @boot_devices: (in) (element-type LibvirtGConfig.DomainOsBootDevice):
  */
 void gvir_config_domain_os_set_boot_devices(GVirConfigDomainOs *os, GList *boot_devices)
@@ -199,6 +237,61 @@ void gvir_config_domain_os_set_boot_devices(GVirConfigDomainOs *os, GList *boot_
             xmlAddChild(os_node, node);
         }
     }
+}
+
+static gboolean add_boot_device(xmlNodePtr node, gpointer opaque)
+{
+    GList **devices = (GList **)opaque;
+    const gchar *value;
+
+    if (g_strcmp0((const gchar *)node->name, "boot") != 0)
+        return TRUE;
+
+    value = gvir_config_xml_get_attribute_content(node, "dev");
+    if (value != NULL) {
+        GVirConfigDomainOsBootDevice device;
+
+        device = gvir_config_genum_get_value
+                        (GVIR_CONFIG_TYPE_DOMAIN_OS_BOOT_DEVICE,
+                         value,
+                         GVIR_CONFIG_DOMAIN_OS_BOOT_DEVICE_HD);
+        *devices = g_list_append(*devices, GINT_TO_POINTER(device));
+    } else
+        g_debug("Failed to parse attribute 'dev' of node 'boot'");
+
+    return TRUE;
+}
+
+/**
+ * gvir_config_domain_os_get_boot_devices:
+ * @os: a #GVirConfigDomainOs
+ *
+ * Gets the list of devices attached to @os. The returned list should be
+ * freed with g_list_free(), after its elements have been unreffed with
+ * g_object_unref().
+ *
+ * Returns: (element-type LibvirtGConfig.DomainOsBootDevice) (transfer full):
+ * a newly allocated #GList of #GVirConfigDomainOsBootDevice.
+ */
+GList *gvir_config_domain_os_get_boot_devices(GVirConfigDomainOs *os)
+{
+    GList *devices = NULL;
+
+    g_return_val_if_fail(GVIR_CONFIG_IS_DOMAIN_OS(os), NULL);
+
+    gvir_config_object_foreach_child(GVIR_CONFIG_OBJECT(os),
+                                     NULL,
+                                     add_boot_device,
+                                     &devices);
+
+    return devices;
+}
+
+const char *gvir_config_domain_os_get_arch(GVirConfigDomainOs *os)
+{
+    return gvir_config_object_get_attribute(GVIR_CONFIG_OBJECT(os),
+                                            "type",
+                                            "arch");
 }
 
 void gvir_config_domain_os_set_arch(GVirConfigDomainOs *os, const char *arch)

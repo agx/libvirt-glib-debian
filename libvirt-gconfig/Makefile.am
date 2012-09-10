@@ -12,6 +12,14 @@ GCONFIG_HEADER_FILES = \
 			libvirt-gconfig-main.h \
 			libvirt-gconfig-object.h \
 			libvirt-gconfig-capabilities.h \
+			libvirt-gconfig-capabilities-host.h \
+			libvirt-gconfig-capabilities-cpu.h \
+			libvirt-gconfig-capabilities-cpu-feature.h \
+			libvirt-gconfig-capabilities-cpu-topology.h \
+			libvirt-gconfig-capabilities-guest.h \
+			libvirt-gconfig-capabilities-guest-arch.h \
+			libvirt-gconfig-capabilities-guest-domain.h \
+			libvirt-gconfig-capabilities-guest-feature.h \
 			libvirt-gconfig-domain.h \
 			libvirt-gconfig-domain-address.h \
 			libvirt-gconfig-domain-address-pci.h \
@@ -25,6 +33,8 @@ GCONFIG_HEADER_FILES = \
 			libvirt-gconfig-domain-console.h \
 			libvirt-gconfig-domain-controller.h \
 			libvirt-gconfig-domain-controller-usb.h \
+			libvirt-gconfig-domain-cpu.h \
+			libvirt-gconfig-domain-cpu-feature.h \
 			libvirt-gconfig-domain-device.h \
 			libvirt-gconfig-domain-disk.h \
 			libvirt-gconfig-domain-filesys.h \
@@ -64,6 +74,7 @@ GCONFIG_HEADER_FILES = \
 			libvirt-gconfig-storage-vol-target.h
 noinst_HEADERS = \
 			libvirt-gconfig-private.h \
+			libvirt-gconfig-capabilities-cpu-private.h \
 			libvirt-gconfig-domain-device-private.h \
 			libvirt-gconfig-helpers-private.h \
 			libvirt-gconfig-object-private.h \
@@ -72,6 +83,14 @@ GCONFIG_SOURCE_FILES = \
 			libvirt-gconfig-object.c \
 			libvirt-gconfig-main.c \
 			libvirt-gconfig-capabilities.c \
+			libvirt-gconfig-capabilities-host.c \
+			libvirt-gconfig-capabilities-cpu.c \
+			libvirt-gconfig-capabilities-cpu-feature.c \
+			libvirt-gconfig-capabilities-cpu-topology.c \
+			libvirt-gconfig-capabilities-guest.c \
+			libvirt-gconfig-capabilities-guest-arch.c \
+			libvirt-gconfig-capabilities-guest-domain.c \
+			libvirt-gconfig-capabilities-guest-feature.c \
 			libvirt-gconfig-domain.c \
 			libvirt-gconfig-domain-address.c \
 			libvirt-gconfig-domain-address-pci.c \
@@ -85,6 +104,8 @@ GCONFIG_SOURCE_FILES = \
 			libvirt-gconfig-domain-console.c \
 			libvirt-gconfig-domain-controller.c \
 			libvirt-gconfig-domain-controller-usb.c \
+			libvirt-gconfig-domain-cpu.c \
+			libvirt-gconfig-domain-cpu-feature.c \
 			libvirt-gconfig-domain-device.c \
 			libvirt-gconfig-domain-disk.c \
 			libvirt-gconfig-domain-filesys.c \

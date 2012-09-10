@@ -42,6 +42,10 @@ gint gvir_config_object_get_node_content_genum(GVirConfigObject *object,
 const char *gvir_config_object_get_attribute(GVirConfigObject *object,
                                              const char *node_name,
                                              const char *attr_name);
+guint64 gvir_config_object_get_attribute_uint64(GVirConfigObject *object,
+                                                const char *node_name,
+                                                const char *attr_name,
+                                                guint64 default_value);
 gint gvir_config_object_get_attribute_genum(GVirConfigObject *object,
                                             const char *node_name,
                                             const char *attr_name,
@@ -82,6 +86,7 @@ void gvir_config_object_set_child(GVirConfigObject *object,
 void gvir_config_object_attach_add(GVirConfigObject *parent,
                                    GVirConfigObject *child);
 void gvir_config_object_attach_replace(GVirConfigObject *parent,
+                                       const char *child_name,
                                        GVirConfigObject *child);
 void gvir_config_object_set_attribute(GVirConfigObject *object,
                                       ...) G_GNUC_NULL_TERMINATED;
@@ -96,6 +101,11 @@ void gvir_config_object_foreach_child(GVirConfigObject *object,
 gboolean gvir_config_object_set_namespace(GVirConfigObject *object,
                                           const char *ns,
                                           const char *ns_uri);
+GVirConfigObject *gvir_config_object_get_child(GVirConfigObject *object,
+                                               const gchar *child_name);
+GVirConfigObject *gvir_config_object_get_child_with_type(GVirConfigObject *object,
+                                                         const gchar *child_name,
+                                                         GType child_type);
 
 G_END_DECLS
 

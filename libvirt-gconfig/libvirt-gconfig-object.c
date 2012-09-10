@@ -191,10 +191,15 @@ static void gvir_config_object_init(GVirConfigObject *conn)
 void gvir_config_object_validate(GVirConfigObject *config,
                                  GError **err)
 {
-    GVirConfigObjectPrivate *priv = config->priv;
+    GVirConfigObjectPrivate *priv;
     xmlRelaxNGParserCtxtPtr rngParser = NULL;
     xmlRelaxNGPtr rng = NULL;
     xmlRelaxNGValidCtxtPtr rngValid = NULL;
+
+    g_return_if_fail(GVIR_CONFIG_IS_OBJECT(config));
+    g_return_if_fail(err == NULL || *err == NULL);
+
+    priv = config->priv;
 
     xmlSetGenericErrorFunc(NULL, gvir_xml_generic_error_nop);
     xmlSetStructuredErrorFunc(NULL, gvir_xml_structured_error_nop);
@@ -256,13 +261,16 @@ void gvir_config_object_validate(GVirConfigObject *config,
 
 gchar *gvir_config_object_to_xml(GVirConfigObject *config)
 {
+    g_return_val_if_fail(GVIR_CONFIG_IS_OBJECT(config), NULL);
+
     return gvir_config_xml_node_to_string(config->priv->node);
 }
 
 const gchar *gvir_config_object_get_schema(GVirConfigObject *config)
 {
-    GVirConfigObjectPrivate *priv = config->priv;
-    return priv->schema;
+    g_return_val_if_fail(GVIR_CONFIG_IS_OBJECT(config), NULL);
+
+    return config->priv->schema;
 }
 
 /* FIXME: will we always have one xmlNode per GConfig object? */
@@ -527,7 +535,12 @@ gvir_config_object_set_node_content(GVirConfigObject *object,
 
     g_return_if_fail(GVIR_CONFIG_IS_OBJECT(object));
     g_return_if_fail(node_name != NULL);
-    g_return_if_fail(value != NULL);
+
+    if (value == NULL) {
+        gvir_config_object_delete_child(object, node_name, NULL);
+
+        return;
+    }
 
     node = gvir_config_object_replace_child(object, node_name);
     g_return_if_fail(node != NULL);
@@ -629,6 +642,21 @@ gvir_config_object_get_attribute_genum(GVirConfigObject *object,
                                         default_value);
 
     return value;
+}
+
+G_GNUC_INTERNAL guint64
+gvir_config_object_get_attribute_uint64(GVirConfigObject *object,
+                                        const char *node_name,
+                                        const char *attr_name,
+                                        guint64 default_value)
+{
+    const char *str;
+
+    str = gvir_config_object_get_attribute(object, node_name, attr_name);
+    if (str == NULL)
+        return default_value;
+
+    return g_ascii_strtoull(str, NULL, 0);
 }
 
 GVirConfigObject *gvir_config_object_new_from_xml(GType type,
@@ -824,9 +852,16 @@ gvir_config_object_attach(GVirConfigObject *parent, GVirConfigObject *child, gbo
 }
 
 G_GNUC_INTERNAL void
-gvir_config_object_attach_replace(GVirConfigObject *parent, GVirConfigObject *child)
+gvir_config_object_attach_replace(GVirConfigObject *parent,
+                                  const char *child_name,
+                                  GVirConfigObject *child)
 {
-    gvir_config_object_attach(parent, child, TRUE);
+    g_return_if_fail(child_name != NULL);
+
+    if (child == NULL)
+        gvir_config_object_delete_children(parent, child_name, NULL);
+    else
+        gvir_config_object_attach(parent, child, TRUE);
 }
 
 G_GNUC_INTERNAL void
@@ -864,4 +899,32 @@ gvir_config_object_set_namespace(GVirConfigObject *object, const char *ns,
     xmlSetNs(object->priv->node, namespace);
 
     return TRUE;
+}
+
+G_GNUC_INTERNAL GVirConfigObject *
+gvir_config_object_get_child_with_type(GVirConfigObject *object,
+                                       const gchar *child_name,
+                                       GType child_type)
+{
+    xmlNodePtr node;
+
+    g_return_val_if_fail(GVIR_CONFIG_IS_OBJECT(object), NULL);
+    g_return_val_if_fail(child_name != NULL, NULL);
+
+    node = gvir_config_xml_get_element(object->priv->node, child_name, NULL);
+    g_return_val_if_fail(node != NULL, NULL);
+
+    return gvir_config_object_new_from_tree(child_type,
+                                            object->priv->doc,
+                                            object->priv->schema,
+                                            node);
+}
+
+G_GNUC_INTERNAL GVirConfigObject *
+gvir_config_object_get_child(GVirConfigObject *object,
+                             const gchar *child_name)
+{
+    return gvir_config_object_get_child_with_type(object,
+                                                  child_name,
+                                                  GVIR_CONFIG_TYPE_OBJECT);
 }

@@ -35,6 +35,70 @@
 </dt>
 <dd></dd>
 <dt>
+GVirConfigCapabilitiesCpu, struct in GVirConfigCapabilitiesCpu
+</dt>
+<dd></dd>
+<dt>
+GVirConfigCapabilitiesCpuClass, struct in GVirConfigCapabilitiesCpu
+</dt>
+<dd></dd>
+<dt>
+GVirConfigCapabilitiesCpuFeature, struct in GVirConfigCapabilitiesCpuFeature
+</dt>
+<dd></dd>
+<dt>
+GVirConfigCapabilitiesCpuFeatureClass, struct in GVirConfigCapabilitiesCpuFeature
+</dt>
+<dd></dd>
+<dt>
+GVirConfigCapabilitiesCpuTopology, struct in GVirConfigCapabilitiesCpuTopology
+</dt>
+<dd></dd>
+<dt>
+GVirConfigCapabilitiesCpuTopologyClass, struct in GVirConfigCapabilitiesCpuTopology
+</dt>
+<dd></dd>
+<dt>
+GVirConfigCapabilitiesGuest, struct in GVirConfigCapabilitiesGuest
+</dt>
+<dd></dd>
+<dt>
+GVirConfigCapabilitiesGuestArch, struct in GVirConfigCapabilitiesGuestArch
+</dt>
+<dd></dd>
+<dt>
+GVirConfigCapabilitiesGuestArchClass, struct in GVirConfigCapabilitiesGuestArch
+</dt>
+<dd></dd>
+<dt>
+GVirConfigCapabilitiesGuestClass, struct in GVirConfigCapabilitiesGuest
+</dt>
+<dd></dd>
+<dt>
+GVirConfigCapabilitiesGuestDomain, struct in GVirConfigCapabilitiesGuestDomain
+</dt>
+<dd></dd>
+<dt>
+GVirConfigCapabilitiesGuestDomainClass, struct in GVirConfigCapabilitiesGuestDomain
+</dt>
+<dd></dd>
+<dt>
+GVirConfigCapabilitiesGuestFeature, struct in GVirConfigCapabilitiesGuestFeature
+</dt>
+<dd></dd>
+<dt>
+GVirConfigCapabilitiesGuestFeatureClass, struct in GVirConfigCapabilitiesGuestFeature
+</dt>
+<dd></dd>
+<dt>
+GVirConfigCapabilitiesHost, struct in GVirConfigCapabilitiesHost
+</dt>
+<dd></dd>
+<dt>
+GVirConfigCapabilitiesHostClass, struct in GVirConfigCapabilitiesHost
+</dt>
+<dd></dd>
+<dt>
 <a class="link" href="GVirConfigDomain.html#GVirConfigDomain-struct" title="struct GVirConfigDomain">GVirConfigDomain</a>, struct in <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain">GVirConfigDomain</a>
 </dt>
 <dd></dd>
@@ -52,6 +116,10 @@
 <dd></dd>
 <dt>
 <a class="link" href="GVirConfigDomain.html#GVirConfigDomain--name" title='The "name" property'>GVirConfigDomain:name</a>, object property in <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain">GVirConfigDomain</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="GVirConfigDomain.html#GVirConfigDomain--title" title='The "title" property'>GVirConfigDomain:title</a>, object property in <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain">GVirConfigDomain</a>
 </dt>
 <dd></dd>
 <dt>
@@ -172,6 +240,34 @@ GVirConfigDomainControllerUsbClass, struct in GVirConfigDomainControllerUsb
 <dd></dd>
 <dt>
 GVirConfigDomainControllerUsbModel, enum in GVirConfigDomainControllerUsb
+</dt>
+<dd></dd>
+<dt>
+GVirConfigDomainCpu, struct in GVirConfigDomainCpu
+</dt>
+<dd></dd>
+<dt>
+GVirConfigDomainCpuClass, struct in GVirConfigDomainCpu
+</dt>
+<dd></dd>
+<dt>
+GVirConfigDomainCpuFeature, struct in GVirConfigDomainCpuFeature
+</dt>
+<dd></dd>
+<dt>
+GVirConfigDomainCpuFeatureClass, struct in GVirConfigDomainCpuFeature
+</dt>
+<dd></dd>
+<dt>
+GVirConfigDomainCpuFeaturePolicy, enum in GVirConfigDomainCpuFeature
+</dt>
+<dd></dd>
+<dt>
+GVirConfigDomainCpuMatchPolicy, enum in GVirConfigDomainCpu
+</dt>
+<dd></dd>
+<dt>
+GVirConfigDomainCpuMode, enum in GVirConfigDomainCpu
 </dt>
 <dd></dd>
 <dt>
@@ -599,6 +695,122 @@ GVirConfigXmlNodeIterator, user_function in libvirt-gconfig-helpers-private
 </dt>
 <dd></dd>
 <dt>
+gvir_config_capabilities_cpu_add_feature, function in GVirConfigCapabilitiesCpu
+</dt>
+<dd></dd>
+<dt>
+gvir_config_capabilities_cpu_feature_get_name, function in GVirConfigCapabilitiesCpuFeature
+</dt>
+<dd></dd>
+<dt>
+gvir_config_capabilities_cpu_feature_set_name, function in GVirConfigCapabilitiesCpuFeature
+</dt>
+<dd></dd>
+<dt>
+gvir_config_capabilities_cpu_get_arch, function in GVirConfigCapabilitiesCpu
+</dt>
+<dd></dd>
+<dt>
+gvir_config_capabilities_cpu_get_features, function in GVirConfigCapabilitiesCpu
+</dt>
+<dd></dd>
+<dt>
+gvir_config_capabilities_cpu_get_features_with_type, function in libvirt-gconfig-capabilities-cpu-private
+</dt>
+<dd></dd>
+<dt>
+gvir_config_capabilities_cpu_get_topology, function in GVirConfigCapabilitiesCpu
+</dt>
+<dd></dd>
+<dt>
+gvir_config_capabilities_cpu_set_topology, function in GVirConfigCapabilitiesCpu
+</dt>
+<dd></dd>
+<dt>
+gvir_config_capabilities_cpu_topology_get_cores, function in GVirConfigCapabilitiesCpuTopology
+</dt>
+<dd></dd>
+<dt>
+gvir_config_capabilities_cpu_topology_get_sockets, function in GVirConfigCapabilitiesCpuTopology
+</dt>
+<dd></dd>
+<dt>
+gvir_config_capabilities_cpu_topology_get_threads, function in GVirConfigCapabilitiesCpuTopology
+</dt>
+<dd></dd>
+<dt>
+gvir_config_capabilities_cpu_topology_new, function in GVirConfigCapabilitiesCpuTopology
+</dt>
+<dd></dd>
+<dt>
+gvir_config_capabilities_cpu_topology_new_from_xml, function in GVirConfigCapabilitiesCpuTopology
+</dt>
+<dd></dd>
+<dt>
+gvir_config_capabilities_cpu_topology_set_cores, function in GVirConfigCapabilitiesCpuTopology
+</dt>
+<dd></dd>
+<dt>
+gvir_config_capabilities_cpu_topology_set_sockets, function in GVirConfigCapabilitiesCpuTopology
+</dt>
+<dd></dd>
+<dt>
+gvir_config_capabilities_cpu_topology_set_threads, function in GVirConfigCapabilitiesCpuTopology
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="GVirConfigCapabilities.html#gvir-config-capabilities-get-guests" title="gvir_config_capabilities_get_guests ()">gvir_config_capabilities_get_guests</a>, function in <a class="link" href="GVirConfigCapabilities.html" title="GVirConfigCapabilities">GVirConfigCapabilities</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="GVirConfigCapabilities.html#gvir-config-capabilities-get-host" title="gvir_config_capabilities_get_host ()">gvir_config_capabilities_get_host</a>, function in <a class="link" href="GVirConfigCapabilities.html" title="GVirConfigCapabilities">GVirConfigCapabilities</a>
+</dt>
+<dd></dd>
+<dt>
+gvir_config_capabilities_guest_arch_get_domains, function in GVirConfigCapabilitiesGuestArch
+</dt>
+<dd></dd>
+<dt>
+gvir_config_capabilities_guest_arch_get_emulator, function in GVirConfigCapabilitiesGuestArch
+</dt>
+<dd></dd>
+<dt>
+gvir_config_capabilities_guest_arch_get_name, function in GVirConfigCapabilitiesGuestArch
+</dt>
+<dd></dd>
+<dt>
+gvir_config_capabilities_guest_domain_get_emulator, function in GVirConfigCapabilitiesGuestDomain
+</dt>
+<dd></dd>
+<dt>
+gvir_config_capabilities_guest_domain_get_virt_type, function in GVirConfigCapabilitiesGuestDomain
+</dt>
+<dd></dd>
+<dt>
+gvir_config_capabilities_guest_feature_get_name, function in GVirConfigCapabilitiesGuestFeature
+</dt>
+<dd></dd>
+<dt>
+gvir_config_capabilities_guest_get_arch, function in GVirConfigCapabilitiesGuest
+</dt>
+<dd></dd>
+<dt>
+gvir_config_capabilities_guest_get_features, function in GVirConfigCapabilitiesGuest
+</dt>
+<dd></dd>
+<dt>
+gvir_config_capabilities_guest_get_os_type, function in GVirConfigCapabilitiesGuest
+</dt>
+<dd></dd>
+<dt>
+gvir_config_capabilities_host_get_cpu, function in GVirConfigCapabilitiesHost
+</dt>
+<dd></dd>
+<dt>
+gvir_config_capabilities_host_get_uuid, function in GVirConfigCapabilitiesHost
+</dt>
+<dd></dd>
+<dt>
 <a class="link" href="GVirConfigCapabilities.html#gvir-config-capabilities-new" title="gvir_config_capabilities_new ()">gvir_config_capabilities_new</a>, function in <a class="link" href="GVirConfigCapabilities.html" title="GVirConfigCapabilities">GVirConfigCapabilities</a>
 </dt>
 <dd></dd>
@@ -759,6 +971,46 @@ gvir_config_domain_controller_usb_set_model, function in GVirConfigDomainControl
 </dt>
 <dd></dd>
 <dt>
+gvir_config_domain_cpu_feature_get_policy, function in GVirConfigDomainCpuFeature
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_cpu_feature_new, function in GVirConfigDomainCpuFeature
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_cpu_feature_new_from_xml, function in GVirConfigDomainCpuFeature
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_cpu_feature_set_policy, function in GVirConfigDomainCpuFeature
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_cpu_get_match_policy, function in GVirConfigDomainCpu
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_cpu_get_mode, function in GVirConfigDomainCpu
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_cpu_new, function in GVirConfigDomainCpu
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_cpu_new_from_xml, function in GVirConfigDomainCpu
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_cpu_set_match_policy, function in GVirConfigDomainCpu
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_cpu_set_mode, function in GVirConfigDomainCpu
+</dt>
+<dd></dd>
+<dt>
 gvir_config_domain_device_new_from_tree, function in libvirt-gconfig-domain-device-private
 </dt>
 <dd></dd>
@@ -863,6 +1115,10 @@ gvir_config_domain_filesys_new, function in GVirConfigDomainFilesys
 </dt>
 <dd></dd>
 <dt>
+gvir_config_domain_filesys_new_from_tree, function in libvirt-gconfig-domain-device-private
+</dt>
+<dd></dd>
+<dt>
 gvir_config_domain_filesys_new_from_xml, function in GVirConfigDomainFilesys
 </dt>
 <dd></dd>
@@ -872,6 +1128,10 @@ gvir_config_domain_filesys_set_access_type, function in GVirConfigDomainFilesys
 <dd></dd>
 <dt>
 gvir_config_domain_filesys_set_driver_type, function in GVirConfigDomainFilesys
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_filesys_set_ram_usage, function in GVirConfigDomainFilesys
 </dt>
 <dd></dd>
 <dt>
@@ -888,6 +1148,10 @@ gvir_config_domain_filesys_set_target, function in GVirConfigDomainFilesys
 <dd></dd>
 <dt>
 gvir_config_domain_filesys_set_type, function in GVirConfigDomainFilesys
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="GVirConfigDomain.html#gvir-config-domain-get-cpu" title="gvir_config_domain_get_cpu ()">gvir_config_domain_get_cpu</a>, function in <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain">GVirConfigDomain</a>
 </dt>
 <dd></dd>
 <dt>
@@ -915,7 +1179,19 @@ gvir_config_domain_filesys_set_type, function in GVirConfigDomainFilesys
 </dt>
 <dd></dd>
 <dt>
+<a class="link" href="GVirConfigDomain.html#gvir-config-domain-get-os" title="gvir_config_domain_get_os ()">gvir_config_domain_get_os</a>, function in <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain">GVirConfigDomain</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="GVirConfigDomain.html#gvir-config-domain-get-title" title="gvir_config_domain_get_title ()">gvir_config_domain_get_title</a>, function in <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain">GVirConfigDomain</a>
+</dt>
+<dd></dd>
+<dt>
 <a class="link" href="GVirConfigDomain.html#gvir-config-domain-get-vcpus" title="gvir_config_domain_get_vcpus ()">gvir_config_domain_get_vcpus</a>, function in <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain">GVirConfigDomain</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="GVirConfigDomain.html#gvir-config-domain-get-virt-type" title="gvir_config_domain_get_virt_type ()">gvir_config_domain_get_virt_type</a>, function in <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain">GVirConfigDomain</a>
 </dt>
 <dd></dd>
 <dt>
@@ -1095,6 +1371,18 @@ gvir_config_domain_os_enable_boot_menu, function in GVirConfigDomainOs
 </dt>
 <dd></dd>
 <dt>
+gvir_config_domain_os_get_arch, function in GVirConfigDomainOs
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_os_get_boot_devices, function in GVirConfigDomainOs
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_os_get_os_type, function in GVirConfigDomainOs
+</dt>
+<dd></dd>
+<dt>
 gvir_config_domain_os_new, function in GVirConfigDomainOs
 </dt>
 <dd></dd>
@@ -1203,6 +1491,10 @@ gvir_config_domain_serial_new_from_xml, function in GVirConfigDomainSerial
 </dt>
 <dd></dd>
 <dt>
+<a class="link" href="GVirConfigDomain.html#gvir-config-domain-set-cpu" title="gvir_config_domain_set_cpu ()">gvir_config_domain_set_cpu</a>, function in <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain">GVirConfigDomain</a>
+</dt>
+<dd></dd>
+<dt>
 <a class="link" href="GVirConfigDomain.html#gvir-config-domain-set-custom-xml" title="gvir_config_domain_set_custom_xml ()">gvir_config_domain_set_custom_xml</a>, function in <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain">GVirConfigDomain</a>
 </dt>
 <dd></dd>
@@ -1236,6 +1528,10 @@ gvir_config_domain_serial_new_from_xml, function in GVirConfigDomainSerial
 <dd></dd>
 <dt>
 <a class="link" href="GVirConfigDomain.html#gvir-config-domain-set-seclabel" title="gvir_config_domain_set_seclabel ()">gvir_config_domain_set_seclabel</a>, function in <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain">GVirConfigDomain</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="GVirConfigDomain.html#gvir-config-domain-set-title" title="gvir_config_domain_set_title ()">gvir_config_domain_set_title</a>, function in <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain">GVirConfigDomain</a>
 </dt>
 <dd></dd>
 <dt>
@@ -1412,6 +1708,18 @@ gvir_config_object_get_attribute, function in libvirt-gconfig-object-private
 <dd></dd>
 <dt>
 gvir_config_object_get_attribute_genum, function in libvirt-gconfig-object-private
+</dt>
+<dd></dd>
+<dt>
+gvir_config_object_get_attribute_uint64, function in libvirt-gconfig-object-private
+</dt>
+<dd></dd>
+<dt>
+gvir_config_object_get_child, function in libvirt-gconfig-object-private
+</dt>
+<dd></dd>
+<dt>
+gvir_config_object_get_child_with_type, function in libvirt-gconfig-object-private
 </dt>
 <dd></dd>
 <dt>

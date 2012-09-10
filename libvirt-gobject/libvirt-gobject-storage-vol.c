@@ -195,11 +195,12 @@ G_DEFINE_BOXED_TYPE(GVirStorageVolInfo, gvir_storage_vol_info,
 
 const gchar *gvir_storage_vol_get_name(GVirStorageVol *vol)
 {
-    GVirStorageVolPrivate *priv = vol->priv;
     const char *name;
 
-    if (!(name = virStorageVolGetName(priv->handle))) {
-        g_warning("Failed to get storage_vol name on %p", priv->handle);
+    g_return_val_if_fail(GVIR_IS_STORAGE_VOL(vol), NULL);
+
+    if (!(name = virStorageVolGetName(vol->priv->handle))) {
+        g_warning("Failed to get storage_vol name on %p", vol->priv->handle);
         return NULL;
     }
 
@@ -208,13 +209,15 @@ const gchar *gvir_storage_vol_get_name(GVirStorageVol *vol)
 
 const gchar *gvir_storage_vol_get_path(GVirStorageVol *vol, GError **error)
 {
-    GVirStorageVolPrivate *priv = vol->priv;
     const char *path;
 
-    if (!(path = virStorageVolGetPath(priv->handle))) {
+    g_return_val_if_fail(GVIR_IS_STORAGE_VOL(vol), NULL);
+    g_return_val_if_fail(error == NULL || *error == NULL, NULL);
+
+    if (!(path = virStorageVolGetPath(vol->priv->handle))) {
         gvir_set_error(error, GVIR_STORAGE_VOL_ERROR, 0,
                        "Failed to get storage_vol path on %p",
-                       priv->handle);
+                       vol->priv->handle);
         return NULL;
     }
 
@@ -225,15 +228,22 @@ const gchar *gvir_storage_vol_get_path(GVirStorageVol *vol, GError **error)
  * gvir_storage_vol_get_config:
  * @vol: the storage_vol
  * @flags: the flags
- * Returns: (transfer full): the config
+ * @err: Place-holder for possible errors
+ *
+ * Returns: (transfer full): the config. The returned object should be
+ * unreffed with g_object_unref() when no longer needed.
  */
 GVirConfigStorageVol *gvir_storage_vol_get_config(GVirStorageVol *vol,
                                                   guint flags,
                                                   GError **err)
 {
-    GVirStorageVolPrivate *priv = vol->priv;
+    GVirStorageVolPrivate *priv;
     gchar *xml;
 
+    g_return_val_if_fail(GVIR_IS_STORAGE_VOL(vol), NULL);
+    g_return_val_if_fail(err == NULL || *err == NULL, NULL);
+
+    priv = vol->priv;
     if (!(xml = virStorageVolGetXMLDesc(priv->handle, flags))) {
         gvir_set_error_literal(err, GVIR_STORAGE_VOL_ERROR,
                                0,
@@ -250,15 +260,22 @@ GVirConfigStorageVol *gvir_storage_vol_get_config(GVirStorageVol *vol,
 /**
  * gvir_storage_vol_get_info:
  * @vol: the storage_vol
- * Returns: (transfer full): the info
+ * @err: Place-holder for possible errors
+ *
+ * Returns: (transfer full): the info. The returned object should be
+ * unreffed with g_object_unref() when no longer needed.
  */
 GVirStorageVolInfo *gvir_storage_vol_get_info(GVirStorageVol *vol,
                                               GError **err)
 {
-    GVirStorageVolPrivate *priv = vol->priv;
+    GVirStorageVolPrivate *priv;
     virStorageVolInfo info;
     GVirStorageVolInfo *ret;
 
+    g_return_val_if_fail(GVIR_IS_STORAGE_VOL(vol), NULL);
+    g_return_val_if_fail(err == NULL || *err == NULL, NULL);
+
+    priv = vol->priv;
     if (virStorageVolGetInfo(priv->handle, &info) < 0) {
         if (err)
             *err = gvir_error_new_literal(GVIR_STORAGE_VOL_ERROR,
@@ -289,6 +306,9 @@ gboolean gvir_storage_vol_delete(GVirStorageVol *vol,
                                  guint flags,
                                  GError **err)
 {
+    g_return_val_if_fail(GVIR_IS_STORAGE_VOL(vol), FALSE);
+    g_return_val_if_fail(err == NULL || *err == NULL, FALSE);
+
     if (virStorageVolDelete(vol->priv->handle, flags) < 0) {
         gvir_set_error_literal(err,
                                GVIR_STORAGE_VOL_ERROR,
@@ -316,6 +336,9 @@ gboolean gvir_storage_vol_resize(GVirStorageVol *vol,
                                  guint flags,
                                  GError **err)
 {
+    g_return_val_if_fail(GVIR_IS_STORAGE_VOL(vol), FALSE);
+    g_return_val_if_fail(err == NULL || *err == NULL, FALSE);
+
     if (virStorageVolResize(vol->priv->handle, capacity, flags) < 0) {
         gvir_set_error_literal(err,
                                GVIR_STORAGE_VOL_ERROR,
@@ -325,4 +348,96 @@ gboolean gvir_storage_vol_resize(GVirStorageVol *vol,
     }
 
     return TRUE;
+}
+
+/**
+ * gvir_storage_vol_download:
+ * @vol: the storage volume to download from
+ * @stream: stream to use as output
+ * @offset: position in @vol to start reading from
+ * @length: limit on amount of data to download, or 0 for downloading all data
+ * @flags: extra flags, not used yet, pass 0
+ *
+ * Returns: #TRUE of success, #FALSE otherwise
+ */
+gboolean gvir_storage_vol_download(GVirStorageVol *vol,
+                                   GVirStream *stream,
+                                   guint64 offset,
+                                   guint64 length,
+                                   guint flags,
+                                   GError **err)
+{
+    virStreamPtr stream_handle = NULL;
+    gboolean ret = FALSE;
+
+    g_object_get(stream, "handle", &stream_handle, NULL);
+
+    g_return_val_if_fail(GVIR_IS_STORAGE_VOL(vol), FALSE);
+    g_return_val_if_fail(GVIR_IS_STREAM(stream), FALSE);
+    g_return_val_if_fail(err == NULL || *err == NULL, FALSE);
+
+    if (virStorageVolDownload(vol->priv->handle,
+                              stream_handle,
+                              offset,
+                              length,
+                              0) < 0) {
+        gvir_set_error_literal(err,
+                               GVIR_STORAGE_VOL_ERROR,
+                               0,
+                               "Unable to download volume storage");
+
+        goto cleanup;
+    }
+
+    ret = TRUE;
+cleanup:
+    if (stream_handle != NULL)
+        virStreamFree(stream_handle);
+    return ret;
+}
+
+/**
+ * gvir_storage_vol_upload:
+ * @vol: the storage volume to upload
+ * @stream: stream to use as input
+ * @offset: position in @vol to start to write to
+ * @length: limit on amount of data to upload, or 0 for uploading all data
+ * @flags: the flags, not set yet, pass 0
+ *
+ * Returns: #TRUE of success, #FALSE otherwise
+ */
+gboolean gvir_storage_vol_upload(GVirStorageVol *vol,
+                                 GVirStream *stream,
+                                 guint64 offset,
+                                 guint64 length,
+                                 guint flags,
+                                 GError **err)
+{
+    virStreamPtr stream_handle = NULL;
+    gboolean ret = FALSE;
+
+    g_object_get(stream, "handle", &stream_handle, NULL);
+
+    g_return_val_if_fail(GVIR_IS_STORAGE_VOL(vol), FALSE);
+    g_return_val_if_fail(GVIR_IS_STREAM(stream), FALSE);
+    g_return_val_if_fail(err == NULL || *err == NULL, FALSE);
+
+    if (virStorageVolUpload(vol->priv->handle,
+                            stream_handle,
+                            offset,
+                            length,
+                            0) < 0) {
+        gvir_set_error_literal(err,
+                               GVIR_STORAGE_VOL_ERROR,
+                               0,
+                               "Unable to upload to stream");
+
+        goto cleanup;
+    }
+
+    ret = TRUE;
+cleanup:
+    if (stream_handle != NULL)
+        virStreamFree(stream_handle);
+    return ret;
 }

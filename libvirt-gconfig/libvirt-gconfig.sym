@@ -374,4 +374,90 @@ LIBVIRT_GCONFIG_0.0.8 {
         *;
 };
 
+LIBVIRT_GCONFIG_0.0.9 {
+  global:
+	gvir_config_domain_get_os;
+	gvir_config_domain_get_title;
+	gvir_config_domain_set_title;
+	gvir_config_domain_get_virt_type;
+
+	gvir_config_domain_filesys_set_ram_usage;
+
+	gvir_config_domain_os_get_arch;
+	gvir_config_domain_os_get_boot_devices;
+	gvir_config_domain_os_get_os_type;
+
+	gvir_config_capabilities_get_host;
+	gvir_config_capabilities_get_guests;
+
+	gvir_config_capabilities_cpu_get_type;
+	gvir_config_capabilities_cpu_get_arch;
+	gvir_config_capabilities_cpu_get_features;
+	gvir_config_capabilities_cpu_get_topology;
+
+	gvir_config_capabilities_cpu_feature_get_type;
+	gvir_config_capabilities_cpu_feature_get_name;
+
+	gvir_config_capabilities_cpu_topology_get_type;
+	gvir_config_capabilities_cpu_topology_get_cores;
+	gvir_config_capabilities_cpu_topology_get_sockets;
+	gvir_config_capabilities_cpu_topology_get_threads;
+
+	gvir_config_capabilities_guest_get_type;
+	gvir_config_capabilities_guest_get_arch;
+	gvir_config_capabilities_guest_get_features;
+	gvir_config_capabilities_guest_get_os_type;
+
+	gvir_config_capabilities_guest_arch_get_type;
+	gvir_config_capabilities_guest_arch_get_domains;
+	gvir_config_capabilities_guest_arch_get_emulator;
+	gvir_config_capabilities_guest_arch_get_name;
+
+	gvir_config_capabilities_guest_domain_get_type;
+	gvir_config_capabilities_guest_domain_get_emulator;
+	gvir_config_capabilities_guest_domain_get_virt_type;
+
+	gvir_config_capabilities_guest_feature_get_type;
+	gvir_config_capabilities_guest_feature_get_name;
+
+	gvir_config_capabilities_host_get_type;
+	gvir_config_capabilities_host_get_uuid;
+	gvir_config_capabilities_host_get_cpu;
+} LIBVIRT_GCONFIG_0.0.8;
+
+LIBVIRT_GCONFIG_0.1.0 {
+  global:
+	gvir_config_capabilities_cpu_add_feature;
+	gvir_config_capabilities_cpu_set_topology;
+
+	gvir_config_capabilities_cpu_feature_set_name;
+
+	gvir_config_capabilities_cpu_topology_new;
+	gvir_config_capabilities_cpu_topology_new_from_xml;
+	gvir_config_capabilities_cpu_topology_set_cores;
+	gvir_config_capabilities_cpu_topology_set_sockets;
+	gvir_config_capabilities_cpu_topology_set_threads;
+
+	gvir_config_domain_get_cpu;
+	gvir_config_domain_set_cpu;
+
+	gvir_config_domain_cpu_get_type;
+	gvir_config_domain_cpu_match_policy_get_type;
+	gvir_config_domain_cpu_mode_get_type;
+	gvir_config_domain_cpu_get_features;
+	gvir_config_domain_cpu_get_match_policy;
+	gvir_config_domain_cpu_set_match_policy;
+	gvir_config_domain_cpu_get_mode;
+	gvir_config_domain_cpu_set_mode;
+	gvir_config_domain_cpu_new;
+	gvir_config_domain_cpu_new_from_xml;
+
+	gvir_config_domain_cpu_feature_get_type;
+	gvir_config_domain_cpu_feature_new;
+	gvir_config_domain_cpu_feature_new_from_xml;
+	gvir_config_domain_cpu_feature_policy_get_type;
+	gvir_config_domain_cpu_feature_get_policy;
+	gvir_config_domain_cpu_feature_set_policy;
+} LIBVIRT_GCONFIG_0.0.9;
+
 # .... define new API here using predicted next version number ....

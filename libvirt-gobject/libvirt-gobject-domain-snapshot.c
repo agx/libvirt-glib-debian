@@ -161,6 +161,7 @@ G_DEFINE_BOXED_TYPE(GVirDomainSnapshotHandle, gvir_domain_snapshot_handle,
 
 const gchar *gvir_domain_snapshot_get_name(GVirDomainSnapshot *snapshot)
 {
+    g_return_val_if_fail(GVIR_IS_DOMAIN_SNAPSHOT(snapshot), NULL);
 #if 0
     GVirDomainSnapshotPrivate *priv = snapshot->priv;
     const char *name;
@@ -184,16 +185,23 @@ const gchar *gvir_domain_snapshot_get_name(GVirDomainSnapshot *snapshot)
  * gvir_domain_snapshot_get_config:
  * @snapshot: the domain_snapshot
  * @flags: the flags
- * Returns: (transfer full): the config
+ *
+ * Returns: (transfer full): the config. The returned object should be
+ * unreffed with g_object_unref() when no longer needed.
+
  */
 GVirConfigDomainSnapshot *gvir_domain_snapshot_get_config
                                 (GVirDomainSnapshot *snapshot,
                                  guint flags,
                                  GError **err)
 {
-    GVirDomainSnapshotPrivate *priv = snapshot->priv;
+    GVirDomainSnapshotPrivate *priv;
     gchar *xml;
 
+    g_return_val_if_fail(GVIR_IS_DOMAIN_SNAPSHOT(snapshot), NULL);
+    g_return_val_if_fail(err == NULL || *err == NULL, NULL);
+
+    priv = snapshot->priv;
     if (!(xml = virDomainSnapshotGetXMLDesc(priv->handle, flags))) {
         gvir_set_error_literal(err, GVIR_DOMAIN_SNAPSHOT_ERROR,
                                0,

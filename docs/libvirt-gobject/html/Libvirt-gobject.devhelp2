@@ -39,6 +39,9 @@
     <keyword type="function" name="gvir_connection_find_network_by_name ()" link="GVirConnection.html#gvir-connection-find-network-by-name"/>
     <keyword type="function" name="gvir_connection_find_network_filter_by_name ()" link="GVirConnection.html#gvir-connection-find-network-filter-by-name"/>
     <keyword type="function" name="gvir_connection_find_storage_pool_by_name ()" link="GVirConnection.html#gvir-connection-find-storage-pool-by-name"/>
+    <keyword type="function" name="gvir_connection_get_capabilities ()" link="GVirConnection.html#gvir-connection-get-capabilities"/>
+    <keyword type="function" name="gvir_connection_get_capabilities_async ()" link="GVirConnection.html#gvir-connection-get-capabilities-async"/>
+    <keyword type="function" name="gvir_connection_get_capabilities_finish ()" link="GVirConnection.html#gvir-connection-get-capabilities-finish"/>
     <keyword type="function" name="gvir_connection_get_domain ()" link="GVirConnection.html#gvir-connection-get-domain"/>
     <keyword type="function" name="gvir_connection_get_domains ()" link="GVirConnection.html#gvir-connection-get-domains"/>
     <keyword type="function" name="gvir_connection_get_interface ()" link="GVirConnection.html#gvir-connection-get-interface"/>
@@ -61,6 +64,9 @@
     <keyword type="function" name="gvir_connection_open ()" link="GVirConnection.html#gvir-connection-open"/>
     <keyword type="function" name="gvir_connection_open_async ()" link="GVirConnection.html#gvir-connection-open-async"/>
     <keyword type="function" name="gvir_connection_open_finish ()" link="GVirConnection.html#gvir-connection-open-finish"/>
+    <keyword type="function" name="gvir_connection_restore_domain_from_file ()" link="GVirConnection.html#gvir-connection-restore-domain-from-file"/>
+    <keyword type="function" name="gvir_connection_restore_domain_from_file_async ()" link="GVirConnection.html#gvir-connection-restore-domain-from-file-async"/>
+    <keyword type="function" name="gvir_connection_restore_domain_from_file_finish ()" link="GVirConnection.html#gvir-connection-restore-domain-from-file-finish"/>
     <keyword type="function" name="gvir_connection_start_domain ()" link="GVirConnection.html#gvir-connection-start-domain"/>
     <keyword type="property" name="The &quot;handle&quot; property" link="GVirConnection.html#GVirConnection--handle"/>
     <keyword type="property" name="The &quot;uri&quot; property" link="GVirConnection.html#GVirConnection--uri"/>
@@ -72,8 +78,12 @@
     <keyword type="struct" name="struct GVirDomainClass" link="GVirDomain.html#GVirDomainClass"/>
     <keyword type="enum" name="enum GVirDomainDeleteFlags" link="GVirDomain.html#GVirDomainDeleteFlags"/>
     <keyword type="struct" name="struct GVirDomainInfo" link="GVirDomain.html#GVirDomainInfo-struct"/>
+    <keyword type="enum" name="enum GVirDomainShutdownFlags" link="GVirDomain.html#GVirDomainShutdownFlags"/>
+    <keyword type="enum" name="enum GVirDomainSnapshotCreateFlags" link="GVirDomain.html#GVirDomainSnapshotCreateFlags"/>
     <keyword type="enum" name="enum GVirDomainStartFlags" link="GVirDomain.html#GVirDomainStartFlags"/>
     <keyword type="enum" name="enum GVirDomainState" link="GVirDomain.html#GVirDomainState"/>
+    <keyword type="enum" name="enum GVirDomainXMLFlags" link="GVirDomain.html#GVirDomainXMLFlags"/>
+    <keyword type="function" name="gvir_domain_create_snapshot ()" link="GVirDomain.html#gvir-domain-create-snapshot"/>
     <keyword type="function" name="gvir_domain_delete ()" link="GVirDomain.html#gvir-domain-delete"/>
     <keyword type="function" name="gvir_domain_get_config ()" link="GVirDomain.html#gvir-domain-get-config"/>
     <keyword type="function" name="gvir_domain_get_devices ()" link="GVirDomain.html#gvir-domain-get-devices"/>
@@ -89,13 +99,20 @@
     <keyword type="function" name="gvir_domain_open_graphics ()" link="GVirDomain.html#gvir-domain-open-graphics"/>
     <keyword type="function" name="gvir_domain_reboot ()" link="GVirDomain.html#gvir-domain-reboot"/>
     <keyword type="function" name="gvir_domain_resume ()" link="GVirDomain.html#gvir-domain-resume"/>
+    <keyword type="function" name="gvir_domain_resume_async ()" link="GVirDomain.html#gvir-domain-resume-async"/>
+    <keyword type="function" name="gvir_domain_resume_finish ()" link="GVirDomain.html#gvir-domain-resume-finish"/>
     <keyword type="function" name="gvir_domain_save ()" link="GVirDomain.html#gvir-domain-save"/>
     <keyword type="function" name="gvir_domain_save_async ()" link="GVirDomain.html#gvir-domain-save-async"/>
     <keyword type="function" name="gvir_domain_save_finish ()" link="GVirDomain.html#gvir-domain-save-finish"/>
+    <keyword type="function" name="gvir_domain_save_to_file ()" link="GVirDomain.html#gvir-domain-save-to-file"/>
+    <keyword type="function" name="gvir_domain_save_to_file_async ()" link="GVirDomain.html#gvir-domain-save-to-file-async"/>
+    <keyword type="function" name="gvir_domain_save_to_file_finish ()" link="GVirDomain.html#gvir-domain-save-to-file-finish"/>
     <keyword type="function" name="gvir_domain_screenshot ()" link="GVirDomain.html#gvir-domain-screenshot"/>
     <keyword type="function" name="gvir_domain_set_config ()" link="GVirDomain.html#gvir-domain-set-config"/>
     <keyword type="function" name="gvir_domain_shutdown ()" link="GVirDomain.html#gvir-domain-shutdown"/>
     <keyword type="function" name="gvir_domain_start ()" link="GVirDomain.html#gvir-domain-start"/>
+    <keyword type="function" name="gvir_domain_start_async ()" link="GVirDomain.html#gvir-domain-start-async"/>
+    <keyword type="function" name="gvir_domain_start_finish ()" link="GVirDomain.html#gvir-domain-start-finish"/>
     <keyword type="function" name="gvir_domain_stop ()" link="GVirDomain.html#gvir-domain-stop"/>
     <keyword type="function" name="gvir_domain_suspend ()" link="GVirDomain.html#gvir-domain-suspend"/>
     <keyword type="property" name="The &quot;handle&quot; property" link="GVirDomain.html#GVirDomain--handle"/>
@@ -174,11 +191,13 @@
     <keyword type="enum" name="enum GVirStorageVolResizeFlags" link="GVirStorageVol.html#GVirStorageVolResizeFlags"/>
     <keyword type="enum" name="enum GVirStorageVolType" link="GVirStorageVol.html#GVirStorageVolType"/>
     <keyword type="function" name="gvir_storage_vol_delete ()" link="GVirStorageVol.html#gvir-storage-vol-delete"/>
+    <keyword type="function" name="gvir_storage_vol_download ()" link="GVirStorageVol.html#gvir-storage-vol-download"/>
     <keyword type="function" name="gvir_storage_vol_get_config ()" link="GVirStorageVol.html#gvir-storage-vol-get-config"/>
     <keyword type="function" name="gvir_storage_vol_get_info ()" link="GVirStorageVol.html#gvir-storage-vol-get-info"/>
     <keyword type="function" name="gvir_storage_vol_get_name ()" link="GVirStorageVol.html#gvir-storage-vol-get-name"/>
     <keyword type="function" name="gvir_storage_vol_get_path ()" link="GVirStorageVol.html#gvir-storage-vol-get-path"/>
     <keyword type="function" name="gvir_storage_vol_resize ()" link="GVirStorageVol.html#gvir-storage-vol-resize"/>
+    <keyword type="function" name="gvir_storage_vol_upload ()" link="GVirStorageVol.html#gvir-storage-vol-upload"/>
     <keyword type="property" name="The &quot;handle&quot; property" link="GVirStorageVol.html#GVirStorageVol--handle"/>
     <keyword type="property" name="The &quot;pool&quot; property" link="GVirStorageVol.html#GVirStorageVol--pool"/>
     <keyword type="struct" name="struct GVirStream" link="GVirStream.html#GVirStream-struct"/>
@@ -197,6 +216,22 @@
     <keyword type="constant" name="GVIR_DOMAIN_DELETE_NONE" link="GVirDomain.html#GVIR-DOMAIN-DELETE-NONE:CAPS"/>
     <keyword type="constant" name="GVIR_DOMAIN_DELETE_SAVED_STATE" link="GVirDomain.html#GVIR-DOMAIN-DELETE-SAVED-STATE:CAPS"/>
     <keyword type="constant" name="GVIR_DOMAIN_DELETE_SNAPSHOTS_METADATA" link="GVirDomain.html#GVIR-DOMAIN-DELETE-SNAPSHOTS-METADATA:CAPS"/>
+    <keyword type="constant" name="GVIR_DOMAIN_SHUTDOWN_NONE" link="GVirDomain.html#GVIR-DOMAIN-SHUTDOWN-NONE:CAPS"/>
+    <keyword type="constant" name="GVIR_DOMAIN_SHUTDOWN_ACPI_POWER_BTN" link="GVirDomain.html#GVIR-DOMAIN-SHUTDOWN-ACPI-POWER-BTN:CAPS"/>
+    <keyword type="constant" name="GVIR_DOMAIN_SHUTDOWN_GUEST_AGENT" link="GVirDomain.html#GVIR-DOMAIN-SHUTDOWN-GUEST-AGENT:CAPS"/>
+    <keyword type="constant" name="GVIR_DOMAIN_SNAPSHOT_NONE" link="GVirDomain.html#GVIR-DOMAIN-SNAPSHOT-NONE:CAPS"/>
+    <keyword type="constant" name="GVIR_DOMAIN_SNAPSHOT_REDEFINE" link="GVirDomain.html#GVIR-DOMAIN-SNAPSHOT-REDEFINE:CAPS"/>
+    <keyword type="constant" name="GVIR_DOMAIN_SNAPSHOT_CURRENT" link="GVirDomain.html#GVIR-DOMAIN-SNAPSHOT-CURRENT:CAPS"/>
+    <keyword type="constant" name="GVIR_DOMAIN_SNAPSHOT_NO_METADATA" link="GVirDomain.html#GVIR-DOMAIN-SNAPSHOT-NO-METADATA:CAPS"/>
+    <keyword type="constant" name="GVIR_DOMAIN_SNAPSHOT_HALT" link="GVirDomain.html#GVIR-DOMAIN-SNAPSHOT-HALT:CAPS"/>
+    <keyword type="constant" name="GVIR_DOMAIN_SNAPSHOT_DISK_ONLY" link="GVirDomain.html#GVIR-DOMAIN-SNAPSHOT-DISK-ONLY:CAPS"/>
+    <keyword type="constant" name="GVIR_DOMAIN_SNAPSHOT_REUSE_EXT" link="GVirDomain.html#GVIR-DOMAIN-SNAPSHOT-REUSE-EXT:CAPS"/>
+    <keyword type="constant" name="GVIR_DOMAIN_SNAPSHOT_QUIESCE" link="GVirDomain.html#GVIR-DOMAIN-SNAPSHOT-QUIESCE:CAPS"/>
+    <keyword type="constant" name="GVIR_DOMAIN_SNAPSHOT_ATOMIC" link="GVirDomain.html#GVIR-DOMAIN-SNAPSHOT-ATOMIC:CAPS"/>
+    <keyword type="constant" name="GVIR_DOMAIN_XML_NONE" link="GVirDomain.html#GVIR-DOMAIN-XML-NONE:CAPS"/>
+    <keyword type="constant" name="GVIR_DOMAIN_XML_SECURE" link="GVirDomain.html#GVIR-DOMAIN-XML-SECURE:CAPS"/>
+    <keyword type="constant" name="GVIR_DOMAIN_XML_INACTIVE" link="GVirDomain.html#GVIR-DOMAIN-XML-INACTIVE:CAPS"/>
+    <keyword type="constant" name="GVIR_DOMAIN_XML_UPDATE_CPU" link="GVirDomain.html#GVIR-DOMAIN-XML-UPDATE-CPU:CAPS"/>
     <keyword type="constant" name="GVIR_STORAGE_VOL_RESIZE_NONE" link="GVirStorageVol.html#GVIR-STORAGE-VOL-RESIZE-NONE:CAPS"/>
     <keyword type="constant" name="GVIR_STORAGE_VOL_RESIZE_ALLOCATE" link="GVirStorageVol.html#GVIR-STORAGE-VOL-RESIZE-ALLOCATE:CAPS"/>
     <keyword type="constant" name="GVIR_STORAGE_VOL_RESIZE_DELTA" link="GVirStorageVol.html#GVIR-STORAGE-VOL-RESIZE-DELTA:CAPS"/>

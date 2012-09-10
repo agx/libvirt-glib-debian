@@ -29,6 +29,14 @@
 #include <libvirt-gconfig/libvirt-gconfig-main.h>
 #include <libvirt-gconfig/libvirt-gconfig-object.h>
 #include <libvirt-gconfig/libvirt-gconfig-capabilities.h>
+#include <libvirt-gconfig/libvirt-gconfig-capabilities-cpu.h>
+#include <libvirt-gconfig/libvirt-gconfig-capabilities-cpu-feature.h>
+#include <libvirt-gconfig/libvirt-gconfig-capabilities-cpu-topology.h>
+#include <libvirt-gconfig/libvirt-gconfig-capabilities-guest.h>
+#include <libvirt-gconfig/libvirt-gconfig-capabilities-guest-arch.h>
+#include <libvirt-gconfig/libvirt-gconfig-capabilities-guest-domain.h>
+#include <libvirt-gconfig/libvirt-gconfig-capabilities-guest-feature.h>
+#include <libvirt-gconfig/libvirt-gconfig-capabilities-host.h>
 #include <libvirt-gconfig/libvirt-gconfig-domain.h>
 #include <libvirt-gconfig/libvirt-gconfig-domain-address.h>
 #include <libvirt-gconfig/libvirt-gconfig-domain-address-pci.h>
@@ -42,6 +50,8 @@
 #include <libvirt-gconfig/libvirt-gconfig-domain-console.h>
 #include <libvirt-gconfig/libvirt-gconfig-domain-controller.h>
 #include <libvirt-gconfig/libvirt-gconfig-domain-controller-usb.h>
+#include <libvirt-gconfig/libvirt-gconfig-domain-cpu.h>
+#include <libvirt-gconfig/libvirt-gconfig-domain-cpu-feature.h>
 #include <libvirt-gconfig/libvirt-gconfig-domain-device.h>
 #include <libvirt-gconfig/libvirt-gconfig-domain-disk.h>
 #include <libvirt-gconfig/libvirt-gconfig-domain-filesys.h>

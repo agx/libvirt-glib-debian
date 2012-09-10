@@ -164,8 +164,11 @@ enum                <a class="link" href="GVirStream.html#GVirStreamIOCondition"
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
-<td>user data passed to the function
-Returns: the number of bytes filled, 0 upon end
+<td>user data passed to the function</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the number of bytes filled, 0 upon end
 of file, or -1 upon error</td>
 </tr>
 </tbody>
@@ -197,8 +200,11 @@ of file, or -1 upon error</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
-<td>user data passed to the function
-Returns: the number of bytes filled, 0 upon end
+<td>user data passed to the function</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the number of bytes filled, 0 upon end
 of file, or -1 upon error</td>
 </tr>
 </tbody>
@@ -211,6 +217,36 @@ of file, or -1 upon error</td>
                                                          <em class="parameter"><code><a class="link" href="GVirStream.html#GVirStreamIOCondition" title="enum GVirStreamIOCondition"><span class="type">GVirStreamIOCondition</span></a> cond</code></em>,
                                                          <em class="parameter"><code><a class="link" href="GVirStream.html#GVirStreamIOFunc" title="GVirStreamIOFunc ()"><span class="type">GVirStreamIOFunc</span></a> func</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> opaque</code></em>);</pre>
+<p>
+Adds a watch for <em class="parameter"><code>stream</code></em> to the mainloop
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>stream</code></em> :</span></p></td>
+<td>the stream</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cond</code></em> :</span></p></td>
+<td>the conditions to watch for (bitfield of <a class="link" href="GVirStream.html#GVirStreamIOCondition" title="enum GVirStreamIOCondition"><span class="type">GVirStreamIOCondition</span></a>)</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>func</code></em> :</span></p></td>
+<td>the function to call when the condition is satisfied. <span class="annotation">[<acronym title="This parameter is a 'user_data', for callbacks; many bindings can pass NULL here."><span class="acronym">closure</span></acronym> opaque]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>opaque</code></em> :</span></p></td>
+<td>user data to pass to <em class="parameter"><code>func</code></em>. <span class="annotation">[<acronym title="This parameter is a 'user_data', for callbacks; many bindings can pass NULL here."><span class="acronym">closure</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the event source id</td>
+</tr>
+</tbody>
+</table></div>
 </div>
 <hr>
 <div class="refsect2">
@@ -347,9 +383,17 @@ to virStreamRecv, for apps that do blocking-I/o.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
-<td>data to be passed to <em class="parameter"><code>callback</code></em>
-Returns: the number of bytes consumed or -1 upon error. <span class="annotation">[<acronym title="This parameter is a 'user_data', for callbacks; many bindings can pass NULL here."><span class="acronym">closure</span></acronym>]</span>
+<td>data to be passed to <em class="parameter"><code>callback</code></em>. <span class="annotation">[<acronym title="This parameter is a 'user_data', for callbacks; many bindings can pass NULL here."><span class="acronym">closure</span></acronym>]</span>
 </td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
+<td>
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> for error reporting, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a> to ignore.</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the number of bytes consumed or -1 upon error</td>
 </tr>
 </tbody>
 </table></div>
@@ -440,9 +484,17 @@ to virStreamRecv, for apps that do blocking-I/o.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
-<td>data to be passed to <em class="parameter"><code>callback</code></em>
-Returns: the number of bytes consumed or -1 upon error. <span class="annotation">[<acronym title="This parameter is a 'user_data', for callbacks; many bindings can pass NULL here."><span class="acronym">closure</span></acronym>]</span>
+<td>data to be passed to <em class="parameter"><code>callback</code></em>. <span class="annotation">[<acronym title="This parameter is a 'user_data', for callbacks; many bindings can pass NULL here."><span class="acronym">closure</span></acronym>]</span>
 </td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
+<td>
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> for error reporting, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a> to ignore.</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the number of bytes consumed or -1 upon error</td>
 </tr>
 </tbody>
 </table></div>

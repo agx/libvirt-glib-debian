@@ -69,6 +69,31 @@ GVirConfigDomainFilesys *gvir_config_domain_filesys_new_from_xml(const gchar *xm
     return GVIR_CONFIG_DOMAIN_FILESYS(object);
 }
 
+GVirConfigDomainDevice *
+gvir_config_domain_filesys_new_from_tree(GVirConfigXmlDoc *doc,
+                                         xmlNodePtr tree)
+{
+    GVirConfigObject *object;
+    GVirConfigDomainFilesys *filesys;
+    GVirConfigDomainFilesysType type;
+    const char *type_str;
+
+    type_str = gvir_config_xml_get_attribute_content(tree, "type");
+    if (type_str == NULL)
+        return NULL;
+
+    type = gvir_config_genum_get_value(GVIR_CONFIG_TYPE_DOMAIN_FILESYS_TYPE,
+                                       type_str,
+                                       GVIR_CONFIG_DOMAIN_FILESYS_FILE);
+
+    object = gvir_config_object_new_from_tree(GVIR_CONFIG_TYPE_DOMAIN_FILESYS,
+                                              doc, NULL, tree);
+    filesys = GVIR_CONFIG_DOMAIN_FILESYS(object);
+    filesys->priv->type = type;
+
+    return GVIR_CONFIG_DOMAIN_DEVICE(object);
+}
+
 void gvir_config_domain_filesys_set_type(GVirConfigDomainFilesys *filesys,
                                          GVirConfigDomainFilesysType type)
 {
@@ -79,6 +104,7 @@ void gvir_config_domain_filesys_set_type(GVirConfigDomainFilesys *filesys,
                                                GVIR_CONFIG_TYPE_DOMAIN_FILESYS_TYPE,
                                                type,
                                                NULL);
+    filesys->priv->type = type;
 }
 
 void gvir_config_domain_filesys_set_access_type(GVirConfigDomainFilesys *filesys,
@@ -120,6 +146,7 @@ void gvir_config_domain_filesys_set_source(GVirConfigDomainFilesys *filesys,
 
     switch (filesys->priv->type) {
         case GVIR_CONFIG_DOMAIN_FILESYS_MOUNT:
+        case GVIR_CONFIG_DOMAIN_FILESYS_BIND:
             attribute_name = "dir";
             break;
         case GVIR_CONFIG_DOMAIN_FILESYS_FILE:
@@ -131,6 +158,9 @@ void gvir_config_domain_filesys_set_source(GVirConfigDomainFilesys *filesys,
         case GVIR_CONFIG_DOMAIN_FILESYS_TEMPLATE:
             attribute_name = "name";
             break;
+        case GVIR_CONFIG_DOMAIN_FILESYS_RAM:
+            g_return_if_reached();
+
         default:
             g_return_if_reached();
     }
@@ -140,6 +170,23 @@ void gvir_config_domain_filesys_set_source(GVirConfigDomainFilesys *filesys,
                                                     attribute_name, source);
 }
 
+void gvir_config_domain_filesys_set_ram_usage(GVirConfigDomainFilesys *filesys,
+                                              guint64 bytes)
+{
+    g_return_if_fail(GVIR_CONFIG_IS_DOMAIN_FILESYS(filesys));
+    g_return_if_fail(filesys->priv->type == GVIR_CONFIG_DOMAIN_FILESYS_RAM);
+
+    GVirConfigObject *src;
+
+    src = gvir_config_object_replace_child(GVIR_CONFIG_OBJECT(filesys),
+                                           "source");
+
+    gvir_config_object_set_attribute_with_type(src,
+                                               "usage", G_TYPE_UINT64, bytes,
+                                               "units", G_TYPE_STRING, "bytes",
+                                               NULL);
+
+}
 
 void gvir_config_domain_filesys_set_target(GVirConfigDomainFilesys *filesys,
                                            const char *path)
