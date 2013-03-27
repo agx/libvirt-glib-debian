@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Author: Daniel P. Berrange <berrange@redhat.com>
  */
@@ -88,6 +88,9 @@ GVirConnection *gvir_connection_new(const char *uri);
 gboolean gvir_connection_open(GVirConnection *conn,
                               GCancellable *cancellable,
                               GError **err);
+gboolean gvir_connection_open_read_only(GVirConnection *conn,
+                                        GCancellable *cancellable,
+                                        GError **err);
 void gvir_connection_open_async(GVirConnection *conn,
                                 GCancellable *cancellable,
                                 GAsyncReadyCallback callback,
@@ -95,7 +98,15 @@ void gvir_connection_open_async(GVirConnection *conn,
 gboolean gvir_connection_open_finish(GVirConnection *conn,
                                      GAsyncResult *result,
                                      GError **err);
+void gvir_connection_open_read_only_async(GVirConnection *conn,
+                                          GCancellable *cancellable,
+                                          GAsyncReadyCallback callback,
+                                          gpointer user_data);
+gboolean gvir_connection_open_read_only_finish(GVirConnection *conn,
+                                               GAsyncResult *result,
+                                               GError **err);
 gboolean gvir_connection_is_open(GVirConnection *conn);
+gboolean gvir_connection_is_read_only(GVirConnection *conn);
 void gvir_connection_close(GVirConnection *conn);
 
 gboolean gvir_connection_fetch_domains(GVirConnection *conn,
@@ -112,6 +123,10 @@ gboolean gvir_connection_fetch_domains_finish(GVirConnection *conn,
 
 const gchar *gvir_connection_get_uri(GVirConnection *conn);
 
+gchar *gvir_connection_get_hypervisor_name(GVirConnection *conn,
+                                           GError **err);
+gulong gvir_connection_get_version(GVirConnection *conn,
+                                   GError **err);
 
 GList *gvir_connection_get_domains(GVirConnection *conn);
 GVirDomain *gvir_connection_get_domain(GVirConnection *conn,

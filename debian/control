@@ -3,7 +3,7 @@ Section: libs
 Priority: extra
 Maintainer: Guido Günther <agx@sigxcpu.org>
 Build-Depends: debhelper (>= 7.0.50~), pkg-config,
- libvirt-dev (>= 0.9.10), libglib2.0-dev (>= 2.10),
+ libvirt-dev (>= 0.10.2), libglib2.0-dev (>= 2.10),
  libxml2-dev, libgirepository1.0-dev, gobject-introspection,
 # when building from git:
   automake, autoconf, libtool,
@@ -12,6 +12,9 @@ Build-Depends: debhelper (>= 7.0.50~), pkg-config,
 # for vala bindings
   valac-0.14
 Standards-Version: 3.9.3
+Homepage: https://libvirt.org
+Vcs-Git: git://git.debian.org/git/pkg-libvirt/libvirt-glib.git
+Vcs-Browser: http://git.debian.org/?p=pkg-libvirt/libvirt-glib.git
 
 Package: libvirt-glib-1.0-0
 Architecture: any

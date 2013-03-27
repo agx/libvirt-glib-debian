@@ -15,8 +15,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors: Daniel P. Berrange <berrange@redhat.com>
  *          Marc-André Lureau <marcandre.lureau@redhat.com>
@@ -218,7 +218,7 @@ static void gvir_stream_finalize(GObject *object)
         gvir_stream_update_events(self);
 
         if (virStreamFinish(priv->handle) < 0)
-            g_critical("cannot finish stream");
+            gvir_critical("cannot finish stream");
 
         virStreamFree(priv->handle);
     }
@@ -283,8 +283,8 @@ G_DEFINE_BOXED_TYPE(GVirStreamHandle, gvir_stream_handle,
 /**
  * gvir_stream_receive:
  * @stream: the stream
- * @buffer: a buffer to read data into (which should be at least @size
- *     bytes long).
+ * @buffer: (array length=size) (element-type guint8): a buffer
+ *     to read data into (which should be at least @size bytes long).
  * @size: the number of bytes you want to read from the stream
  * @cancellable: (allow-none): a %GCancellable or %NULL
  * @error: #GError for error reporting, or %NULL to ignore.
@@ -319,7 +319,8 @@ gssize gvir_stream_receive(GVirStream *self,
     got = virStreamRecv(self->priv->handle, buffer, size);
 
     if (got == -2) {  /* blocking */
-        g_set_error(error, G_IO_ERROR, G_IO_ERROR_WOULD_BLOCK, NULL);
+        g_set_error_literal(error, G_IO_ERROR, G_IO_ERROR_WOULD_BLOCK,
+                            "virStreamRecv call would block");
     } else if (got < 0) {
         g_set_error(error, G_IO_ERROR, G_IO_ERROR_INVALID_ARGUMENT,
                     "Got virStreamRecv error in %s", G_STRFUNC);
@@ -413,8 +414,7 @@ gvir_stream_receive_all(GVirStream *self,
  * If there is no data available, a %G_IO_ERROR_WOULD_BLOCK error will be
  * returned.
  *
- * Returns: Number of bytes read, or 0 if the end of stream reached,
- * or -1 on error.
+ * Returns: Number of bytes written.
  */
 gssize gvir_stream_send(GVirStream *self,
                         const gchar *buffer,
@@ -435,7 +435,8 @@ gssize gvir_stream_send(GVirStream *self,
     got = virStreamSend(self->priv->handle, buffer, size);
 
     if (got == -2) {  /* blocking */
-        g_set_error(error, G_IO_ERROR, G_IO_ERROR_WOULD_BLOCK, NULL);
+        g_set_error_literal(error, G_IO_ERROR, G_IO_ERROR_WOULD_BLOCK,
+                            "virStreamSend call would block");
     } else if (got < 0) {
         g_set_error(error, G_IO_ERROR, G_IO_ERROR_INVALID_ARGUMENT,
                     "Got virStreamRecv error in %s", G_STRFUNC);

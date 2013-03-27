@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Author: Daniel P. Berrange <berrange@redhat.com>
  */
@@ -32,6 +32,7 @@
 #include <libvirt-gconfig/libvirt-gconfig-domain-device.h>
 #include <libvirt-gconfig/libvirt-gconfig-domain-seclabel.h>
 #include <libvirt-gconfig/libvirt-gconfig-domain-cpu.h>
+#include <libvirt-gconfig/libvirt-gconfig-domain-power-management.h>
 
 G_BEGIN_DECLS
 
@@ -108,6 +109,8 @@ const char *gvir_config_domain_get_description(GVirConfigDomain *domain);
 void gvir_config_domain_set_description(GVirConfigDomain *domain, const char *description);
 guint64 gvir_config_domain_get_memory(GVirConfigDomain *domain);
 void gvir_config_domain_set_memory(GVirConfigDomain *domain, guint64 memory);
+guint64 gvir_config_domain_get_current_memory(GVirConfigDomain *domain);
+void gvir_config_domain_set_current_memory(GVirConfigDomain *domain, guint64 memory);
 guint64 gvir_config_domain_get_vcpus(GVirConfigDomain *domain);
 void gvir_config_domain_set_vcpus(GVirConfigDomain *domain,
                                   guint64 vcpu_count);
@@ -141,6 +144,8 @@ gchar *gvir_config_domain_get_custom_xml(GVirConfigDomain *domain,
 GVirConfigDomainCpu *gvir_config_domain_get_cpu(GVirConfigDomain *domain);
 void gvir_config_domain_set_cpu(GVirConfigDomain *domain,
                                 GVirConfigDomainCpu *cpu);
+void gvir_config_domain_set_power_management(GVirConfigDomain *domain,
+                                             GVirConfigDomainPowerManagement *pm);
 
 G_END_DECLS
 

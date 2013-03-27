@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Author: Daniel P. Berrange <berrange@redhat.com>
  */
@@ -66,19 +66,22 @@ struct _GVirDomainClass
     void (*resumed)(GVirDomain *dom);
     void (*updated)(GVirDomain *dom);
     void (*suspended)(GVirDomain *dom);
+    void (*pmsuspended)(GVirDomain *dom);
 
-    gpointer padding[20];
+    gpointer padding[19];
 };
 
 
 typedef enum {
-    GVIR_DOMAIN_STATE_NONE    = 0, /* no state */
-    GVIR_DOMAIN_STATE_RUNNING = 1, /* the domain is running */
-    GVIR_DOMAIN_STATE_BLOCKED = 2, /* the domain is blocked on resource */
-    GVIR_DOMAIN_STATE_PAUSED  = 3, /* the domain is paused by user */
-    GVIR_DOMAIN_STATE_SHUTDOWN= 4, /* the domain is being shut down */
-    GVIR_DOMAIN_STATE_SHUTOFF = 5, /* the domain is shut off */
-    GVIR_DOMAIN_STATE_CRASHED = 6  /* the domain is crashed */
+    GVIR_DOMAIN_STATE_NONE    = 0,     /* no state */
+    GVIR_DOMAIN_STATE_RUNNING = 1,     /* the domain is running */
+    GVIR_DOMAIN_STATE_BLOCKED = 2,     /* the domain is blocked on resource */
+    GVIR_DOMAIN_STATE_PAUSED  = 3,     /* the domain is paused by user */
+    GVIR_DOMAIN_STATE_SHUTDOWN= 4,     /* the domain is being shut down */
+    GVIR_DOMAIN_STATE_SHUTOFF = 5,     /* the domain is shut off */
+    GVIR_DOMAIN_STATE_CRASHED = 6,     /* the domain is crashed */
+    GVIR_DOMAIN_STATE_PMSUSPENDED = 7  /* the domain is suspended by guest
+                                          power management */
 } GVirDomainState;
 
 
@@ -155,6 +158,31 @@ typedef enum {
     GVIR_DOMAIN_SNAPSHOT_ATOMIC       = VIR_DOMAIN_SNAPSHOT_CREATE_ATOMIC,
 } GVirDomainSnapshotCreateFlags;
 
+/**
+ * GVirDomainUpdateDeviceFlags:
+ * @GVIR_DOMAIN_UPDATE_DEVICE_CURRENT: Update current domain state
+ * @GVIR_DOMAIN_UPDATE_DEVICE_LIVE: Update state for only active domains
+ * @GVIR_DOMAIN_UPDATE_DEVICE_CONFIG: Update state for persistent state only
+ */
+typedef enum {
+    GVIR_DOMAIN_UPDATE_DEVICE_CURRENT   = VIR_DOMAIN_AFFECT_CURRENT,
+    GVIR_DOMAIN_UPDATE_DEVICE_LIVE      = VIR_DOMAIN_AFFECT_LIVE,
+    GVIR_DOMAIN_UPDATE_DEVICE_CONFIG    = VIR_DOMAIN_AFFECT_CONFIG,
+} GVirDomainUpdateDeviceFlags;
+
+/**
+ * GVirDomainRebootFlags:
+ * @GVIR_DOMAIN_REBOOT_NONE: No flags, hypervisor choice
+ * @GVIR_DOMAIN_REBOOT_ACPI_POWER_BTN: Send ACPI event
+ * @GVIR_DOMAIN_REBOOT_GUEST_AGENT: Use guest agent
+ *
+ */
+typedef enum {
+    GVIR_DOMAIN_REBOOT_NONE           = 0,
+    GVIR_DOMAIN_REBOOT_ACPI_POWER_BTN = VIR_DOMAIN_REBOOT_ACPI_POWER_BTN,
+    GVIR_DOMAIN_REBOOT_GUEST_AGENT    = VIR_DOMAIN_REBOOT_GUEST_AGENT,
+} GVirDomainRebootFlags;
+
 typedef struct _GVirDomainInfo GVirDomainInfo;
 struct _GVirDomainInfo
 {
@@ -193,6 +221,17 @@ void gvir_domain_resume_async(GVirDomain *dom,
                               GAsyncReadyCallback callback,
                               gpointer user_data);
 gboolean gvir_domain_resume_finish(GVirDomain *dom,
+                                   GAsyncResult *result,
+                                   GError **err);
+gboolean gvir_domain_wakeup(GVirDomain *dom,
+                            guint flags,
+                            GError **err);
+void gvir_domain_wakeup_async(GVirDomain *dom,
+                              guint flags,
+                              GCancellable *cancellable,
+                              GAsyncReadyCallback callback,
+                              gpointer user_data);
+gboolean gvir_domain_wakeup_finish(GVirDomain *dom,
                                    GAsyncResult *result,
                                    GError **err);
 gboolean gvir_domain_stop(GVirDomain *dom,
@@ -279,6 +318,11 @@ gboolean gvir_domain_get_saved(GVirDomain *dom);
 
 GList *gvir_domain_get_devices(GVirDomain *domain,
                                GError **err);
+
+gboolean gvir_domain_update_device(GVirDomain *dom,
+                                   GVirConfigDomainDevice *device,
+                                   guint flags,
+                                   GError **err);
 
 GVirDomainSnapshot *
 gvir_domain_create_snapshot(GVirDomain *dom,

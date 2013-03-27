@@ -15,8 +15,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Author: Daniel P. Berrange <berrange@redhat.com>
  */
@@ -459,6 +459,20 @@ gvir_config_object_replace_child_with_attribute(GVirConfigObject *object,
     g_object_unref(G_OBJECT(child));
 }
 
+G_GNUC_INTERNAL void
+gvir_config_object_replace_child_with_attribute_enum(GVirConfigObject *object,
+                                                     const char *child_name,
+                                                     const char *attr_name,
+                                                     GType attr_type,
+                                                     unsigned int attr_value)
+{
+    GVirConfigObject *child;
+
+    child = gvir_config_object_replace_child(object, child_name);
+    gvir_config_object_set_attribute_with_type(child, attr_name, attr_type, attr_value, NULL);
+    g_object_unref(G_OBJECT(child));
+}
+
 struct NodeMatch {
     const char *name;
     const char *ns;
@@ -534,7 +548,6 @@ gvir_config_object_set_node_content(GVirConfigObject *object,
     GVirConfigObject *node;
 
     g_return_if_fail(GVIR_CONFIG_IS_OBJECT(object));
-    g_return_if_fail(node_name != NULL);
 
     if (value == NULL) {
         gvir_config_object_delete_child(object, node_name, NULL);
@@ -542,8 +555,12 @@ gvir_config_object_set_node_content(GVirConfigObject *object,
         return;
     }
 
-    node = gvir_config_object_replace_child(object, node_name);
-    g_return_if_fail(node != NULL);
+    if (node_name != NULL) {
+        node = gvir_config_object_replace_child(object, node_name);
+        g_return_if_fail(node != NULL);
+    } else {
+        node = g_object_ref(G_OBJECT(object));
+    }
     encoded_data = xmlEncodeEntitiesReentrant(node->priv->node->doc,
                                               (xmlChar *)value);
     xmlNodeSetContent(node->priv->node, encoded_data);
@@ -559,7 +576,6 @@ gvir_config_object_set_node_content_uint64(GVirConfigObject *object,
     char *str;
 
     g_return_if_fail(GVIR_CONFIG_IS_OBJECT(object));
-    g_return_if_fail(node_name != NULL);
 
     str = g_strdup_printf("%"G_GUINT64_FORMAT, value);
     gvir_config_object_set_node_content(object, node_name, str);

@@ -37,6 +37,7 @@
     <keyword type="enum" name="enum GVirConfigDomainVirtType" link="GVirConfigDomain.html#GVirConfigDomainVirtType"/>
     <keyword type="function" name="gvir_config_domain_add_device ()" link="GVirConfigDomain.html#gvir-config-domain-add-device"/>
     <keyword type="function" name="gvir_config_domain_get_cpu ()" link="GVirConfigDomain.html#gvir-config-domain-get-cpu"/>
+    <keyword type="function" name="gvir_config_domain_get_current_memory ()" link="GVirConfigDomain.html#gvir-config-domain-get-current-memory"/>
     <keyword type="function" name="gvir_config_domain_get_custom_xml ()" link="GVirConfigDomain.html#gvir-config-domain-get-custom-xml"/>
     <keyword type="function" name="gvir_config_domain_get_description ()" link="GVirConfigDomain.html#gvir-config-domain-get-description"/>
     <keyword type="function" name="gvir_config_domain_get_devices ()" link="GVirConfigDomain.html#gvir-config-domain-get-devices"/>
@@ -51,6 +52,7 @@
     <keyword type="function" name="gvir_config_domain_new_from_xml ()" link="GVirConfigDomain.html#gvir-config-domain-new-from-xml"/>
     <keyword type="function" name="gvir_config_domain_set_clock ()" link="GVirConfigDomain.html#gvir-config-domain-set-clock"/>
     <keyword type="function" name="gvir_config_domain_set_cpu ()" link="GVirConfigDomain.html#gvir-config-domain-set-cpu"/>
+    <keyword type="function" name="gvir_config_domain_set_current_memory ()" link="GVirConfigDomain.html#gvir-config-domain-set-current-memory"/>
     <keyword type="function" name="gvir_config_domain_set_custom_xml ()" link="GVirConfigDomain.html#gvir-config-domain-set-custom-xml"/>
     <keyword type="function" name="gvir_config_domain_set_description ()" link="GVirConfigDomain.html#gvir-config-domain-set-description"/>
     <keyword type="function" name="gvir_config_domain_set_devices ()" link="GVirConfigDomain.html#gvir-config-domain-set-devices"/>
@@ -59,10 +61,12 @@
     <keyword type="function" name="gvir_config_domain_set_memory ()" link="GVirConfigDomain.html#gvir-config-domain-set-memory"/>
     <keyword type="function" name="gvir_config_domain_set_name ()" link="GVirConfigDomain.html#gvir-config-domain-set-name"/>
     <keyword type="function" name="gvir_config_domain_set_os ()" link="GVirConfigDomain.html#gvir-config-domain-set-os"/>
+    <keyword type="function" name="gvir_config_domain_set_power_management ()" link="GVirConfigDomain.html#gvir-config-domain-set-power-management"/>
     <keyword type="function" name="gvir_config_domain_set_seclabel ()" link="GVirConfigDomain.html#gvir-config-domain-set-seclabel"/>
     <keyword type="function" name="gvir_config_domain_set_title ()" link="GVirConfigDomain.html#gvir-config-domain-set-title"/>
     <keyword type="function" name="gvir_config_domain_set_vcpus ()" link="GVirConfigDomain.html#gvir-config-domain-set-vcpus"/>
     <keyword type="function" name="gvir_config_domain_set_virt_type ()" link="GVirConfigDomain.html#gvir-config-domain-set-virt-type"/>
+    <keyword type="property" name="The &quot;current-memory&quot; property" link="GVirConfigDomain.html#GVirConfigDomain--current-memory"/>
     <keyword type="property" name="The &quot;description&quot; property" link="GVirConfigDomain.html#GVirConfigDomain--description"/>
     <keyword type="property" name="The &quot;features&quot; property" link="GVirConfigDomain.html#GVirConfigDomain--features"/>
     <keyword type="property" name="The &quot;memory&quot; property" link="GVirConfigDomain.html#GVirConfigDomain--memory"/>

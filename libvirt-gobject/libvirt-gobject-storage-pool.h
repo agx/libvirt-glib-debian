@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Author: Daniel P. Berrange <berrange@redhat.com>
  */
@@ -82,6 +82,8 @@ GType gvir_storage_pool_handle_get_type(void);
 
 const gchar *gvir_storage_pool_get_name(GVirStoragePool *pool);
 const gchar *gvir_storage_pool_get_uuid(GVirStoragePool *pool);
+gboolean gvir_storage_pool_get_active(GVirStoragePool *pool);
+gboolean gvir_storage_pool_get_persistent(GVirStoragePool *pool);
 
 GVirConfigStoragePool *gvir_storage_pool_get_config(GVirStoragePool *pool,
                                                     guint flags,
@@ -121,6 +123,16 @@ gboolean gvir_storage_pool_build_finish(GVirStoragePool *pool,
                                         GAsyncResult *result,
                                         GError **err);
 
+gboolean gvir_storage_pool_undefine (GVirStoragePool *pool,
+                                     GError **err);
+void gvir_storage_pool_undefine_async (GVirStoragePool *pool,
+                                       GCancellable *cancellable,
+                                       GAsyncReadyCallback callback,
+                                       gpointer user_data);
+gboolean gvir_storage_pool_undefine_finish(GVirStoragePool *pool,
+                                           GAsyncResult *result,
+                                           GError **err);
+
 gboolean gvir_storage_pool_start (GVirStoragePool *pool,
                                   guint flags,
                                   GError **err);
@@ -132,6 +144,28 @@ void gvir_storage_pool_start_async (GVirStoragePool *pool,
 gboolean gvir_storage_pool_start_finish(GVirStoragePool *pool,
                                         GAsyncResult *result,
                                         GError **err);
+
+gboolean gvir_storage_pool_stop (GVirStoragePool *pool,
+                                 GError **err);
+void gvir_storage_pool_stop_async (GVirStoragePool *pool,
+                                   GCancellable *cancellable,
+                                   GAsyncReadyCallback callback,
+                                   gpointer user_data);
+gboolean gvir_storage_pool_stop_finish(GVirStoragePool *pool,
+                                       GAsyncResult *result,
+                                       GError **err);
+
+gboolean gvir_storage_pool_delete (GVirStoragePool *pool,
+                                   guint flags,
+                                   GError **err);
+void gvir_storage_pool_delete_async (GVirStoragePool *pool,
+                                     guint flags,
+                                     GCancellable *cancellable,
+                                     GAsyncReadyCallback callback,
+                                     gpointer user_data);
+gboolean gvir_storage_pool_delete_finish(GVirStoragePool *pool,
+                                         GAsyncResult *result,
+                                         GError **err);
 
 G_END_DECLS
 

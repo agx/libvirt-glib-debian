@@ -15,8 +15,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Author: Daniel P. Berrange <berrange@redhat.com>
  */
@@ -29,6 +29,7 @@
 #include "libvirt-glib/libvirt-glib.h"
 #include "libvirt-gobject/libvirt-gobject.h"
 #include "libvirt-gobject-compat.h"
+#include "libvirt-gobject-storage-pool-private.h"
 
 #define GVIR_STORAGE_POOL_GET_PRIVATE(obj)                         \
         (G_TYPE_INSTANCE_GET_PRIVATE((obj), GVIR_TYPE_STORAGE_POOL, GVirStoragePoolPrivate))
@@ -128,15 +129,8 @@ static void gvir_storage_pool_constructed(GObject *object)
     G_OBJECT_CLASS(gvir_storage_pool_parent_class)->constructed(object);
 
     /* xxx we may want to turn this into an initable */
-    if (virStoragePoolGetUUIDString(priv->handle, priv->uuid) < 0) {
-        virErrorPtr verr = virGetLastError();
-        if (verr) {
-            g_warning("Failed to get storage pool UUID on %p: %s",
-                      priv->handle, verr->message);
-        } else {
-            g_warning("Failed to get storage pool UUID on %p", priv->handle);
-        }
-    }
+    if (virStoragePoolGetUUIDString(priv->handle, priv->uuid) < 0)
+        gvir_warning("Failed to get storage pool UUID on %p", priv->handle);
 }
 
 
@@ -215,10 +209,8 @@ const gchar *gvir_storage_pool_get_name(GVirStoragePool *pool)
 
     g_return_val_if_fail(GVIR_IS_STORAGE_POOL(pool), NULL);
 
-    if (!(name = virStoragePoolGetName(pool->priv->handle))) {
-        g_warning("Failed to get storage_pool name on %p", pool->priv->handle);
-        return NULL;
-    }
+    if (!(name = virStoragePoolGetName(pool->priv->handle)))
+        gvir_warning("Failed to get storage_pool name on %p", pool->priv->handle);
 
     return name;
 }
@@ -231,6 +223,21 @@ const gchar *gvir_storage_pool_get_uuid(GVirStoragePool *pool)
     return pool->priv->uuid;
 }
 
+
+gboolean gvir_storage_pool_get_active(GVirStoragePool *pool)
+{
+    g_return_val_if_fail(GVIR_IS_STORAGE_POOL(pool), FALSE);
+
+    return virStoragePoolIsActive(pool->priv->handle);
+}
+
+
+gboolean gvir_storage_pool_get_persistent(GVirStoragePool *pool)
+{
+    g_return_val_if_fail(GVIR_IS_STORAGE_POOL(pool), FALSE);
+
+    return virStoragePoolIsPersistent(pool->priv->handle);
+}
 
 /**
  * gvir_storage_pool_get_config:
@@ -327,7 +334,7 @@ static gchar ** fetch_list(virStoragePoolPtr vpool,
         if (g_cancellable_set_error_if_cancelled(cancellable, err))
             goto error;
 
-        lst = g_new(gchar *, n);
+        lst = g_new0(gchar *, n);
         if ((n = list_func(vpool, lst, n)) < 0) {
             gvir_set_error(err, GVIR_STORAGE_POOL_ERROR,
                            0,
@@ -340,9 +347,11 @@ static gchar ** fetch_list(virStoragePoolPtr vpool,
     return lst;
 
 error:
-    for (i = 0 ; i < n; i++)
-        g_free(lst[i]);
-    g_free(lst);
+    if (lst != NULL) {
+        for (i = 0 ; i < n; i++)
+            g_free(lst[i]);
+        g_free(lst);
+    }
     return NULL;
 }
 
@@ -415,7 +424,7 @@ gboolean gvir_storage_pool_refresh(GVirStoragePool *pool,
                                                "handle", vvolume,
                                                "pool", pool,
                                                NULL));
-
+        virStorageVolFree(vvolume);
         g_hash_table_insert(vol_hash, g_strdup(volumes[i]), volume);
     }
 
@@ -523,6 +532,8 @@ GList *gvir_storage_pool_get_volumes(GVirStoragePool *pool)
     if (priv->volumes != NULL) {
         volumes = g_hash_table_get_values(priv->volumes);
         g_list_foreach(volumes, gvir_storage_vol_ref, NULL);
+    } else {
+        g_warn_if_reached();
     }
     g_mutex_unlock(priv->lock);
 
@@ -545,12 +556,18 @@ GVirStorageVol *gvir_storage_pool_get_volume(GVirStoragePool *pool,
     GVirStorageVol *volume;
 
     g_return_val_if_fail(GVIR_IS_STORAGE_POOL(pool), NULL);
+    g_return_val_if_fail(name != NULL, NULL);
 
     priv = pool->priv;
     g_mutex_lock(priv->lock);
-    volume = g_hash_table_lookup(priv->volumes, name);
-    if (volume)
-        g_object_ref(volume);
+    if (priv->volumes != NULL) {
+        volume = g_hash_table_lookup(priv->volumes, name);
+        if (volume)
+            g_object_ref(volume);
+    } else {
+        g_warn_if_reached();
+        volume = NULL;
+    }
     g_mutex_unlock(priv->lock);
 
     return volume;
@@ -604,7 +621,14 @@ GVirStorageVol *gvir_storage_pool_create_volume
     }
 
     g_mutex_lock(priv->lock);
-    g_hash_table_insert(priv->volumes, g_strdup(name), volume);
+    if (priv->volumes != NULL) {
+        g_hash_table_insert(priv->volumes, g_strdup(name), volume);
+    } else {
+        g_warn_if_reached();
+        g_object_unref(G_OBJECT(volume));
+        g_mutex_unlock(priv->lock);
+        return NULL;
+    }
     g_mutex_unlock(priv->lock);
 
     return g_object_ref(volume);
@@ -720,6 +744,96 @@ gboolean gvir_storage_pool_build_finish(GVirStoragePool *pool,
 }
 
 /**
+ * gvir_storage_pool_undefine:
+ * @pool: the storage pool to undefine
+ * @err: return location for any #GError
+ *
+ * Return value: #True on success, #False otherwise.
+ */
+gboolean gvir_storage_pool_undefine (GVirStoragePool *pool,
+                                     GError **err)
+{
+    g_return_val_if_fail(GVIR_IS_STORAGE_POOL(pool), FALSE);
+    g_return_val_if_fail(err == NULL || *err == NULL, FALSE);
+
+    if (virStoragePoolUndefine(pool->priv->handle)) {
+        gvir_set_error_literal(err, GVIR_STORAGE_POOL_ERROR,
+                               0,
+                               "Failed to undefine storage pool");
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
+static void
+gvir_storage_pool_undefine_helper(GSimpleAsyncResult *res,
+                                  GObject *object,
+                                  GCancellable *cancellable G_GNUC_UNUSED)
+{
+    GVirStoragePool *pool = GVIR_STORAGE_POOL(object);
+    GError *err = NULL;
+
+    if (!gvir_storage_pool_undefine(pool, &err)) {
+        g_simple_async_result_set_from_error(res, err);
+        g_error_free(err);
+    }
+}
+
+/**
+ * gvir_storage_pool_undefine_async:
+ * @pool: the storage pool to undefine
+ * @cancellable: (allow-none)(transfer none): cancellation object
+ * @callback: (scope async): completion callback
+ * @user_data: (closure): opaque data for callback
+ */
+void gvir_storage_pool_undefine_async (GVirStoragePool *pool,
+                                       GCancellable *cancellable,
+                                       GAsyncReadyCallback callback,
+                                       gpointer user_data)
+{
+    GSimpleAsyncResult *res;
+
+    g_return_if_fail(GVIR_IS_STORAGE_POOL(pool));
+    g_return_if_fail((cancellable == NULL) || G_IS_CANCELLABLE(cancellable));
+
+    res = g_simple_async_result_new(G_OBJECT(pool),
+                                    callback,
+                                    user_data,
+                                    gvir_storage_pool_undefine_async);
+    g_simple_async_result_run_in_thread(res,
+                                        gvir_storage_pool_undefine_helper,
+                                        G_PRIORITY_DEFAULT,
+                                        cancellable);
+    g_object_unref(res);
+}
+
+/**
+ * gvir_storage_pool_undefine_finish:
+ * @pool: the storage pool to undefine
+ * @result: (transfer none): async method result
+ * @err: return location for any #GError
+ *
+ * Return value: #True on success, #False otherwise.
+ */
+gboolean gvir_storage_pool_undefine_finish(GVirStoragePool *pool,
+                                           GAsyncResult *result,
+                                           GError **err)
+{
+    g_return_val_if_fail(GVIR_IS_STORAGE_POOL(pool), FALSE);
+    g_return_val_if_fail(g_simple_async_result_is_valid(result, G_OBJECT(pool),
+                                                        gvir_storage_pool_undefine_async),
+                         FALSE);
+    g_return_val_if_fail(err == NULL || *err == NULL, FALSE);
+
+    if (g_simple_async_result_propagate_error(G_SIMPLE_ASYNC_RESULT(result),
+                                              err))
+        return FALSE;
+
+    return TRUE;
+}
+
+/**
  * gvir_storage_pool_start:
  * @pool: the storage pool to start
  * @flags:  the flags
@@ -822,4 +936,218 @@ gboolean gvir_storage_pool_start_finish(GVirStoragePool *pool,
         return FALSE;
 
     return TRUE;
+}
+
+/**
+ * gvir_storage_pool_stop:
+ * @pool: the storage pool to stop
+ * @err: return location for any #GError
+ *
+ * Return value: #True on success, #False otherwise.
+ */
+gboolean gvir_storage_pool_stop (GVirStoragePool *pool,
+                                 GError **err)
+{
+    g_return_val_if_fail(GVIR_IS_STORAGE_POOL(pool), FALSE);
+    g_return_val_if_fail(err == NULL || *err == NULL, FALSE);
+
+    if (virStoragePoolDestroy(pool->priv->handle)) {
+        gvir_set_error_literal(err, GVIR_STORAGE_POOL_ERROR,
+                               0,
+                               "Failed to stop storage pool");
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
+static void
+gvir_storage_pool_stop_helper(GSimpleAsyncResult *res,
+                              GObject *object,
+                              GCancellable *cancellable G_GNUC_UNUSED)
+{
+    GVirStoragePool *pool = GVIR_STORAGE_POOL(object);
+    GError *err = NULL;
+
+    if (!gvir_storage_pool_stop(pool, &err)) {
+        g_simple_async_result_set_from_error(res, err);
+        g_error_free(err);
+    }
+}
+
+/**
+ * gvir_storage_pool_stop_async:
+ * @pool: the storage pool to stop
+ * @cancellable: (allow-none)(transfer none): cancellation object
+ * @callback: (scope async): completion callback
+ * @user_data: (closure): opaque data for callback
+ */
+void gvir_storage_pool_stop_async (GVirStoragePool *pool,
+                                   GCancellable *cancellable,
+                                   GAsyncReadyCallback callback,
+                                   gpointer user_data)
+{
+    GSimpleAsyncResult *res;
+
+    g_return_if_fail(GVIR_IS_STORAGE_POOL(pool));
+    g_return_if_fail((cancellable == NULL) || G_IS_CANCELLABLE(cancellable));
+
+    res = g_simple_async_result_new(G_OBJECT(pool),
+                                    callback,
+                                    user_data,
+                                    gvir_storage_pool_stop_async);
+    g_simple_async_result_run_in_thread(res,
+                                        gvir_storage_pool_stop_helper,
+                                        G_PRIORITY_DEFAULT,
+                                        cancellable);
+    g_object_unref(res);
+}
+
+/**
+ * gvir_storage_pool_stop_finish:
+ * @pool: the storage pool to stop
+ * @result: (transfer none): async method result
+ * @err: return location for any #GError
+ *
+ * Return value: #True on success, #False otherwise.
+ */
+gboolean gvir_storage_pool_stop_finish(GVirStoragePool *pool,
+                                       GAsyncResult *result,
+                                       GError **err)
+{
+    g_return_val_if_fail(GVIR_IS_STORAGE_POOL(pool), FALSE);
+    g_return_val_if_fail(g_simple_async_result_is_valid(result, G_OBJECT(pool),
+                                                        gvir_storage_pool_stop_async),
+                         FALSE);
+    g_return_val_if_fail(err == NULL || *err == NULL, FALSE);
+
+    if (g_simple_async_result_propagate_error(G_SIMPLE_ASYNC_RESULT(result),
+                                              err))
+        return FALSE;
+
+    return TRUE;
+}
+
+/**
+ * gvir_storage_pool_delete:
+ * @pool: the storage pool to delete
+ * @flags:  the flags
+ * @err: return location for any #GError
+ *
+ * Return value: #True on success, #False otherwise.
+ */
+gboolean gvir_storage_pool_delete (GVirStoragePool *pool,
+                                   guint flags,
+                                   GError **err)
+{
+    g_return_val_if_fail(GVIR_IS_STORAGE_POOL(pool), FALSE);
+    g_return_val_if_fail(err == NULL || *err == NULL, FALSE);
+
+    if (virStoragePoolDelete(pool->priv->handle, flags)) {
+        gvir_set_error_literal(err, GVIR_STORAGE_POOL_ERROR,
+                               0,
+                               "Failed to delete storage pool");
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
+static void
+gvir_storage_pool_delete_helper(GSimpleAsyncResult *res,
+                                GObject *object,
+                                GCancellable *cancellable G_GNUC_UNUSED)
+{
+    GVirStoragePool *pool = GVIR_STORAGE_POOL(object);
+    StoragePoolBuildData *data;
+    GError *err = NULL;
+
+    data = (StoragePoolBuildData *) g_object_get_data(G_OBJECT(res),
+                                                      "StoragePoolBuildData");
+
+    if (!gvir_storage_pool_delete(pool, data->flags, &err)) {
+        g_simple_async_result_set_from_error(res, err);
+        g_error_free(err);
+    }
+
+    g_slice_free (StoragePoolBuildData, data);
+}
+
+/**
+ * gvir_storage_pool_delete_async:
+ * @pool: the storage pool to delete
+ * @flags:  the flags
+ * @cancellable: (allow-none)(transfer none): cancellation object
+ * @callback: (scope async): completion callback
+ * @user_data: (closure): opaque data for callback
+ */
+void gvir_storage_pool_delete_async (GVirStoragePool *pool,
+                                     guint flags,
+                                     GCancellable *cancellable,
+                                     GAsyncReadyCallback callback,
+                                     gpointer user_data)
+{
+    GSimpleAsyncResult *res;
+    StoragePoolBuildData *data;
+
+    g_return_if_fail(GVIR_IS_STORAGE_POOL(pool));
+    g_return_if_fail((cancellable == NULL) || G_IS_CANCELLABLE(cancellable));
+
+    data = g_slice_new0(StoragePoolBuildData);
+    data->flags = flags;
+
+    res = g_simple_async_result_new(G_OBJECT(pool),
+                                    callback,
+                                    user_data,
+                                    gvir_storage_pool_delete_async);
+    g_object_set_data(G_OBJECT(res), "StoragePoolBuildData", data);
+    g_simple_async_result_run_in_thread(res,
+                                        gvir_storage_pool_delete_helper,
+                                        G_PRIORITY_DEFAULT,
+                                        cancellable);
+    g_object_unref(res);
+}
+
+/**
+ * gvir_storage_pool_delete_finish:
+ * @pool: the storage pool to delete
+ * @result: (transfer none): async method result
+ * @err: return location for any #GError
+ *
+ * Return value: #True on success, #False otherwise.
+ */
+gboolean gvir_storage_pool_delete_finish(GVirStoragePool *pool,
+                                         GAsyncResult *result,
+                                         GError **err)
+{
+    g_return_val_if_fail(GVIR_IS_STORAGE_POOL(pool), FALSE);
+    g_return_val_if_fail(g_simple_async_result_is_valid(result, G_OBJECT(pool),
+                                                        gvir_storage_pool_delete_async),
+                         FALSE);
+    g_return_val_if_fail(err == NULL || *err == NULL, FALSE);
+
+    if (g_simple_async_result_propagate_error(G_SIMPLE_ASYNC_RESULT(result),
+                                              err))
+        return FALSE;
+
+    return TRUE;
+}
+
+G_GNUC_INTERNAL void gvir_storage_pool_delete_vol(GVirStoragePool *pool,
+                                                  GVirStorageVol *volume)
+{
+    GVirStoragePoolPrivate *priv;
+
+    g_return_if_fail(GVIR_IS_STORAGE_POOL(pool));
+    g_return_if_fail(GVIR_IS_STORAGE_VOL(volume));
+
+    priv = pool->priv;
+    g_mutex_lock(priv->lock);
+    if (priv->volumes != NULL) {
+        const gchar *name = gvir_storage_vol_get_name(volume);
+        g_hash_table_remove(priv->volumes, name);
+    } else {
+        g_warn_if_reached();
+    }
+    g_mutex_unlock(priv->lock);
 }

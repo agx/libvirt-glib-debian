@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Author: Christophe Fergeau <cfergeau@redhat.com>
  */
@@ -74,6 +74,11 @@ void gvir_config_object_replace_child_with_attribute(GVirConfigObject *object,
                                                      const char *child_name,
                                                      const char *attr_name,
                                                      const char *attr_value);
+void gvir_config_object_replace_child_with_attribute_enum(GVirConfigObject *object,
+                                                         const char *child_name,
+                                                         const char *attr_name,
+                                                         GType attr_type,
+                                                         unsigned int attr_value);
 void gvir_config_object_delete_child(GVirConfigObject *object,
                                      const char *child_name,
                                      const char *ns_href);

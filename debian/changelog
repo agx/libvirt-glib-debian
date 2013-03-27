@@ -1,3 +1,13 @@
+libvirt-glib (0.1.6-0.1) experimental; urgency=low
+
+  * Non-maintainer upload with maintainer approval.
+  * Imported Upstream version 0.1.6
+  * Add Vcs-* and Homepage fields to debian/control
+  * Bump libvirt-dev build-dependency to (>= 0.10.2)
+  * Update libvirt-glib-1.0-0.symbols
+
+ -- Andreas Henriksson <andreas@fatal.se>  Wed, 27 Mar 2013 13:11:49 +0100
+
 libvirt-glib (0.1.2-1) experimental; urgency=low
 
   * [d14bf12] New upstream version 0.1.2

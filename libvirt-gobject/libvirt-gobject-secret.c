@@ -15,8 +15,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Author: Daniel P. Berrange <berrange@redhat.com>
  */
@@ -118,15 +118,8 @@ static void gvir_secret_constructed(GObject *object)
     G_OBJECT_CLASS(gvir_secret_parent_class)->constructed(object);
 
     /* xxx we may want to turn this into an initable */
-    if (virSecretGetUUIDString(priv->handle, priv->uuid) < 0) {
-        virErrorPtr verr = virGetLastError();
-        if (verr) {
-            g_warning("Failed to get secret UUID on %p: %s",
-                      priv->handle, verr->message);
-        } else {
-            g_warning("Failed to get secret UUID on %p", priv->handle);
-        }
-    }
+    if (virSecretGetUUIDString(priv->handle, priv->uuid) < 0)
+        gvir_warning("Failed to get secret UUID on %p", priv->handle);
 }
 
 

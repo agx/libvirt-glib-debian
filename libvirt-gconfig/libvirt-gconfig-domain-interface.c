@@ -15,8 +15,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Author: Daniel P. Berrange <berrange@redhat.com>
  *         Christophe Fergeau <cfergeau@redhat.com>
@@ -147,7 +147,7 @@ gvir_config_domain_interface_new_from_tree(GVirConfigXmlDoc *doc,
     } else if (g_str_equal(type, "user")) {
         gtype = GVIR_CONFIG_TYPE_DOMAIN_INTERFACE_USER;
     } else if (g_str_equal(type, "bridge")) {
-        goto unimplemented;
+        gtype = GVIR_CONFIG_TYPE_DOMAIN_INTERFACE_BRIDGE;
     } else if (g_str_equal(type, "direct")) {
         goto unimplemented;
     } else if (g_str_equal(type, "server")) {

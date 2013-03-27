@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>GVirStorageVol</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.77.1">
 <link rel="home" href="index.html" title="Libvirt-gobject Reference Manual">
 <link rel="up" href="ch01.html" title="Libvirt-gobject">
 <link rel="prev" href="GVirStoragePool.html" title="GVirStoragePool">
@@ -46,39 +46,39 @@ struct              <a class="link" href="GVirStorageVol.html#GVirStorageVolClas
 struct              <a class="link" href="GVirStorageVol.html#GVirStorageVolInfo-struct" title="struct GVirStorageVolInfo">GVirStorageVolInfo</a>;
 enum                <a class="link" href="GVirStorageVol.html#GVirStorageVolResizeFlags" title="enum GVirStorageVolResizeFlags">GVirStorageVolResizeFlags</a>;
 enum                <a class="link" href="GVirStorageVol.html#GVirStorageVolType" title="enum GVirStorageVolType">GVirStorageVolType</a>;
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="GVirStorageVol.html#gvir-storage-vol-delete" title="gvir_storage_vol_delete ()">gvir_storage_vol_delete</a>             (<em class="parameter"><code><a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class="type">GVirStorageVol</span></a> *vol</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="GVirStorageVol.html#gvir-storage-vol-download" title="gvir_storage_vol_download ()">gvir_storage_vol_download</a>           (<em class="parameter"><code><a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class="type">GVirStorageVol</span></a> *vol</code></em>,
+<span class="returnvalue">gboolean</span>            <a class="link" href="GVirStorageVol.html#gvir-storage-vol-delete" title="gvir_storage_vol_delete ()">gvir_storage_vol_delete</a>             (<em class="parameter"><code><a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class="type">GVirStorageVol</span></a> *vol</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="GVirStorageVol.html#gvir-storage-vol-download" title="gvir_storage_vol_download ()">gvir_storage_vol_download</a>           (<em class="parameter"><code><a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class="type">GVirStorageVol</span></a> *vol</code></em>,
                                                          <em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint64"><span class="type">guint64</span></a> offset</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint64"><span class="type">guint64</span></a> length</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
+                                                         <em class="parameter"><code><span class="type">guint64</span> offset</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint64</span> length</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
 <a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigStorageVol.html"><span class="returnvalue">GVirConfigStorageVol</span></a> * <a class="link" href="GVirStorageVol.html#gvir-storage-vol-get-config" title="gvir_storage_vol_get_config ()">gvir_storage_vol_get_config</a>      (<em class="parameter"><code><a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class="type">GVirStorageVol</span></a> *vol</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
+                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
 <a class="link" href="GVirStorageVol.html#GVirStorageVolInfo"><span class="returnvalue">GVirStorageVolInfo</span></a> * <a class="link" href="GVirStorageVol.html#gvir-storage-vol-get-info" title="gvir_storage_vol_get_info ()">gvir_storage_vol_get_info</a>          (<em class="parameter"><code><a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class="type">GVirStorageVol</span></a> *vol</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
-const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="GVirStorageVol.html#gvir-storage-vol-get-name" title="gvir_storage_vol_get_name ()">gvir_storage_vol_get_name</a>           (<em class="parameter"><code><a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class="type">GVirStorageVol</span></a> *vol</code></em>);
-const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="GVirStorageVol.html#gvir-storage-vol-get-path" title="gvir_storage_vol_get_path ()">gvir_storage_vol_get_path</a>           (<em class="parameter"><code><a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class="type">GVirStorageVol</span></a> *vol</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="GVirStorageVol.html#gvir-storage-vol-resize" title="gvir_storage_vol_resize ()">gvir_storage_vol_resize</a>             (<em class="parameter"><code><a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class="type">GVirStorageVol</span></a> *vol</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint64"><span class="type">guint64</span></a> capacity</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="GVirStorageVol.html#gvir-storage-vol-upload" title="gvir_storage_vol_upload ()">gvir_storage_vol_upload</a>             (<em class="parameter"><code><a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class="type">GVirStorageVol</span></a> *vol</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
+const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirStorageVol.html#gvir-storage-vol-get-name" title="gvir_storage_vol_get_name ()">gvir_storage_vol_get_name</a>           (<em class="parameter"><code><a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class="type">GVirStorageVol</span></a> *vol</code></em>);
+const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirStorageVol.html#gvir-storage-vol-get-path" title="gvir_storage_vol_get_path ()">gvir_storage_vol_get_path</a>           (<em class="parameter"><code><a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class="type">GVirStorageVol</span></a> *vol</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="GVirStorageVol.html#gvir-storage-vol-resize" title="gvir_storage_vol_resize ()">gvir_storage_vol_resize</a>             (<em class="parameter"><code><a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class="type">GVirStorageVol</span></a> *vol</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint64</span> capacity</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="GVirStorageVol.html#gvir-storage-vol-upload" title="gvir_storage_vol_upload ()">gvir_storage_vol_upload</a>             (<em class="parameter"><code><a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class="type">GVirStorageVol</span></a> *vol</code></em>,
                                                          <em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint64"><span class="type">guint64</span></a> offset</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint64"><span class="type">guint64</span></a> length</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
+                                                         <em class="parameter"><code><span class="type">guint64</span> offset</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint64</span> length</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
 </pre>
 </div>
 <div class="refsect1">
 <a name="GVirStorageVol.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
-  <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+  GObject
    +----GVirStorageVol
 </pre>
 <pre class="synopsis">
@@ -132,8 +132,11 @@ const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.htm
     GVIR_STORAGE_VOL_RESIZE_SHRINK   = VIR_STORAGE_VOL_RESIZE_SHRINK,
 } GVirStorageVolResizeFlags;
 </pre>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><a name="GVIR-STORAGE-VOL-RESIZE-NONE:CAPS"></a><span class="term"><code class="literal">GVIR_STORAGE_VOL_RESIZE_NONE</code></span></p></td>
@@ -172,14 +175,17 @@ with <a class="link" href="GVirStorageVol.html#GVIR-STORAGE-VOL-RESIZE-DELTA:CAP
 <hr>
 <div class="refsect2">
 <a name="gvir-storage-vol-delete"></a><h3>gvir_storage_vol_delete ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gvir_storage_vol_delete             (<em class="parameter"><code><a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class="type">GVirStorageVol</span></a> *vol</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_storage_vol_delete             (<em class="parameter"><code><a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class="type">GVirStorageVol</span></a> *vol</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
 <p>
 Deletes the storage volume <em class="parameter"><code>vol</code></em>.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>vol</code></em> :</span></p></td>
@@ -196,7 +202,7 @@ Deletes the storage volume <em class="parameter"><code>vol</code></em>.
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> on success, <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#FALSE:CAPS"><code class="literal">FALSE</code></a> otherwise</td>
+<code class="literal">TRUE</code> on success, <code class="literal">FALSE</code> otherwise</td>
 </tr>
 </tbody>
 </table></div>
@@ -204,14 +210,17 @@ Deletes the storage volume <em class="parameter"><code>vol</code></em>.
 <hr>
 <div class="refsect2">
 <a name="gvir-storage-vol-download"></a><h3>gvir_storage_vol_download ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gvir_storage_vol_download           (<em class="parameter"><code><a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class="type">GVirStorageVol</span></a> *vol</code></em>,
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_storage_vol_download           (<em class="parameter"><code><a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class="type">GVirStorageVol</span></a> *vol</code></em>,
                                                          <em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint64"><span class="type">guint64</span></a> offset</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint64"><span class="type">guint64</span></a> length</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
-<div class="variablelist"><table border="0">
+                                                         <em class="parameter"><code><span class="type">guint64</span> offset</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint64</span> length</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>vol</code></em> :</span></p></td>
@@ -236,7 +245,7 @@ Deletes the storage volume <em class="parameter"><code>vol</code></em>.
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><span class="type">TRUE</span></a> of success, <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#FALSE:CAPS"><span class="type">FALSE</span></a> otherwise</td>
+<span class="type">TRUE</span> of success, <span class="type">FALSE</span> otherwise</td>
 </tr>
 </tbody>
 </table></div>
@@ -245,10 +254,13 @@ Deletes the storage volume <em class="parameter"><code>vol</code></em>.
 <div class="refsect2">
 <a name="gvir-storage-vol-get-config"></a><h3>gvir_storage_vol_get_config ()</h3>
 <pre class="programlisting"><a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigStorageVol.html"><span class="returnvalue">GVirConfigStorageVol</span></a> * gvir_storage_vol_get_config      (<em class="parameter"><code><a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class="type">GVirStorageVol</span></a> *vol</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
-<div class="variablelist"><table border="0">
+                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>vol</code></em> :</span></p></td>
@@ -265,7 +277,7 @@ Deletes the storage volume <em class="parameter"><code>vol</code></em>.
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>the config. The returned object should be
-unreffed with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a> when no longer needed. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+unreffed with <code class="function">g_object_unref()</code> when no longer needed. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -275,9 +287,12 @@ unreffed with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-T
 <div class="refsect2">
 <a name="gvir-storage-vol-get-info"></a><h3>gvir_storage_vol_get_info ()</h3>
 <pre class="programlisting"><a class="link" href="GVirStorageVol.html#GVirStorageVolInfo"><span class="returnvalue">GVirStorageVolInfo</span></a> * gvir_storage_vol_get_info          (<em class="parameter"><code><a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class="type">GVirStorageVol</span></a> *vol</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
-<div class="variablelist"><table border="0">
+                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>vol</code></em> :</span></p></td>
@@ -290,7 +305,7 @@ unreffed with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-T
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>the info. The returned object should be
-unreffed with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a> when no longer needed. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+unreffed with <code class="function">g_object_unref()</code> when no longer needed. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -299,26 +314,29 @@ unreffed with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-T
 <hr>
 <div class="refsect2">
 <a name="gvir-storage-vol-get-name"></a><h3>gvir_storage_vol_get_name ()</h3>
-<pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       gvir_storage_vol_get_name           (<em class="parameter"><code><a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class="type">GVirStorageVol</span></a> *vol</code></em>);</pre>
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *       gvir_storage_vol_get_name           (<em class="parameter"><code><a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class="type">GVirStorageVol</span></a> *vol</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
 <a name="gvir-storage-vol-get-path"></a><h3>gvir_storage_vol_get_path ()</h3>
-<pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       gvir_storage_vol_get_path           (<em class="parameter"><code><a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class="type">GVirStorageVol</span></a> *vol</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *       gvir_storage_vol_get_path           (<em class="parameter"><code><a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class="type">GVirStorageVol</span></a> *vol</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
 <a name="gvir-storage-vol-resize"></a><h3>gvir_storage_vol_resize ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gvir_storage_vol_resize             (<em class="parameter"><code><a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class="type">GVirStorageVol</span></a> *vol</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint64"><span class="type">guint64</span></a> capacity</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_storage_vol_resize             (<em class="parameter"><code><a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class="type">GVirStorageVol</span></a> *vol</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint64</span> capacity</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
 <p>
 Changes the capacity of the storage volume <em class="parameter"><code>vol</code></em> to <em class="parameter"><code>capacity</code></em>.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>vol</code></em> :</span></p></td>
@@ -340,7 +358,7 @@ Changes the capacity of the storage volume <em class="parameter"><code>vol</code
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><span class="type">TRUE</span></a> success, <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#FALSE:CAPS"><span class="type">FALSE</span></a> otherwise</td>
+<span class="type">TRUE</span> success, <span class="type">FALSE</span> otherwise</td>
 </tr>
 </tbody>
 </table></div>
@@ -348,14 +366,17 @@ Changes the capacity of the storage volume <em class="parameter"><code>vol</code
 <hr>
 <div class="refsect2">
 <a name="gvir-storage-vol-upload"></a><h3>gvir_storage_vol_upload ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gvir_storage_vol_upload             (<em class="parameter"><code><a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class="type">GVirStorageVol</span></a> *vol</code></em>,
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_storage_vol_upload             (<em class="parameter"><code><a class="link" href="GVirStorageVol.html" title="GVirStorageVol"><span class="type">GVirStorageVol</span></a> *vol</code></em>,
                                                          <em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint64"><span class="type">guint64</span></a> offset</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint64"><span class="type">guint64</span></a> length</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
-<div class="variablelist"><table border="0">
+                                                         <em class="parameter"><code><span class="type">guint64</span> offset</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint64</span> length</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>vol</code></em> :</span></p></td>
@@ -380,7 +401,7 @@ Changes the capacity of the storage volume <em class="parameter"><code>vol</code
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><span class="type">TRUE</span></a> of success, <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#FALSE:CAPS"><span class="type">FALSE</span></a> otherwise</td>
+<span class="type">TRUE</span> of success, <span class="type">FALSE</span> otherwise</td>
 </tr>
 </tbody>
 </table></div>

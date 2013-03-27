@@ -50,9 +50,14 @@ GCONFIG_HEADER_FILES = \
 			libvirt-gconfig-domain-memballoon.h \
 			libvirt-gconfig-domain-os.h \
 			libvirt-gconfig-domain-parallel.h \
+			libvirt-gconfig-domain-power-management.h \
 			libvirt-gconfig-domain-redirdev.h \
 			libvirt-gconfig-domain-seclabel.h \
 			libvirt-gconfig-domain-serial.h \
+			libvirt-gconfig-domain-smartcard.h \
+			libvirt-gconfig-domain-smartcard-host.h \
+			libvirt-gconfig-domain-smartcard-host-certificates.h \
+			libvirt-gconfig-domain-smartcard-passthrough.h \
 			libvirt-gconfig-domain-snapshot.h \
 			libvirt-gconfig-domain-sound.h \
 			libvirt-gconfig-domain-timer.h \
@@ -75,6 +80,7 @@ GCONFIG_HEADER_FILES = \
 noinst_HEADERS = \
 			libvirt-gconfig-private.h \
 			libvirt-gconfig-capabilities-cpu-private.h \
+			libvirt-gconfig-compat.h \
 			libvirt-gconfig-domain-device-private.h \
 			libvirt-gconfig-helpers-private.h \
 			libvirt-gconfig-object-private.h \
@@ -121,9 +127,14 @@ GCONFIG_SOURCE_FILES = \
 			libvirt-gconfig-domain-memballoon.c \
 			libvirt-gconfig-domain-os.c \
 			libvirt-gconfig-domain-parallel.c \
+			libvirt-gconfig-domain-power-management.c \
 			libvirt-gconfig-domain-redirdev.c \
 			libvirt-gconfig-domain-seclabel.c \
 			libvirt-gconfig-domain-serial.c \
+			libvirt-gconfig-domain-smartcard.c \
+			libvirt-gconfig-domain-smartcard-host.c \
+			libvirt-gconfig-domain-smartcard-host-certificates.c \
+			libvirt-gconfig-domain-smartcard-passthrough.c \
 			libvirt-gconfig-domain-snapshot.c \
 			libvirt-gconfig-domain-sound.c \
 			libvirt-gconfig-domain-timer.c \

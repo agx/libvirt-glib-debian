@@ -146,9 +146,14 @@ am__objects_3 = libvirt_gconfig_1_0_la-libvirt-gconfig-object.lo \
 	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-memballoon.lo \
 	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-os.lo \
 	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-parallel.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-power-management.lo \
 	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-redirdev.lo \
 	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-seclabel.lo \
 	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-serial.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard-host.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard-host-certificates.lo \
+	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard-passthrough.lo \
 	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-snapshot.lo \
 	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-sound.lo \
 	libvirt_gconfig_1_0_la-libvirt-gconfig-domain-timer.lo \
@@ -338,6 +343,7 @@ LIBVIRT_GLIB_VERSION = @LIBVIRT_GLIB_VERSION@
 LIBVIRT_GLIB_VERSION_INFO = @LIBVIRT_GLIB_VERSION_INFO@
 LIBVIRT_GLIB_VERSION_NUMBER = @LIBVIRT_GLIB_VERSION_NUMBER@
 LIBVIRT_LIBS = @LIBVIRT_LIBS@
+LIBVIRT_REQUIRED = @LIBVIRT_REQUIRED@
 LIBXML2_CFLAGS = @LIBXML2_CFLAGS@
 LIBXML2_LIBS = @LIBXML2_LIBS@
 LIPO = @LIPO@
@@ -480,9 +486,14 @@ GCONFIG_HEADER_FILES = \
 			libvirt-gconfig-domain-memballoon.h \
 			libvirt-gconfig-domain-os.h \
 			libvirt-gconfig-domain-parallel.h \
+			libvirt-gconfig-domain-power-management.h \
 			libvirt-gconfig-domain-redirdev.h \
 			libvirt-gconfig-domain-seclabel.h \
 			libvirt-gconfig-domain-serial.h \
+			libvirt-gconfig-domain-smartcard.h \
+			libvirt-gconfig-domain-smartcard-host.h \
+			libvirt-gconfig-domain-smartcard-host-certificates.h \
+			libvirt-gconfig-domain-smartcard-passthrough.h \
 			libvirt-gconfig-domain-snapshot.h \
 			libvirt-gconfig-domain-sound.h \
 			libvirt-gconfig-domain-timer.h \
@@ -506,6 +517,7 @@ GCONFIG_HEADER_FILES = \
 noinst_HEADERS = \
 			libvirt-gconfig-private.h \
 			libvirt-gconfig-capabilities-cpu-private.h \
+			libvirt-gconfig-compat.h \
 			libvirt-gconfig-domain-device-private.h \
 			libvirt-gconfig-helpers-private.h \
 			libvirt-gconfig-object-private.h \
@@ -553,9 +565,14 @@ GCONFIG_SOURCE_FILES = \
 			libvirt-gconfig-domain-memballoon.c \
 			libvirt-gconfig-domain-os.c \
 			libvirt-gconfig-domain-parallel.c \
+			libvirt-gconfig-domain-power-management.c \
 			libvirt-gconfig-domain-redirdev.c \
 			libvirt-gconfig-domain-seclabel.c \
 			libvirt-gconfig-domain-serial.c \
+			libvirt-gconfig-domain-smartcard.c \
+			libvirt-gconfig-domain-smartcard-host.c \
+			libvirt-gconfig-domain-smartcard-host-certificates.c \
+			libvirt-gconfig-domain-smartcard-passthrough.c \
 			libvirt-gconfig-domain-snapshot.c \
 			libvirt-gconfig-domain-sound.c \
 			libvirt-gconfig-domain-timer.c \
@@ -740,9 +757,14 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-memballoon.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-os.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-parallel.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-power-management.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-redirdev.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-seclabel.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-serial.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard-host-certificates.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard-host.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard-passthrough.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-snapshot.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-sound.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-timer-pit.Plo@am__quote@
@@ -1076,6 +1098,13 @@ libvirt_gconfig_1_0_la-libvirt-gconfig-domain-parallel.lo: libvirt-gconfig-domai
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-parallel.lo `test -f 'libvirt-gconfig-domain-parallel.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-parallel.c
 
+libvirt_gconfig_1_0_la-libvirt-gconfig-domain-power-management.lo: libvirt-gconfig-domain-power-management.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-domain-power-management.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-power-management.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-power-management.lo `test -f 'libvirt-gconfig-domain-power-management.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-power-management.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-power-management.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-power-management.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='libvirt-gconfig-domain-power-management.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-domain-power-management.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-power-management.lo `test -f 'libvirt-gconfig-domain-power-management.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-power-management.c
+
 libvirt_gconfig_1_0_la-libvirt-gconfig-domain-redirdev.lo: libvirt-gconfig-domain-redirdev.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-domain-redirdev.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-redirdev.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-redirdev.lo `test -f 'libvirt-gconfig-domain-redirdev.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-redirdev.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-redirdev.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-redirdev.Plo
@@ -1096,6 +1125,34 @@ libvirt_gconfig_1_0_la-libvirt-gconfig-domain-serial.lo: libvirt-gconfig-domain-
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='libvirt-gconfig-domain-serial.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-domain-serial.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-serial.lo `test -f 'libvirt-gconfig-domain-serial.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-serial.c
+
+libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard.lo: libvirt-gconfig-domain-smartcard.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard.lo `test -f 'libvirt-gconfig-domain-smartcard.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-smartcard.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='libvirt-gconfig-domain-smartcard.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard.lo `test -f 'libvirt-gconfig-domain-smartcard.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-smartcard.c
+
+libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard-host.lo: libvirt-gconfig-domain-smartcard-host.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard-host.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard-host.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard-host.lo `test -f 'libvirt-gconfig-domain-smartcard-host.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-smartcard-host.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard-host.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard-host.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='libvirt-gconfig-domain-smartcard-host.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard-host.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard-host.lo `test -f 'libvirt-gconfig-domain-smartcard-host.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-smartcard-host.c
+
+libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard-host-certificates.lo: libvirt-gconfig-domain-smartcard-host-certificates.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard-host-certificates.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard-host-certificates.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard-host-certificates.lo `test -f 'libvirt-gconfig-domain-smartcard-host-certificates.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-smartcard-host-certificates.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard-host-certificates.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard-host-certificates.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='libvirt-gconfig-domain-smartcard-host-certificates.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard-host-certificates.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard-host-certificates.lo `test -f 'libvirt-gconfig-domain-smartcard-host-certificates.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-smartcard-host-certificates.c
+
+libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard-passthrough.lo: libvirt-gconfig-domain-smartcard-passthrough.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard-passthrough.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard-passthrough.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard-passthrough.lo `test -f 'libvirt-gconfig-domain-smartcard-passthrough.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-smartcard-passthrough.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard-passthrough.Tpo $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard-passthrough.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='libvirt-gconfig-domain-smartcard-passthrough.c' object='libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard-passthrough.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-smartcard-passthrough.lo `test -f 'libvirt-gconfig-domain-smartcard-passthrough.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-smartcard-passthrough.c
 
 libvirt_gconfig_1_0_la-libvirt-gconfig-domain-snapshot.lo: libvirt-gconfig-domain-snapshot.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libvirt_gconfig_1_0_la_CFLAGS) $(CFLAGS) -MT libvirt_gconfig_1_0_la-libvirt-gconfig-domain-snapshot.lo -MD -MP -MF $(DEPDIR)/libvirt_gconfig_1_0_la-libvirt-gconfig-domain-snapshot.Tpo -c -o libvirt_gconfig_1_0_la-libvirt-gconfig-domain-snapshot.lo `test -f 'libvirt-gconfig-domain-snapshot.c' || echo '$(srcdir)/'`libvirt-gconfig-domain-snapshot.c

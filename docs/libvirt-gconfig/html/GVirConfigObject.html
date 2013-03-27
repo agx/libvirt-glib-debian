@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>GVirConfigObject</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.77.1">
 <link rel="home" href="index.html" title="Libvirt-gconfig Reference Manual">
 <link rel="up" href="ch01.html" title="Libvirt-gconfig">
 <link rel="prev" href="ch01.html" title="Libvirt-gconfig">
@@ -43,24 +43,24 @@
 <a name="GVirConfigObject.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">struct              <a class="link" href="GVirConfigObject.html#GVirConfigObject-struct" title="struct GVirConfigObject">GVirConfigObject</a>;
 struct              <a class="link" href="GVirConfigObject.html#GVirConfigObjectClass" title="struct GVirConfigObjectClass">GVirConfigObjectClass</a>;
-const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="GVirConfigObject.html#gvir-config-object-get-schema" title="gvir_config_object_get_schema ()">gvir_config_object_get_schema</a>       (<em class="parameter"><code><a class="link" href="GVirConfigObject.html" title="GVirConfigObject"><span class="type">GVirConfigObject</span></a> *config</code></em>);
-<a class="link" href="GVirConfigObject.html" title="GVirConfigObject"><span class="returnvalue">GVirConfigObject</span></a> *  <a class="link" href="GVirConfigObject.html#gvir-config-object-new" title="gvir_config_object_new ()">gvir_config_object_new</a>              (<em class="parameter"><code><a href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.html#GType"><span class="type">GType</span></a> type</code></em>,
+const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirConfigObject.html#gvir-config-object-get-schema" title="gvir_config_object_get_schema ()">gvir_config_object_get_schema</a>       (<em class="parameter"><code><a class="link" href="GVirConfigObject.html" title="GVirConfigObject"><span class="type">GVirConfigObject</span></a> *config</code></em>);
+<a class="link" href="GVirConfigObject.html" title="GVirConfigObject"><span class="returnvalue">GVirConfigObject</span></a> *  <a class="link" href="GVirConfigObject.html#gvir-config-object-new" title="gvir_config_object_new ()">gvir_config_object_new</a>              (<em class="parameter"><code><span class="type">GType</span> type</code></em>,
                                                          <em class="parameter"><code>const <span class="type">char</span> *root_name</code></em>,
                                                          <em class="parameter"><code>const <span class="type">char</span> *schema</code></em>);
-<a class="link" href="GVirConfigObject.html" title="GVirConfigObject"><span class="returnvalue">GVirConfigObject</span></a> *  <a class="link" href="GVirConfigObject.html#gvir-config-object-new-from-xml" title="gvir_config_object_new_from_xml ()">gvir_config_object_new_from_xml</a>     (<em class="parameter"><code><a href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.html#GType"><span class="type">GType</span></a> type</code></em>,
+<a class="link" href="GVirConfigObject.html" title="GVirConfigObject"><span class="returnvalue">GVirConfigObject</span></a> *  <a class="link" href="GVirConfigObject.html#gvir-config-object-new-from-xml" title="gvir_config_object_new_from_xml ()">gvir_config_object_new_from_xml</a>     (<em class="parameter"><code><span class="type">GType</span> type</code></em>,
                                                          <em class="parameter"><code>const <span class="type">char</span> *root_name</code></em>,
                                                          <em class="parameter"><code>const <span class="type">char</span> *schema</code></em>,
-                                                         <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *xml</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="GVirConfigObject.html#gvir-config-object-to-xml" title="gvir_config_object_to_xml ()">gvir_config_object_to_xml</a>           (<em class="parameter"><code><a class="link" href="GVirConfigObject.html" title="GVirConfigObject"><span class="type">GVirConfigObject</span></a> *config</code></em>);
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *xml</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);
+<span class="returnvalue">gchar</span> *             <a class="link" href="GVirConfigObject.html#gvir-config-object-to-xml" title="gvir_config_object_to_xml ()">gvir_config_object_to_xml</a>           (<em class="parameter"><code><a class="link" href="GVirConfigObject.html" title="GVirConfigObject"><span class="type">GVirConfigObject</span></a> *config</code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="GVirConfigObject.html#gvir-config-object-validate" title="gvir_config_object_validate ()">gvir_config_object_validate</a>         (<em class="parameter"><code><a class="link" href="GVirConfigObject.html" title="GVirConfigObject"><span class="type">GVirConfigObject</span></a> *config</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
+                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
 </pre>
 </div>
 <div class="refsect1">
 <a name="GVirConfigObject.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
-  <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+  GObject
    +----GVirConfigObject
          +----GVirConfigCapabilitiesCpuFeature
          +----GVirConfigCapabilitiesCpu
@@ -77,6 +77,7 @@ const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.htm
          +----GVirConfigDomainClock
          +----<a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain">GVirConfigDomain</a>
          +----GVirConfigDomainOs
+         +----GVirConfigDomainPowerManagement
          +----GVirConfigDomainSeclabel
          +----<a class="link" href="GVirConfigDomainSnapshot.html" title="GVirConfigDomainSnapshot">GVirConfigDomainSnapshot</a>
          +----GVirConfigDomainTimer
@@ -98,8 +99,8 @@ const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.htm
 <a name="GVirConfigObject.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="GVirConfigObject.html#GVirConfigObject--doc" title='The "doc" property'>doc</a>"                      <span class="type">GVirConfigXmlDoc</span>*     : Read / Write / Construct Only
-  "<a class="link" href="GVirConfigObject.html#GVirConfigObject--node" title='The "node" property'>node</a>"                     <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>              : Read / Write / Construct Only
-  "<a class="link" href="GVirConfigObject.html#GVirConfigObject--schema" title='The "schema" property'>schema</a>"                   <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write / Construct Only
+  "<a class="link" href="GVirConfigObject.html#GVirConfigObject--node" title='The "node" property'>node</a>"                     <span class="type">gpointer</span>              : Read / Write / Construct Only
+  "<a class="link" href="GVirConfigObject.html#GVirConfigObject--schema" title='The "schema" property'>schema</a>"                   <span class="type">gchar</span>*                : Read / Write / Construct Only
 </pre>
 </div>
 <div class="refsect1">
@@ -124,34 +125,34 @@ const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.htm
 <hr>
 <div class="refsect2">
 <a name="gvir-config-object-get-schema"></a><h3>gvir_config_object_get_schema ()</h3>
-<pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       gvir_config_object_get_schema       (<em class="parameter"><code><a class="link" href="GVirConfigObject.html" title="GVirConfigObject"><span class="type">GVirConfigObject</span></a> *config</code></em>);</pre>
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *       gvir_config_object_get_schema       (<em class="parameter"><code><a class="link" href="GVirConfigObject.html" title="GVirConfigObject"><span class="type">GVirConfigObject</span></a> *config</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
 <a name="gvir-config-object-new"></a><h3>gvir_config_object_new ()</h3>
-<pre class="programlisting"><a class="link" href="GVirConfigObject.html" title="GVirConfigObject"><span class="returnvalue">GVirConfigObject</span></a> *  gvir_config_object_new              (<em class="parameter"><code><a href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.html#GType"><span class="type">GType</span></a> type</code></em>,
+<pre class="programlisting"><a class="link" href="GVirConfigObject.html" title="GVirConfigObject"><span class="returnvalue">GVirConfigObject</span></a> *  gvir_config_object_new              (<em class="parameter"><code><span class="type">GType</span> type</code></em>,
                                                          <em class="parameter"><code>const <span class="type">char</span> *root_name</code></em>,
                                                          <em class="parameter"><code>const <span class="type">char</span> *schema</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
 <a name="gvir-config-object-new-from-xml"></a><h3>gvir_config_object_new_from_xml ()</h3>
-<pre class="programlisting"><a class="link" href="GVirConfigObject.html" title="GVirConfigObject"><span class="returnvalue">GVirConfigObject</span></a> *  gvir_config_object_new_from_xml     (<em class="parameter"><code><a href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.html#GType"><span class="type">GType</span></a> type</code></em>,
+<pre class="programlisting"><a class="link" href="GVirConfigObject.html" title="GVirConfigObject"><span class="returnvalue">GVirConfigObject</span></a> *  gvir_config_object_new_from_xml     (<em class="parameter"><code><span class="type">GType</span> type</code></em>,
                                                          <em class="parameter"><code>const <span class="type">char</span> *root_name</code></em>,
                                                          <em class="parameter"><code>const <span class="type">char</span> *schema</code></em>,
-                                                         <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *xml</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *xml</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
 <a name="gvir-config-object-to-xml"></a><h3>gvir_config_object_to_xml ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             gvir_config_object_to_xml           (<em class="parameter"><code><a class="link" href="GVirConfigObject.html" title="GVirConfigObject"><span class="type">GVirConfigObject</span></a> *config</code></em>);</pre>
+<pre class="programlisting"><span class="returnvalue">gchar</span> *             gvir_config_object_to_xml           (<em class="parameter"><code><a class="link" href="GVirConfigObject.html" title="GVirConfigObject"><span class="type">GVirConfigObject</span></a> *config</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
 <a name="gvir-config-object-validate"></a><h3>gvir_config_object_validate ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                gvir_config_object_validate         (<em class="parameter"><code><a class="link" href="GVirConfigObject.html" title="GVirConfigObject"><span class="type">GVirConfigObject</span></a> *config</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
+                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
 </div>
 </div>
 <div class="refsect1">
@@ -164,13 +165,13 @@ const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.htm
 <hr>
 <div class="refsect2">
 <a name="GVirConfigObject--node"></a><h3>The <code class="literal">"node"</code> property</h3>
-<pre class="programlisting">  "node"                     <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>              : Read / Write / Construct Only</pre>
+<pre class="programlisting">  "node"                     <span class="type">gpointer</span>              : Read / Write / Construct Only</pre>
 <p>The XML node this config object corresponds to.</p>
 </div>
 <hr>
 <div class="refsect2">
 <a name="GVirConfigObject--schema"></a><h3>The <code class="literal">"schema"</code> property</h3>
-<pre class="programlisting">  "schema"                   <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write / Construct Only</pre>
+<pre class="programlisting">  "schema"                   <span class="type">gchar</span>*                : Read / Write / Construct Only</pre>
 <p>The doc RNG schema.</p>
 <p>Default value: NULL</p>
 </div>

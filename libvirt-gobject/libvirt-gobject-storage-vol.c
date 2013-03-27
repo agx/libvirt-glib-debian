@@ -15,8 +15,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Author: Daniel P. Berrange <berrange@redhat.com>
  */
@@ -29,6 +29,7 @@
 #include "libvirt-glib/libvirt-glib.h"
 #include "libvirt-gobject/libvirt-gobject.h"
 #include "libvirt-gobject-compat.h"
+#include "libvirt-gobject-storage-pool-private.h"
 
 #define GVIR_STORAGE_VOL_GET_PRIVATE(obj)                         \
         (G_TYPE_INSTANCE_GET_PRIVATE((obj), GVIR_TYPE_STORAGE_VOL, GVirStorageVolPrivate))
@@ -200,7 +201,7 @@ const gchar *gvir_storage_vol_get_name(GVirStorageVol *vol)
     g_return_val_if_fail(GVIR_IS_STORAGE_VOL(vol), NULL);
 
     if (!(name = virStorageVolGetName(vol->priv->handle))) {
-        g_warning("Failed to get storage_vol name on %p", vol->priv->handle);
+        gvir_warning("Failed to get storage_vol name on %p", vol->priv->handle);
         return NULL;
     }
 
@@ -308,6 +309,8 @@ gboolean gvir_storage_vol_delete(GVirStorageVol *vol,
 {
     g_return_val_if_fail(GVIR_IS_STORAGE_VOL(vol), FALSE);
     g_return_val_if_fail(err == NULL || *err == NULL, FALSE);
+
+    gvir_storage_pool_delete_vol(vol->priv->pool, vol);
 
     if (virStorageVolDelete(vol->priv->handle, flags) < 0) {
         gvir_set_error_literal(err,

@@ -15,8 +15,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Author: Daniel P. Berrange <berrange@redhat.com>
  */
@@ -38,6 +38,7 @@ struct _GVirConnectionPrivate
     GMutex *lock;
     gchar *uri;
     virConnectPtr conn;
+    gboolean read_only;
 
     GHashTable *domains;
     GHashTable *pools;
@@ -273,7 +274,7 @@ static int domain_event_cb(virConnectPtr conn G_GNUC_UNUSED,
     GVirConnectionPrivate *priv = gconn->priv;
 
     if (virDomainGetUUIDString(dom, uuid) < 0) {
-        g_warning("Failed to get domain UUID on %p", dom);
+        gvir_warning("Failed to get domain UUID on %p", dom);
         return 0;
     }
 
@@ -327,6 +328,8 @@ static int domain_event_cb(virConnectPtr conn G_GNUC_UNUSED,
                 g_signal_emit_by_name(gdom, "started::restored");
             else if (detail == VIR_DOMAIN_EVENT_STARTED_FROM_SNAPSHOT)
                 g_signal_emit_by_name(gdom, "started::from-snapshot");
+            else if (detail == VIR_DOMAIN_EVENT_STARTED_WAKEUP)
+                g_signal_emit_by_name(gdom, "started::wakeup");
             else
                 g_warn_if_reached();
             break;
@@ -389,6 +392,13 @@ static int domain_event_cb(virConnectPtr conn G_GNUC_UNUSED,
         case VIR_DOMAIN_EVENT_SHUTDOWN:
             break;
 
+        case VIR_DOMAIN_EVENT_PMSUSPENDED:
+            if (detail == VIR_DOMAIN_EVENT_PMSUSPENDED_MEMORY)
+                g_signal_emit_by_name(gdom, "pmsuspended::memory");
+            else
+                g_warn_if_reached();
+            break;
+
         default:
             g_warn_if_reached();
     }
@@ -398,14 +408,10 @@ static int domain_event_cb(virConnectPtr conn G_GNUC_UNUSED,
     return 0;
 }
 
-/**
- * gvir_connection_open:
- * @conn: a #GVirConnection
- * @cancellable: (allow-none)(transfer none): cancellation object
- */
-gboolean gvir_connection_open(GVirConnection *conn,
-                              GCancellable *cancellable,
-                              GError **err)
+static gboolean _gvir_connection_open(GVirConnection *conn,
+                                      gboolean read_only,
+                                      GCancellable *cancellable,
+                                      GError **err)
 {
     GVirConnectionPrivate *priv;
 
@@ -429,7 +435,13 @@ gboolean gvir_connection_open(GVirConnection *conn,
         return FALSE;
     }
 
-    if (!(priv->conn = virConnectOpen(priv->uri))) {
+    if (read_only) {
+        priv->conn = virConnectOpenReadOnly(priv->uri);
+        priv->read_only = TRUE;
+    } else {
+        priv->conn = virConnectOpen(priv->uri);
+    }
+    if (!priv->conn) {
         gvir_set_error(err, GVIR_CONNECTION_ERROR,
                        0,
                        "Unable to open %s",
@@ -454,7 +466,7 @@ gboolean gvir_connection_open(GVirConnection *conn,
     }
 
     if (virConnectDomainEventRegister(priv->conn, domain_event_cb, conn, NULL) == -1)
-        g_warning("Failed to register domain events, ignoring");
+        gvir_warning("Failed to register domain events, ignoring");
 
     g_mutex_unlock(priv->lock);
 
@@ -463,6 +475,24 @@ gboolean gvir_connection_open(GVirConnection *conn,
     return TRUE;
 }
 
+/**
+ * gvir_connection_open:
+ * @conn: a #GVirConnection
+ * @cancellable: (allow-none)(transfer none): cancellation object
+ */
+gboolean gvir_connection_open(GVirConnection *conn,
+                              GCancellable *cancellable,
+                              GError **err)
+{
+    return _gvir_connection_open(conn, FALSE, cancellable, err);
+}
+
+gboolean gvir_connection_open_read_only(GVirConnection *conn,
+                                        GCancellable *cancellable,
+                                        GError **err)
+{
+    return _gvir_connection_open(conn, TRUE, cancellable, err);
+}
 
 static void
 gvir_connection_open_helper(GSimpleAsyncResult *res,
@@ -528,6 +558,69 @@ gboolean gvir_connection_open_finish(GVirConnection *conn,
     return TRUE;
 }
 
+static void
+gvir_connection_open_read_only_helper(GSimpleAsyncResult *res,
+                            GObject *object,
+                            GCancellable *cancellable)
+{
+    GVirConnection *conn = GVIR_CONNECTION(object);
+    GError *err = NULL;
+
+    if (!gvir_connection_open_read_only(conn, cancellable, &err)) {
+        g_simple_async_result_set_from_error(res, err);
+        g_error_free(err);
+    }
+}
+
+
+/**
+ * gvir_connection_open_read_only_async:
+ * @conn: a #GVirConnection
+ * @cancellable: (allow-none)(transfer none): cancellation object
+ * @callback: (scope async): completion callback
+ * @user_data: (closure): opaque data for callback
+ */
+void gvir_connection_open_read_only_async(GVirConnection *conn,
+                                GCancellable *cancellable,
+                                GAsyncReadyCallback callback,
+                                gpointer user_data)
+{
+    GSimpleAsyncResult *res;
+
+    g_return_if_fail(GVIR_IS_CONNECTION(conn));
+    g_return_if_fail((cancellable == NULL) || G_IS_CANCELLABLE(cancellable));
+
+    res = g_simple_async_result_new(G_OBJECT(conn),
+                                    callback,
+                                    user_data,
+                                    gvir_connection_open_read_only_async);
+    g_simple_async_result_run_in_thread(res,
+                                        gvir_connection_open_read_only_helper,
+                                        G_PRIORITY_DEFAULT,
+                                        cancellable);
+    g_object_unref(res);
+}
+
+
+/**
+ * gvir_connection_open_read_only_finish:
+ * @conn: a #GVirConnection
+ * @result: (transfer none): async method result
+ */
+gboolean gvir_connection_open_read_only_finish(GVirConnection *conn,
+                                               GAsyncResult *result,
+                                               GError **err)
+{
+    g_return_val_if_fail(GVIR_IS_CONNECTION(conn), FALSE);
+    g_return_val_if_fail(g_simple_async_result_is_valid(result, G_OBJECT(conn),
+                                                        gvir_connection_open_read_only_async),
+                         FALSE);
+
+    if (g_simple_async_result_propagate_error(G_SIMPLE_ASYNC_RESULT(result), err))
+        return FALSE;
+
+    return TRUE;
+}
 
 gboolean gvir_connection_is_open(GVirConnection *conn)
 {
@@ -542,6 +635,13 @@ gboolean gvir_connection_is_open(GVirConnection *conn)
         open = FALSE;
     g_mutex_unlock(priv->lock);
     return open;
+}
+
+gboolean gvir_connection_is_read_only(GVirConnection *conn)
+{
+    g_return_val_if_fail(GVIR_IS_CONNECTION(conn), FALSE);
+
+    return conn->priv->read_only;
 }
 
 void gvir_connection_close(GVirConnection *conn)
@@ -604,7 +704,7 @@ static gchar ** fetch_list(virConnectPtr vconn,
         if (g_cancellable_set_error_if_cancelled(cancellable, err))
             goto error;
 
-        lst = g_new(gchar *, n);
+        lst = g_new0(gchar *, n);
         if ((n = list_func(vconn, lst, n)) < 0) {
             gvir_set_error(err, GVIR_CONNECTION_ERROR,
                            0,
@@ -617,9 +717,11 @@ static gchar ** fetch_list(virConnectPtr vconn,
     return lst;
 
 error:
-    for (i = 0 ; i < n; i++)
-        g_free(lst[i]);
-    g_free(lst);
+    if (lst != NULL) {
+        for (i = 0 ; i < n; i++)
+            g_free(lst[i]);
+        g_free(lst);
+    }
     return NULL;
 }
 
@@ -717,6 +819,7 @@ gboolean gvir_connection_fetch_domains(GVirConnection *conn,
         dom = GVIR_DOMAIN(g_object_new(GVIR_TYPE_DOMAIN,
                                        "handle", vdom,
                                        NULL));
+        virDomainFree(vdom);
 
         g_hash_table_insert(doms,
                             (gpointer)gvir_domain_get_uuid(dom),
@@ -735,6 +838,7 @@ gboolean gvir_connection_fetch_domains(GVirConnection *conn,
         dom = GVIR_DOMAIN(g_object_new(GVIR_TYPE_DOMAIN,
                                        "handle", vdom,
                                        NULL));
+        virDomainFree(vdom);
 
         g_hash_table_insert(doms,
                             (gpointer)gvir_domain_get_uuid(dom),
@@ -848,6 +952,7 @@ gboolean gvir_connection_fetch_storage_pools(GVirConnection *conn,
         pool = GVIR_STORAGE_POOL(g_object_new(GVIR_TYPE_STORAGE_POOL,
                                               "handle", vpool,
                                               NULL));
+        virStoragePoolFree(vpool);
 
         g_hash_table_insert(pools,
                             (gpointer)gvir_storage_pool_get_uuid(pool),
@@ -868,6 +973,7 @@ gboolean gvir_connection_fetch_storage_pools(GVirConnection *conn,
         pool = GVIR_STORAGE_POOL(g_object_new(GVIR_TYPE_STORAGE_POOL,
                                               "handle", vpool,
                                               NULL));
+        virStoragePoolFree(vpool);
 
         g_hash_table_insert(pools,
                             (gpointer)gvir_storage_pool_get_uuid(pool),
@@ -1023,6 +1129,82 @@ const gchar *gvir_connection_get_uri(GVirConnection *conn)
     g_return_val_if_fail(GVIR_IS_CONNECTION(conn), NULL);
 
     return conn->priv->uri;
+}
+
+/**
+ * gvir_connection_get_hypervisor_name:
+ * @conn: a #GVirConnection
+ * @err: return location for any #GError
+ *
+ * Get name of current hypervisor used.
+ *
+ * Return value: new string that should be freed when no longer needed,
+ * or NULL upon error.
+ */
+gchar *
+gvir_connection_get_hypervisor_name(GVirConnection *conn,
+                                    GError **err)
+{
+    GVirConnectionPrivate *priv;
+    gchar *ret = NULL;
+    const char *type;
+
+    g_return_val_if_fail(GVIR_IS_CONNECTION(conn), NULL);
+    g_return_val_if_fail(err == NULL || *err == NULL, NULL);
+
+    priv = conn->priv;
+    if (!priv->conn) {
+        g_set_error_literal(err, GVIR_CONNECTION_ERROR, 0,
+                            "Connection is not opened");
+        goto cleanup;
+    }
+
+    type = virConnectGetType(priv->conn);
+    if (!type) {
+        gvir_set_error_literal(err, GVIR_CONNECTION_ERROR, 0,
+                               "Unable to get hypervisor name");
+        goto cleanup;
+    }
+
+    ret = g_strdup(type);
+
+cleanup:
+    return ret;
+}
+
+/**
+ * gvir_connection_get_version:
+ * @conn: a #GVirConnection
+ * @err: return location for any #GError
+ *
+ * Get version of current hypervisor used.
+ *
+ * Return value: version on success, 0 otherwise and @err set.
+ */
+gulong
+gvir_connection_get_version(GVirConnection *conn,
+                            GError **err)
+{
+    GVirConnectionPrivate *priv;
+    gulong ret = 0;
+
+    g_return_val_if_fail(GVIR_IS_CONNECTION(conn), FALSE);
+    g_return_val_if_fail(err == NULL || *err == NULL, 0);
+
+    priv = conn->priv;
+    if (!priv->conn) {
+        g_set_error_literal(err, GVIR_CONNECTION_ERROR, 0,
+                            "Connection is not opened");
+        goto cleanup;
+    }
+
+    if (virConnectGetVersion(priv->conn, &ret) < 0) {
+        gvir_set_error_literal(err, GVIR_CONNECTION_ERROR, 0,
+                               "Unable to get hypervisor version");
+    }
+
+cleanup:
+    return ret;
 }
 
 static void gvir_domain_ref(gpointer obj, gpointer ignore G_GNUC_UNUSED)
@@ -1342,6 +1524,7 @@ GVirDomain *gvir_connection_create_domain(GVirConnection *conn,
     domain = GVIR_DOMAIN(g_object_new(GVIR_TYPE_DOMAIN,
                                        "handle", handle,
                                        NULL));
+    virDomainFree(handle);
 
     g_mutex_lock(priv->lock);
     g_hash_table_insert(priv->domains,
@@ -1396,6 +1579,7 @@ GVirDomain *gvir_connection_start_domain(GVirConnection *conn,
     domain = GVIR_DOMAIN(g_object_new(GVIR_TYPE_DOMAIN,
                                        "handle", handle,
                                        NULL));
+    virDomainFree(handle);
 
     g_mutex_lock(priv->lock);
     g_hash_table_insert(priv->domains,
@@ -1447,6 +1631,7 @@ GVirStoragePool *gvir_connection_create_storage_pool
     pool = GVIR_STORAGE_POOL(g_object_new(GVIR_TYPE_STORAGE_POOL,
                                           "handle", handle,
                                           NULL));
+    virStoragePoolFree(handle);
 
     g_mutex_lock(priv->lock);
     g_hash_table_insert(priv->pools,
@@ -1485,7 +1670,7 @@ GVirNodeInfo *gvir_connection_get_node_info(GVirConnection *conn,
     }
 
     ret = g_slice_new(GVirNodeInfo);
-    strncpy (ret->model, info.model, sizeof (ret->model));
+    g_strlcpy (ret->model, info.model, sizeof (ret->model));
     ret->memory = info.memory;
     ret->cpus = info.cpus;
     ret->mhz = info.mhz;
