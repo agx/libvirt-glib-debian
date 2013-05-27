@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Author: Christophe Fergeau <cfergeau@gmail.com>
  */
@@ -72,7 +72,7 @@ gvir_config_domain_device_new_from_tree(GVirConfigXmlDoc *doc,
     } else if (xmlStrEqual(tree->name, (xmlChar*)"redirdev")) {
         type = GVIR_CONFIG_TYPE_DOMAIN_REDIRDEV;
     } else if (xmlStrEqual(tree->name, (xmlChar*)"smartcard")) {
-        goto unimplemented;
+      return gvir_config_domain_smartcard_new_from_tree(doc, tree);
     } else if (xmlStrEqual(tree->name, (xmlChar*)"interface")) {
         return gvir_config_domain_interface_new_from_tree(doc, tree);
     } else if (xmlStrEqual(tree->name, (xmlChar*)"input")) {

@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Author: Daniel P. Berrange <berrange@redhat.com>
  */
@@ -62,9 +62,14 @@ GVirConfigDomainGraphicsVnc *gvir_config_domain_graphics_vnc_new(void);
 GVirConfigDomainGraphicsVnc *gvir_config_domain_graphics_vnc_new_from_xml(const gchar *xml,
                                                                           GError **error);
 
+const char *gvir_config_domain_graphics_vnc_get_socket(GVirConfigDomainGraphicsVnc *graphics);
+void gvir_config_domain_graphics_vnc_set_socket(GVirConfigDomainGraphicsVnc *graphics,
+                                                const char *socket);
+
 void gvir_config_domain_graphics_vnc_set_autoport(GVirConfigDomainGraphicsVnc *graphics,
                                                   gboolean autoport);
 
+int gvir_config_domain_graphics_vnc_get_port(GVirConfigDomainGraphicsVnc *graphics);
 void gvir_config_domain_graphics_vnc_set_port(GVirConfigDomainGraphicsVnc *graphics,
                                               int port);
 

@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Author: Daniel P. Berrange <berrange@redhat.com>
  */
@@ -68,9 +68,10 @@ gvir_config_domain_graphics_sdl_new_from_xml(const gchar *xml,
 
     object = gvir_config_object_new_from_xml(GVIR_CONFIG_TYPE_DOMAIN_GRAPHICS_SDL,
                                              "graphics", NULL, xml, error);
-    if (object == NULL)
+    if (g_strcmp0(gvir_config_object_get_attribute(object, NULL, "type"), "sdl") != 0) {
+        g_object_unref(G_OBJECT(object));
         return NULL;
-    gvir_config_object_set_attribute(object, "type", "sdl", NULL);
+    }
     return GVIR_CONFIG_DOMAIN_GRAPHICS_SDL(object);
 }
 

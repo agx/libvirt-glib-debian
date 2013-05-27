@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Author: Marc-André Lureau <marcandre.lureau@redhat.com>
  */
@@ -27,8 +27,12 @@
 #include <gio/gio.h>
 
 #if GLIB_CHECK_VERSION(2, 31, 0)
-#define g_mutex_new() g_new0(GMutex, 1)
-#define g_mutex_free(m) g_free(m)
+
+void gvir_mutex_free(GMutex *mutex);
+GMutex *gvir_mutex_new(void);
+#define g_mutex_new gvir_mutex_new
+#define g_mutex_free gvir_mutex_free
+
 #endif
 
 #if !GLIB_CHECK_VERSION(2,26,0)

@@ -15,8 +15,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Author: Daniel P. Berrange <berrange@redhat.com>
  */
@@ -55,6 +55,7 @@ enum {
     VIR_RESUMED,
     VIR_STOPPED,
     VIR_UPDATED,
+    VIR_PMSUSPENDED,
     LAST_SIGNAL
 };
 
@@ -134,16 +135,8 @@ static void gvir_domain_constructed(GObject *object)
     G_OBJECT_CLASS(gvir_domain_parent_class)->constructed(object);
 
     /* xxx we may want to turn this into an initable */
-    if (virDomainGetUUIDString(priv->handle, priv->uuid) < 0) {
-        virErrorPtr verr = virGetLastError();
-        if (verr) {
-            g_warning("Failed to get domain UUID on %p: %s",
-                      priv->handle, verr->message);
-        } else {
-            g_warning("Failed to get domain UUID on %p",
-                      priv->handle);
-        }
-    }
+    if (virDomainGetUUIDString(priv->handle, priv->uuid) < 0)
+        gvir_warning("Failed to get domain UUID on %p", priv->handle);
 }
 
 
@@ -225,6 +218,16 @@ static void gvir_domain_class_init(GVirDomainClass *klass)
                                         G_TYPE_NONE,
                                         0);
 
+    signals[VIR_PMSUSPENDED] = g_signal_new("pmsuspended",
+                                        G_OBJECT_CLASS_TYPE(object_class),
+                                        G_SIGNAL_RUN_LAST | G_SIGNAL_NO_RECURSE |
+                                        G_SIGNAL_NO_HOOKS | G_SIGNAL_DETAILED,
+                                        G_STRUCT_OFFSET(GVirDomainClass, pmsuspended),
+                                        NULL, NULL,
+                                        g_cclosure_marshal_VOID__VOID,
+                                        G_TYPE_NONE,
+                                        0);
+
     g_type_class_add_private(klass, sizeof(GVirDomainPrivate));
 }
 
@@ -281,7 +284,7 @@ const gchar *gvir_domain_get_name(GVirDomain *dom)
 
     priv = dom->priv;
     if (!(name = virDomainGetName(priv->handle))) {
-        g_warning("Failed to get domain name on %p", priv->handle);
+        gvir_warning("Failed to get domain name on %p", priv->handle);
         return NULL;
     }
 
@@ -503,6 +506,93 @@ gboolean gvir_domain_resume_finish(GVirDomain *dom,
 }
 
 /**
+ * gvir_domain_wakeup:
+ * @dom: the domain
+ * @flags: placeholder for flags, pass 0
+ * @err: Place-holder for possible errors
+ *
+ * Returns: TRUE on success
+ */
+gboolean gvir_domain_wakeup(GVirDomain *dom,
+                            guint flags,
+                            GError **err)
+{
+    GVirDomainPrivate *priv;
+
+    g_return_val_if_fail(GVIR_IS_DOMAIN(dom), FALSE);
+    g_return_val_if_fail(err == NULL || *err == NULL, FALSE);
+
+    priv = dom->priv;
+    if (virDomainPMWakeup(priv->handle, flags) < 0) {
+        gvir_set_error_literal(err, GVIR_DOMAIN_ERROR,
+                               0,
+                               "Unable to wakeup domain");
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
+static void
+gvir_domain_wakeup_helper(GSimpleAsyncResult *res,
+                          GObject *object,
+                          GCancellable *cancellable G_GNUC_UNUSED)
+{
+    GVirDomain *dom = GVIR_DOMAIN(object);
+    GError *err = NULL;
+
+    if (!gvir_domain_wakeup(dom, (guint)g_simple_async_result_get_op_res_gssize(res), &err))
+        g_simple_async_result_take_error(res, err);
+}
+
+/**
+ * gvir_domain_wakeup_async:
+ * @dom: the domain to wakeup
+ * @flags: placeholder for flags, pass 0
+ * @cancellable: (allow-none)(transfer none): cancellation object
+ * @callback: (scope async): completion callback
+ * @user_data: (closure): opaque data for callback
+ *
+ * Asynchronous variant of #gvir_domain_wakeup.
+ */
+void gvir_domain_wakeup_async(GVirDomain *dom,
+                              guint flags,
+                              GCancellable *cancellable,
+                              GAsyncReadyCallback callback,
+                              gpointer user_data)
+{
+    GSimpleAsyncResult *res;
+
+    g_return_if_fail(GVIR_IS_DOMAIN(dom));
+    g_return_if_fail((cancellable == NULL) || G_IS_CANCELLABLE(cancellable));
+
+    res = g_simple_async_result_new(G_OBJECT(dom),
+                                    callback,
+                                    user_data,
+                                    gvir_domain_wakeup_async);
+    g_simple_async_result_set_op_res_gssize (res, (gssize)flags);
+    g_simple_async_result_run_in_thread(res,
+                                        gvir_domain_wakeup_helper,
+                                        G_PRIORITY_DEFAULT,
+                                        cancellable);
+    g_object_unref(res);
+}
+
+gboolean gvir_domain_wakeup_finish(GVirDomain *dom,
+                                   GAsyncResult *result,
+                                   GError **err)
+{
+    g_return_val_if_fail(GVIR_IS_DOMAIN(dom), FALSE);
+    g_return_val_if_fail(g_simple_async_result_is_valid(result, G_OBJECT(dom), gvir_domain_wakeup_async), FALSE);
+    g_return_val_if_fail(err == NULL || *err == NULL, FALSE);
+
+    if (g_simple_async_result_propagate_error(G_SIMPLE_ASYNC_RESULT(result), err))
+        return FALSE;
+
+    return TRUE;
+}
+
+/**
  * gvir_domain_stop:
  * @dom: the domain
  * @flags:  the flags
@@ -590,7 +680,7 @@ gboolean gvir_domain_shutdown(GVirDomain *dom,
 /**
  * gvir_domain_reboot:
  * @dom: the domain
- * @flags:  the flags
+ * @flags: the %GVirDomainRebootFlags flags
  */
 gboolean gvir_domain_reboot(GVirDomain *dom,
                             guint flags,
@@ -867,8 +957,9 @@ gboolean gvir_domain_set_config(GVirDomain *domain,
  * gvir_domain_get_info:
  * @dom: the domain
  *
- * Returns: (transfer full): the info. The returned object should be
- * unreffed with g_object_unref() when no longer needed.
+ * Returns: (transfer full): the info. The returned structure should be
+ * freed using #g_boxed_free() with GVIR_TYPE_DOMAIN_INFO as the first argument
+ * when no longer needed.
  */
 GVirDomainInfo *gvir_domain_get_info(GVirDomain *dom,
                                      GError **err)
@@ -1329,6 +1420,48 @@ GList *gvir_domain_get_devices(GVirDomain *domain,
 
     return g_list_reverse (ret);
 }
+
+
+/**
+ * gvir_domain_update_device:
+ * @dom: the domain
+ * @device: A modified device config
+ * @flags: bitwise-OR of #GVirDomainUpdateDeviceFlags
+ * @err: (allow-none):Place-holder for error or NULL
+ *
+ * Update the configuration of a device.
+ *
+ * Returns: TRUE if device was updated successfully, FALSE otherwise.
+ */
+gboolean
+gvir_domain_update_device(GVirDomain *dom,
+                          GVirConfigDomainDevice *device,
+                          guint flags,
+                          GError **err)
+{
+    gchar *xml;
+
+    g_return_val_if_fail(GVIR_IS_DOMAIN(dom), FALSE);
+    g_return_val_if_fail(err == NULL || *err == NULL, FALSE);
+    g_return_val_if_fail(GVIR_CONFIG_IS_DOMAIN_DEVICE(device), FALSE);
+
+    xml = gvir_config_object_to_xml(GVIR_CONFIG_OBJECT(device));
+    g_return_val_if_fail(xml != NULL, FALSE);
+
+    if (virDomainUpdateDeviceFlags(dom->priv->handle,
+                                   xml, flags) < 0) {
+        gvir_set_error_literal(err, GVIR_DOMAIN_ERROR,
+                               0,
+                               "Failed to update device");
+        g_free (xml);
+
+        return FALSE;
+    }
+
+    g_free (xml);
+    return TRUE;
+}
+
 
 /**
  * gvir_domain_create_snapshot:

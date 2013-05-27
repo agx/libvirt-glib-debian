@@ -1,4 +1,4 @@
-AC_INIT(libvirt-glib, 0.1.2)
+AC_INIT(libvirt-glib, 0.1.6)
 AC_CONFIG_SRCDIR(libvirt-glib/libvirt-glib-main.c)
 AC_CONFIG_AUX_DIR([build-aux])
 AM_CONFIG_HEADER(config.h)
@@ -9,7 +9,8 @@ AC_CANONICAL_HOST
 
 AM_SILENT_RULES([yes])
 
-LIBVIRT_REQUIRED=0.9.10
+LIBVIRT_REQUIRED=0.10.2
+AC_SUBST([LIBVIRT_REQUIRED]) dnl used in the .spec file
 GLIB2_REQUIRED=2.22.0
 GOBJECT2_REQUIRED=2.10.0
 GIO_REQUIRED=2.10.0

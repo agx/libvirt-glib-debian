@@ -13,6 +13,8 @@ g_mutex_new
 g_simple_async_report_take_gerror_in_idle
 g_simple_async_result_new_take_error
 g_simple_async_result_take_error
+gvir_mutex_free
+gvir_mutex_new
 </SECTION>
 
 <SECTION>
@@ -41,6 +43,7 @@ gvir_connection_get_capabilities_async
 gvir_connection_get_capabilities_finish
 gvir_connection_get_domain
 gvir_connection_get_domains
+gvir_connection_get_hypervisor_name
 gvir_connection_get_interface
 gvir_connection_get_interfaces
 gvir_connection_get_network
@@ -56,11 +59,16 @@ gvir_connection_get_storage_pool
 gvir_connection_get_storage_pools
 gvir_connection_get_stream
 gvir_connection_get_uri
+gvir_connection_get_version
 gvir_connection_is_open
+gvir_connection_is_read_only
 gvir_connection_new
 gvir_connection_open
 gvir_connection_open_async
 gvir_connection_open_finish
+gvir_connection_open_read_only
+gvir_connection_open_read_only_async
+gvir_connection_open_read_only_finish
 gvir_connection_restore_domain_from_file
 gvir_connection_restore_domain_from_file_async
 gvir_connection_restore_domain_from_file_finish
@@ -86,10 +94,12 @@ GVirDomain
 GVirDomainClass
 GVirDomainDeleteFlags
 GVirDomainInfo
+GVirDomainRebootFlags
 GVirDomainShutdownFlags
 GVirDomainSnapshotCreateFlags
 GVirDomainStartFlags
 GVirDomainState
+GVirDomainUpdateDeviceFlags
 GVirDomainXMLFlags
 gvir_domain_create_snapshot
 gvir_domain_delete
@@ -123,6 +133,10 @@ gvir_domain_start_async
 gvir_domain_start_finish
 gvir_domain_stop
 gvir_domain_suspend
+gvir_domain_update_device
+gvir_domain_wakeup
+gvir_domain_wakeup_async
+gvir_domain_wakeup_finish
 <SUBSECTION Standard>
 GVIR_DOMAIN
 GVIR_DOMAIN_CLASS
@@ -393,9 +407,14 @@ gvir_storage_pool_build
 gvir_storage_pool_build_async
 gvir_storage_pool_build_finish
 gvir_storage_pool_create_volume
+gvir_storage_pool_delete
+gvir_storage_pool_delete_async
+gvir_storage_pool_delete_finish
+gvir_storage_pool_get_active
 gvir_storage_pool_get_config
 gvir_storage_pool_get_info
 gvir_storage_pool_get_name
+gvir_storage_pool_get_persistent
 gvir_storage_pool_get_uuid
 gvir_storage_pool_get_volume
 gvir_storage_pool_get_volumes
@@ -405,6 +424,12 @@ gvir_storage_pool_refresh_finish
 gvir_storage_pool_start
 gvir_storage_pool_start_async
 gvir_storage_pool_start_finish
+gvir_storage_pool_stop
+gvir_storage_pool_stop_async
+gvir_storage_pool_stop_finish
+gvir_storage_pool_undefine
+gvir_storage_pool_undefine_async
+gvir_storage_pool_undefine_finish
 <SUBSECTION Standard>
 GVIR_IS_STORAGE_POOL
 GVIR_IS_STORAGE_POOL_CLASS
@@ -418,6 +443,11 @@ GVirStoragePoolPrivate
 gvir_storage_pool_get_type
 gvir_storage_pool_handle_get_type
 gvir_storage_pool_info_get_type
+</SECTION>
+
+<SECTION>
+<FILE>libvirt-gobject-storage-pool-private</FILE>
+
 </SECTION>
 
 <SECTION>

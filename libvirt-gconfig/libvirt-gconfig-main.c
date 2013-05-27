@@ -15,8 +15,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Author: Daniel P. Berrange <berrange@redhat.com>
  */
@@ -28,11 +28,12 @@
 
 #include "libvirt-glib/libvirt-glib.h"
 #include "libvirt-gconfig/libvirt-gconfig.h"
+#include "libvirt-gconfig/libvirt-gconfig-compat.h"
 
 /**
- * gvirt_config_init:
+ * gvir_config_init:
  * @argc: (inout): pointer to application's argc
- * @argv: (inout) (array length=argc) (allow-none): pointer to application's argv
+ * @argv: (inout) (array length=argc) (allow-none) (transfer none): pointer to application's argv
  */
 void gvir_config_init(int *argc,
                       char ***argv)
@@ -57,7 +58,7 @@ static void gvir_log_handler(const gchar *log_domain G_GNUC_UNUSED,
 /**
  * gvir_config_init_check:
  * @argc: (inout): pointer to application's argc
- * @argv: (inout) (array length=argc) (allow-none): pointer to application's argv
+ * @argv: (inout) (array length=argc) (allow-none) (transfer none): pointer to application's argv
  * @err: pointer to a #GError to which a message will be posted on error
  */
 gboolean gvir_config_init_check(int *argc G_GNUC_UNUSED,

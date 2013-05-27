@@ -1,4 +1,299 @@
+2013-03-18  Daniel P. Berrange  <berrange@redhat.com>
+
+	Update NEWS for 0.1.6 release
+
+	Add Claudio Bley to AUTHORS
+
+2013-03-14  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	gconfig: API for SPICE image compression
+	This patch adds API to set/get image compression configuration on
+	domain/graphics[@type='spice'] nodes.
+
+	Also included are simple tests for this API.
+
+	Add gvir_config_object_replace_child_with_attribute_enum()
+	Internal libvirt-gconfig helper to replace enum XML attributes.
+
+2013-03-12  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Remove FSF address from source file headers
+	The FSF moved a while ago which made the address we use in every
+	source file header invalid. Follow the recommendation from
+	http://www.gnu.org/licenses/gpl-howto.html and don't put any address
+	in these headers, just a link to the fsf website.
+
+2013-02-07  Claudio Bley  <cbley@av-test.de>
+
+	gvir_stream_receive: annotate buffer parameter with "element-type guint8"
+	Vala automatically regards parameters as strings when an array of char
+	is used. We need to prevent this as the data given is an array of octets
+	ie. arbitrary data, not chars.
+
+	Add "transfer none" annotation to argv parameter
+	This makes the parameter to be passed "unowned" in Vala.
+
+	Fix typo in gvir_config_init's comment
+	This broke the generated Vala API.
+
+2013-01-24  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Fix potential crashes in error cases
+	fetch_list implementations in libvirt-gobject-connection.c and
+	libvirt-gobject-storage-pool.c can misbehave in error situations
+	or when the call is cancelled:
+	- when the call is cancelled, 'lst' will be NULL and 'n' non-0 so
+	we'll try to iterate over 'lst', which will cause a crash
+	- when list_func fails, 'lst' is likely to be uninitialized, which
+	will lead to invalid frees in the memory cleanup in the error: branch.
+	We can avoid this issue by making sure 'lst' is initialized to 0
+	when it's created.
+
+	Use g_strlcpy instead of strncpy
+	This guarantees that the string will be nul-terminated. Coverity
+	warned about this issue.
+
+2013-01-22  Michal Privoznik  <mprivozn@redhat.com>
+
+	Don't redefine _FORTIFY_SOURCE macro
+	If the _FORTIFY_SOURCE has been already defined, we unconditionally
+	redefine it, leaving us with warning/error thrown at compilation time.
+
+2013-01-14  Daniel P. Berrange  <berrange@redhat.com>
+
+	Post-release version bump
+
+	Add libvirt-gobject-storage-pool-private.h to noinst_HEADERS
+
+	Replace tabs with spaces
+
+	Update NEWS for 0.1.5 release
+
+2013-01-11  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	gconfig: Entertain bridge interface devices
+	Currently we ignore bridge interface devices from domain XML. This patch
+	fixes that.
+
+2013-01-09  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	gobject: API to open read-only connection to libvirt
+	Also a utility method to check if connection is open in read-only mode.
+
+2012-12-19  Alexander Larsson  <alexl@redhat.com>
+
+	Add smartcard support to libvirt-gconfig
+	This handles <smartcard> devices.
+
+2012-11-21  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	gobject: Also delete storage volume from its pool's list
+	Without this patch, storage pool still lists the volume even after it is
+	deleted.
+
+	Related Boxes bug: https://bugzilla.gnome.org/show_bug.cgi?id=688724
+
+2012-11-16  Daniel P. Berrange  <berrange@redhat.com>
+
+	Post release version increment
+
+	Remove tabs in source directory
+
+	Update NEWS for 0.1.4 release
+
+2012-11-14  Christophe Fergeau  <cfergeau@redhat.com>
+
+	gobject: Add gvir_storage_pool_get_{active,persistent}
+
+	gobject: Wrap virStoragePoolDelete
+
+	gobject: Wrap virStoragePoolUndefine
+
+	gobject: Wrap virStoragePoolDestroy
+
+	gobject: don't try to use pool's volumes before a successful refresh
+	gvir_storage_pool_refresh must be called and must be successful before
+	trying to use gvir_storage_pool_get_volume,
+	gvir_storage_pool_get_volumes and gvir_storage_pool_create_volume.
+	As the storage pool refresh can fail for reasons external to
+	libvirt/libvirt-gobject, the library user should check _refresh
+	errors. This commit outputs runtime warnings when these functions
+	are called and GVirObjectStoragePool::priv::volumes is NULL.
+
+	gobject: Fix GMutex leak
+	When GLib deprecated g_mutex_new/g_mutex_free, we introduced a
+	compatibility wrapper to implement these using non-deprecated
+	functions. This was done by allocating 0-filled memory by the
+	mutex, and then letting GLib initialize the structure when
+	needed. However, we must call g_mutex_clear when destroying
+	the mutex to free these resources, which this patch fix.
+
+	Fix glib version check for g_type_init
+	g_type_init has been deprecated in glib 2.35, not 2.34. With versions
+	older than 2.35, we have to call it or we'll get a runtime failure.
+
+2012-11-14  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	docs: Specify correct function to free GVirDomainInfo
+
+	gobject: Add GVirDomainRebootFlags
+	Add flags to be used with gvir_domain_reboot().
+
+2012-11-14  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Don't call g_type_init on newer glib
+	This function call is deprecated and calling it causes a compilation
+	warning.
+
+	test: Remove redundant call to g_type_init
+	test-domain-parse calls both g_type_init and gvir_config_init. Given
+	that gvir_config_init calls g_type_init, the g_type_init call is
+	redundant, so let's remove it.
+
+	stream: Fix small error in gvir_stream_receive doc
+
+	gobject: Fix handle leak on wrapper object creation
+	When creating an object wrapping a libvirt object (GVirDomain,
+	GVirStoragePool, GVirStorageVol), libvirt-gobject gets a reference
+	to a libvirt object to be used as a handle, and then creates the wrapper
+	object by calling g_object_new(..., "handle", handle, NULL);
+
+	However, the underlying libvirt object is registered as a boxed type
+	with the gobject type system, and the handle setter for these object
+	calls g_value_dup_boxed, which in turn adds a reference on the libvirt
+	handle. Thus we must release the initial ref we hold on the libvirt
+	handle after calling g_object_new().
+
+	I noticed this bug after running in valgrind some code which calls
+	gvir_storage_pool_refresh and gvir_connection_fetch_storage_pools.
+
+	gobject: Error out on NULL name in gvir_storage_pool_get_volume
+	Without this change, gvir_storage_pool_get_volume segfaults when
+	trying to do the hash table lookup with a NULL 'name' key.
+
+	Introduce gvir_warning/gvir_critical
+	They are similar to g_warning/g_critical, but also log the last
+	libvirt error. They are meant to be called right after a libvirt
+	call failed, in other cases g_warning/g_critical are still to be
+	used.
+
+2012-11-14  Alexander Larsson  <alexl@redhat.com>
+
+	gobject: Add gvir_domain_update_device() and enums needed for it
+	This is a wrapper for virDomainUpdateDeviceFlags.
+
+2012-10-10  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	gconfig: Add API to set domain/pm tree
+	API for new domain power management configuration.
+
+2012-10-09  Daniel P. Berrange  <berrange@redhat.com>
+
+	Post-release version bump
+
+2012-10-08  Daniel P. Berrange  <berrange@redhat.com>
+
+	Update NEWS for 0.1.3 release
+
+	Add Alex to AUTHORS file
+
+2012-10-04  Alexander Larsson  <alexl@redhat.com>
+
+	Add wrappers for virDomainPMWakeup
+
+2012-10-03  Christophe Fergeau  <cfergeau@redhat.com>
+
+	build-sys: Raise libvirt requirement to 0.10.2
+	The recent PMSuspend changes need libvirt 0.10.2 or newer.
+
+	spec: Get min libvirt version from configure.ac
+	The minimum libvirt version we need is duplicated in configure.ac
+	and libvirt.spec.in. Since libvirt.spec.in already gets some variables
+	substituted, we can also substitute LIBVIRT_REQUIRED to avoid the
+	duplication.
+
+2012-09-28  Christophe Fergeau  <cfergeau@redhat.com>
+
+	gobject: Emit a signal on WAKEUP events
+	This avoids a runtime warning about this kind of event not
+	being handled.
+
+	gobject: Handle PMSUSPENDED state from libvirt
+	Emit a signal when switching to the PMSUSPENDED state, and add
+	an enum entry to describe this state. This avoids runtime warnings
+	with newer libvirt.
+
+2012-09-26  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Implement gvir_config_domain_graphics_spice_get_port
+
+	Add a few GVirConfigDomainGraphicsVnc getters
+
+	Implement gvir_config_domain_graphics_vnc_set_socket
+
+	Fix *_new_from_xml
+	For objects with a subtype 'type' attribute, when the _new_from_xml
+	function was called, the 'type' attribute was forcefully set to the
+	right value rather than checking that the passed-in value matches
+	the type of the subclass we are trying to instantiate. This commit
+	changes this, and returns NULL when the value of the 'type' attribute
+	of the passed-in XML document does not match the expected type.
+
+2012-09-26  Jovanka Gulicoska  <jovanka.gulicoska@gmail.com>
+
+	Don't call g_set_error with a NULL format string
+	The format string passed to g_set_error cannot be NULL or a runtime
+	warning will be printed.
+
+2012-09-18  Michal Privoznik  <mprivozn@redhat.com>
+
+	autobuild: Init AUTOBUILD_INSTALL_ROOT variable
+	Otherwise autobuild sets prefix to / resulting in
+	Permission denied when building as non-root as
+	'make install' tries to write to /lib. We need to
+	set this var to accessible path like $HOME/builder.
+
+2012-09-13  Michal Privoznik  <mprivozn@redhat.com>
+
+	gobject: Introduce gvir_connection_get_version
+	which is basically a wrapper for virConnectGetVersion().
+
+	gobject: Introduce gvir_connection_get_hypervisor_name
+	which is basically a wrapper for virConnectGetType().
+
+2012-09-12  Timo Juhani Lindfors  <timo.lindfors@iki.fi>
+
+	Use 1 GB of RAM in Python example (instead of 1 TB)
+
+	Specify virtualization type in Python example
+	Without this creating the domain fails:
+
+	gi._glib.GError: Failed to create domain: internal error missing domain type attribute
+
+2012-09-04  Christophe Fergeau  <cfergeau@redhat.com>
+
+	config: Add gvir_config_domain_[gs]et_current_memory
+	libvirt will insert a <currentMemory> node when setting the domain
+	maximum memory. If we want to be able to later increase the domain
+	maximum memory, libvirt-gconfig needs to be able to set this
+	currentMemory node as well, otherwise this will cap the available
+	memory in the domain.
+
+	config: Handle units in gvir_config_[gs]et_memory
+	gvir_config_[gs]et_memory have an optional 'unit' attribute which
+	indicates the unit used to express the memory size. This commit
+	adds support for parsing this unit, and adjusting the returned
+	value accordingly.
+
+	config: Improve documentation of GVirConfigDomain::set_memory
+	Explicit the fact that it sets the maximum domain memory.
+
+	config: Allow NULL node name to gvir_config_object_set_content
+	This is useful when you want to set the content of the current node.
+
 2012-08-20  Daniel P. Berrange  <berrange@redhat.com>
+
+	Post release version bump
 
 	Update NEWS for 0.1.2 release
 

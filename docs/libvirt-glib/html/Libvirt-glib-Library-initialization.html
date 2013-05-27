@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Library initialization</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.77.1">
 <link rel="home" href="index.html" title="Libvirt GLib Reference Manual">
 <link rel="up" href="ch01.html" title="API Reference">
 <link rel="prev" href="ch01.html" title="API Reference">
@@ -46,9 +46,9 @@ Stable, unless otherwise indicated
 
 <span class="returnvalue">void</span>                <a class="link" href="Libvirt-glib-Library-initialization.html#gvir-init" title="gvir_init ()">gvir_init</a>                           (<em class="parameter"><code><span class="type">int</span> *argc</code></em>,
                                                          <em class="parameter"><code><span class="type">char</span> ***argv</code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="Libvirt-glib-Library-initialization.html#gvir-init-check" title="gvir_init_check ()">gvir_init_check</a>                     (<em class="parameter"><code><span class="type">int</span> *argc</code></em>,
+<span class="returnvalue">gboolean</span>            <a class="link" href="Libvirt-glib-Library-initialization.html#gvir-init-check" title="gvir_init_check ()">gvir_init_check</a>                     (<em class="parameter"><code><span class="type">int</span> *argc</code></em>,
                                                          <em class="parameter"><code><span class="type">char</span> ***argv</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
+                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
 </pre>
 </div>
 <div class="refsect1">
@@ -66,7 +66,7 @@ by calling <code class="code">gvir_init</code> or <code class="code">gvir_init_c
 <p>
 </p>
 <div class="example">
-<a name="id408801"></a><p class="title"><b>Example 1. Initializing the Libvirt GLib library</b></p>
+<a name="idp6819072"></a><p class="title"><b>Example 1. Initializing the Libvirt GLib library</b></p>
 <div class="example-contents">
   <table class="listing_frame" border="0" cellpadding="0" cellspacing="0">
     <tbody>
@@ -82,7 +82,7 @@ by calling <code class="code">gvir_init</code> or <code class="code">gvir_init_c
 <span class="normal">  </span><span class="symbol">...</span><span class="normal">setup</span><span class="symbol">...</span>
 <span class="normal">  </span><span class="function"><a href="Libvirt-glib-Library-initialization.html#gvir-init">gvir_init</a></span><span class="symbol">(&amp;</span><span class="normal">argc</span><span class="symbol">,</span><span class="normal"> </span><span class="symbol">&amp;</span><span class="normal">argv</span><span class="symbol">);</span>
 <span class="normal">  </span><span class="symbol">...</span><span class="usertype">more</span><span class="normal"> setup</span><span class="symbol">...</span>
-<span class="normal">  </span><span class="function"><a href="http://library.gnome.org/devel/gtk3/gtk-General.html#gtk-main">gtk_main</a></span><span class="symbol">();</span>
+<span class="normal">  </span><span class="function"><a href="http://library.gnome.org/devel/gtk3/gtk2-General.html#gtk-main">gtk_main</a></span><span class="symbol">();</span>
 <span class="normal">  </span><span class="keyword">return</span><span class="normal"> </span><span class="number">0</span><span class="symbol">;</span>
 <span class="cbracket">}</span></pre></td>
       </tr>
@@ -123,8 +123,11 @@ This function will terminate your program if it was unable to initialize
 for some reason. If you want the program to fall back to an alternate
 mode of operation call <code class="code">gvir_init_check</code> instead.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>argc</code></em> :</span></p></td>
@@ -136,7 +139,7 @@ if argv is NULL). This will be changed if any arguments were handled. <span clas
 <td><p><span class="term"><em class="parameter"><code>argv</code></em> :</span></p></td>
 <td>Address of the
 <em class="parameter"><code>argv</code></em> parameter of <code class="function">main()</code>, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>. Any options
-understood by GTK+ are stripped before return. <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> length=argc][<acronym title="Parameter for input and for returning results. Default is transfer full."><span class="acronym">inout</span></acronym>][<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span>
+understood by GTK+ are stripped before return. <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> length=argc][<acronym title="Parameter for input and for returning results. Default is transfer full."><span class="acronym">inout</span></acronym>][<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -145,20 +148,23 @@ understood by GTK+ are stripped before return. <span class="annotation">[<acrony
 <hr>
 <div class="refsect2">
 <a name="gvir-init-check"></a><h3>gvir_init_check ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gvir_init_check                     (<em class="parameter"><code><span class="type">int</span> *argc</code></em>,
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_init_check                     (<em class="parameter"><code><span class="type">int</span> *argc</code></em>,
                                                          <em class="parameter"><code><span class="type">char</span> ***argv</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
+                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
 <p>
 This function does the same work as <a class="link" href="Libvirt-glib-Library-initialization.html#gvir-init" title="gvir_init ()"><code class="function">gvir_init()</code></a> with only a single
 change: It does not terminate the program if the Libvirt GLib library
-can't be initialized. Instead it returns <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#FALSE:CAPS"><code class="literal">FALSE</code></a> on failure.
+can't be initialized. Instead it returns <code class="literal">FALSE</code> on failure.
 </p>
 <p>
 This way the application can fall back to some other mode of
 operation.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>argc</code></em> :</span></p></td>
@@ -170,7 +176,7 @@ if argv is NULL). This will be changed if any arguments were handled. <span clas
 <td><p><span class="term"><em class="parameter"><code>argv</code></em> :</span></p></td>
 <td>Address of the
 <em class="parameter"><code>argv</code></em> parameter of <code class="function">main()</code>, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>. Any options
-understood by GTK+ are stripped before return. <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> length=argc][<acronym title="Parameter for input and for returning results. Default is transfer full."><span class="acronym">inout</span></acronym>][<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span>
+understood by GTK+ are stripped before return. <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> length=argc][<acronym title="Parameter for input and for returning results. Default is transfer full."><span class="acronym">inout</span></acronym>][<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -180,8 +186,8 @@ understood by GTK+ are stripped before return. <span class="annotation">[<acrony
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the library was successfully initialized,
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#FALSE:CAPS"><code class="literal">FALSE</code></a> otherwise</td>
+<code class="literal">TRUE</code> if the library was successfully initialized,
+<code class="literal">FALSE</code> otherwise</td>
 </tr>
 </tbody>
 </table></div>
