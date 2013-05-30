@@ -1,3 +1,12 @@
+libvirt-glib (0.1.6-1) unstable; urgency=low
+
+  * Upload to unstable
+  * Acknowledge NMU, thanks Andreas!
+  * [decc6aa] Use vala >= 0.20 (Closes: #709717)
+  * [7f21934] Add gbp.conf
+
+ -- Guido Günther <agx@sigxcpu.org>  Thu, 30 May 2013 18:14:09 +0200
+
 libvirt-glib (0.1.6-0.1) experimental; urgency=low
 
   * Non-maintainer upload with maintainer approval.
