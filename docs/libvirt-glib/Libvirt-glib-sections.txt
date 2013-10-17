@@ -1,17 +1,12 @@
 <SECTION>
-<FILE>libvirt-glib</FILE>
-
-</SECTION>
-
-<SECTION>
 <FILE>libvirt-glib-error</FILE>
-gvir_critical
 gvir_error_new
 gvir_error_new_literal
 gvir_error_new_valist
 gvir_set_error
 gvir_set_error_literal
 gvir_set_error_valist
+gvir_critical
 gvir_warning
 </SECTION>
 

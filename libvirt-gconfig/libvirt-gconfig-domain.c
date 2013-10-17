@@ -188,11 +188,11 @@ static void gvir_config_domain_class_init(GVirConfigDomainClass *klass)
 }
 
 
-static void gvir_config_domain_init(GVirConfigDomain *conn)
+static void gvir_config_domain_init(GVirConfigDomain *domain)
 {
-    g_debug("Init GVirConfigDomain=%p", conn);
+    g_debug("Init GVirConfigDomain=%p", domain);
 
-    conn->priv = GVIR_CONFIG_DOMAIN_GET_PRIVATE(conn);
+    domain->priv = GVIR_CONFIG_DOMAIN_GET_PRIVATE(domain);
 }
 
 
@@ -414,6 +414,7 @@ void gvir_config_domain_set_memory(GVirConfigDomain *domain, guint64 memory)
     gvir_config_object_set_attribute(GVIR_CONFIG_OBJECT(node),
                                      "unit", "KiB",
                                      NULL);
+    g_object_unref(G_OBJECT(node));
     g_object_notify(G_OBJECT(domain), "memory");
 }
 
@@ -439,6 +440,7 @@ void gvir_config_domain_set_current_memory(GVirConfigDomain *domain,
     gvir_config_object_set_attribute(GVIR_CONFIG_OBJECT(node),
                                      "unit", "KiB",
                                      NULL);
+    g_object_unref(G_OBJECT(node));
     g_object_notify(G_OBJECT(domain), "current-memory");
 }
 

@@ -24,6 +24,7 @@
 
 #include "libvirt-gconfig/libvirt-gconfig.h"
 #include "libvirt-gconfig/libvirt-gconfig-private.h"
+#include "libvirt-gconfig/libvirt-gconfig-domain-chardev-source-private.h"
 
 #define GVIR_CONFIG_DOMAIN_CHARDEV_SOURCE_PTY_GET_PRIVATE(obj)                         \
         (G_TYPE_INSTANCE_GET_PRIVATE((obj), GVIR_CONFIG_TYPE_DOMAIN_CHARDEV_SOURCE_PTY, GVirConfigDomainChardevSourcePtyPrivate))
@@ -82,8 +83,21 @@ GVirConfigDomainChardevSourcePty *gvir_config_domain_chardev_source_pty_new_from
     return GVIR_CONFIG_DOMAIN_CHARDEV_SOURCE_PTY(object);
 }
 
-void gvir_config_domain_source_pty_set_path(GVirConfigDomainChardevSourcePty *pty,
-                                            const char *path)
+GVirConfigDomainChardevSource *
+gvir_config_domain_chardev_source_pty_new_from_tree(GVirConfigXmlDoc *doc,
+                                                    xmlNodePtr tree)
+{
+    GVirConfigObject *object;
+
+    object = gvir_config_object_new_from_tree(GVIR_CONFIG_TYPE_DOMAIN_CHARDEV_SOURCE_PTY,
+                                              doc, NULL, tree);
+
+    return GVIR_CONFIG_DOMAIN_CHARDEV_SOURCE(object);
+}
+
+
+void gvir_config_domain_chardev_source_pty_set_path(GVirConfigDomainChardevSourcePty *pty,
+                                                    const char *path)
 {
     g_return_if_fail(GVIR_CONFIG_IS_DOMAIN_CHARDEV_SOURCE_PTY(pty));
 
@@ -91,4 +105,13 @@ void gvir_config_domain_source_pty_set_path(GVirConfigDomainChardevSourcePty *pt
                                                     "source",
                                                     "path",
                                                     path);
+}
+
+
+const gchar * gvir_config_domain_chardev_source_pty_get_path(GVirConfigDomainChardevSourcePty *pty)
+{
+    g_return_val_if_fail(GVIR_CONFIG_IS_DOMAIN_CHARDEV_SOURCE_PTY(pty), NULL);
+
+    return gvir_config_object_get_attribute(GVIR_CONFIG_OBJECT(pty),
+                                            "source", "path");
 }

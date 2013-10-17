@@ -1,3 +1,178 @@
+2013-07-08  Daniel P. Berrange  <berrange@redhat.com>
+
+	Update NEWS for 0.1.7 release
+
+2013-07-04  Daniel P. Berrange  <berrange@redhat.com>
+
+	Add missing file from previous commit
+	The commit 35a310c62a8bf704aceb3a5b3ecce36c11525914 forgot
+	to add libvirt-gconfig/libvirt-gconfig-domain-chardev-source-private.h
+
+	Add API to access device alias names
+	Add gvir_config_domain_device_get_alias to read the
+	<alias name="foo"/> XML in each device.
+
+	Add APIs to access chardev source information
+	Enable apps to determine the current source path of a chardev
+	with a pty based source.
+
+	Fix name of gvir_config_domain_chardev_source_pty_set_path
+	The method gvir_config_domain_chardev_source_pty_set_path was
+	accidentally called gvir_config_domain_source_pty_set_path.
+	This naming flaw in turn caused the introspection data to
+	be incorrectly generated, putting a 'source_pty_set_path'
+	method on the GVirConfigDomain object.
+
+2013-06-07  Christophe Fergeau  <cfergeau@redhat.com>
+
+	gconfig: Add GVirConfigDomainSnapshot getters/setters
+
+	gconfig: Add GVirConfigDomainSnapshotDisk getters/setters
+
+	gconfig: Add GVirConfigDomainSnapshotDisk skeleton
+
+	gconfig: Add gvir_config_domain_disk_[gs]et_driver_format
+	libvirt commit
+	http://libvirt.org/git/?p=libvirt.git;a=commit;h=e2c41e486018ee74f6a75c1f717622
+	strongly hints that driver type for a disk domain should be an
+	enum rather than a raw string. Since we already have setters/getters
+	for this attribute, we can't use the same name as in the XML. However,
+	as Daniel Berrangé pointed out,
+	gvir_config_domain_disk_[gs]et_driver_format is a better name for this,
+	so we add the API accepting an enum under this name.
+
+	I did not set "Rename to: gvir_config_domain_disk_[gs]et_driver_format"
+	in a gtk-doc comment to force bindings to use this better version
+	as this would break Boxes for example.
+
+	gconfig: Add GVirConfigDomainDiskFormat enum
+
+	gconfig: Allow not found child in gvir_config_object_get_child_with_type
+	This will be useful when implementing gvir_domain_snapshot_get_parent()
+	as the child node 'parent' is not always present in the XML.
+
+2013-05-12  Christophe Fergeau  <cfergeau@redhat.com>
+
+	build-sys: s/INCLUDES/AM_CPPFLAGS
+	automake outputs a warning about AM_CPPFLAGS being the recommended
+	name to use for INCLUDES
+
+	glib: Add G_GNUC_PRINTF where appropriate
+	This is used to tell the compiler about printf-like format strings
+	used by some functions. Without this marking, gcc 4.8 is outputs
+	warnings to recommend using it.
+
+	Adjust examples for gvir_config_object_get_conf rename
+	It was renamed to gvir_config_object_to_xml() a long while ago.
+
+2013-05-02  Christophe Fergeau  <cfergeau@redhat.com>
+
+	object: Add "transfer none" annotation to argv parameter
+	This makes the parameter to be passed "unowned" in Vala. This was
+	previously done using a vala metadata file, but it's better to do
+	it directly through a gtk-doc annotation, as this means the gir
+	file will know about this, and thus any gir-based binding can
+	make use of this info.
+
+	This also makes libvirt-gobject consistent with what was done
+	for gconfig and glib in commit 431720.
+
+2013-05-01  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Rename misnamed 'conn' variable everywhere
+	Through copy and paste from libvirt-gobject-connection.c, we end
+	up with an instance variable named 'conn' in most of our classes
+	even if we are not manipulating a connection object. This commit
+	renames all 'conn' occurrences in libvirt-gobject and
+	libvirt-gconfig with a name more consistent with the type of the
+	variable named 'conn'.
+
+	gconfig: Fix gvir_config_domain_graphics_new_from_tree
+	It does not handle the recently added
+	GVirConfigDomainGraphicsRdp and GVirConfigDomainGraphicsDesktop
+	classes.
+
+2013-04-19  Daniel P. Berrange  <berrange@redhat.com>
+
+	Adopt saner libtool versioning scheme from libvirt
+	The current way libtool versioning is calculated has a timebomb
+	when the package version number changes to 1.0.0, which will
+	cause the library soname to change. Adapt to the latest libvirt
+	macros for libtool versioning, which use an explicit variable
+	LIBVIRT_GLIB_SONUM setting for changing soname.
+
+2013-04-16  Christophe Fergeau  <cfergeau@redhat.com>
+
+	Fix year in NEWS
+	We switched from 2012 to 2013!!
+
+2013-04-10  Daniel P. Berrange  <berrange@redhat.com>
+
+	Auto-generate AUTHORS file from GIT logs during make dist
+	Instead of manually keeping the AUTHORS file in sync with
+	GIT, auto-generate it during make dist phase
+
+	Add framework for i18n of error message strings
+
+2013-04-08  Daniel P. Berrange  <berrange@redhat.com>
+
+	Add printf/sentinel attribute annotations to helper functions
+	To allow the compiler to check args add G_GNUC_PRINTF and
+	G_GNUC_NULL_TERMINATED to libvirt-gconfig-helpers-private.h
+
+2013-04-03  Christophe Fergeau  <cfergeau@redhat.com>
+
+	gconfig: Add GvirConfigStoragePermission getters
+
+	gconfig: Add GvirConfigStoragePoolTarget getters
+
+	gconfig: Add GVirConfigStoragePoolSource getters
+
+	gconfig: Add GVirConfigStoragePool getters
+
+	gconfig: Add calls to [gs]et_virt_type to domain tests
+	Setting GVirConfigDomain::virt_type is required for a working
+	domain configuration, using it in the test programs will be helpful
+	if people are using this as a base when starting to use libvirt-gconfig
+
+	config: Add GVirConfigDomainChannel getters
+
+	config: Add GVirConfigDomainGraphicsDesktop class
+
+	config: Add GVirConfigDomainGraphicsRdp class
+
+	config: Add gvir_config_domain_graphics_sdl_set_fullscreen()
+
+	config: Fix 2 leaks in domain memory setters
+
+2013-04-03  Stefano Facchini  <stefano.facchini@gmail.com>
+
+	build: Replace obsolete macro in configure.ac
+	Fix the build for newer automake
+
+2013-04-02  Daniel P. Berrange  <berrange@redhat.com>
+
+	Disable static libraries by default
+	Every source file is currently built twice by libtool, once for
+	the shared library and once for the static library. Static libs
+	are not commonly packaged by distros and slow down compilation
+	time by more than 50% compared to a shared-only build time.
+
+	Time for non-parallel make
+
+	      shared only: 52 secs
+	  shared + static: 1 min 26 secs
+
+	Those few people who really want them, can pass --enable-static
+	to configure
+
+	Disabling them by default requires use of LT_INIT. We don't need
+	to support older libtool, so drop use of AM_PROG_LIBTOOL entirely
+
+2013-03-19  Daniel P. Berrange  <berrange@redhat.com>
+
+	Post release version bump
+
 2013-03-18  Daniel P. Berrange  <berrange@redhat.com>
 
 	Update NEWS for 0.1.6 release

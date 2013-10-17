@@ -3,6 +3,7 @@
 from gi.repository import LibvirtGConfig;
 
 domain = LibvirtGConfig.Domain.new()
+domain.set_virt_type(LibvirtGConfig.DomainVirtType.KVM)
 domain.set_name("foo")
 domain.set_memory(1024*1024) # 1 GB
 domain.set_vcpus(2)
@@ -27,7 +28,7 @@ disk.set_type(LibvirtGConfig.DomainDiskType.FILE)
 disk.set_guest_device_type(LibvirtGConfig.DomainDiskGuestDeviceType.DISK)
 disk.set_source("/tmp/foo/bar")
 disk.set_driver_name("qemu")
-disk.set_driver_type("qcow2")
+disk.set_driver_format(LibvirtGConfig.DriverType.QCOW2)
 disk.set_target_bus(LibvirtGConfig.DomainDiskBus.IDE)
 disk.set_target_dev("hda")
 domain.add_device(disk)

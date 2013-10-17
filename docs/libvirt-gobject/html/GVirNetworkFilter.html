@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>GVirNetworkFilter</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.77.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
 <link rel="home" href="index.html" title="Libvirt-gobject Reference Manual">
 <link rel="up" href="ch01.html" title="Libvirt-gobject">
 <link rel="prev" href="GVirManager.html" title="GVirManager">
 <link rel="next" href="GVirNetwork.html" title="GVirNetwork">
-<meta name="generator" content="GTK-Doc V1.18 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.19 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -43,12 +43,12 @@
 <a name="GVirNetworkFilter.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">struct              <a class="link" href="GVirNetworkFilter.html#GVirNetworkFilter-struct" title="struct GVirNetworkFilter">GVirNetworkFilter</a>;
 struct              <a class="link" href="GVirNetworkFilter.html#GVirNetworkFilterClass" title="struct GVirNetworkFilterClass">GVirNetworkFilterClass</a>;
+const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirNetworkFilter.html#gvir-network-filter-get-name" title="gvir_network_filter_get_name ()">gvir_network_filter_get_name</a>        (<em class="parameter"><code><a class="link" href="GVirNetworkFilter.html" title="GVirNetworkFilter"><span class="type">GVirNetworkFilter</span></a> *filter</code></em>);
+const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirNetworkFilter.html#gvir-network-filter-get-uuid" title="gvir_network_filter_get_uuid ()">gvir_network_filter_get_uuid</a>        (<em class="parameter"><code><a class="link" href="GVirNetworkFilter.html" title="GVirNetworkFilter"><span class="type">GVirNetworkFilter</span></a> *filter</code></em>);
 <a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigNetworkFilter.html"><span class="returnvalue">GVirConfigNetworkFilter</span></a> * <a class="link" href="GVirNetworkFilter.html#gvir-network-filter-get-config" title="gvir_network_filter_get_config ()">gvir_network_filter_get_config</a>
                                                         (<em class="parameter"><code><a class="link" href="GVirNetworkFilter.html" title="GVirNetworkFilter"><span class="type">GVirNetworkFilter</span></a> *filter</code></em>,
                                                          <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
                                                          <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
-const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirNetworkFilter.html#gvir-network-filter-get-name" title="gvir_network_filter_get_name ()">gvir_network_filter_get_name</a>        (<em class="parameter"><code><a class="link" href="GVirNetworkFilter.html" title="GVirNetworkFilter"><span class="type">GVirNetworkFilter</span></a> *filter</code></em>);
-const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirNetworkFilter.html#gvir-network-filter-get-uuid" title="gvir_network_filter_get_uuid ()">gvir_network_filter_get_uuid</a>        (<em class="parameter"><code><a class="link" href="GVirNetworkFilter.html" title="GVirNetworkFilter"><span class="type">GVirNetworkFilter</span></a> *filter</code></em>);
 </pre>
 </div>
 <div class="refsect1">
@@ -85,6 +85,16 @@ const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirN
 </div>
 <hr>
 <div class="refsect2">
+<a name="gvir-network-filter-get-name"></a><h3>gvir_network_filter_get_name ()</h3>
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *       gvir_network_filter_get_name        (<em class="parameter"><code><a class="link" href="GVirNetworkFilter.html" title="GVirNetworkFilter"><span class="type">GVirNetworkFilter</span></a> *filter</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-network-filter-get-uuid"></a><h3>gvir_network_filter_get_uuid ()</h3>
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *       gvir_network_filter_get_uuid        (<em class="parameter"><code><a class="link" href="GVirNetworkFilter.html" title="GVirNetworkFilter"><span class="type">GVirNetworkFilter</span></a> *filter</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
 <a name="gvir-network-filter-get-config"></a><h3>gvir_network_filter_get_config ()</h3>
 <pre class="programlisting"><a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigNetworkFilter.html"><span class="returnvalue">GVirConfigNetworkFilter</span></a> * gvir_network_filter_get_config
                                                         (<em class="parameter"><code><a class="link" href="GVirNetworkFilter.html" title="GVirNetworkFilter"><span class="type">GVirNetworkFilter</span></a> *filter</code></em>,
@@ -117,16 +127,6 @@ unreffed with <code class="function">g_object_unref()</code> when no longer need
 </tbody>
 </table></div>
 </div>
-<hr>
-<div class="refsect2">
-<a name="gvir-network-filter-get-name"></a><h3>gvir_network_filter_get_name ()</h3>
-<pre class="programlisting">const <span class="returnvalue">gchar</span> *       gvir_network_filter_get_name        (<em class="parameter"><code><a class="link" href="GVirNetworkFilter.html" title="GVirNetworkFilter"><span class="type">GVirNetworkFilter</span></a> *filter</code></em>);</pre>
-</div>
-<hr>
-<div class="refsect2">
-<a name="gvir-network-filter-get-uuid"></a><h3>gvir_network_filter_get_uuid ()</h3>
-<pre class="programlisting">const <span class="returnvalue">gchar</span> *       gvir_network_filter_get_uuid        (<em class="parameter"><code><a class="link" href="GVirNetworkFilter.html" title="GVirNetworkFilter"><span class="type">GVirNetworkFilter</span></a> *filter</code></em>);</pre>
-</div>
 </div>
 <div class="refsect1">
 <a name="GVirNetworkFilter.property-details"></a><h2>Property Details</h2>
@@ -139,6 +139,6 @@ unreffed with <code class="function">g_object_unref()</code> when no longer need
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.18</div>
+          Generated by GTK-Doc V1.19</div>
 </body>
 </html>

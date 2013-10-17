@@ -10,13 +10,13 @@
 <ANCHOR id="Libvirt-glib-Error-reporting.synopsis" href="Libvirt-glib/Libvirt-glib-Error-reporting.html#Libvirt-glib-Error-reporting.synopsis">
 <ANCHOR id="Libvirt-glib-Error-reporting.description" href="Libvirt-glib/Libvirt-glib-Error-reporting.html#Libvirt-glib-Error-reporting.description">
 <ANCHOR id="Libvirt-glib-Error-reporting.details" href="Libvirt-glib/Libvirt-glib-Error-reporting.html#Libvirt-glib-Error-reporting.details">
-<ANCHOR id="gvir-critical" href="Libvirt-glib/Libvirt-glib-Error-reporting.html#gvir-critical">
 <ANCHOR id="gvir-error-new" href="Libvirt-glib/Libvirt-glib-Error-reporting.html#gvir-error-new">
 <ANCHOR id="gvir-error-new-literal" href="Libvirt-glib/Libvirt-glib-Error-reporting.html#gvir-error-new-literal">
 <ANCHOR id="gvir-error-new-valist" href="Libvirt-glib/Libvirt-glib-Error-reporting.html#gvir-error-new-valist">
 <ANCHOR id="gvir-set-error" href="Libvirt-glib/Libvirt-glib-Error-reporting.html#gvir-set-error">
 <ANCHOR id="gvir-set-error-literal" href="Libvirt-glib/Libvirt-glib-Error-reporting.html#gvir-set-error-literal">
 <ANCHOR id="gvir-set-error-valist" href="Libvirt-glib/Libvirt-glib-Error-reporting.html#gvir-set-error-valist">
+<ANCHOR id="gvir-critical" href="Libvirt-glib/Libvirt-glib-Error-reporting.html#gvir-critical">
 <ANCHOR id="gvir-warning" href="Libvirt-glib/Libvirt-glib-Error-reporting.html#gvir-warning">
 <ANCHOR id="Libvirt-glib-Event-loop" href="Libvirt-glib/Libvirt-glib-Event-loop.html">
 <ANCHOR id="Libvirt-glib-Event-loop.stability-level" href="Libvirt-glib/Libvirt-glib-Event-loop.html#Libvirt-glib-Event-loop.stability-level">
