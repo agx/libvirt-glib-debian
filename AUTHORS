@@ -10,12 +10,17 @@ The primary maintainers of libvirt-glib are:
 
 Patches have been received from:
 
-   Guido Günther <agx@sigxcpu.org>
-   Nirbheek Chauhan <nirbheek@gentoo.org>
-   Michal Privoznik <mprivozn@redhat.com>
-   Jovanka Gulicoska <jovanka.gulicoska@gmail.com>
-   Timo Juhani Lindfors <timo.lindfors@iki.fi>
-   Alexander Larsson <alexl@redhat.com>
-   Claudio Bley <cbley@av-test.de>
+Alexander Larsson <alexl@redhat.com>
+Christophe Fergeau <cfergeau@redhat.com>
+Claudio Bley <cbley@av-test.de>
+Daniel P. Berrange <berrange@redhat.com>
+Guido Günther <agx@sigxcpu.org>
+Jovanka Gulicoska <jovanka.gulicoska@gmail.com>
+Marc-André Lureau <marcandre.lureau@redhat.com>
+Michal Privoznik <mprivozn@redhat.com>
+Nirbheek Chauhan <nirbheek@gentoo.org>
+Stefano Facchini <stefano.facchini@gmail.com>
+Timo Juhani Lindfors <timo.lindfors@iki.fi>
+Zeeshan Ali (Khattak) <zeeshanak@gnome.org>
 
    ... send patches to get your name added ...

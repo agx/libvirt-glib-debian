@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>GVirConfigObject</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.77.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
 <link rel="home" href="index.html" title="Libvirt-gconfig Reference Manual">
 <link rel="up" href="ch01.html" title="Libvirt-gconfig">
 <link rel="prev" href="ch01.html" title="Libvirt-gconfig">
 <link rel="next" href="GVirConfigDomain.html" title="GVirConfigDomain">
-<meta name="generator" content="GTK-Doc V1.18 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.19 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -43,7 +43,6 @@
 <a name="GVirConfigObject.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">struct              <a class="link" href="GVirConfigObject.html#GVirConfigObject-struct" title="struct GVirConfigObject">GVirConfigObject</a>;
 struct              <a class="link" href="GVirConfigObject.html#GVirConfigObjectClass" title="struct GVirConfigObjectClass">GVirConfigObjectClass</a>;
-const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirConfigObject.html#gvir-config-object-get-schema" title="gvir_config_object_get_schema ()">gvir_config_object_get_schema</a>       (<em class="parameter"><code><a class="link" href="GVirConfigObject.html" title="GVirConfigObject"><span class="type">GVirConfigObject</span></a> *config</code></em>);
 <a class="link" href="GVirConfigObject.html" title="GVirConfigObject"><span class="returnvalue">GVirConfigObject</span></a> *  <a class="link" href="GVirConfigObject.html#gvir-config-object-new" title="gvir_config_object_new ()">gvir_config_object_new</a>              (<em class="parameter"><code><span class="type">GType</span> type</code></em>,
                                                          <em class="parameter"><code>const <span class="type">char</span> *root_name</code></em>,
                                                          <em class="parameter"><code>const <span class="type">char</span> *schema</code></em>);
@@ -52,9 +51,10 @@ const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirC
                                                          <em class="parameter"><code>const <span class="type">char</span> *schema</code></em>,
                                                          <em class="parameter"><code>const <span class="type">gchar</span> *xml</code></em>,
                                                          <em class="parameter"><code><span class="type">GError</span> **error</code></em>);
-<span class="returnvalue">gchar</span> *             <a class="link" href="GVirConfigObject.html#gvir-config-object-to-xml" title="gvir_config_object_to_xml ()">gvir_config_object_to_xml</a>           (<em class="parameter"><code><a class="link" href="GVirConfigObject.html" title="GVirConfigObject"><span class="type">GVirConfigObject</span></a> *config</code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="GVirConfigObject.html#gvir-config-object-validate" title="gvir_config_object_validate ()">gvir_config_object_validate</a>         (<em class="parameter"><code><a class="link" href="GVirConfigObject.html" title="GVirConfigObject"><span class="type">GVirConfigObject</span></a> *config</code></em>,
                                                          <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
+<span class="returnvalue">gchar</span> *             <a class="link" href="GVirConfigObject.html#gvir-config-object-to-xml" title="gvir_config_object_to_xml ()">gvir_config_object_to_xml</a>           (<em class="parameter"><code><a class="link" href="GVirConfigObject.html" title="GVirConfigObject"><span class="type">GVirConfigObject</span></a> *config</code></em>);
+const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirConfigObject.html#gvir-config-object-get-schema" title="gvir_config_object_get_schema ()">gvir_config_object_get_schema</a>       (<em class="parameter"><code><a class="link" href="GVirConfigObject.html" title="GVirConfigObject"><span class="type">GVirConfigObject</span></a> *config</code></em>);
 </pre>
 </div>
 <div class="refsect1">
@@ -79,9 +79,10 @@ const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirC
          +----GVirConfigDomainOs
          +----GVirConfigDomainPowerManagement
          +----GVirConfigDomainSeclabel
+         +----GVirConfigDomainSnapshotDisk
          +----<a class="link" href="GVirConfigDomainSnapshot.html" title="GVirConfigDomainSnapshot">GVirConfigDomainSnapshot</a>
          +----GVirConfigDomainTimer
-         +----<a class="link" href="GVirConfigInterface.html" title="GVirConfigInterface">GVirConfigInterface</a>
+         +----<a class="link" href="Libvirt-gconfig-GVirConfig.html#GVirConfigInterface">GVirConfigInterface</a>
          +----<a class="link" href="GVirConfigNetworkFilter.html" title="GVirConfigNetworkFilter">GVirConfigNetworkFilter</a>
          +----<a class="link" href="GVirConfigNetwork.html" title="GVirConfigNetwork">GVirConfigNetwork</a>
          +----<a class="link" href="GVirConfigNodeDevice.html" title="GVirConfigNodeDevice">GVirConfigNodeDevice</a>
@@ -124,11 +125,6 @@ const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirC
 </div>
 <hr>
 <div class="refsect2">
-<a name="gvir-config-object-get-schema"></a><h3>gvir_config_object_get_schema ()</h3>
-<pre class="programlisting">const <span class="returnvalue">gchar</span> *       gvir_config_object_get_schema       (<em class="parameter"><code><a class="link" href="GVirConfigObject.html" title="GVirConfigObject"><span class="type">GVirConfigObject</span></a> *config</code></em>);</pre>
-</div>
-<hr>
-<div class="refsect2">
 <a name="gvir-config-object-new"></a><h3>gvir_config_object_new ()</h3>
 <pre class="programlisting"><a class="link" href="GVirConfigObject.html" title="GVirConfigObject"><span class="returnvalue">GVirConfigObject</span></a> *  gvir_config_object_new              (<em class="parameter"><code><span class="type">GType</span> type</code></em>,
                                                          <em class="parameter"><code>const <span class="type">char</span> *root_name</code></em>,
@@ -145,14 +141,19 @@ const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirC
 </div>
 <hr>
 <div class="refsect2">
+<a name="gvir-config-object-validate"></a><h3>gvir_config_object_validate ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gvir_config_object_validate         (<em class="parameter"><code><a class="link" href="GVirConfigObject.html" title="GVirConfigObject"><span class="type">GVirConfigObject</span></a> *config</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
 <a name="gvir-config-object-to-xml"></a><h3>gvir_config_object_to_xml ()</h3>
 <pre class="programlisting"><span class="returnvalue">gchar</span> *             gvir_config_object_to_xml           (<em class="parameter"><code><a class="link" href="GVirConfigObject.html" title="GVirConfigObject"><span class="type">GVirConfigObject</span></a> *config</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
-<a name="gvir-config-object-validate"></a><h3>gvir_config_object_validate ()</h3>
-<pre class="programlisting"><span class="returnvalue">void</span>                gvir_config_object_validate         (<em class="parameter"><code><a class="link" href="GVirConfigObject.html" title="GVirConfigObject"><span class="type">GVirConfigObject</span></a> *config</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
+<a name="gvir-config-object-get-schema"></a><h3>gvir_config_object_get_schema ()</h3>
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *       gvir_config_object_get_schema       (<em class="parameter"><code><a class="link" href="GVirConfigObject.html" title="GVirConfigObject"><span class="type">GVirConfigObject</span></a> *config</code></em>);</pre>
 </div>
 </div>
 <div class="refsect1">
@@ -179,6 +180,6 @@ const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirC
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.18</div>
+          Generated by GTK-Doc V1.19</div>
 </body>
 </html>

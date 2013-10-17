@@ -111,6 +111,9 @@ int main(int argc, char **argv)
 
     domain = gvir_config_domain_new();
     g_assert(domain != NULL);
+
+    gvir_config_domain_set_virt_type(domain, GVIR_CONFIG_DOMAIN_VIRT_KVM);
+    g_assert(gvir_config_domain_get_virt_type(domain) == GVIR_CONFIG_DOMAIN_VIRT_KVM);
     gvir_config_domain_set_name(domain, "foo");
     g_str_const_check(gvir_config_domain_get_name(domain), "foo");
 
@@ -237,10 +240,10 @@ int main(int argc, char **argv)
     gvir_config_domain_disk_set_source(disk, "/tmp/foo/bar");
     gvir_config_domain_disk_set_startup_policy (disk, GVIR_CONFIG_DOMAIN_DISK_STARTUP_POLICY_REQUISITE);
     gvir_config_domain_disk_set_driver_name(disk, "foo");
-    gvir_config_domain_disk_set_driver_type(disk, "bar");
+    gvir_config_domain_disk_set_driver_format(disk, GVIR_CONFIG_DOMAIN_DISK_FORMAT_BOCHS);
     gvir_config_domain_disk_set_driver_name(disk, "qemu");
     gvir_config_domain_disk_set_driver_cache(disk, GVIR_CONFIG_DOMAIN_DISK_CACHE_NONE);
-    gvir_config_domain_disk_set_driver_type(disk, "qcow2");
+    gvir_config_domain_disk_set_driver_format(disk, GVIR_CONFIG_DOMAIN_DISK_FORMAT_QCOW2);
     gvir_config_domain_disk_set_target_bus(disk, GVIR_CONFIG_DOMAIN_DISK_BUS_IDE);
     gvir_config_domain_disk_set_target_dev(disk, "hda");
     devices = g_list_append(devices, GVIR_CONFIG_DOMAIN_DEVICE(disk));
@@ -251,7 +254,7 @@ int main(int argc, char **argv)
     g_str_const_check(gvir_config_domain_disk_get_source(disk), "/tmp/foo/bar");
     g_assert(gvir_config_domain_disk_get_driver_cache(disk) == GVIR_CONFIG_DOMAIN_DISK_CACHE_NONE);
     g_str_const_check(gvir_config_domain_disk_get_driver_name(disk), "qemu");
-    g_str_const_check(gvir_config_domain_disk_get_driver_type(disk), "qcow2");
+    g_assert(gvir_config_domain_disk_get_driver_format(disk) == GVIR_CONFIG_DOMAIN_DISK_FORMAT_QCOW2);
     g_assert(gvir_config_domain_disk_get_target_bus(disk) == GVIR_CONFIG_DOMAIN_DISK_BUS_IDE);
     g_str_const_check(gvir_config_domain_disk_get_target_dev(disk), "hda");
 
@@ -402,6 +405,9 @@ int main(int argc, char **argv)
     gvir_config_storage_pool_source_set_directory(pool_source, "/foo/bar");
     gvir_config_storage_pool_set_source(pool, pool_source);
     g_object_unref(G_OBJECT(pool_source));
+    pool_source = gvir_config_storage_pool_get_source(pool);
+    g_str_const_check(gvir_config_storage_pool_source_get_directory(pool_source), "/foo/bar");
+    g_object_unref(G_OBJECT(pool_source));
 
     perms = gvir_config_storage_permissions_new();
     gvir_config_storage_permissions_set_owner(perms, 1001);
@@ -415,6 +421,16 @@ int main(int argc, char **argv)
     g_object_unref(G_OBJECT(perms));
     gvir_config_storage_pool_set_target(pool, pool_target);
     g_object_unref(G_OBJECT(pool_target));
+
+    pool_target = gvir_config_storage_pool_get_target(pool);
+    g_str_const_check(gvir_config_storage_pool_target_get_path(pool_target), "/dev/disk/by-path");
+    perms = gvir_config_storage_pool_target_get_permissions(pool_target);
+    g_object_unref(G_OBJECT(pool_target));
+    g_assert(gvir_config_storage_permissions_get_owner(perms) == 1001);
+    g_assert(gvir_config_storage_permissions_get_group(perms) == 1007);
+    g_assert(gvir_config_storage_permissions_get_mode(perms) == 0744);
+    g_str_const_check(gvir_config_storage_permissions_get_label(perms), "virt_image_t");
+    g_object_unref(G_OBJECT(perms));
 
     xml = gvir_config_object_to_xml(GVIR_CONFIG_OBJECT(pool));
     g_print("%s\n\n", xml);

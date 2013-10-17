@@ -21,7 +21,7 @@
 %define libvirt_version 0.10.2
 
 Name: libvirt-glib
-Version: 0.1.6
+Version: 0.1.7
 Release: 1%{?dist}%{?extra_release}
 Summary: libvirt glib integration for events
 Group: Development/Libraries

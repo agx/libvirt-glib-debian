@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Error reporting</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.77.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
 <link rel="home" href="index.html" title="Libvirt GLib Reference Manual">
 <link rel="up" href="ch01.html" title="API Reference">
 <link rel="prev" href="Libvirt-glib-Library-initialization.html" title="Library initialization">
 <link rel="next" href="Libvirt-glib-Event-loop.html" title="Event loop">
-<meta name="generator" content="GTK-Doc V1.18 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.19 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -44,8 +44,6 @@ Stable, unless otherwise indicated
 <pre class="synopsis">
 #include &lt;libvirt-glib/libvirt-glib.h&gt;
 
-<span class="returnvalue">void</span>                <a class="link" href="Libvirt-glib-Error-reporting.html#gvir-critical" title="gvir_critical ()">gvir_critical</a>                       (<em class="parameter"><code>const <span class="type">gchar</span> *format</code></em>,
-                                                         <em class="parameter"><code>...</code></em>);
 <span class="returnvalue">GError</span> *            <a class="link" href="Libvirt-glib-Error-reporting.html#gvir-error-new" title="gvir_error_new ()">gvir_error_new</a>                      (<em class="parameter"><code><span class="type">GQuark</span> domain</code></em>,
                                                          <em class="parameter"><code><span class="type">gint</span> code</code></em>,
                                                          <em class="parameter"><code>const <span class="type">gchar</span> *format</code></em>,
@@ -71,6 +69,8 @@ Stable, unless otherwise indicated
                                                          <em class="parameter"><code><span class="type">gint</span> code</code></em>,
                                                          <em class="parameter"><code>const <span class="type">gchar</span> *format</code></em>,
                                                          <em class="parameter"><code><span class="type">va_list</span> args</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="Libvirt-glib-Error-reporting.html#gvir-critical" title="gvir_critical ()">gvir_critical</a>                       (<em class="parameter"><code>const <span class="type">gchar</span> *format</code></em>,
+                                                         <em class="parameter"><code>...</code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="Libvirt-glib-Error-reporting.html#gvir-warning" title="gvir_warning ()">gvir_warning</a>                        (<em class="parameter"><code>const <span class="type">gchar</span> *format</code></em>,
                                                          <em class="parameter"><code>...</code></em>);
 </pre>
@@ -98,7 +98,7 @@ points to a non-NULL location.
 <p>
 </p>
 <div class="example">
-<a name="idp9567232"></a><p class="title"><b>Example 2. Reporting GLib errors with libvirt APIs</b></p>
+<a name="id-1.2.3.5.4.1"></a><p class="title"><b>Example 2. Reporting GLib errors with libvirt APIs</b></p>
 <div class="example-contents">
   <table class="listing_frame" border="0" cellpadding="0" cellspacing="0">
     <tbody>
@@ -132,12 +132,6 @@ points to a non-NULL location.
 </div>
 <div class="refsect1">
 <a name="Libvirt-glib-Error-reporting.details"></a><h2>Details</h2>
-<div class="refsect2">
-<a name="gvir-critical"></a><h3>gvir_critical ()</h3>
-<pre class="programlisting"><span class="returnvalue">void</span>                gvir_critical                       (<em class="parameter"><code>const <span class="type">gchar</span> *format</code></em>,
-                                                         <em class="parameter"><code>...</code></em>);</pre>
-</div>
-<hr>
 <div class="refsect2">
 <a name="gvir-error-new"></a><h3>gvir_error_new ()</h3>
 <pre class="programlisting"><span class="returnvalue">GError</span> *            gvir_error_new                      (<em class="parameter"><code><span class="type">GQuark</span> domain</code></em>,
@@ -387,6 +381,12 @@ in <em class="parameter"><code>error</code></em>.
 </div>
 <hr>
 <div class="refsect2">
+<a name="gvir-critical"></a><h3>gvir_critical ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gvir_critical                       (<em class="parameter"><code>const <span class="type">gchar</span> *format</code></em>,
+                                                         <em class="parameter"><code>...</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
 <a name="gvir-warning"></a><h3>gvir_warning ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                gvir_warning                        (<em class="parameter"><code>const <span class="type">gchar</span> *format</code></em>,
                                                          <em class="parameter"><code>...</code></em>);</pre>
@@ -395,6 +395,6 @@ in <em class="parameter"><code>error</code></em>.
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.18</div>
+          Generated by GTK-Doc V1.19</div>
 </body>
 </html>

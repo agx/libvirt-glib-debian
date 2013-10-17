@@ -39,6 +39,8 @@ GCONFIG_HEADER_FILES = \
 			libvirt-gconfig-domain-disk.h \
 			libvirt-gconfig-domain-filesys.h \
 			libvirt-gconfig-domain-graphics.h \
+			libvirt-gconfig-domain-graphics-desktop.h \
+			libvirt-gconfig-domain-graphics-rdp.h \
 			libvirt-gconfig-domain-graphics-sdl.h \
 			libvirt-gconfig-domain-graphics-spice.h \
 			libvirt-gconfig-domain-graphics-vnc.h \
@@ -59,6 +61,7 @@ GCONFIG_HEADER_FILES = \
 			libvirt-gconfig-domain-smartcard-host-certificates.h \
 			libvirt-gconfig-domain-smartcard-passthrough.h \
 			libvirt-gconfig-domain-snapshot.h \
+			libvirt-gconfig-domain-snapshot-disk.h \
 			libvirt-gconfig-domain-sound.h \
 			libvirt-gconfig-domain-timer.h \
 			libvirt-gconfig-domain-timer-pit.h \
@@ -81,7 +84,9 @@ noinst_HEADERS = \
 			libvirt-gconfig-private.h \
 			libvirt-gconfig-capabilities-cpu-private.h \
 			libvirt-gconfig-compat.h \
+			libvirt-gconfig-domain-chardev-source-private.h \
 			libvirt-gconfig-domain-device-private.h \
+			libvirt-gconfig-domain-snapshot-private.h \
 			libvirt-gconfig-helpers-private.h \
 			libvirt-gconfig-object-private.h \
 			libvirt-gconfig-xml-doc.h
@@ -116,6 +121,8 @@ GCONFIG_SOURCE_FILES = \
 			libvirt-gconfig-domain-disk.c \
 			libvirt-gconfig-domain-filesys.c \
 			libvirt-gconfig-domain-graphics.c \
+			libvirt-gconfig-domain-graphics-desktop.c \
+			libvirt-gconfig-domain-graphics-rdp.c \
 			libvirt-gconfig-domain-graphics-sdl.c \
 			libvirt-gconfig-domain-graphics-spice.c \
 			libvirt-gconfig-domain-graphics-vnc.c \
@@ -136,6 +143,7 @@ GCONFIG_SOURCE_FILES = \
 			libvirt-gconfig-domain-smartcard-host-certificates.c \
 			libvirt-gconfig-domain-smartcard-passthrough.c \
 			libvirt-gconfig-domain-snapshot.c \
+			libvirt-gconfig-domain-snapshot-disk.c \
 			libvirt-gconfig-domain-sound.c \
 			libvirt-gconfig-domain-timer.c \
 			libvirt-gconfig-domain-timer-pit.c \

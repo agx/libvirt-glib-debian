@@ -7,6 +7,9 @@
      #endif
     
 
+/* GETTEXT package name */
+#undef GETTEXT_PACKAGE
+
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #undef HAVE_DLFCN_H
 

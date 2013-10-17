@@ -66,7 +66,7 @@ LIBVIRT_GCONFIG_0.0.8 {
 	gvir_config_domain_chardev_source_pty_get_type;
 	gvir_config_domain_chardev_source_pty_new;
 	gvir_config_domain_chardev_source_pty_new_from_xml;
-	gvir_config_domain_source_pty_set_path;
+	gvir_config_domain_chardev_source_pty_set_path;
 
 	gvir_config_domain_chardev_source_spicevmc_get_type;
 	gvir_config_domain_chardev_source_spicevmc_new;
@@ -511,5 +511,92 @@ LIBVIRT_GCONFIG_0.1.6 {
 
 	gvir_config_domain_graphics_spice_image_compression_get_type;
 } LIBVIRT_GCONFIG_0.1.5;
+
+LIBVIRT_GCONFIG_0.1.7 {
+  global:
+	gvir_config_domain_channel_get_target_name;
+	gvir_config_domain_channel_get_target_type;
+
+	gvir_config_domain_disk_format_get_type;
+	gvir_config_domain_disk_get_driver_format;
+	gvir_config_domain_disk_set_driver_format;
+
+	gvir_config_domain_graphics_desktop_get_type;
+	gvir_config_domain_graphics_desktop_new;
+	gvir_config_domain_graphics_desktop_new_from_xml;
+	gvir_config_domain_graphics_desktop_set_display;
+	gvir_config_domain_graphics_desktop_set_fullscreen;
+
+	gvir_config_domain_graphics_sdl_set_fullscreen;
+
+	gvir_config_domain_graphics_rdp_get_type;
+	gvir_config_domain_graphics_rdp_new;
+	gvir_config_domain_graphics_rdp_new_from_xml;
+	gvir_config_domain_graphics_rdp_set_autoport;
+	gvir_config_domain_graphics_rdp_get_port;
+	gvir_config_domain_graphics_rdp_set_port;
+
+	gvir_config_storage_permissions_get_group;
+	gvir_config_storage_permissions_get_label;
+	gvir_config_storage_permissions_get_mode;
+	gvir_config_storage_permissions_get_owner;
+
+	gvir_config_storage_pool_get_allocation;
+	gvir_config_storage_pool_get_available;
+	gvir_config_storage_pool_get_capacity;
+	gvir_config_storage_pool_get_name;
+	gvir_config_storage_pool_get_pool_type;
+	gvir_config_storage_pool_get_source;
+	gvir_config_storage_pool_get_target;
+	gvir_config_storage_pool_get_uuid;
+
+	gvir_config_storage_pool_source_get_adapter;
+	gvir_config_storage_pool_source_get_device_path;
+	gvir_config_storage_pool_source_get_directory;
+	gvir_config_storage_pool_source_get_format;
+	gvir_config_storage_pool_source_get_host;
+	gvir_config_storage_pool_source_get_name;
+	gvir_config_storage_pool_source_get_product;
+	gvir_config_storage_pool_source_get_vendor;
+
+	gvir_config_storage_pool_target_get_path;
+	gvir_config_storage_pool_target_get_permissions;
+
+	gvir_config_domain_snapshot_domain_state_get_type;
+	gvir_config_domain_snapshot_memory_state_get_type;
+	gvir_config_domain_snapshot_get_creation_time;
+	gvir_config_domain_snapshot_get_description;
+	gvir_config_domain_snapshot_set_description;
+	gvir_config_domain_snapshot_get_domain;
+	gvir_config_domain_snapshot_get_memory_state;
+	gvir_config_domain_snapshot_set_memory_state;
+	gvir_config_domain_snapshot_get_memory_file;
+	gvir_config_domain_snapshot_set_memory_file;
+	gvir_config_domain_snapshot_get_name;
+	gvir_config_domain_snapshot_set_name;
+	gvir_config_domain_snapshot_get_parent;
+	gvir_config_domain_snapshot_get_state;
+	gvir_config_domain_snapshot_get_disks;
+	gvir_config_domain_snapshot_add_disk;
+	gvir_config_domain_snapshot_set_disks;
+
+	gvir_config_domain_snapshot_disk_get_type;
+	gvir_config_domain_snapshot_disk_new;
+	gvir_config_domain_snapshot_disk_new_from_xml;
+
+	gvir_config_domain_snapshot_disk_get_driver_format;
+	gvir_config_domain_snapshot_disk_set_driver_format;
+	gvir_config_domain_snapshot_disk_get_name;
+	gvir_config_domain_snapshot_disk_set_name;
+	gvir_config_domain_snapshot_disk_get_snapshot_type;
+	gvir_config_domain_snapshot_disk_set_snapshot_type;
+	gvir_config_domain_snapshot_disk_get_source_file;
+	gvir_config_domain_snapshot_disk_set_source_file;
+
+	gvir_config_domain_chardev_source_pty_get_path;
+	gvir_config_domain_chardev_get_source;
+
+	gvir_config_domain_device_get_alias;
+} LIBVIRT_GCONFIG_0.1.6;
 
 # .... define new API here using predicted next version number ....

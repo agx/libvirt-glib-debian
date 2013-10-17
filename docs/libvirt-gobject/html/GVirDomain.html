@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>GVirDomain</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.77.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
 <link rel="home" href="index.html" title="Libvirt-gobject Reference Manual">
 <link rel="up" href="ch01.html" title="Libvirt-gobject">
 <link rel="prev" href="GVirConnection.html" title="GVirConnection">
 <link rel="next" href="GVirDomainSnapshot.html" title="GVirDomainSnapshot">
-<meta name="generator" content="GTK-Doc V1.18 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.19 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -45,54 +45,29 @@
 <a name="GVirDomain.synopsis"></a><h2>Synopsis</h2>
 <a name="GVirDomainInfo"></a><pre class="synopsis">struct              <a class="link" href="GVirDomain.html#GVirDomain-struct" title="struct GVirDomain">GVirDomain</a>;
 struct              <a class="link" href="GVirDomain.html#GVirDomainClass" title="struct GVirDomainClass">GVirDomainClass</a>;
+enum                <a class="link" href="GVirDomain.html#GVirDomainState" title="enum GVirDomainState">GVirDomainState</a>;
+enum                <a class="link" href="GVirDomain.html#GVirDomainStartFlags" title="enum GVirDomainStartFlags">GVirDomainStartFlags</a>;
 enum                <a class="link" href="GVirDomain.html#GVirDomainDeleteFlags" title="enum GVirDomainDeleteFlags">GVirDomainDeleteFlags</a>;
-struct              <a class="link" href="GVirDomain.html#GVirDomainInfo-struct" title="struct GVirDomainInfo">GVirDomainInfo</a>;
-enum                <a class="link" href="GVirDomain.html#GVirDomainRebootFlags" title="enum GVirDomainRebootFlags">GVirDomainRebootFlags</a>;
+enum                <a class="link" href="GVirDomain.html#GVirDomainXMLFlags" title="enum GVirDomainXMLFlags">GVirDomainXMLFlags</a>;
 enum                <a class="link" href="GVirDomain.html#GVirDomainShutdownFlags" title="enum GVirDomainShutdownFlags">GVirDomainShutdownFlags</a>;
 enum                <a class="link" href="GVirDomain.html#GVirDomainSnapshotCreateFlags" title="enum GVirDomainSnapshotCreateFlags">GVirDomainSnapshotCreateFlags</a>;
-enum                <a class="link" href="GVirDomain.html#GVirDomainStartFlags" title="enum GVirDomainStartFlags">GVirDomainStartFlags</a>;
-enum                <a class="link" href="GVirDomain.html#GVirDomainState" title="enum GVirDomainState">GVirDomainState</a>;
 enum                <a class="link" href="GVirDomain.html#GVirDomainUpdateDeviceFlags" title="enum GVirDomainUpdateDeviceFlags">GVirDomainUpdateDeviceFlags</a>;
-enum                <a class="link" href="GVirDomain.html#GVirDomainXMLFlags" title="enum GVirDomainXMLFlags">GVirDomainXMLFlags</a>;
-<a class="link" href="GVirDomainSnapshot.html" title="GVirDomainSnapshot"><span class="returnvalue">GVirDomainSnapshot</span></a> * <a class="link" href="GVirDomain.html#gvir-domain-create-snapshot" title="gvir_domain_create_snapshot ()">gvir_domain_create_snapshot</a>        (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
-                                                         <em class="parameter"><code><a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigDomainSnapshot.html"><span class="type">GVirConfigDomainSnapshot</span></a> *custom_conf</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
-<span class="returnvalue">gboolean</span>            <a class="link" href="GVirDomain.html#gvir-domain-delete" title="gvir_domain_delete ()">gvir_domain_delete</a>                  (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
-<a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigDomain.html"><span class="returnvalue">GVirConfigDomain</span></a> *  <a class="link" href="GVirDomain.html#gvir-domain-get-config" title="gvir_domain_get_config ()">gvir_domain_get_config</a>              (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
-<span class="returnvalue">GList</span> *             <a class="link" href="GVirDomain.html#gvir-domain-get-devices" title="gvir_domain_get_devices ()">gvir_domain_get_devices</a>             (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *domain</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
+enum                <a class="link" href="GVirDomain.html#GVirDomainRebootFlags" title="enum GVirDomainRebootFlags">GVirDomainRebootFlags</a>;
+struct              <a class="link" href="GVirDomain.html#GVirDomainInfo-struct" title="struct GVirDomainInfo">GVirDomainInfo</a>;
+const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirDomain.html#gvir-domain-get-name" title="gvir_domain_get_name ()">gvir_domain_get_name</a>                (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>);
+const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirDomain.html#gvir-domain-get-uuid" title="gvir_domain_get_uuid ()">gvir_domain_get_uuid</a>                (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>);
 <span class="returnvalue">gint</span>                <a class="link" href="GVirDomain.html#gvir-domain-get-id" title="gvir_domain_get_id ()">gvir_domain_get_id</a>                  (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
                                                          <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
-<a class="link" href="GVirDomain.html#GVirDomainInfo"><span class="returnvalue">GVirDomainInfo</span></a> *    <a class="link" href="GVirDomain.html#gvir-domain-get-info" title="gvir_domain_get_info ()">gvir_domain_get_info</a>                (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+<span class="returnvalue">gboolean</span>            <a class="link" href="GVirDomain.html#gvir-domain-start" title="gvir_domain_start ()">gvir_domain_start</a>                   (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
                                                          <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
-<span class="returnvalue">void</span>                <a class="link" href="GVirDomain.html#gvir-domain-get-info-async" title="gvir_domain_get_info_async ()">gvir_domain_get_info_async</a>          (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+<span class="returnvalue">void</span>                <a class="link" href="GVirDomain.html#gvir-domain-start-async" title="gvir_domain_start_async ()">gvir_domain_start_async</a>             (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
                                                          <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
                                                          <em class="parameter"><code><span class="type">GAsyncReadyCallback</span> callback</code></em>,
                                                          <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);
-<a class="link" href="GVirDomain.html#GVirDomainInfo"><span class="returnvalue">GVirDomainInfo</span></a> *    <a class="link" href="GVirDomain.html#gvir-domain-get-info-finish" title="gvir_domain_get_info_finish ()">gvir_domain_get_info_finish</a>         (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+<span class="returnvalue">gboolean</span>            <a class="link" href="GVirDomain.html#gvir-domain-start-finish" title="gvir_domain_start_finish ()">gvir_domain_start_finish</a>            (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
                                                          <em class="parameter"><code><span class="type">GAsyncResult</span> *result</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
-const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirDomain.html#gvir-domain-get-name" title="gvir_domain_get_name ()">gvir_domain_get_name</a>                (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>);
-<span class="returnvalue">gboolean</span>            <a class="link" href="GVirDomain.html#gvir-domain-get-persistent" title="gvir_domain_get_persistent ()">gvir_domain_get_persistent</a>          (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>);
-<span class="returnvalue">gboolean</span>            <a class="link" href="GVirDomain.html#gvir-domain-get-saved" title="gvir_domain_get_saved ()">gvir_domain_get_saved</a>               (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>);
-const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirDomain.html#gvir-domain-get-uuid" title="gvir_domain_get_uuid ()">gvir_domain_get_uuid</a>                (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>);
-<span class="returnvalue">gboolean</span>            <a class="link" href="GVirDomain.html#gvir-domain-open-console" title="gvir_domain_open_console ()">gvir_domain_open_console</a>            (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
-                                                         <em class="parameter"><code>const <span class="type">gchar</span> *devname</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
-<span class="returnvalue">gboolean</span>            <a class="link" href="GVirDomain.html#gvir-domain-open-graphics" title="gvir_domain_open_graphics ()">gvir_domain_open_graphics</a>           (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint</span> idx</code></em>,
-                                                         <em class="parameter"><code><span class="type">int</span> fd</code></em>,
-                                                         <em class="parameter"><code>unsigned <span class="type">int</span> flags</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
-<span class="returnvalue">gboolean</span>            <a class="link" href="GVirDomain.html#gvir-domain-reboot" title="gvir_domain_reboot ()">gvir_domain_reboot</a>                  (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
                                                          <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
 <span class="returnvalue">gboolean</span>            <a class="link" href="GVirDomain.html#gvir-domain-resume" title="gvir_domain_resume ()">gvir_domain_resume</a>                  (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
                                                          <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
@@ -103,16 +78,28 @@ const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirD
 <span class="returnvalue">gboolean</span>            <a class="link" href="GVirDomain.html#gvir-domain-resume-finish" title="gvir_domain_resume_finish ()">gvir_domain_resume_finish</a>           (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
                                                          <em class="parameter"><code><span class="type">GAsyncResult</span> *result</code></em>,
                                                          <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
-<span class="returnvalue">gboolean</span>            <a class="link" href="GVirDomain.html#gvir-domain-save" title="gvir_domain_save ()">gvir_domain_save</a>                    (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
-                                                         <em class="parameter"><code>unsigned <span class="type">int</span> flags</code></em>,
+<span class="returnvalue">gboolean</span>            <a class="link" href="GVirDomain.html#gvir-domain-wakeup" title="gvir_domain_wakeup ()">gvir_domain_wakeup</a>                  (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
                                                          <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
-<span class="returnvalue">void</span>                <a class="link" href="GVirDomain.html#gvir-domain-save-async" title="gvir_domain_save_async ()">gvir_domain_save_async</a>              (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
-                                                         <em class="parameter"><code>unsigned <span class="type">int</span> flags</code></em>,
+<span class="returnvalue">void</span>                <a class="link" href="GVirDomain.html#gvir-domain-wakeup-async" title="gvir_domain_wakeup_async ()">gvir_domain_wakeup_async</a>            (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
                                                          <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
                                                          <em class="parameter"><code><span class="type">GAsyncReadyCallback</span> callback</code></em>,
                                                          <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);
-<span class="returnvalue">gboolean</span>            <a class="link" href="GVirDomain.html#gvir-domain-save-finish" title="gvir_domain_save_finish ()">gvir_domain_save_finish</a>             (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+<span class="returnvalue">gboolean</span>            <a class="link" href="GVirDomain.html#gvir-domain-wakeup-finish" title="gvir_domain_wakeup_finish ()">gvir_domain_wakeup_finish</a>           (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
                                                          <em class="parameter"><code><span class="type">GAsyncResult</span> *result</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="GVirDomain.html#gvir-domain-stop" title="gvir_domain_stop ()">gvir_domain_stop</a>                    (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="GVirDomain.html#gvir-domain-delete" title="gvir_domain_delete ()">gvir_domain_delete</a>                  (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="GVirDomain.html#gvir-domain-shutdown" title="gvir_domain_shutdown ()">gvir_domain_shutdown</a>                (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="GVirDomain.html#gvir-domain-reboot" title="gvir_domain_reboot ()">gvir_domain_reboot</a>                  (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
                                                          <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
 <span class="returnvalue">gboolean</span>            <a class="link" href="GVirDomain.html#gvir-domain-save-to-file" title="gvir_domain_save_to_file ()">gvir_domain_save_to_file</a>            (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
                                                          <em class="parameter"><code><span class="type">gchar</span> *filename</code></em>,
@@ -129,47 +116,60 @@ const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirD
 <span class="returnvalue">gboolean</span>            <a class="link" href="GVirDomain.html#gvir-domain-save-to-file-finish" title="gvir_domain_save_to_file_finish ()">gvir_domain_save_to_file_finish</a>     (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
                                                          <em class="parameter"><code><span class="type">GAsyncResult</span> *result</code></em>,
                                                          <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
-<span class="returnvalue">gchar</span> *             <a class="link" href="GVirDomain.html#gvir-domain-screenshot" title="gvir_domain_screenshot ()">gvir_domain_screenshot</a>              (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint</span> monitor_id</code></em>,
+<a class="link" href="GVirDomain.html#GVirDomainInfo"><span class="returnvalue">GVirDomainInfo</span></a> *    <a class="link" href="GVirDomain.html#gvir-domain-get-info" title="gvir_domain_get_info ()">gvir_domain_get_info</a>                (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="GVirDomain.html#gvir-domain-get-info-async" title="gvir_domain_get_info_async ()">gvir_domain_get_info_async</a>          (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                                                         <em class="parameter"><code><span class="type">GAsyncReadyCallback</span> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);
+<a class="link" href="GVirDomain.html#GVirDomainInfo"><span class="returnvalue">GVirDomainInfo</span></a> *    <a class="link" href="GVirDomain.html#gvir-domain-get-info-finish" title="gvir_domain_get_info_finish ()">gvir_domain_get_info_finish</a>         (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><span class="type">GAsyncResult</span> *result</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
+<a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigDomain.html"><span class="returnvalue">GVirConfigDomain</span></a> *  <a class="link" href="GVirDomain.html#gvir-domain-get-config" title="gvir_domain_get_config ()">gvir_domain_get_config</a>              (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
                                                          <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
                                                          <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
 <span class="returnvalue">gboolean</span>            <a class="link" href="GVirDomain.html#gvir-domain-set-config" title="gvir_domain_set_config ()">gvir_domain_set_config</a>              (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *domain</code></em>,
                                                          <em class="parameter"><code><a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigDomain.html"><span class="type">GVirConfigDomain</span></a> *conf</code></em>,
                                                          <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
-<span class="returnvalue">gboolean</span>            <a class="link" href="GVirDomain.html#gvir-domain-shutdown" title="gvir_domain_shutdown ()">gvir_domain_shutdown</a>                (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+<span class="returnvalue">gchar</span> *             <a class="link" href="GVirDomain.html#gvir-domain-screenshot" title="gvir_domain_screenshot ()">gvir_domain_screenshot</a>              (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> monitor_id</code></em>,
                                                          <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
                                                          <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
-<span class="returnvalue">gboolean</span>            <a class="link" href="GVirDomain.html#gvir-domain-start" title="gvir_domain_start ()">gvir_domain_start</a>                   (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+<span class="returnvalue">gboolean</span>            <a class="link" href="GVirDomain.html#gvir-domain-open-console" title="gvir_domain_open_console ()">gvir_domain_open_console</a>            (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *devname</code></em>,
                                                          <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
                                                          <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
-<span class="returnvalue">void</span>                <a class="link" href="GVirDomain.html#gvir-domain-start-async" title="gvir_domain_start_async ()">gvir_domain_start_async</a>             (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
+<span class="returnvalue">gboolean</span>            <a class="link" href="GVirDomain.html#gvir-domain-open-graphics" title="gvir_domain_open_graphics ()">gvir_domain_open_graphics</a>           (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> idx</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> fd</code></em>,
+                                                         <em class="parameter"><code>unsigned <span class="type">int</span> flags</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="GVirDomain.html#gvir-domain-suspend" title="gvir_domain_suspend ()">gvir_domain_suspend</a>                 (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="GVirDomain.html#gvir-domain-save" title="gvir_domain_save ()">gvir_domain_save</a>                    (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code>unsigned <span class="type">int</span> flags</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="GVirDomain.html#gvir-domain-save-async" title="gvir_domain_save_async ()">gvir_domain_save_async</a>              (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code>unsigned <span class="type">int</span> flags</code></em>,
                                                          <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
                                                          <em class="parameter"><code><span class="type">GAsyncReadyCallback</span> callback</code></em>,
                                                          <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);
-<span class="returnvalue">gboolean</span>            <a class="link" href="GVirDomain.html#gvir-domain-start-finish" title="gvir_domain_start_finish ()">gvir_domain_start_finish</a>            (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+<span class="returnvalue">gboolean</span>            <a class="link" href="GVirDomain.html#gvir-domain-save-finish" title="gvir_domain_save_finish ()">gvir_domain_save_finish</a>             (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
                                                          <em class="parameter"><code><span class="type">GAsyncResult</span> *result</code></em>,
                                                          <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
-<span class="returnvalue">gboolean</span>            <a class="link" href="GVirDomain.html#gvir-domain-stop" title="gvir_domain_stop ()">gvir_domain_stop</a>                    (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
-<span class="returnvalue">gboolean</span>            <a class="link" href="GVirDomain.html#gvir-domain-suspend" title="gvir_domain_suspend ()">gvir_domain_suspend</a>                 (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+<span class="returnvalue">gboolean</span>            <a class="link" href="GVirDomain.html#gvir-domain-get-persistent" title="gvir_domain_get_persistent ()">gvir_domain_get_persistent</a>          (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="GVirDomain.html#gvir-domain-get-saved" title="gvir_domain_get_saved ()">gvir_domain_get_saved</a>               (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>);
+<span class="returnvalue">GList</span> *             <a class="link" href="GVirDomain.html#gvir-domain-get-devices" title="gvir_domain_get_devices ()">gvir_domain_get_devices</a>             (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *domain</code></em>,
                                                          <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
 <span class="returnvalue">gboolean</span>            <a class="link" href="GVirDomain.html#gvir-domain-update-device" title="gvir_domain_update_device ()">gvir_domain_update_device</a>           (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
                                                          <em class="parameter"><code><span class="type">GVirConfigDomainDevice</span> *device</code></em>,
                                                          <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
                                                          <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
-<span class="returnvalue">gboolean</span>            <a class="link" href="GVirDomain.html#gvir-domain-wakeup" title="gvir_domain_wakeup ()">gvir_domain_wakeup</a>                  (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+<a class="link" href="GVirDomainSnapshot.html" title="GVirDomainSnapshot"><span class="returnvalue">GVirDomainSnapshot</span></a> * <a class="link" href="GVirDomain.html#gvir-domain-create-snapshot" title="gvir_domain_create_snapshot ()">gvir_domain_create_snapshot</a>        (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigDomainSnapshot.html"><span class="type">GVirConfigDomainSnapshot</span></a> *custom_conf</code></em>,
                                                          <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
-<span class="returnvalue">void</span>                <a class="link" href="GVirDomain.html#gvir-domain-wakeup-async" title="gvir_domain_wakeup_async ()">gvir_domain_wakeup_async</a>            (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
-                                                         <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
-                                                         <em class="parameter"><code><span class="type">GAsyncReadyCallback</span> callback</code></em>,
-                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);
-<span class="returnvalue">gboolean</span>            <a class="link" href="GVirDomain.html#gvir-domain-wakeup-finish" title="gvir_domain_wakeup_finish ()">gvir_domain_wakeup_finish</a>           (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
-                                                         <em class="parameter"><code><span class="type">GAsyncResult</span> *result</code></em>,
                                                          <em class="parameter"><code><span class="type">GError</span> **err</code></em>);
 </pre>
 </div>
@@ -231,6 +231,102 @@ const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirD
 </div>
 <hr>
 <div class="refsect2">
+<a name="GVirDomainState"></a><h3>enum GVirDomainState</h3>
+<pre class="programlisting">typedef enum {
+    GVIR_DOMAIN_STATE_NONE    = 0,     /* no state */
+    GVIR_DOMAIN_STATE_RUNNING = 1,     /* the domain is running */
+    GVIR_DOMAIN_STATE_BLOCKED = 2,     /* the domain is blocked on resource */
+    GVIR_DOMAIN_STATE_PAUSED  = 3,     /* the domain is paused by user */
+    GVIR_DOMAIN_STATE_SHUTDOWN= 4,     /* the domain is being shut down */
+    GVIR_DOMAIN_STATE_SHUTOFF = 5,     /* the domain is shut off */
+    GVIR_DOMAIN_STATE_CRASHED = 6,     /* the domain is crashed */
+    GVIR_DOMAIN_STATE_PMSUSPENDED = 7  /* the domain is suspended by guest
+                                          power management */
+} GVirDomainState;
+</pre>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><a name="GVIR-DOMAIN-STATE-NONE:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_STATE_NONE</code></span></p></td>
+<td></td>
+</tr>
+<tr>
+<td><p><a name="GVIR-DOMAIN-STATE-RUNNING:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_STATE_RUNNING</code></span></p></td>
+<td></td>
+</tr>
+<tr>
+<td><p><a name="GVIR-DOMAIN-STATE-BLOCKED:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_STATE_BLOCKED</code></span></p></td>
+<td></td>
+</tr>
+<tr>
+<td><p><a name="GVIR-DOMAIN-STATE-PAUSED:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_STATE_PAUSED</code></span></p></td>
+<td></td>
+</tr>
+<tr>
+<td><p><a name="GVIR-DOMAIN-STATE-SHUTDOWN:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_STATE_SHUTDOWN</code></span></p></td>
+<td></td>
+</tr>
+<tr>
+<td><p><a name="GVIR-DOMAIN-STATE-SHUTOFF:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_STATE_SHUTOFF</code></span></p></td>
+<td></td>
+</tr>
+<tr>
+<td><p><a name="GVIR-DOMAIN-STATE-CRASHED:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_STATE_CRASHED</code></span></p></td>
+<td></td>
+</tr>
+<tr>
+<td><p><a name="GVIR-DOMAIN-STATE-PMSUSPENDED:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_STATE_PMSUSPENDED</code></span></p></td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GVirDomainStartFlags"></a><h3>enum GVirDomainStartFlags</h3>
+<pre class="programlisting">typedef enum {
+    GVIR_DOMAIN_START_NONE         = 0,
+    GVIR_DOMAIN_START_PAUSED       = (1 &lt;&lt; 0),
+    GVIR_DOMAIN_START_AUTODESTROY  = (1 &lt;&lt; 1),
+    GVIR_DOMAIN_START_BYPASS_CACHE = (1 &lt;&lt; 2),
+    GVIR_DOMAIN_START_FORCE_BOOT   = (1 &lt;&lt; 3),
+} GVirDomainStartFlags;
+</pre>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><a name="GVIR-DOMAIN-START-NONE:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_START_NONE</code></span></p></td>
+<td></td>
+</tr>
+<tr>
+<td><p><a name="GVIR-DOMAIN-START-PAUSED:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_START_PAUSED</code></span></p></td>
+<td></td>
+</tr>
+<tr>
+<td><p><a name="GVIR-DOMAIN-START-AUTODESTROY:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_START_AUTODESTROY</code></span></p></td>
+<td></td>
+</tr>
+<tr>
+<td><p><a name="GVIR-DOMAIN-START-BYPASS-CACHE:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_START_BYPASS_CACHE</code></span></p></td>
+<td></td>
+</tr>
+<tr>
+<td><p><a name="GVIR-DOMAIN-START-FORCE-BOOT:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_START_FORCE_BOOT</code></span></p></td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
 <a name="GVirDomainDeleteFlags"></a><h3>enum GVirDomainDeleteFlags</h3>
 <pre class="programlisting">typedef enum {
     GVIR_DOMAIN_DELETE_NONE               = 0,
@@ -265,24 +361,13 @@ const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirD
 </div>
 <hr>
 <div class="refsect2">
-<a name="GVirDomainInfo-struct"></a><h3>struct GVirDomainInfo</h3>
-<pre class="programlisting">struct GVirDomainInfo {
-    GVirDomainState state; /* the running state */
-    guint64 maxMem;        /* the maximum memory in KBytes allowed */
-    guint64 memory;        /* the memory in KBytes used by the domain */
-    guint16 nrVirtCpu;     /* the number of virtual CPUs for the domain */
-    guint64 cpuTime;       /* the CPU time used in nanoseconds */
-};
-</pre>
-</div>
-<hr>
-<div class="refsect2">
-<a name="GVirDomainRebootFlags"></a><h3>enum GVirDomainRebootFlags</h3>
+<a name="GVirDomainXMLFlags"></a><h3>enum GVirDomainXMLFlags</h3>
 <pre class="programlisting">typedef enum {
-    GVIR_DOMAIN_REBOOT_NONE           = 0,
-    GVIR_DOMAIN_REBOOT_ACPI_POWER_BTN = VIR_DOMAIN_REBOOT_ACPI_POWER_BTN,
-    GVIR_DOMAIN_REBOOT_GUEST_AGENT    = VIR_DOMAIN_REBOOT_GUEST_AGENT,
-} GVirDomainRebootFlags;
+    GVIR_DOMAIN_XML_NONE            = 0,
+    GVIR_DOMAIN_XML_SECURE          = VIR_DOMAIN_XML_SECURE,
+    GVIR_DOMAIN_XML_INACTIVE        = VIR_DOMAIN_XML_INACTIVE,
+    GVIR_DOMAIN_XML_UPDATE_CPU      = VIR_DOMAIN_XML_UPDATE_CPU,
+} GVirDomainXMLFlags;
 </pre>
 <div class="variablelist"><table border="0" class="variablelist">
 <colgroup>
@@ -291,18 +376,23 @@ const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirD
 </colgroup>
 <tbody>
 <tr>
-<td><p><a name="GVIR-DOMAIN-REBOOT-NONE:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_REBOOT_NONE</code></span></p></td>
-<td>No flags, hypervisor choice
+<td><p><a name="GVIR-DOMAIN-XML-NONE:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_XML_NONE</code></span></p></td>
+<td>No flags
 </td>
 </tr>
 <tr>
-<td><p><a name="GVIR-DOMAIN-REBOOT-ACPI-POWER-BTN:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_REBOOT_ACPI_POWER_BTN</code></span></p></td>
-<td>Send ACPI event
+<td><p><a name="GVIR-DOMAIN-XML-SECURE:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_XML_SECURE</code></span></p></td>
+<td>Dump security sensitive information too
 </td>
 </tr>
 <tr>
-<td><p><a name="GVIR-DOMAIN-REBOOT-GUEST-AGENT:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_REBOOT_GUEST_AGENT</code></span></p></td>
-<td>Use guest agent
+<td><p><a name="GVIR-DOMAIN-XML-INACTIVE:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_XML_INACTIVE</code></span></p></td>
+<td>Dump inactive domain information
+</td>
+</tr>
+<tr>
+<td><p><a name="GVIR-DOMAIN-XML-UPDATE-CPU:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_XML_UPDATE_CPU</code></span></p></td>
+<td>Update guest CPU requirements according to host CPU
 </td>
 </tr>
 </tbody>
@@ -413,34 +503,6 @@ const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirD
 </div>
 <hr>
 <div class="refsect2">
-<a name="GVirDomainStartFlags"></a><h3>enum GVirDomainStartFlags</h3>
-<pre class="programlisting">typedef enum {
-    GVIR_DOMAIN_START_NONE         = 0,
-    GVIR_DOMAIN_START_PAUSED       = (1 &lt;&lt; 0),
-    GVIR_DOMAIN_START_AUTODESTROY  = (1 &lt;&lt; 1),
-    GVIR_DOMAIN_START_BYPASS_CACHE = (1 &lt;&lt; 2),
-    GVIR_DOMAIN_START_FORCE_BOOT   = (1 &lt;&lt; 3),
-} GVirDomainStartFlags;
-</pre>
-</div>
-<hr>
-<div class="refsect2">
-<a name="GVirDomainState"></a><h3>enum GVirDomainState</h3>
-<pre class="programlisting">typedef enum {
-    GVIR_DOMAIN_STATE_NONE    = 0,     /* no state */
-    GVIR_DOMAIN_STATE_RUNNING = 1,     /* the domain is running */
-    GVIR_DOMAIN_STATE_BLOCKED = 2,     /* the domain is blocked on resource */
-    GVIR_DOMAIN_STATE_PAUSED  = 3,     /* the domain is paused by user */
-    GVIR_DOMAIN_STATE_SHUTDOWN= 4,     /* the domain is being shut down */
-    GVIR_DOMAIN_STATE_SHUTOFF = 5,     /* the domain is shut off */
-    GVIR_DOMAIN_STATE_CRASHED = 6,     /* the domain is crashed */
-    GVIR_DOMAIN_STATE_PMSUSPENDED = 7  /* the domain is suspended by guest
-                                          power management */
-} GVirDomainState;
-</pre>
-</div>
-<hr>
-<div class="refsect2">
 <a name="GVirDomainUpdateDeviceFlags"></a><h3>enum GVirDomainUpdateDeviceFlags</h3>
 <pre class="programlisting">typedef enum {
     GVIR_DOMAIN_UPDATE_DEVICE_CURRENT   = VIR_DOMAIN_AFFECT_CURRENT,
@@ -474,13 +536,12 @@ const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirD
 </div>
 <hr>
 <div class="refsect2">
-<a name="GVirDomainXMLFlags"></a><h3>enum GVirDomainXMLFlags</h3>
+<a name="GVirDomainRebootFlags"></a><h3>enum GVirDomainRebootFlags</h3>
 <pre class="programlisting">typedef enum {
-    GVIR_DOMAIN_XML_NONE            = 0,
-    GVIR_DOMAIN_XML_SECURE          = VIR_DOMAIN_XML_SECURE,
-    GVIR_DOMAIN_XML_INACTIVE        = VIR_DOMAIN_XML_INACTIVE,
-    GVIR_DOMAIN_XML_UPDATE_CPU      = VIR_DOMAIN_XML_UPDATE_CPU,
-} GVirDomainXMLFlags;
+    GVIR_DOMAIN_REBOOT_NONE           = 0,
+    GVIR_DOMAIN_REBOOT_ACPI_POWER_BTN = VIR_DOMAIN_REBOOT_ACPI_POWER_BTN,
+    GVIR_DOMAIN_REBOOT_GUEST_AGENT    = VIR_DOMAIN_REBOOT_GUEST_AGENT,
+} GVirDomainRebootFlags;
 </pre>
 <div class="variablelist"><table border="0" class="variablelist">
 <colgroup>
@@ -489,23 +550,18 @@ const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirD
 </colgroup>
 <tbody>
 <tr>
-<td><p><a name="GVIR-DOMAIN-XML-NONE:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_XML_NONE</code></span></p></td>
-<td>No flags
+<td><p><a name="GVIR-DOMAIN-REBOOT-NONE:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_REBOOT_NONE</code></span></p></td>
+<td>No flags, hypervisor choice
 </td>
 </tr>
 <tr>
-<td><p><a name="GVIR-DOMAIN-XML-SECURE:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_XML_SECURE</code></span></p></td>
-<td>Dump security sensitive information too
+<td><p><a name="GVIR-DOMAIN-REBOOT-ACPI-POWER-BTN:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_REBOOT_ACPI_POWER_BTN</code></span></p></td>
+<td>Send ACPI event
 </td>
 </tr>
 <tr>
-<td><p><a name="GVIR-DOMAIN-XML-INACTIVE:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_XML_INACTIVE</code></span></p></td>
-<td>Dump inactive domain information
-</td>
-</tr>
-<tr>
-<td><p><a name="GVIR-DOMAIN-XML-UPDATE-CPU:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_XML_UPDATE_CPU</code></span></p></td>
-<td>Update guest CPU requirements according to host CPU
+<td><p><a name="GVIR-DOMAIN-REBOOT-GUEST-AGENT:CAPS"></a><span class="term"><code class="literal">GVIR_DOMAIN_REBOOT_GUEST_AGENT</code></span></p></td>
+<td>Use guest agent
 </td>
 </tr>
 </tbody>
@@ -513,49 +569,36 @@ const <span class="returnvalue">gchar</span> *       <a class="link" href="GVirD
 </div>
 <hr>
 <div class="refsect2">
-<a name="gvir-domain-create-snapshot"></a><h3>gvir_domain_create_snapshot ()</h3>
-<pre class="programlisting"><a class="link" href="GVirDomainSnapshot.html" title="GVirDomainSnapshot"><span class="returnvalue">GVirDomainSnapshot</span></a> * gvir_domain_create_snapshot        (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
-                                                         <em class="parameter"><code><a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigDomainSnapshot.html"><span class="type">GVirConfigDomainSnapshot</span></a> *custom_conf</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
+<a name="GVirDomainInfo-struct"></a><h3>struct GVirDomainInfo</h3>
+<pre class="programlisting">struct GVirDomainInfo {
+    GVirDomainState state; /* the running state */
+    guint64 maxMem;        /* the maximum memory in KBytes allowed */
+    guint64 memory;        /* the memory in KBytes used by the domain */
+    guint16 nrVirtCpu;     /* the number of virtual CPUs for the domain */
+    guint64 cpuTime;       /* the CPU time used in nanoseconds */
+};
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-domain-get-name"></a><h3>gvir_domain_get_name ()</h3>
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *       gvir_domain_get_name                (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-domain-get-uuid"></a><h3>gvir_domain_get_uuid ()</h3>
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *       gvir_domain_get_uuid                (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-domain-get-id"></a><h3>gvir_domain_get_id ()</h3>
+<pre class="programlisting"><span class="returnvalue">gint</span>                gvir_domain_get_id                  (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
                                                          <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>dom</code></em> :</span></p></td>
-<td>the domain</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>custom_conf</code></em> :</span></p></td>
-<td>configuration of snapshot or NULL. <span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
-<td>bitwise-OR of <a class="link" href="GVirDomain.html#GVirDomainSnapshotCreateFlags" title="enum GVirDomainSnapshotCreateFlags"><span class="type">GVirDomainSnapshotCreateFlags</span></a>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>err</code></em> :</span></p></td>
-<td>Place-holder for error or NULL. <span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>snapshot of domain. The returned object should be
-unreffed when no longer needed. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
-</td>
-</tr>
-</tbody>
-</table></div>
 </div>
 <hr>
 <div class="refsect2">
-<a name="gvir-domain-delete"></a><h3>gvir_domain_delete ()</h3>
-<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_domain_delete                  (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+<a name="gvir-domain-start"></a><h3>gvir_domain_start ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_domain_start                   (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
                                                          <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
                                                          <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
 <div class="variablelist"><table border="0" class="variablelist">
@@ -577,10 +620,15 @@ unreffed when no longer needed. <span class="annotation">[<acronym title="Free d
 </div>
 <hr>
 <div class="refsect2">
-<a name="gvir-domain-get-config"></a><h3>gvir_domain_get_config ()</h3>
-<pre class="programlisting"><a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigDomain.html"><span class="returnvalue">GVirConfigDomain</span></a> *  gvir_domain_get_config              (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+<a name="gvir-domain-start-async"></a><h3>gvir_domain_start_async ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gvir_domain_start_async             (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
                                                          <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
+                                                         <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                                                         <em class="parameter"><code><span class="type">GAsyncReadyCallback</span> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);</pre>
+<p>
+Asynchronous variant of <a class="link" href="GVirDomain.html#gvir-domain-start" title="gvir_domain_start ()"><span class="type">gvir_domain_start</span></a>.
+</p>
 <div class="variablelist"><table border="0" class="variablelist">
 <colgroup>
 <col align="left" valign="top">
@@ -593,100 +641,7 @@ unreffed when no longer needed. <span class="annotation">[<acronym title="Free d
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
-<td>the <a class="link" href="GVirDomain.html#GVirDomainXMLFlags" title="enum GVirDomainXMLFlags"><code class="literal">GVirDomainXMLFlags</code></a> flags</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the config. The returned object should be
-unreffed with <code class="function">g_object_unref()</code> when no longer needed. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
-</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2">
-<a name="gvir-domain-get-devices"></a><h3>gvir_domain_get_devices ()</h3>
-<pre class="programlisting"><span class="returnvalue">GList</span> *             gvir_domain_get_devices             (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *domain</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
-<p>
-Gets the list of devices attached to <em class="parameter"><code>domain</code></em>. The returned list should
-be freed with <code class="function">g_list_free()</code>, after its elements have been unreffed with
-<code class="function">g_object_unref()</code>.
-</p>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>domain</code></em> :</span></p></td>
-<td>the domain</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>err</code></em> :</span></p></td>
-<td>place-holder for possible errors, or NULL</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a newly
-allocated <span class="type">GList</span> of <span class="type">GVirDomainDevice</span>. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> LibvirtGObject.DomainDevice][<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
-</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2">
-<a name="gvir-domain-get-id"></a><h3>gvir_domain_get_id ()</h3>
-<pre class="programlisting"><span class="returnvalue">gint</span>                gvir_domain_get_id                  (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
-</div>
-<hr>
-<div class="refsect2">
-<a name="gvir-domain-get-info"></a><h3>gvir_domain_get_info ()</h3>
-<pre class="programlisting"><a class="link" href="GVirDomain.html#GVirDomainInfo"><span class="returnvalue">GVirDomainInfo</span></a> *    gvir_domain_get_info                (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>dom</code></em> :</span></p></td>
-<td>the domain</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the info. The returned structure should be
-freed using #<code class="function">g_boxed_free()</code> with GVIR_TYPE_DOMAIN_INFO as the first argument
-when no longer needed. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
-</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2">
-<a name="gvir-domain-get-info-async"></a><h3>gvir_domain_get_info_async ()</h3>
-<pre class="programlisting"><span class="returnvalue">void</span>                gvir_domain_get_info_async          (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
-                                                         <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
-                                                         <em class="parameter"><code><span class="type">GAsyncReadyCallback</span> callback</code></em>,
-                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);</pre>
-<p>
-Asynchronous variant of <a class="link" href="GVirDomain.html#gvir-domain-get-info" title="gvir_domain_get_info ()"><span class="type">gvir_domain_get_info</span></a>.
-</p>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>dom</code></em> :</span></p></td>
-<td>the domain</td>
+<td>the flags</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
@@ -708,203 +663,10 @@ Asynchronous variant of <a class="link" href="GVirDomain.html#gvir-domain-get-in
 </div>
 <hr>
 <div class="refsect2">
-<a name="gvir-domain-get-info-finish"></a><h3>gvir_domain_get_info_finish ()</h3>
-<pre class="programlisting"><a class="link" href="GVirDomain.html#GVirDomainInfo"><span class="returnvalue">GVirDomainInfo</span></a> *    gvir_domain_get_info_finish         (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+<a name="gvir-domain-start-finish"></a><h3>gvir_domain_start_finish ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_domain_start_finish            (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
                                                          <em class="parameter"><code><span class="type">GAsyncResult</span> *result</code></em>,
                                                          <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
-<p>
-Finishes the operation started by <a class="link" href="GVirDomain.html#gvir-domain-get-info-async" title="gvir_domain_get_info_async ()"><span class="type">gvir_domain_get_info_async</span></a>.
-</p>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>dom</code></em> :</span></p></td>
-<td>the domain</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>result</code></em> :</span></p></td>
-<td>async method result. <span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>err</code></em> :</span></p></td>
-<td>Place-holder for possible errors</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the info. The returned object should be
-unreffed with <code class="function">g_object_unref()</code> when no longer needed. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
-</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2">
-<a name="gvir-domain-get-name"></a><h3>gvir_domain_get_name ()</h3>
-<pre class="programlisting">const <span class="returnvalue">gchar</span> *       gvir_domain_get_name                (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>);</pre>
-</div>
-<hr>
-<div class="refsect2">
-<a name="gvir-domain-get-persistent"></a><h3>gvir_domain_get_persistent ()</h3>
-<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_domain_get_persistent          (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>);</pre>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>dom</code></em> :</span></p></td>
-<td>the domain</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>TRUE if domain is persistent, FALSE otherwise.</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2">
-<a name="gvir-domain-get-saved"></a><h3>gvir_domain_get_saved ()</h3>
-<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_domain_get_saved               (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>);</pre>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>dom</code></em> :</span></p></td>
-<td>the domain</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>TRUE if a stopped domain has a saved state to which it can be
-restored to using <a class="link" href="GVirDomain.html#gvir-domain-start" title="gvir_domain_start ()"><span class="type">gvir_domain_start</span></a>, FALSE otherwise.</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2">
-<a name="gvir-domain-get-uuid"></a><h3>gvir_domain_get_uuid ()</h3>
-<pre class="programlisting">const <span class="returnvalue">gchar</span> *       gvir_domain_get_uuid                (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>);</pre>
-</div>
-<hr>
-<div class="refsect2">
-<a name="gvir-domain-open-console"></a><h3>gvir_domain_open_console ()</h3>
-<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_domain_open_console            (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
-                                                         <em class="parameter"><code>const <span class="type">gchar</span> *devname</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
-<p>
-Open a text console for the domain <em class="parameter"><code>dom</code></em>, connecting it to the
-stream <em class="parameter"><code>stream</code></em>. If <em class="parameter"><code>devname</code></em> is NULL, the default console will
-be opened, otherwise <em class="parameter"><code>devname</code></em> can be used to specify a non-default
-console device.
-</p>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>dom</code></em> :</span></p></td>
-<td>the domain. <span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>devname</code></em> :</span></p></td>
-<td>the device name. <span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>][<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>stream</code></em> :</span></p></td>
-<td>stream to use as output. <span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
-<td>extra flags, currently unused</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>TRUE if the console was opened, FALSE otherwise.</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2">
-<a name="gvir-domain-open-graphics"></a><h3>gvir_domain_open_graphics ()</h3>
-<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_domain_open_graphics           (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint</span> idx</code></em>,
-                                                         <em class="parameter"><code><span class="type">int</span> fd</code></em>,
-                                                         <em class="parameter"><code>unsigned <span class="type">int</span> flags</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
-<p>
-Open a connection to the local graphics display, connecting it to the
-socket pair file descriptor passed in as <em class="parameter"><code>fd</code></em>.
-</p>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>dom</code></em> :</span></p></td>
-<td>the domain</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>idx</code></em> :</span></p></td>
-<td>the graphics index</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>fd</code></em> :</span></p></td>
-<td>pre-opened socket pair</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
-<td>extra flags, currently unused</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>TRUE if the graphics connection was opened, FALSE otherwise.</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2">
-<a name="gvir-domain-reboot"></a><h3>gvir_domain_reboot ()</h3>
-<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_domain_reboot                  (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>dom</code></em> :</span></p></td>
-<td>the domain</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
-<td>the <a class="link" href="GVirDomain.html#GVirDomainRebootFlags" title="enum GVirDomainRebootFlags"><code class="literal">GVirDomainRebootFlags</code></a> flags</td>
-</tr>
-</tbody>
-</table></div>
 </div>
 <hr>
 <div class="refsect2">
@@ -979,15 +741,10 @@ Asynchronous variant of <a class="link" href="GVirDomain.html#gvir-domain-resume
 </div>
 <hr>
 <div class="refsect2">
-<a name="gvir-domain-save"></a><h3>gvir_domain_save ()</h3>
-<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_domain_save                    (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
-                                                         <em class="parameter"><code>unsigned <span class="type">int</span> flags</code></em>,
+<a name="gvir-domain-wakeup"></a><h3>gvir_domain_wakeup ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_domain_wakeup                  (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
                                                          <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
-<p>
-Saves the state of the domain on disk and stops it. Use <a class="link" href="GVirDomain.html#gvir-domain-start" title="gvir_domain_start ()"><span class="type">gvir_domain_start</span></a>
-to restore the saved state of the domain. A saved domain can be restored
-even after shutdown/reboot of host machine.
-</p>
 <div class="variablelist"><table border="0" class="variablelist">
 <colgroup>
 <col align="left" valign="top">
@@ -996,11 +753,11 @@ even after shutdown/reboot of host machine.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>dom</code></em> :</span></p></td>
-<td>the domain to save</td>
+<td>the domain</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
-<td>extra flags, currently unused</td>
+<td>placeholder for flags, pass 0</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>err</code></em> :</span></p></td>
@@ -1008,21 +765,21 @@ even after shutdown/reboot of host machine.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>TRUE if domain was saved successfully, FALSE otherwise.</td>
+<td>TRUE on success</td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <hr>
 <div class="refsect2">
-<a name="gvir-domain-save-async"></a><h3>gvir_domain_save_async ()</h3>
-<pre class="programlisting"><span class="returnvalue">void</span>                gvir_domain_save_async              (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
-                                                         <em class="parameter"><code>unsigned <span class="type">int</span> flags</code></em>,
+<a name="gvir-domain-wakeup-async"></a><h3>gvir_domain_wakeup_async ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gvir_domain_wakeup_async            (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
                                                          <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
                                                          <em class="parameter"><code><span class="type">GAsyncReadyCallback</span> callback</code></em>,
                                                          <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);</pre>
 <p>
-Asynchronous variant of <a class="link" href="GVirDomain.html#gvir-domain-save" title="gvir_domain_save ()"><span class="type">gvir_domain_save</span></a>.
+Asynchronous variant of <a class="link" href="GVirDomain.html#gvir-domain-wakeup" title="gvir_domain_wakeup ()"><span class="type">gvir_domain_wakeup</span></a>.
 </p>
 <div class="variablelist"><table border="0" class="variablelist">
 <colgroup>
@@ -1032,11 +789,11 @@ Asynchronous variant of <a class="link" href="GVirDomain.html#gvir-domain-save" 
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>dom</code></em> :</span></p></td>
-<td>the domain to save</td>
+<td>the domain to wakeup</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
-<td>extra flags, currently unused</td>
+<td>placeholder for flags, pass 0</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
@@ -1058,13 +815,17 @@ Asynchronous variant of <a class="link" href="GVirDomain.html#gvir-domain-save" 
 </div>
 <hr>
 <div class="refsect2">
-<a name="gvir-domain-save-finish"></a><h3>gvir_domain_save_finish ()</h3>
-<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_domain_save_finish             (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+<a name="gvir-domain-wakeup-finish"></a><h3>gvir_domain_wakeup_finish ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_domain_wakeup_finish           (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
                                                          <em class="parameter"><code><span class="type">GAsyncResult</span> *result</code></em>,
                                                          <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
-<p>
-Finishes the operation started by <a class="link" href="GVirDomain.html#gvir-domain-save-async" title="gvir_domain_save_async ()"><span class="type">gvir_domain_save_async</span></a>.
-</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-domain-stop"></a><h3>gvir_domain_stop ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_domain_stop                    (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
 <div class="variablelist"><table border="0" class="variablelist">
 <colgroup>
 <col align="left" valign="top">
@@ -1073,20 +834,80 @@ Finishes the operation started by <a class="link" href="GVirDomain.html#gvir-dom
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>dom</code></em> :</span></p></td>
-<td>the domain to save</td>
+<td>the domain</td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>result</code></em> :</span></p></td>
-<td>async method result. <span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span>
-</td>
+<td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
+<td>the flags</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-domain-delete"></a><h3>gvir_domain_delete ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_domain_delete                  (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dom</code></em> :</span></p></td>
+<td>the domain</td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>err</code></em> :</span></p></td>
-<td>Place-holder for possible errors</td>
+<td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
+<td>the flags</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-domain-shutdown"></a><h3>gvir_domain_shutdown ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_domain_shutdown                (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dom</code></em> :</span></p></td>
+<td>the domain</td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>TRUE if domain was saved successfully, FALSE otherwise.</td>
+<td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
+<td>the <a class="link" href="GVirDomain.html#GVirDomainShutdownFlags" title="enum GVirDomainShutdownFlags"><code class="literal">GVirDomainShutdownFlags</code></a> flags</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-domain-reboot"></a><h3>gvir_domain_reboot ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_domain_reboot                  (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dom</code></em> :</span></p></td>
+<td>the domain</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
+<td>the <a class="link" href="GVirDomain.html#GVirDomainRebootFlags" title="enum GVirDomainRebootFlags"><code class="literal">GVirDomainRebootFlags</code></a> flags</td>
 </tr>
 </tbody>
 </table></div>
@@ -1220,10 +1041,108 @@ Finishes the operation started by <a class="link" href="GVirDomain.html#gvir-dom
 </div>
 <hr>
 <div class="refsect2">
-<a name="gvir-domain-screenshot"></a><h3>gvir_domain_screenshot ()</h3>
-<pre class="programlisting"><span class="returnvalue">gchar</span> *             gvir_domain_screenshot              (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint</span> monitor_id</code></em>,
+<a name="gvir-domain-get-info"></a><h3>gvir_domain_get_info ()</h3>
+<pre class="programlisting"><a class="link" href="GVirDomain.html#GVirDomainInfo"><span class="returnvalue">GVirDomainInfo</span></a> *    gvir_domain_get_info                (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dom</code></em> :</span></p></td>
+<td>the domain</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the info. The returned structure should be
+freed using #<code class="function">g_boxed_free()</code> with GVIR_TYPE_DOMAIN_INFO as the first argument
+when no longer needed. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-domain-get-info-async"></a><h3>gvir_domain_get_info_async ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gvir_domain_get_info_async          (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                                                         <em class="parameter"><code><span class="type">GAsyncReadyCallback</span> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);</pre>
+<p>
+Asynchronous variant of <a class="link" href="GVirDomain.html#gvir-domain-get-info" title="gvir_domain_get_info ()"><span class="type">gvir_domain_get_info</span></a>.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dom</code></em> :</span></p></td>
+<td>the domain</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
+<td>cancellation object. <span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>completion callback. <span class="annotation">[<acronym title="The callback is valid until first called."><span class="acronym">scope async</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>opaque data for callback. <span class="annotation">[<acronym title="This parameter is a 'user_data', for callbacks; many bindings can pass NULL here."><span class="acronym">closure</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-domain-get-info-finish"></a><h3>gvir_domain_get_info_finish ()</h3>
+<pre class="programlisting"><a class="link" href="GVirDomain.html#GVirDomainInfo"><span class="returnvalue">GVirDomainInfo</span></a> *    gvir_domain_get_info_finish         (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><span class="type">GAsyncResult</span> *result</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
+<p>
+Finishes the operation started by <a class="link" href="GVirDomain.html#gvir-domain-get-info-async" title="gvir_domain_get_info_async ()"><span class="type">gvir_domain_get_info_async</span></a>.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dom</code></em> :</span></p></td>
+<td>the domain</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>result</code></em> :</span></p></td>
+<td>async method result. <span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em> :</span></p></td>
+<td>Place-holder for possible errors</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the info. The returned object should be
+unreffed with <code class="function">g_object_unref()</code> when no longer needed. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-domain-get-config"></a><h3>gvir_domain_get_config ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigDomain.html"><span class="returnvalue">GVirConfigDomain</span></a> *  gvir_domain_get_config              (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
                                                          <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
                                                          <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
 <div class="variablelist"><table border="0" class="variablelist">
@@ -1233,21 +1152,17 @@ Finishes the operation started by <a class="link" href="GVirDomain.html#gvir-dom
 </colgroup>
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>stream</code></em> :</span></p></td>
-<td>stream to use as output</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>monitor_id</code></em> :</span></p></td>
-<td>monitor ID to take screenshot from</td>
+<td><p><span class="term"><em class="parameter"><code>dom</code></em> :</span></p></td>
+<td>the domain</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
-<td>extra flags, currently unused</td>
+<td>the <a class="link" href="GVirDomain.html#GVirDomainXMLFlags" title="enum GVirDomainXMLFlags"><code class="literal">GVirDomainXMLFlags</code></a> flags</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a newly allocated string containing the
-mime-type of the image format, or NULL upon error. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+<td>the config. The returned object should be
+unreffed with <code class="function">g_object_unref()</code> when no longer needed. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -1294,8 +1209,10 @@ affect until domain reboots.
 </div>
 <hr>
 <div class="refsect2">
-<a name="gvir-domain-shutdown"></a><h3>gvir_domain_shutdown ()</h3>
-<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_domain_shutdown                (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+<a name="gvir-domain-screenshot"></a><h3>gvir_domain_screenshot ()</h3>
+<pre class="programlisting"><span class="returnvalue">gchar</span> *             gvir_domain_screenshot              (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> monitor_id</code></em>,
                                                          <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
                                                          <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
 <div class="variablelist"><table border="0" class="variablelist">
@@ -1305,49 +1222,83 @@ affect until domain reboots.
 </colgroup>
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>dom</code></em> :</span></p></td>
-<td>the domain</td>
+<td><p><span class="term"><em class="parameter"><code>stream</code></em> :</span></p></td>
+<td>stream to use as output</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>monitor_id</code></em> :</span></p></td>
+<td>monitor ID to take screenshot from</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
-<td>the <a class="link" href="GVirDomain.html#GVirDomainShutdownFlags" title="enum GVirDomainShutdownFlags"><code class="literal">GVirDomainShutdownFlags</code></a> flags</td>
+<td>extra flags, currently unused</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>a newly allocated string containing the
+mime-type of the image format, or NULL upon error. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+</td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <hr>
 <div class="refsect2">
-<a name="gvir-domain-start"></a><h3>gvir_domain_start ()</h3>
-<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_domain_start                   (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+<a name="gvir-domain-open-console"></a><h3>gvir_domain_open_console ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_domain_open_console            (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="GVirStream.html" title="GVirStream"><span class="type">GVirStream</span></a> *stream</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *devname</code></em>,
                                                          <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
                                                          <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>dom</code></em> :</span></p></td>
-<td>the domain</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
-<td>the flags</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2">
-<a name="gvir-domain-start-async"></a><h3>gvir_domain_start_async ()</h3>
-<pre class="programlisting"><span class="returnvalue">void</span>                gvir_domain_start_async             (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
-                                                         <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
-                                                         <em class="parameter"><code><span class="type">GAsyncReadyCallback</span> callback</code></em>,
-                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);</pre>
 <p>
-Asynchronous variant of <a class="link" href="GVirDomain.html#gvir-domain-start" title="gvir_domain_start ()"><span class="type">gvir_domain_start</span></a>.
+Open a text console for the domain <em class="parameter"><code>dom</code></em>, connecting it to the
+stream <em class="parameter"><code>stream</code></em>. If <em class="parameter"><code>devname</code></em> is NULL, the default console will
+be opened, otherwise <em class="parameter"><code>devname</code></em> can be used to specify a non-default
+console device.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dom</code></em> :</span></p></td>
+<td>the domain. <span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>devname</code></em> :</span></p></td>
+<td>the device name. <span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>][<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>stream</code></em> :</span></p></td>
+<td>stream to use as output. <span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
+<td>extra flags, currently unused</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>TRUE if the console was opened, FALSE otherwise.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-domain-open-graphics"></a><h3>gvir_domain_open_graphics ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_domain_open_graphics           (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> idx</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> fd</code></em>,
+                                                         <em class="parameter"><code>unsigned <span class="type">int</span> flags</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
+<p>
+Open a connection to the local graphics display, connecting it to the
+socket pair file descriptor passed in as <em class="parameter"><code>fd</code></em>.
 </p>
 <div class="variablelist"><table border="0" class="variablelist">
 <colgroup>
@@ -1360,53 +1311,20 @@ Asynchronous variant of <a class="link" href="GVirDomain.html#gvir-domain-start"
 <td>the domain</td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
-<td>the flags</td>
+<td><p><span class="term"><em class="parameter"><code>idx</code></em> :</span></p></td>
+<td>the graphics index</td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
-<td>cancellation object. <span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
-<td>completion callback. <span class="annotation">[<acronym title="The callback is valid until first called."><span class="acronym">scope async</span></acronym>]</span>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
-<td>opaque data for callback. <span class="annotation">[<acronym title="This parameter is a 'user_data', for callbacks; many bindings can pass NULL here."><span class="acronym">closure</span></acronym>]</span>
-</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2">
-<a name="gvir-domain-start-finish"></a><h3>gvir_domain_start_finish ()</h3>
-<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_domain_start_finish            (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
-                                                         <em class="parameter"><code><span class="type">GAsyncResult</span> *result</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
-</div>
-<hr>
-<div class="refsect2">
-<a name="gvir-domain-stop"></a><h3>gvir_domain_stop ()</h3>
-<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_domain_stop                    (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>dom</code></em> :</span></p></td>
-<td>the domain</td>
+<td><p><span class="term"><em class="parameter"><code>fd</code></em> :</span></p></td>
+<td>pre-opened socket pair</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
-<td>the flags</td>
+<td>extra flags, currently unused</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>TRUE if the graphics connection was opened, FALSE otherwise.</td>
 </tr>
 </tbody>
 </table></div>
@@ -1438,6 +1356,196 @@ level will stay allocated. Use <a class="link" href="GVirDomain.html#gvir-domain
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>TRUE if domain was suspended successfully, FALSE otherwise.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-domain-save"></a><h3>gvir_domain_save ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_domain_save                    (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code>unsigned <span class="type">int</span> flags</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
+<p>
+Saves the state of the domain on disk and stops it. Use <a class="link" href="GVirDomain.html#gvir-domain-start" title="gvir_domain_start ()"><span class="type">gvir_domain_start</span></a>
+to restore the saved state of the domain. A saved domain can be restored
+even after shutdown/reboot of host machine.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dom</code></em> :</span></p></td>
+<td>the domain to save</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
+<td>extra flags, currently unused</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em> :</span></p></td>
+<td>Place-holder for possible errors</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>TRUE if domain was saved successfully, FALSE otherwise.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-domain-save-async"></a><h3>gvir_domain_save_async ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gvir_domain_save_async              (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code>unsigned <span class="type">int</span> flags</code></em>,
+                                                         <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                                                         <em class="parameter"><code><span class="type">GAsyncReadyCallback</span> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);</pre>
+<p>
+Asynchronous variant of <a class="link" href="GVirDomain.html#gvir-domain-save" title="gvir_domain_save ()"><span class="type">gvir_domain_save</span></a>.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dom</code></em> :</span></p></td>
+<td>the domain to save</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
+<td>extra flags, currently unused</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
+<td>cancellation object. <span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>completion callback. <span class="annotation">[<acronym title="The callback is valid until first called."><span class="acronym">scope async</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>opaque data for callback. <span class="annotation">[<acronym title="This parameter is a 'user_data', for callbacks; many bindings can pass NULL here."><span class="acronym">closure</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-domain-save-finish"></a><h3>gvir_domain_save_finish ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_domain_save_finish             (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><span class="type">GAsyncResult</span> *result</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
+<p>
+Finishes the operation started by <a class="link" href="GVirDomain.html#gvir-domain-save-async" title="gvir_domain_save_async ()"><span class="type">gvir_domain_save_async</span></a>.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dom</code></em> :</span></p></td>
+<td>the domain to save</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>result</code></em> :</span></p></td>
+<td>async method result. <span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em> :</span></p></td>
+<td>Place-holder for possible errors</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>TRUE if domain was saved successfully, FALSE otherwise.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-domain-get-persistent"></a><h3>gvir_domain_get_persistent ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_domain_get_persistent          (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>);</pre>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dom</code></em> :</span></p></td>
+<td>the domain</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>TRUE if domain is persistent, FALSE otherwise.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-domain-get-saved"></a><h3>gvir_domain_get_saved ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_domain_get_saved               (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>);</pre>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dom</code></em> :</span></p></td>
+<td>the domain</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>TRUE if a stopped domain has a saved state to which it can be
+restored to using <a class="link" href="GVirDomain.html#gvir-domain-start" title="gvir_domain_start ()"><span class="type">gvir_domain_start</span></a>, FALSE otherwise.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-domain-get-devices"></a><h3>gvir_domain_get_devices ()</h3>
+<pre class="programlisting"><span class="returnvalue">GList</span> *             gvir_domain_get_devices             (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *domain</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
+<p>
+Gets the list of devices attached to <em class="parameter"><code>domain</code></em>. The returned list should
+be freed with <code class="function">g_list_free()</code>, after its elements have been unreffed with
+<code class="function">g_object_unref()</code>.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>domain</code></em> :</span></p></td>
+<td>the domain</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em> :</span></p></td>
+<td>place-holder for possible errors, or NULL</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>a newly
+allocated <span class="type">GList</span> of <span class="type">GVirDomainDevice</span>. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> LibvirtGObject.DomainDevice][<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+</td>
 </tr>
 </tbody>
 </table></div>
@@ -1485,8 +1593,9 @@ Update the configuration of a device.
 </div>
 <hr>
 <div class="refsect2">
-<a name="gvir-domain-wakeup"></a><h3>gvir_domain_wakeup ()</h3>
-<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_domain_wakeup                  (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+<a name="gvir-domain-create-snapshot"></a><h3>gvir_domain_create_snapshot ()</h3>
+<pre class="programlisting"><a class="link" href="GVirDomainSnapshot.html" title="GVirDomainSnapshot"><span class="returnvalue">GVirDomainSnapshot</span></a> * gvir_domain_create_snapshot        (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
+                                                         <em class="parameter"><code><a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigDomainSnapshot.html"><span class="type">GVirConfigDomainSnapshot</span></a> *custom_conf</code></em>,
                                                          <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
                                                          <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
 <div class="variablelist"><table border="0" class="variablelist">
@@ -1500,69 +1609,28 @@ Update the configuration of a device.
 <td>the domain</td>
 </tr>
 <tr>
+<td><p><span class="term"><em class="parameter"><code>custom_conf</code></em> :</span></p></td>
+<td>configuration of snapshot or NULL. <span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span>
+</td>
+</tr>
+<tr>
 <td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
-<td>placeholder for flags, pass 0</td>
+<td>bitwise-OR of <a class="link" href="GVirDomain.html#GVirDomainSnapshotCreateFlags" title="enum GVirDomainSnapshotCreateFlags"><span class="type">GVirDomainSnapshotCreateFlags</span></a>
+</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>err</code></em> :</span></p></td>
-<td>Place-holder for possible errors</td>
+<td>Place-holder for error or NULL. <span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span>
+</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>TRUE on success</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2">
-<a name="gvir-domain-wakeup-async"></a><h3>gvir_domain_wakeup_async ()</h3>
-<pre class="programlisting"><span class="returnvalue">void</span>                gvir_domain_wakeup_async            (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
-                                                         <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
-                                                         <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
-                                                         <em class="parameter"><code><span class="type">GAsyncReadyCallback</span> callback</code></em>,
-                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);</pre>
-<p>
-Asynchronous variant of <a class="link" href="GVirDomain.html#gvir-domain-wakeup" title="gvir_domain_wakeup ()"><span class="type">gvir_domain_wakeup</span></a>.
-</p>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>dom</code></em> :</span></p></td>
-<td>the domain to wakeup</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
-<td>placeholder for flags, pass 0</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
-<td>cancellation object. <span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
-<td>completion callback. <span class="annotation">[<acronym title="The callback is valid until first called."><span class="acronym">scope async</span></acronym>]</span>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
-<td>opaque data for callback. <span class="annotation">[<acronym title="This parameter is a 'user_data', for callbacks; many bindings can pass NULL here."><span class="acronym">closure</span></acronym>]</span>
+<td>snapshot of domain. The returned object should be
+unreffed when no longer needed. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
 </table></div>
-</div>
-<hr>
-<div class="refsect2">
-<a name="gvir-domain-wakeup-finish"></a><h3>gvir_domain_wakeup_finish ()</h3>
-<pre class="programlisting"><span class="returnvalue">gboolean</span>            gvir_domain_wakeup_finish           (<em class="parameter"><code><a class="link" href="GVirDomain.html" title="GVirDomain"><span class="type">GVirDomain</span></a> *dom</code></em>,
-                                                         <em class="parameter"><code><span class="type">GAsyncResult</span> *result</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
 </div>
 </div>
 <div class="refsect1">
@@ -1621,6 +1689,6 @@ Asynchronous variant of <a class="link" href="GVirDomain.html#gvir-domain-wakeup
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.18</div>
+          Generated by GTK-Doc V1.19</div>
 </body>
 </html>

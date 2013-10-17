@@ -1,7 +1,7 @@
-AC_INIT(libvirt-glib, 0.1.6)
+AC_INIT(libvirt-glib, 0.1.7)
 AC_CONFIG_SRCDIR(libvirt-glib/libvirt-glib-main.c)
 AC_CONFIG_AUX_DIR([build-aux])
-AM_CONFIG_HEADER(config.h)
+AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
 dnl Make automake keep quiet about wildcards & other GNUmake-isms
 AM_INIT_AUTOMAKE([-Wno-portability])
@@ -21,8 +21,45 @@ LIBVIRT_GLIB_MAJOR_VERSION=`echo $VERSION | awk -F. '{print $1}'`
 LIBVIRT_GLIB_MINOR_VERSION=`echo $VERSION | awk -F. '{print $2}'`
 LIBVIRT_GLIB_MICRO_VERSION=`echo $VERSION | awk -F. '{print $3}'`
 LIBVIRT_GLIB_VERSION=$LIBVIRT_GLIB_MAJOR_VERSION.$LIBVIRT_GLIB_MINOR_VERSION.$LIBVIRT_GLIB_MICRO_VERSION$LIBVIRT_GLIB_MICRO_VERSION_SUFFIX
-LIBVIRT_GLIB_VERSION_INFO=`expr $LIBVIRT_GLIB_MAJOR_VERSION + $LIBVIRT_GLIB_MINOR_VERSION`:$LIBVIRT_GLIB_MICRO_VERSION:$LIBVIRT_GLIB_MINOR_VERSION
 LIBVIRT_GLIB_VERSION_NUMBER=`expr $LIBVIRT_GLIB_MAJOR_VERSION \* 1000000 + $LIBVIRT_GLIB_MINOR_VERSION \* 1000 + $LIBVIRT_GLIB_MICRO_VERSION`
+
+# In libtool terminology we need to figure out:
+#
+# CURRENT
+#     The most recent interface number that this library implements.
+#
+# REVISION
+#     The implementation number of the CURRENT interface.
+#
+# AGE
+#     The difference between the newest and oldest interfaces that this
+#     library implements.
+#
+# In other words, the library implements all the interface numbers
+# in the range from number `CURRENT - AGE' to `CURRENT'.
+#
+# Libtool assigns the soname version from `CURRENT - AGE', and we
+# don't want that to ever change in libvirt-glib, unless we need
+# to break ABI for some rason.
+#
+# We would, however, like the libvirt-glib version number reflected
+# in the so version'd symlinks, and this is based on AGE.REVISION
+# eg  libvirt-glib.so.0.AGE.REVISION
+#
+# Assuming we do ever want to break soname version, this can
+# toggled. But seriously, don't ever touch this.
+LIBVIRT_GLIB_SONUM=0
+
+# The following examples show what libtool will do
+#
+# Input: 0.9.14 ->   libvirt-glib.so.0.9.14
+# Input: 1.0.0  ->   libvirt-glib.so.0.1000.0
+# Input: 2.5.8  ->   libvirt-glib.so.0.2005.8
+#
+AGE=`expr $LIBVIRT_GLIB_MAJOR_VERSION '*' 1000 + $LIBVIRT_GLIB_MINOR_VERSION`
+REVISION=$LIBVIRT_GLIB_MICRO_VERSION
+CURRENT=`expr $LIBVIRT_GLIB_SONUM + $AGE`
+LIBVIRT_GLIB_VERSION_INFO=$CURRENT:$REVISION:$AGE
 
 AC_SUBST([LIBVIRT_GLIB_MAJOR_VERSION])
 AC_SUBST([LIBVIRT_GLIB_MINOR_VERSION])
@@ -34,8 +71,7 @@ AC_SUBST([LIBVIRT_GLIB_VERSION_NUMBER])
 AC_PROG_CC
 AM_PROG_CC_C_O
 
-AC_LIBTOOL_WIN32_DLL
-AC_PROG_LIBTOOL
+LT_INIT([shared disable-static win32-dll])
 
 dnl AC_CONFIG_LIBOBJ_DIR([src])
 
@@ -60,6 +96,12 @@ PKG_CHECK_MODULES(GTHREAD2, gthread-2.0 >= $GLIB2_REQUIRED)
 PKG_CHECK_MODULES(GOBJECT2, gobject-2.0 >= $GLIB2_REQUIRED)
 PKG_CHECK_MODULES(GIO2, gio-2.0 >= $GLIB2_REQUIRED)
 PKG_CHECK_MODULES(LIBXML2, libxml-2.0 >= $LIBXML2_REQUIRED)
+
+LIBVIRT_GLIB_GETTEXT
+dnl Should be in m4/virt-gettext.m4 but intltoolize is too
+dnl dumb to find it there
+IT_PROG_INTLTOOL([0.35.0])
+
 
 GTK_DOC_CHECK([1.10],[--flavour no-tmpl])
 
@@ -263,6 +305,7 @@ AC_OUTPUT(Makefile
           docs/libvirt-glib/version.xml
           docs/libvirt-gobject/Makefile
           docs/libvirt-gconfig/Makefile
+          po/Makefile.in
           libvirt-glib-1.0.pc
           libvirt-gconfig-1.0.pc
           libvirt-gobject-1.0.pc

@@ -26,6 +26,7 @@
 #include <string.h>
 
 #include <libxml/relaxng.h>
+#include <glib/gi18n-lib.h>
 
 #include "libvirt-gconfig/libvirt-gconfig.h"
 #include "libvirt-gconfig/libvirt-gconfig-private.h"
@@ -119,10 +120,10 @@ static void gvir_config_object_set_property(GObject *object,
 
 static void gvir_config_object_finalize(GObject *object)
 {
-    GVirConfigObject *conn = GVIR_CONFIG_OBJECT(object);
-    GVirConfigObjectPrivate *priv = conn->priv;
+    GVirConfigObject *gvir_object = GVIR_CONFIG_OBJECT(object);
+    GVirConfigObjectPrivate *priv = gvir_object->priv;
 
-    g_debug("Finalize GVirConfigObject=%p", conn);
+    g_debug("Finalize GVirConfigObject=%p", gvir_object);
 
     g_free(priv->schema);
 
@@ -181,11 +182,11 @@ static void gvir_config_object_class_init(GVirConfigObjectClass *klass)
 }
 
 
-static void gvir_config_object_init(GVirConfigObject *conn)
+static void gvir_config_object_init(GVirConfigObject *object)
 {
-    g_debug("Init GVirConfigObject=%p", conn);
+    g_debug("Init GVirConfigObject=%p", object);
 
-    conn->priv = GVIR_CONFIG_OBJECT_GET_PRIVATE(conn);
+    object->priv = GVIR_CONFIG_OBJECT_GET_PRIVATE(object);
 }
 
 void gvir_config_object_validate(GVirConfigObject *config,
@@ -208,7 +209,7 @@ void gvir_config_object_validate(GVirConfigObject *config,
         gvir_config_set_error_literal(err,
                                       GVIR_CONFIG_OBJECT_ERROR,
                                       0,
-                                      "No XML document associated with this config object");
+                                      _("No XML document associated with this config object"));
         return;
     }
 
@@ -217,7 +218,7 @@ void gvir_config_object_validate(GVirConfigObject *config,
         gvir_config_set_error(err,
                               GVIR_CONFIG_OBJECT_ERROR,
                               0,
-                              "Unable to create RNG parser for %s",
+                              _("Unable to create RNG parser for %s"),
                               priv->schema);
         return;
     }
@@ -227,7 +228,7 @@ void gvir_config_object_validate(GVirConfigObject *config,
         gvir_config_set_error(err,
                               GVIR_CONFIG_OBJECT_ERROR,
                               0,
-                              "Unable to parse RNG %s",
+                              _("Unable to parse RNG %s"),
                               priv->schema);
         xmlRelaxNGFreeParserCtxt(rngParser);
         return;
@@ -239,7 +240,7 @@ void gvir_config_object_validate(GVirConfigObject *config,
         gvir_config_set_error(err,
                               GVIR_CONFIG_OBJECT_ERROR,
                               0,
-                              "Unable to create RNG validation context %s",
+                              _("Unable to create RNG validation context %s"),
                               priv->schema);
         xmlRelaxNGFree(rng);
         return;
@@ -249,7 +250,7 @@ void gvir_config_object_validate(GVirConfigObject *config,
         gvir_config_set_error_literal(err,
                                       GVIR_CONFIG_OBJECT_ERROR,
                                       0,
-                                      "Unable to validate doc");
+                                      _("Unable to validate doc"));
         xmlRelaxNGFreeValidCtxt(rngValid);
         xmlRelaxNGFree(rng);
         return;
@@ -272,6 +273,14 @@ const gchar *gvir_config_object_get_schema(GVirConfigObject *config)
 
     return config->priv->schema;
 }
+
+
+G_GNUC_INTERNAL GVirConfigXmlDoc *
+gvir_config_object_get_xml_doc(GVirConfigObject *config)
+{
+    return config->priv->doc;
+}
+
 
 /* FIXME: will we always have one xmlNode per GConfig object? */
 /* FIXME: need to return the right node from subclasses */
@@ -928,7 +937,8 @@ gvir_config_object_get_child_with_type(GVirConfigObject *object,
     g_return_val_if_fail(child_name != NULL, NULL);
 
     node = gvir_config_xml_get_element(object->priv->node, child_name, NULL);
-    g_return_val_if_fail(node != NULL, NULL);
+    if (node == NULL)
+        return NULL;
 
     return gvir_config_object_new_from_tree(child_type,
                                             object->priv->doc,

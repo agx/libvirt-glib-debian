@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>API Index</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.77.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
 <link rel="home" href="index.html" title="Libvirt-gconfig Reference Manual">
 <link rel="up" href="index.html" title="Libvirt-gconfig Reference Manual">
 <link rel="prev" href="object-tree.html" title="Object Hierarchy">
 <link rel="next" href="annotation-glossary.html" title="Annotation Glossary">
-<meta name="generator" content="GTK-Doc V1.18 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.19 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -21,7 +21,9 @@
 <td><a accesskey="n" href="annotation-glossary.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
 <tr><td colspan="5" class="shortcuts">
-<a class="shortcut" href="#idxT">T</a>
+<a class="shortcut" href="#idxD">D</a>
+                      | 
+                   <a class="shortcut" href="#idxT">T</a>
                       | 
                    <a class="shortcut" href="#idxV">V</a>
 </td></tr>
@@ -29,7 +31,16 @@
 <div class="index">
 <div class="titlepage"><div><div><h1 class="title">
 <a name="api-index-full"></a>API Index</h1></div></div></div>
-<a name="idx"></a><a name="idxT"></a><h3 class="title">T</h3>
+<a name="idx"></a><a name="idxD"></a><h3 class="title">D</h3>
+<dt>
+G_DEPRECATED, macro in libvirt-gconfig-compat
+</dt>
+<dd></dd>
+<dt>
+G_DEPRECATED_FOR, macro in libvirt-gconfig-compat
+</dt>
+<dd></dd>
+<a name="idxT"></a><h3 class="title">T</h3>
 <dt>
 g_type_init, macro in libvirt-gconfig-compat
 </dt>
@@ -308,6 +319,10 @@ GVirConfigDomainDiskClass, struct in GVirConfigDomainDisk
 </dt>
 <dd></dd>
 <dt>
+GVirConfigDomainDiskFormat, enum in GVirConfigDomainDisk
+</dt>
+<dd></dd>
+<dt>
 GVirConfigDomainDiskGuestDeviceType, enum in GVirConfigDomainDisk
 </dt>
 <dd></dd>
@@ -349,6 +364,22 @@ GVirConfigDomainGraphics, struct in GVirConfigDomainGraphics
 <dd></dd>
 <dt>
 GVirConfigDomainGraphicsClass, struct in GVirConfigDomainGraphics
+</dt>
+<dd></dd>
+<dt>
+GVirConfigDomainGraphicsDesktop, struct in GVirConfigDomainGraphicsDesktop
+</dt>
+<dd></dd>
+<dt>
+GVirConfigDomainGraphicsDesktopClass, struct in GVirConfigDomainGraphicsDesktop
+</dt>
+<dd></dd>
+<dt>
+GVirConfigDomainGraphicsRdp, struct in GVirConfigDomainGraphicsRdp
+</dt>
+<dd></dd>
+<dt>
+GVirConfigDomainGraphicsRdpClass, struct in GVirConfigDomainGraphicsRdp
 </dt>
 <dd></dd>
 <dt>
@@ -396,7 +427,7 @@ GVirConfigDomainInputDeviceType, enum in GVirConfigDomainInput
 </dt>
 <dd></dd>
 <dt>
-GVirConfigDomainInterface, struct in GVirConfigDomainInterface
+GVirConfigDomainInterface, struct in <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain">GVirConfigDomain</a>
 </dt>
 <dd></dd>
 <dt>
@@ -408,11 +439,11 @@ GVirConfigDomainInterfaceBridgeClass, struct in GVirConfigDomainInterfaceBridge
 </dt>
 <dd></dd>
 <dt>
-GVirConfigDomainInterfaceClass, struct in GVirConfigDomainInterface
+GVirConfigDomainInterfaceClass, struct in <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain">GVirConfigDomain</a>
 </dt>
 <dd></dd>
 <dt>
-GVirConfigDomainInterfaceLinkState, enum in GVirConfigDomainInterface
+GVirConfigDomainInterfaceLinkState, enum in <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain">GVirConfigDomain</a>
 </dt>
 <dd></dd>
 <dt>
@@ -560,6 +591,22 @@ GVirConfigDomainSmartcardPassthroughClass, struct in GVirConfigDomainSmartcardPa
 </dt>
 <dd></dd>
 <dt>
+GVirConfigDomainSnapshotDisk, struct in GVirConfigDomainSnapshotDisk
+</dt>
+<dd></dd>
+<dt>
+GVirConfigDomainSnapshotDiskClass, struct in GVirConfigDomainSnapshotDisk
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="GVirConfigDomainSnapshot.html#GVirConfigDomainSnapshotDomainState" title="enum GVirConfigDomainSnapshotDomainState">GVirConfigDomainSnapshotDomainState</a>, enum in <a class="link" href="GVirConfigDomainSnapshot.html" title="GVirConfigDomainSnapshot">GVirConfigDomainSnapshot</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="GVirConfigDomainSnapshot.html#GVirConfigDomainSnapshotMemoryState" title="enum GVirConfigDomainSnapshotMemoryState">GVirConfigDomainSnapshotMemoryState</a>, enum in <a class="link" href="GVirConfigDomainSnapshot.html" title="GVirConfigDomainSnapshot">GVirConfigDomainSnapshot</a>
+</dt>
+<dd></dd>
+<dt>
 GVirConfigDomainSound, struct in GVirConfigDomainSound
 </dt>
 <dd></dd>
@@ -616,11 +663,11 @@ GVirConfigDomainVideoModel, enum in GVirConfigDomainVideo
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="GVirConfigInterface.html#GVirConfigInterface-struct" title="struct GVirConfigInterface">GVirConfigInterface</a>, struct in <a class="link" href="GVirConfigInterface.html" title="GVirConfigInterface">GVirConfigInterface</a>
+<a class="link" href="Libvirt-gconfig-GVirConfig.html#GVirConfigInterface-struct" title="struct GVirConfigInterface">GVirConfigInterface</a>, struct in <a class="link" href="Libvirt-gconfig-GVirConfig.html" title="GVirConfig">GVirConfig</a>
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="GVirConfigInterface.html#GVirConfigInterfaceClass" title="struct GVirConfigInterfaceClass">GVirConfigInterfaceClass</a>, struct in <a class="link" href="GVirConfigInterface.html" title="GVirConfigInterface">GVirConfigInterface</a>
+<a class="link" href="Libvirt-gconfig-GVirConfig.html#GVirConfigInterfaceClass" title="struct GVirConfigInterfaceClass">GVirConfigInterfaceClass</a>, struct in <a class="link" href="Libvirt-gconfig-GVirConfig.html" title="GVirConfig">GVirConfig</a>
 </dt>
 <dd></dd>
 <dt>
@@ -924,6 +971,14 @@ gvir_config_domain_address_usb_set_port, function in GVirConfigDomainAddressUsb
 </dt>
 <dd></dd>
 <dt>
+gvir_config_domain_channel_get_target_name, function in GVirConfigDomainChannel
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_channel_get_target_type, function in GVirConfigDomainChannel
+</dt>
+<dd></dd>
+<dt>
 gvir_config_domain_channel_new, function in GVirConfigDomainChannel
 </dt>
 <dd></dd>
@@ -940,7 +995,19 @@ gvir_config_domain_channel_set_target_type, function in GVirConfigDomainChannel
 </dt>
 <dd></dd>
 <dt>
+gvir_config_domain_chardev_get_source, function in GVirConfigDomainChardev
+</dt>
+<dd></dd>
+<dt>
 gvir_config_domain_chardev_set_source, function in GVirConfigDomainChardev
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_chardev_source_new_from_tree, function in libvirt-gconfig-domain-chardev-source-private
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_chardev_source_pty_get_path, function in GVirConfigDomainChardevSourcePty
 </dt>
 <dd></dd>
 <dt>
@@ -948,7 +1015,15 @@ gvir_config_domain_chardev_source_pty_new, function in GVirConfigDomainChardevSo
 </dt>
 <dd></dd>
 <dt>
+gvir_config_domain_chardev_source_pty_new_from_tree, function in libvirt-gconfig-domain-chardev-source-private
+</dt>
+<dd></dd>
+<dt>
 gvir_config_domain_chardev_source_pty_new_from_xml, function in GVirConfigDomainChardevSourcePty
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_chardev_source_pty_set_path, function in GVirConfigDomainChardevSourcePty
 </dt>
 <dd></dd>
 <dt>
@@ -1068,7 +1143,15 @@ gvir_config_domain_cpu_set_mode, function in GVirConfigDomainCpu
 </dt>
 <dd></dd>
 <dt>
+gvir_config_domain_device_get_alias, function in GVirConfigDomainDevice
+</dt>
+<dd></dd>
+<dt>
 gvir_config_domain_device_new_from_tree, function in libvirt-gconfig-domain-device-private
+</dt>
+<dd></dd>
+<dt>
+GVIR_CONFIG_DOMAIN_DISK_FORMAT_AIO, macro in GVirConfigDomainDisk
 </dt>
 <dd></dd>
 <dt>
@@ -1077,6 +1160,10 @@ gvir_config_domain_disk_get_disk_type, function in GVirConfigDomainDisk
 <dd></dd>
 <dt>
 gvir_config_domain_disk_get_driver_cache, function in GVirConfigDomainDisk
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_disk_get_driver_format, function in GVirConfigDomainDisk
 </dt>
 <dd></dd>
 <dt>
@@ -1125,6 +1212,10 @@ gvir_config_domain_disk_new_from_xml, function in GVirConfigDomainDisk
 <dd></dd>
 <dt>
 gvir_config_domain_disk_set_driver_cache, function in GVirConfigDomainDisk
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_disk_set_driver_format, function in GVirConfigDomainDisk
 </dt>
 <dd></dd>
 <dt>
@@ -1256,7 +1347,51 @@ gvir_config_domain_filesys_set_type, function in GVirConfigDomainFilesys
 </dt>
 <dd></dd>
 <dt>
+gvir_config_domain_graphics_desktop_new, function in GVirConfigDomainGraphicsDesktop
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_graphics_desktop_new_from_xml, function in GVirConfigDomainGraphicsDesktop
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_graphics_desktop_set_display, function in GVirConfigDomainGraphicsDesktop
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_graphics_desktop_set_fullscreen, function in GVirConfigDomainGraphicsDesktop
+</dt>
+<dd></dd>
+<dt>
 gvir_config_domain_graphics_new_from_tree, function in libvirt-gconfig-domain-device-private
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_graphics_rdp_get_port, function in GVirConfigDomainGraphicsRdp
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_graphics_rdp_new, function in GVirConfigDomainGraphicsRdp
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_graphics_rdp_new_from_xml, function in GVirConfigDomainGraphicsRdp
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_graphics_rdp_set_autoport, function in GVirConfigDomainGraphicsRdp
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_graphics_rdp_set_multi_user, function in GVirConfigDomainGraphicsRdp
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_graphics_rdp_set_port, function in GVirConfigDomainGraphicsRdp
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_graphics_rdp_set_replace_user, function in GVirConfigDomainGraphicsRdp
 </dt>
 <dd></dd>
 <dt>
@@ -1269,6 +1404,10 @@ gvir_config_domain_graphics_sdl_new_from_xml, function in GVirConfigDomainGraphi
 <dd></dd>
 <dt>
 gvir_config_domain_graphics_sdl_set_display, function in GVirConfigDomainGraphicsSdl
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_graphics_sdl_set_fullscreen, function in GVirConfigDomainGraphicsSdl
 </dt>
 <dd></dd>
 <dt>
@@ -1372,19 +1511,19 @@ gvir_config_domain_interface_bridge_set_source, function in GVirConfigDomainInte
 </dt>
 <dd></dd>
 <dt>
-gvir_config_domain_interface_get_ifname, function in GVirConfigDomainInterface
+gvir_config_domain_interface_get_ifname, function in <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain">GVirConfigDomain</a>
 </dt>
 <dd></dd>
 <dt>
-gvir_config_domain_interface_get_link_state, function in GVirConfigDomainInterface
+gvir_config_domain_interface_get_link_state, function in <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain">GVirConfigDomain</a>
 </dt>
 <dd></dd>
 <dt>
-gvir_config_domain_interface_get_mac, function in GVirConfigDomainInterface
+gvir_config_domain_interface_get_mac, function in <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain">GVirConfigDomain</a>
 </dt>
 <dd></dd>
 <dt>
-gvir_config_domain_interface_get_model, function in GVirConfigDomainInterface
+gvir_config_domain_interface_get_model, function in <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain">GVirConfigDomain</a>
 </dt>
 <dd></dd>
 <dt>
@@ -1404,19 +1543,19 @@ gvir_config_domain_interface_new_from_tree, function in libvirt-gconfig-domain-d
 </dt>
 <dd></dd>
 <dt>
-gvir_config_domain_interface_set_ifname, function in GVirConfigDomainInterface
+gvir_config_domain_interface_set_ifname, function in <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain">GVirConfigDomain</a>
 </dt>
 <dd></dd>
 <dt>
-gvir_config_domain_interface_set_link_state, function in GVirConfigDomainInterface
+gvir_config_domain_interface_set_link_state, function in <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain">GVirConfigDomain</a>
 </dt>
 <dd></dd>
 <dt>
-gvir_config_domain_interface_set_mac, function in GVirConfigDomainInterface
+gvir_config_domain_interface_set_mac, function in <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain">GVirConfigDomain</a>
 </dt>
 <dd></dd>
 <dt>
-gvir_config_domain_interface_set_model, function in GVirConfigDomainInterface
+gvir_config_domain_interface_set_model, function in <a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain">GVirConfigDomain</a>
 </dt>
 <dd></dd>
 <dt>
@@ -1696,11 +1835,115 @@ gvir_config_domain_smartcard_set_address, function in GVirConfigDomainSmartcard
 </dt>
 <dd></dd>
 <dt>
+<a class="link" href="GVirConfigDomainSnapshot.html#gvir-config-domain-snapshot-add-disk" title="gvir_config_domain_snapshot_add_disk ()">gvir_config_domain_snapshot_add_disk</a>, function in <a class="link" href="GVirConfigDomainSnapshot.html" title="GVirConfigDomainSnapshot">GVirConfigDomainSnapshot</a>
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_snapshot_disk_get_driver_format, function in GVirConfigDomainSnapshotDisk
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_snapshot_disk_get_name, function in GVirConfigDomainSnapshotDisk
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_snapshot_disk_get_snapshot_type, function in GVirConfigDomainSnapshotDisk
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_snapshot_disk_get_source_file, function in GVirConfigDomainSnapshotDisk
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_snapshot_disk_new, function in GVirConfigDomainSnapshotDisk
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_snapshot_disk_new_from_tree, function in libvirt-gconfig-domain-snapshot-private
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_snapshot_disk_new_from_xml, function in GVirConfigDomainSnapshotDisk
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_snapshot_disk_set_driver_format, function in GVirConfigDomainSnapshotDisk
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_snapshot_disk_set_name, function in GVirConfigDomainSnapshotDisk
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_snapshot_disk_set_snapshot_type, function in GVirConfigDomainSnapshotDisk
+</dt>
+<dd></dd>
+<dt>
+gvir_config_domain_snapshot_disk_set_source_file, function in GVirConfigDomainSnapshotDisk
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="GVirConfigDomainSnapshot.html#gvir-config-domain-snapshot-get-creation-time" title="gvir_config_domain_snapshot_get_creation_time ()">gvir_config_domain_snapshot_get_creation_time</a>, function in <a class="link" href="GVirConfigDomainSnapshot.html" title="GVirConfigDomainSnapshot">GVirConfigDomainSnapshot</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="GVirConfigDomainSnapshot.html#gvir-config-domain-snapshot-get-description" title="gvir_config_domain_snapshot_get_description ()">gvir_config_domain_snapshot_get_description</a>, function in <a class="link" href="GVirConfigDomainSnapshot.html" title="GVirConfigDomainSnapshot">GVirConfigDomainSnapshot</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="GVirConfigDomainSnapshot.html#gvir-config-domain-snapshot-get-disks" title="gvir_config_domain_snapshot_get_disks ()">gvir_config_domain_snapshot_get_disks</a>, function in <a class="link" href="GVirConfigDomainSnapshot.html" title="GVirConfigDomainSnapshot">GVirConfigDomainSnapshot</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="GVirConfigDomainSnapshot.html#gvir-config-domain-snapshot-get-domain" title="gvir_config_domain_snapshot_get_domain ()">gvir_config_domain_snapshot_get_domain</a>, function in <a class="link" href="GVirConfigDomainSnapshot.html" title="GVirConfigDomainSnapshot">GVirConfigDomainSnapshot</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="GVirConfigDomainSnapshot.html#gvir-config-domain-snapshot-get-memory-file" title="gvir_config_domain_snapshot_get_memory_file ()">gvir_config_domain_snapshot_get_memory_file</a>, function in <a class="link" href="GVirConfigDomainSnapshot.html" title="GVirConfigDomainSnapshot">GVirConfigDomainSnapshot</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="GVirConfigDomainSnapshot.html#gvir-config-domain-snapshot-get-memory-state" title="gvir_config_domain_snapshot_get_memory_state ()">gvir_config_domain_snapshot_get_memory_state</a>, function in <a class="link" href="GVirConfigDomainSnapshot.html" title="GVirConfigDomainSnapshot">GVirConfigDomainSnapshot</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="GVirConfigDomainSnapshot.html#gvir-config-domain-snapshot-get-name" title="gvir_config_domain_snapshot_get_name ()">gvir_config_domain_snapshot_get_name</a>, function in <a class="link" href="GVirConfigDomainSnapshot.html" title="GVirConfigDomainSnapshot">GVirConfigDomainSnapshot</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="GVirConfigDomainSnapshot.html#gvir-config-domain-snapshot-get-parent" title="gvir_config_domain_snapshot_get_parent ()">gvir_config_domain_snapshot_get_parent</a>, function in <a class="link" href="GVirConfigDomainSnapshot.html" title="GVirConfigDomainSnapshot">GVirConfigDomainSnapshot</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="GVirConfigDomainSnapshot.html#gvir-config-domain-snapshot-get-state" title="gvir_config_domain_snapshot_get_state ()">gvir_config_domain_snapshot_get_state</a>, function in <a class="link" href="GVirConfigDomainSnapshot.html" title="GVirConfigDomainSnapshot">GVirConfigDomainSnapshot</a>
+</dt>
+<dd></dd>
+<dt>
 <a class="link" href="GVirConfigDomainSnapshot.html#gvir-config-domain-snapshot-new" title="gvir_config_domain_snapshot_new ()">gvir_config_domain_snapshot_new</a>, function in <a class="link" href="GVirConfigDomainSnapshot.html" title="GVirConfigDomainSnapshot">GVirConfigDomainSnapshot</a>
 </dt>
 <dd></dd>
 <dt>
 <a class="link" href="GVirConfigDomainSnapshot.html#gvir-config-domain-snapshot-new-from-xml" title="gvir_config_domain_snapshot_new_from_xml ()">gvir_config_domain_snapshot_new_from_xml</a>, function in <a class="link" href="GVirConfigDomainSnapshot.html" title="GVirConfigDomainSnapshot">GVirConfigDomainSnapshot</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="GVirConfigDomainSnapshot.html#gvir-config-domain-snapshot-set-description" title="gvir_config_domain_snapshot_set_description ()">gvir_config_domain_snapshot_set_description</a>, function in <a class="link" href="GVirConfigDomainSnapshot.html" title="GVirConfigDomainSnapshot">GVirConfigDomainSnapshot</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="GVirConfigDomainSnapshot.html#gvir-config-domain-snapshot-set-disks" title="gvir_config_domain_snapshot_set_disks ()">gvir_config_domain_snapshot_set_disks</a>, function in <a class="link" href="GVirConfigDomainSnapshot.html" title="GVirConfigDomainSnapshot">GVirConfigDomainSnapshot</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="GVirConfigDomainSnapshot.html#gvir-config-domain-snapshot-set-memory-file" title="gvir_config_domain_snapshot_set_memory_file ()">gvir_config_domain_snapshot_set_memory_file</a>, function in <a class="link" href="GVirConfigDomainSnapshot.html" title="GVirConfigDomainSnapshot">GVirConfigDomainSnapshot</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="GVirConfigDomainSnapshot.html#gvir-config-domain-snapshot-set-memory-state" title="gvir_config_domain_snapshot_set_memory_state ()">gvir_config_domain_snapshot_set_memory_state</a>, function in <a class="link" href="GVirConfigDomainSnapshot.html" title="GVirConfigDomainSnapshot">GVirConfigDomainSnapshot</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="GVirConfigDomainSnapshot.html#gvir-config-domain-snapshot-set-name" title="gvir_config_domain_snapshot_set_name ()">gvir_config_domain_snapshot_set_name</a>, function in <a class="link" href="GVirConfigDomainSnapshot.html" title="GVirConfigDomainSnapshot">GVirConfigDomainSnapshot</a>
 </dt>
 <dd></dd>
 <dt>
@@ -1713,10 +1956,6 @@ gvir_config_domain_sound_new_from_xml, function in GVirConfigDomainSound
 <dd></dd>
 <dt>
 gvir_config_domain_sound_set_model, function in GVirConfigDomainSound
-</dt>
-<dd></dd>
-<dt>
-gvir_config_domain_source_pty_set_path, function in GVirConfigDomainChardevSourcePty
 </dt>
 <dd></dd>
 <dt>
@@ -1784,11 +2023,11 @@ gvir_config_init_check, function in libvirt-gconfig-main
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="GVirConfigInterface.html#gvir-config-interface-new" title="gvir_config_interface_new ()">gvir_config_interface_new</a>, function in <a class="link" href="GVirConfigInterface.html" title="GVirConfigInterface">GVirConfigInterface</a>
+<a class="link" href="Libvirt-gconfig-GVirConfig.html#gvir-config-interface-new" title="gvir_config_interface_new ()">gvir_config_interface_new</a>, function in <a class="link" href="Libvirt-gconfig-GVirConfig.html" title="GVirConfig">GVirConfig</a>
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="GVirConfigInterface.html#gvir-config-interface-new-from-xml" title="gvir_config_interface_new_from_xml ()">gvir_config_interface_new_from_xml</a>, function in <a class="link" href="GVirConfigInterface.html" title="GVirConfigInterface">GVirConfigInterface</a>
+<a class="link" href="Libvirt-gconfig-GVirConfig.html#gvir-config-interface-new-from-xml" title="gvir_config_interface_new_from_xml ()">gvir_config_interface_new_from_xml</a>, function in <a class="link" href="Libvirt-gconfig-GVirConfig.html" title="GVirConfig">GVirConfig</a>
 </dt>
 <dd></dd>
 <dt>
@@ -1892,6 +2131,10 @@ gvir_config_object_get_node_content_uint64, function in libvirt-gconfig-object-p
 </dt>
 <dd></dd>
 <dt>
+gvir_config_object_get_xml_doc, function in libvirt-gconfig-object-private
+</dt>
+<dd></dd>
+<dt>
 gvir_config_object_get_xml_node, function in libvirt-gconfig-object-private
 </dt>
 <dd></dd>
@@ -1976,6 +2219,22 @@ gvir_config_set_error_valist, function in libvirt-gconfig-helpers-private
 </dt>
 <dd></dd>
 <dt>
+gvir_config_storage_permissions_get_group, function in GVirConfigStoragePermissions
+</dt>
+<dd></dd>
+<dt>
+gvir_config_storage_permissions_get_label, function in GVirConfigStoragePermissions
+</dt>
+<dd></dd>
+<dt>
+gvir_config_storage_permissions_get_mode, function in GVirConfigStoragePermissions
+</dt>
+<dd></dd>
+<dt>
+gvir_config_storage_permissions_get_owner, function in GVirConfigStoragePermissions
+</dt>
+<dd></dd>
+<dt>
 gvir_config_storage_permissions_new, function in GVirConfigStoragePermissions
 </dt>
 <dd></dd>
@@ -1997,6 +2256,38 @@ gvir_config_storage_permissions_set_mode, function in GVirConfigStoragePermissio
 <dd></dd>
 <dt>
 gvir_config_storage_permissions_set_owner, function in GVirConfigStoragePermissions
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="GVirConfigStoragePool.html#gvir-config-storage-pool-get-allocation" title="gvir_config_storage_pool_get_allocation ()">gvir_config_storage_pool_get_allocation</a>, function in <a class="link" href="GVirConfigStoragePool.html" title="GVirConfigStoragePool">GVirConfigStoragePool</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="GVirConfigStoragePool.html#gvir-config-storage-pool-get-available" title="gvir_config_storage_pool_get_available ()">gvir_config_storage_pool_get_available</a>, function in <a class="link" href="GVirConfigStoragePool.html" title="GVirConfigStoragePool">GVirConfigStoragePool</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="GVirConfigStoragePool.html#gvir-config-storage-pool-get-capacity" title="gvir_config_storage_pool_get_capacity ()">gvir_config_storage_pool_get_capacity</a>, function in <a class="link" href="GVirConfigStoragePool.html" title="GVirConfigStoragePool">GVirConfigStoragePool</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="GVirConfigStoragePool.html#gvir-config-storage-pool-get-name" title="gvir_config_storage_pool_get_name ()">gvir_config_storage_pool_get_name</a>, function in <a class="link" href="GVirConfigStoragePool.html" title="GVirConfigStoragePool">GVirConfigStoragePool</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="GVirConfigStoragePool.html#gvir-config-storage-pool-get-pool-type" title="gvir_config_storage_pool_get_pool_type ()">gvir_config_storage_pool_get_pool_type</a>, function in <a class="link" href="GVirConfigStoragePool.html" title="GVirConfigStoragePool">GVirConfigStoragePool</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="GVirConfigStoragePool.html#gvir-config-storage-pool-get-source" title="gvir_config_storage_pool_get_source ()">gvir_config_storage_pool_get_source</a>, function in <a class="link" href="GVirConfigStoragePool.html" title="GVirConfigStoragePool">GVirConfigStoragePool</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="GVirConfigStoragePool.html#gvir-config-storage-pool-get-target" title="gvir_config_storage_pool_get_target ()">gvir_config_storage_pool_get_target</a>, function in <a class="link" href="GVirConfigStoragePool.html" title="GVirConfigStoragePool">GVirConfigStoragePool</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="GVirConfigStoragePool.html#gvir-config-storage-pool-get-uuid" title="gvir_config_storage_pool_get_uuid ()">gvir_config_storage_pool_get_uuid</a>, function in <a class="link" href="GVirConfigStoragePool.html" title="GVirConfigStoragePool">GVirConfigStoragePool</a>
 </dt>
 <dd></dd>
 <dt>
@@ -2040,6 +2331,38 @@ gvir_config_storage_permissions_set_owner, function in GVirConfigStoragePermissi
 </dt>
 <dd></dd>
 <dt>
+gvir_config_storage_pool_source_get_adapter, function in GVirConfigStoragePoolSource
+</dt>
+<dd></dd>
+<dt>
+gvir_config_storage_pool_source_get_device_path, function in GVirConfigStoragePoolSource
+</dt>
+<dd></dd>
+<dt>
+gvir_config_storage_pool_source_get_directory, function in GVirConfigStoragePoolSource
+</dt>
+<dd></dd>
+<dt>
+gvir_config_storage_pool_source_get_format, function in GVirConfigStoragePoolSource
+</dt>
+<dd></dd>
+<dt>
+gvir_config_storage_pool_source_get_host, function in GVirConfigStoragePoolSource
+</dt>
+<dd></dd>
+<dt>
+gvir_config_storage_pool_source_get_name, function in GVirConfigStoragePoolSource
+</dt>
+<dd></dd>
+<dt>
+gvir_config_storage_pool_source_get_product, function in GVirConfigStoragePoolSource
+</dt>
+<dd></dd>
+<dt>
+gvir_config_storage_pool_source_get_vendor, function in GVirConfigStoragePoolSource
+</dt>
+<dd></dd>
+<dt>
 gvir_config_storage_pool_source_new, function in GVirConfigStoragePoolSource
 </dt>
 <dd></dd>
@@ -2077,6 +2400,14 @@ gvir_config_storage_pool_source_set_product, function in GVirConfigStoragePoolSo
 <dd></dd>
 <dt>
 gvir_config_storage_pool_source_set_vendor, function in GVirConfigStoragePoolSource
+</dt>
+<dd></dd>
+<dt>
+gvir_config_storage_pool_target_get_path, function in GVirConfigStoragePoolTarget
+</dt>
+<dd></dd>
+<dt>
+gvir_config_storage_pool_target_get_permissions, function in GVirConfigStoragePoolTarget
 </dt>
 <dd></dd>
 <dt>
@@ -2186,6 +2517,6 @@ gvir_config_xml_parse, function in libvirt-gconfig-helpers-private
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.18</div>
+          Generated by GTK-Doc V1.19</div>
 </body>
 </html>

@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>GVirConfigCapabilities</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.77.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
 <link rel="home" href="index.html" title="Libvirt-gconfig Reference Manual">
 <link rel="up" href="ch01.html" title="Libvirt-gconfig">
 <link rel="prev" href="GVirConfigStorageVol.html" title="GVirConfigStorageVol">
 <link rel="next" href="object-tree.html" title="Object Hierarchy">
-<meta name="generator" content="GTK-Doc V1.18 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.19 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -41,13 +41,13 @@
 <a name="GVirConfigCapabilities.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">struct              <a class="link" href="GVirConfigCapabilities.html#GVirConfigCapabilities-struct" title="struct GVirConfigCapabilities">GVirConfigCapabilities</a>;
 struct              <a class="link" href="GVirConfigCapabilities.html#GVirConfigCapabilitiesClass" title="struct GVirConfigCapabilitiesClass">GVirConfigCapabilitiesClass</a>;
-<span class="returnvalue">GList</span> *             <a class="link" href="GVirConfigCapabilities.html#gvir-config-capabilities-get-guests" title="gvir_config_capabilities_get_guests ()">gvir_config_capabilities_get_guests</a> (<em class="parameter"><code><a class="link" href="GVirConfigCapabilities.html" title="GVirConfigCapabilities"><span class="type">GVirConfigCapabilities</span></a> *caps</code></em>);
-<span class="returnvalue">GVirConfigCapabilitiesHost</span> * <a class="link" href="GVirConfigCapabilities.html#gvir-config-capabilities-get-host" title="gvir_config_capabilities_get_host ()">gvir_config_capabilities_get_host</a>
-                                                        (<em class="parameter"><code><a class="link" href="GVirConfigCapabilities.html" title="GVirConfigCapabilities"><span class="type">GVirConfigCapabilities</span></a> *caps</code></em>);
 <a class="link" href="GVirConfigCapabilities.html" title="GVirConfigCapabilities"><span class="returnvalue">GVirConfigCapabilities</span></a> * <a class="link" href="GVirConfigCapabilities.html#gvir-config-capabilities-new" title="gvir_config_capabilities_new ()">gvir_config_capabilities_new</a>   (<em class="parameter"><code><span class="type">void</span></code></em>);
 <a class="link" href="GVirConfigCapabilities.html" title="GVirConfigCapabilities"><span class="returnvalue">GVirConfigCapabilities</span></a> * <a class="link" href="GVirConfigCapabilities.html#gvir-config-capabilities-new-from-xml" title="gvir_config_capabilities_new_from_xml ()">gvir_config_capabilities_new_from_xml</a>
                                                         (<em class="parameter"><code>const <span class="type">gchar</span> *xml</code></em>,
                                                          <em class="parameter"><code><span class="type">GError</span> **error</code></em>);
+<span class="returnvalue">GVirConfigCapabilitiesHost</span> * <a class="link" href="GVirConfigCapabilities.html#gvir-config-capabilities-get-host" title="gvir_config_capabilities_get_host ()">gvir_config_capabilities_get_host</a>
+                                                        (<em class="parameter"><code><a class="link" href="GVirConfigCapabilities.html" title="GVirConfigCapabilities"><span class="type">GVirConfigCapabilities</span></a> *caps</code></em>);
+<span class="returnvalue">GList</span> *             <a class="link" href="GVirConfigCapabilities.html#gvir-config-capabilities-get-guests" title="gvir_config_capabilities_get_guests ()">gvir_config_capabilities_get_guests</a> (<em class="parameter"><code><a class="link" href="GVirConfigCapabilities.html" title="GVirConfigCapabilities"><span class="type">GVirConfigCapabilities</span></a> *caps</code></em>);
 </pre>
 </div>
 <div class="refsect1">
@@ -79,22 +79,15 @@ struct              <a class="link" href="GVirConfigCapabilities.html#GVirConfig
 </div>
 <hr>
 <div class="refsect2">
-<a name="gvir-config-capabilities-get-guests"></a><h3>gvir_config_capabilities_get_guests ()</h3>
-<pre class="programlisting"><span class="returnvalue">GList</span> *             gvir_config_capabilities_get_guests (<em class="parameter"><code><a class="link" href="GVirConfigCapabilities.html" title="GVirConfigCapabilities"><span class="type">GVirConfigCapabilities</span></a> *caps</code></em>);</pre>
-<p>
-Gets the list of guest capabilities.
-</p>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody><tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a newly allocated <span class="type">GList</span> of <span class="type">GVirConfigCapabilitiesGuest</span>. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> LibvirtGConfig.CapabilitiesGuest][<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
-</td>
-</tr></tbody>
-</table></div>
+<a name="gvir-config-capabilities-new"></a><h3>gvir_config_capabilities_new ()</h3>
+<pre class="programlisting"><a class="link" href="GVirConfigCapabilities.html" title="GVirConfigCapabilities"><span class="returnvalue">GVirConfigCapabilities</span></a> * gvir_config_capabilities_new   (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gvir-config-capabilities-new-from-xml"></a><h3>gvir_config_capabilities_new_from_xml ()</h3>
+<pre class="programlisting"><a class="link" href="GVirConfigCapabilities.html" title="GVirConfigCapabilities"><span class="returnvalue">GVirConfigCapabilities</span></a> * gvir_config_capabilities_new_from_xml
+                                                        (<em class="parameter"><code>const <span class="type">gchar</span> *xml</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
@@ -118,20 +111,27 @@ Gets the host capabilities.
 </div>
 <hr>
 <div class="refsect2">
-<a name="gvir-config-capabilities-new"></a><h3>gvir_config_capabilities_new ()</h3>
-<pre class="programlisting"><a class="link" href="GVirConfigCapabilities.html" title="GVirConfigCapabilities"><span class="returnvalue">GVirConfigCapabilities</span></a> * gvir_config_capabilities_new   (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
-</div>
-<hr>
-<div class="refsect2">
-<a name="gvir-config-capabilities-new-from-xml"></a><h3>gvir_config_capabilities_new_from_xml ()</h3>
-<pre class="programlisting"><a class="link" href="GVirConfigCapabilities.html" title="GVirConfigCapabilities"><span class="returnvalue">GVirConfigCapabilities</span></a> * gvir_config_capabilities_new_from_xml
-                                                        (<em class="parameter"><code>const <span class="type">gchar</span> *xml</code></em>,
-                                                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+<a name="gvir-config-capabilities-get-guests"></a><h3>gvir_config_capabilities_get_guests ()</h3>
+<pre class="programlisting"><span class="returnvalue">GList</span> *             gvir_config_capabilities_get_guests (<em class="parameter"><code><a class="link" href="GVirConfigCapabilities.html" title="GVirConfigCapabilities"><span class="type">GVirConfigCapabilities</span></a> *caps</code></em>);</pre>
+<p>
+Gets the list of guest capabilities.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>a newly allocated <span class="type">GList</span> of <span class="type">GVirConfigCapabilitiesGuest</span>. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> LibvirtGConfig.CapabilitiesGuest][<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+</td>
+</tr></tbody>
+</table></div>
 </div>
 </div>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.18</div>
+          Generated by GTK-Doc V1.19</div>
 </body>
 </html>
