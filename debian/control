@@ -2,7 +2,9 @@ Source: libvirt-glib
 Section: libs
 Priority: extra
 Maintainer: Guido Günther <agx@sigxcpu.org>
-Build-Depends: debhelper (>= 7.0.50~), pkg-config,
+Build-Depends: debhelper (>= 7.0.50~), 
+ intltool,
+ pkg-config,
  libvirt-dev (>= 0.10.2), libglib2.0-dev (>= 2.10),
  libxml2-dev, libgirepository1.0-dev, gobject-introspection,
 # when building from git:
