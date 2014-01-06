@@ -1,3 +1,17 @@
+libvirt-glib (0.1.7-1) experimental; urgency=low
+
+  * Upload to experimental
+  * [04ac4ee] Allow for parallel builds
+  * [778d444] New upstream version (Closes: #726582)
+  * [03ae3ed] Update symbols
+  * [b68d2cb] Build-Dep on intltool
+  * [b2e9891] Don't ship static libs
+  * [4d5162d] Remove gvir_config_domain_source_pty_set_path from exported
+    symbols. The function got accidentally exported under the wrong name
+    upstream.
+
+ -- Guido Günther <agx@sigxcpu.org>  Mon, 06 Jan 2014 14:50:36 +0100
+
 libvirt-glib (0.1.6-1) unstable; urgency=low
 
   * Upload to unstable
