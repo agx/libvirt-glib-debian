@@ -1,7 +1,7 @@
 libvirt-glib (0.1.9-1) experimental; urgency=medium
 
   * [6e4b1b8] Mention that the API/ABI is not considered stable yet
-  * [0af3efc] New upstream version 0.1.9
+  * [0af3efc] New upstream version 0.1.9 (Closes: #761382)
   * [3e8f002] Bump symbol versions
   * [936ca30] Bump standards version
   * [8840ab1] Include dpkg-buildflags to get hardening flags
