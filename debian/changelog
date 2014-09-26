@@ -10,6 +10,13 @@ libvirt-glib (0.1.9-1) experimental; urgency=medium
 
  -- Guido Günther <agx@sigxcpu.org>  Fri, 26 Sep 2014 20:51:46 +0200
 
+libvirt-glib (0.1.7-2) unstable; urgency=medium
+
+  * Upload to unstable (Closes: #726582)
+  * [6e4b1b8] Mention that the API/ABI is not considered stable yet
+
+ -- Guido Günther <agx@sigxcpu.org>  Sun, 16 Feb 2014 17:53:07 +0100
+
 libvirt-glib (0.1.7-1) experimental; urgency=low
 
   * Upload to experimental
