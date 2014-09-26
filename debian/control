@@ -13,7 +13,7 @@ Build-Depends: debhelper (>= 7.0.50~),
   python-dev, python-support,
 # for vala bindings
   valac (>= 0.20)
-Standards-Version: 3.9.3
+Standards-Version: 3.9.5
 Homepage: https://libvirt.org
 Vcs-Git: git://git.debian.org/git/pkg-libvirt/libvirt-glib.git
 Vcs-Browser: http://git.debian.org/?p=pkg-libvirt/libvirt-glib.git
