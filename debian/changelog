@@ -1,3 +1,15 @@
+libvirt-glib (0.1.9-1) experimental; urgency=medium
+
+  * [6e4b1b8] Mention that the API/ABI is not considered stable yet
+  * [0af3efc] New upstream version 0.1.9
+  * [3e8f002] Bump symbol versions
+  * [936ca30] Bump standards version
+  * [8840ab1] Include dpkg-buildflags to get hardening flags
+  * [d101543] Drop python build-deps. We don't ship the python bindings since
+    ages
+
+ -- Guido Günther <agx@sigxcpu.org>  Fri, 26 Sep 2014 20:51:46 +0200
+
 libvirt-glib (0.1.7-1) experimental; urgency=low
 
   * Upload to experimental
