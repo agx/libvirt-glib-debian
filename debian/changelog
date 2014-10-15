@@ -1,3 +1,9 @@
+libvirt-glib (0.1.9-3) unstable; urgency=medium
+
+  * [e0e94fd] Build-Depend on libtool-bin (Closes: #761771)
+
+ -- Guido Günther <agx@sigxcpu.org>  Wed, 15 Oct 2014 07:34:40 +0200
+
 libvirt-glib (0.1.9-2) unstable; urgency=medium
 
   * Upload to unstable
