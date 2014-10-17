@@ -1,3 +1,9 @@
+libvirt-glib (0.1.9-4) unstable; urgency=medium
+
+  * [7e61158] Fix test by not running main loop twice (Closes: #765566)
+
+ -- Guido Günther <agx@sigxcpu.org>  Fri, 17 Oct 2014 17:32:20 +0200
+
 libvirt-glib (0.1.9-3) unstable; urgency=medium
 
   * [e0e94fd] Build-Depend on libtool-bin (Closes: #761771)
