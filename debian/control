@@ -5,7 +5,7 @@ Maintainer: Guido Günther <agx@sigxcpu.org>
 Build-Depends: debhelper (>= 7.0.50~), 
  intltool,
  pkg-config,
- libvirt-dev (>= 0.10.2), libglib2.0-dev (>= 2.10),
+ libvirt-dev (>= 0.10.2), libglib2.0-dev (>= 2.36),
  libxml2-dev, libgirepository1.0-dev, gobject-introspection,
 # when building from git:
   automake, autoconf, libtool, libtool-bin,

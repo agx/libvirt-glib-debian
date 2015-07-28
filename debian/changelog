@@ -1,3 +1,13 @@
+libvirt-glib (0.2.2-0.1) unstable; urgency=medium
+
+  * Non-maintainer upload with maintainer permission.
+  * [834be8c] Imported Upstream version 0.2.2 (Closes: #793894)
+  * [94ad412] Bump build-dependencies according to configure.ac changes
+              - libglib2.0-dev (>= 2.36)
+  * [db9841d] Update debian/libvirt-glib-1.0-0.symbols with added symbols
+
+ -- Andreas Henriksson <andreas@fatal.se>  Tue, 28 Jul 2015 21:23:55 +0200
+
 libvirt-glib (0.1.9-4) unstable; urgency=medium
 
   * [7e61158] Fix test by not running main loop twice (Closes: #765566)

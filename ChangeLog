@@ -1,4 +1,198 @@
+2015-07-21  Daniel P. Berrange  <berrange@redhat.com>
+
+	Update NEWS for 0.2.2 release
+
+	Make use of DHCP API conditionally compiled
+	Previously the use of virDomainOpenGraphicsFD API from libvirt
+	1.2.8 was made to be conditionally compiled. Given this past
+	practice, make use of the virNetworkGetDHCPLeases API
+	conditional too, rather than requiring newer libvirt.
+
+2015-07-17  T A Mahadevan  <ta.mahadevan@gmail.com>
+
+	Add ram and vgamem attributes for graphics model.
+
+	buildsys: Add missing libraries to LDFLAGS
+	Without these changes 'make check' would not
+	run on Ubuntu because of a link failure as
+	the tests are directly using glib/libvirt
+	symbols.
+
+	Add LibvirtGConfigDomainChardevSourceUnix
+	This is needed to be able to add UNIX channels
+
+2015-07-13  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Require libvirt-glib >= 1.2.6
+	With bindings added to API that came in 1.2.6:
+
+	81c5969 - gobject: Add wrapper for virNetworkGetDHCPLeases
+	deed153 - gobject: Add wrapper for virNetworkDHCPLease
+
+	we better make our requirement explicit.
+
+	The alternative would be to make use of #ifdef to only use newer symbols
+	from libvirt if installed version is >= 1.2.6 but that would require at
+	least 12 #ifdef in different places and hence very ugly IMO. Keeping in
+	mind that 1.2.6 is more than an year old now and it doesn't make much
+	sense to wanting to upgrade to latest libvirt-glib but not wanting to
+	upgrade to even an year old libvirt, this is very unlikely to cause any
+	real issues.
+
+2015-07-08  Cédric Bosdonnat  <cbosdonnat@suse.com>
+
+	Dsitribute the whole tests/xml folder
+
+	Don't overwrite filesystem type when writing format
+	When setting filesystem driver format first and type, only the type
+	remained and vice-versa.
+
+2015-07-07  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	gobject: Add wrapper for virNetworkGetDHCPLeases
+
+	gobject: Add wrapper for virNetworkDHCPLease
+
+	gobject: Add API to query connection networks
+	Add API to query networks from a connection.
+
+	gobject: Add API to query connection interfaces
+	Add API to query network interfaces from a connection.
+
+	gobject: Port GVirConnection to GTask
+	GSimpleAsyncResult has been deprecated in favour of GTask and with
+	latest glib headers, we get tons of warnings about use of deprecated
+	API. This patch ports the GVirConnection class to GTask.
+
+	gobject: Plug 2 virConnect leaks
+	A virConnect reference is leaked in error cases. This patch moves the
+	unref after the label we jump to on errors, to avoid this leak.
+
+	gobject: Simplify gvir_connection_list*() implementations
+	Make use of virConnectListAll* functions to avoid making 4 calls and
+	hence avoid race conditions and complicated code.
+
+2015-07-03  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Bump version
+
+2015-06-27  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	gobject: Add gvir_interface_get_mac()
+	Add a wrapper for virInterfaceGetMACString().
+
+2015-06-17  Christophe Fergeau  <cfergeau@redhat.com>
+
+	gconfig: Fix small leak in test-domain-create
+	The object returned by gvir_config_domain_disk_get_driver() must be
+	unref'ed when no longer used.
+
+2015-06-16  Daniel P. Berrange  <berrange@redhat.com>
+
+	Update NEWS for 0.2.1 release
+
+	Refresh translations from zanata
+
+2015-06-16  Cédric Bosdonnat  <cbosdonnat@suse.com>
+
+	domain config: add API to set the filesystem image format
+	Add the gvir_config_domain_filesys_set_driver_format function to allow
+	setting nbd driver type + image format for containers filesystems.
+
+	Add loop, nbd and ploop filesystem types
+
+	gvir_config_domain_filesys_set_driver_type: replace the driver node
+	Replace the driver node in case the user calls the function more than
+	one time.
+
+	test-gconfig: add filesystem test
+
+2015-06-01  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	storage-pool: API to get/set autostart flag
+	Add binding for virStoragePoolGetAutostart & virStoragePoolSetAutostart.
+
+2015-06-01  Christophe Fergeau  <cfergeau@redhat.com>
+
+	gconfig: Don't try to return value from gvir_config_domain_set_memory
+	gvir_config_domain_set_memory() is a void function, so using
+	g_return_val_if_fail() is not correct. This causes a warning/compilation
+	failure on CentOS CI framework:
+	https://ci.centos.org/view/libvirt-project/job/libvirt-glib-build/systems=libvirt-fedora-20/144/console
+
+	gconfig: Add precondition checks to some public entry points
+	It's currently possible to trigger a crash by passing eg NULL to these
+	functions. Better to return a prominent warning to the caller without
+	crashing.
+
+2015-05-18  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Bump version to 0.2.1
+
+2015-04-13  Richa Sehgal  <richasehgal2908@gmail.com>
+
+	gconfig: Add support for 'compat' storage volume node
+	This change adds support for setting of compat XML node in
+	libvirt-gconfig storage volumes target.
+
+2015-03-24  Christophe Fergeau  <cfergeau@redhat.com>
+
+	build-sys: Fix libtoolize detection in autogen.sh
+	autogen.sh is currently checking for the libtool binary, but
+	it's libtoolize which is needed by autoreconf, not libtool.
+
+	These binaries are packaged separately on Debian/Ubuntu so this can
+	cause actual issues on some systems.
+
+	Bug reported by Frederic Peters
+
+2015-02-18  Daniel P. Berrange  <berrange@redhat.com>
+
+	Switch over to using zanata for translation
+	Remove obsolete transifex config and add zanata config,
+	re-generating all po files
+
+2014-12-15  Daniel P. Berrange  <berrange@redhat.com>
+
+	Update NEWS for 0.2.0 release
+
+	Fix build on win32 due to missing sys/socket.h
+
+2014-11-27  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	Add gvir_domain_open_graphics_fd()
+	Add binding for virDomainOpenGraphicsFD. If virDomainOpenGraphicsFD is
+	not available, it means we are dealing with older libvirt so we create
+	the socket pair ourselves if that is the case.
+
+2014-11-13  Martin Kletzander  <mkletzan@redhat.com>
+
+	Revert back deleted glib-specific warning options
+	Commit f525ba7796a2fd35bf55e88fb94459b2277fcd67 copied warning macros
+	from gnulib without keeping glib-specific settings.  This build-breaker
+	brings back those needed ones except unused-parameter, which is no
+	longer needed.
+
+	Properly mark unused parameters
+
+2014-11-13  Michal Privoznik  <mprivozn@redhat.com>
+
+	m4: sync macros with libvirt
+	The macros under the m4 directory are outdated a bit. When trying
+	to compile with newer gcc I see some errors:
+
+	make[2]: Entering directory '/home/zippy/work/libvirt/libvirt-glib.git/libvirt-glib'
+	  CC       libvirt_glib_1_0_la-libvirt-glib-error.lo
+	gcc: warning: switch '-Wmudflap' is no longer supported
+
+2014-09-29  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	gconfig: Add GVIR_CONFIG_DOMAIN_INPUT_DEVICE_KEYBOARD
+	Add missing enum type for keyboard input device.
+
 2014-08-20  Daniel P. Berrange  <berrange@redhat.com>
+
+	Post-release version bump to 0.2.0
 
 	Update NEWS for 0.1.9 release
 

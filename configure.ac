@@ -1,4 +1,4 @@
-AC_INIT(libvirt-glib, 0.1.9)
+AC_INIT(libvirt-glib, 0.2.2)
 AC_CONFIG_SRCDIR(libvirt-glib/libvirt-glib-main.c)
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_HEADERS([config.h])
@@ -93,6 +93,14 @@ m4_if(m4_version_compare([2.61a.100],
 LIBVIRT_GLIB_COMPILE_WARNINGS
 
 PKG_CHECK_MODULES(LIBVIRT, libvirt >= $LIBVIRT_REQUIRED)
+# virDomainOpenGraphicsFD was introduced in libvirt 1.2.8
+AC_CHECK_LIB([virt],
+             [virDomainOpenGraphicsFD],
+             [AC_DEFINE([HAVE_VIR_DOMAIN_OPEN_GRAPHICS_FD], 1, [Have virDomainOpenGraphicsFD?])])
+# virNetworkGetDHCPLeases was introduced in libvirt 1.2.6
+AC_CHECK_LIB([virt],
+             [virNetworkGetDHCPLeases],
+             [AC_DEFINE([HAVE_VIR_NETWORK_GET_DHCP_LEASES], 1, [Have virNetworkGetDHCPLeases?])])
 enable_tests=no
 PKG_CHECK_MODULES(GLIB2, glib-2.0 >= $GLIB2_TEST_REQUIRED,
                   [enable_tests=yes],
