@@ -321,7 +321,6 @@ static gchar ** fetch_list(virStoragePoolPtr vpool,
 {
     gchar **lst = NULL;
     gint n = 0;
-    gint i;
 
     if ((n = count_func(vpool)) < 0) {
         gvir_set_error(err, GVIR_STORAGE_POOL_ERROR,
@@ -347,11 +346,7 @@ static gchar ** fetch_list(virStoragePoolPtr vpool,
     return lst;
 
 error:
-    if (lst != NULL) {
-        for (i = 0 ; i < n; i++)
-            g_free(lst[i]);
-        g_free(lst);
-    }
+    g_free(lst);
     return NULL;
 }
 
@@ -1047,6 +1042,57 @@ gboolean gvir_storage_pool_delete (GVirStoragePool *pool,
         gvir_set_error_literal(err, GVIR_STORAGE_POOL_ERROR,
                                0,
                                "Failed to delete storage pool");
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
+/**
+ * gvir_storage_pool_get_autostart:
+ * @pool: the storage pool
+ * @err: return location for any #GError
+ *
+ * Return value: #True if autostart is enabled, #False otherwise.
+ */
+gboolean gvir_storage_pool_get_autostart(GVirStoragePool *pool,
+                                         GError **err)
+{
+    int ret;
+
+    g_return_val_if_fail(GVIR_IS_STORAGE_POOL(pool), FALSE);
+    g_return_val_if_fail(err == NULL || *err == NULL, FALSE);
+
+    if (virStoragePoolGetAutostart(pool->priv->handle, &ret)) {
+        gvir_set_error_literal(err, GVIR_STORAGE_POOL_ERROR,
+                               0,
+                               "Failed to get autostart flag from storage pool");
+    }
+
+    return !!ret;
+}
+
+/**
+ * gvir_storage_pool_set_autostart:
+ * @pool: the storage pool
+ * @autostart: Whether or not to autostart
+ * @err: return location for any #GError
+ *
+ * Sets whether or not storage pool @pool is started automatically on boot.
+ *
+ * Return value: #TRUE on success, #FALSE otherwise.
+ */
+gboolean gvir_storage_pool_set_autostart(GVirStoragePool *pool,
+                                         gboolean autostart,
+                                         GError **err)
+{
+    g_return_val_if_fail(GVIR_IS_STORAGE_POOL(pool), FALSE);
+    g_return_val_if_fail(err == NULL || *err == NULL, FALSE);
+
+    if (virStoragePoolSetAutostart(pool->priv->handle, autostart)) {
+        gvir_set_error_literal(err, GVIR_STORAGE_POOL_ERROR,
+                               0,
+                               "Failed to set autostart flag on storage pool");
         return FALSE;
     }
 
