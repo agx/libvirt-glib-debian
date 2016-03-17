@@ -219,8 +219,6 @@ gvir_config_capabilities_host_secmodel_get_type
 
 <SECTION>
 <FILE>libvirt-gconfig-compat</FILE>
-G_DEPRECATED
-G_DEPRECATED_FOR
 g_type_init
 </SECTION>
 

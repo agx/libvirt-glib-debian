@@ -4,12 +4,6 @@ gvir_mutex_free
 gvir_mutex_new
 g_mutex_new
 g_mutex_free
-G_DEFINE_BOXED_TYPE
-G_DEFINE_BOXED_TYPE_WITH_CODE
-g_clear_object
-g_simple_async_result_take_error
-g_simple_async_result_new_take_error
-g_simple_async_report_take_gerror_in_idle
 </SECTION>
 
 <SECTION>
@@ -144,6 +138,9 @@ gvir_domain_get_snapshots
 gvir_domain_fetch_snapshots_async
 gvir_domain_fetch_snapshots_finish
 gvir_domain_get_has_current_snapshot
+gvir_domain_set_time
+gvir_domain_set_time_async
+gvir_domain_set_time_finish
 <SUBSECTION Standard>
 GVIR_DOMAIN
 GVIR_DOMAIN_CLASS

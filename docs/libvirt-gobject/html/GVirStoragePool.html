@@ -410,8 +410,8 @@ gvir_storage_pool_get_info (<em class="parameter"><code><a class="link" href="GV
 </div>
 <div class="refsect3">
 <a name="id-1.2.11.9.7.5"></a><h4>Returns</h4>
-<p> the info. The returned object should be
-unreffed with <a href="https://developer.gnome.org/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a> when no longer needed. </p>
+<p> the info. The returned pointer should be
+freed using <a href="https://developer.gnome.org/gobject/unstable/gobject-Boxed-Types.html#g-boxed-free"><code class="function"><GTKDOCLINK HREF="g-boxed-free"><code class="function">g_boxed_free()</code></a></code></GTKDOCLINK> when no longer needed. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
 </div>

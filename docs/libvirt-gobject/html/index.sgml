@@ -124,6 +124,9 @@
 <ANCHOR id="gvir-domain-fetch-snapshots-async" href="Libvirt-gobject/GVirDomain.html#gvir-domain-fetch-snapshots-async">
 <ANCHOR id="gvir-domain-fetch-snapshots-finish" href="Libvirt-gobject/GVirDomain.html#gvir-domain-fetch-snapshots-finish">
 <ANCHOR id="gvir-domain-get-has-current-snapshot" href="Libvirt-gobject/GVirDomain.html#gvir-domain-get-has-current-snapshot">
+<ANCHOR id="gvir-domain-set-time" href="Libvirt-gobject/GVirDomain.html#gvir-domain-set-time">
+<ANCHOR id="gvir-domain-set-time-async" href="Libvirt-gobject/GVirDomain.html#gvir-domain-set-time-async">
+<ANCHOR id="gvir-domain-set-time-finish" href="Libvirt-gobject/GVirDomain.html#gvir-domain-set-time-finish">
 <ANCHOR id="GVirDomain.other_details" href="Libvirt-gobject/GVirDomain.html#GVirDomain.other_details">
 <ANCHOR id="GVirDomainState" href="Libvirt-gobject/GVirDomain.html#GVirDomainState">
 <ANCHOR id="GVIR-DOMAIN-STATE-NONE:CAPS" href="Libvirt-gobject/GVirDomain.html#GVIR-DOMAIN-STATE-NONE:CAPS">
