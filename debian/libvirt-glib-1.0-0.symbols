@@ -440,6 +440,7 @@ libvirt-gobject-1.0.so.0 libvirt-glib-1.0-0 #MINVER#
  *@LIBVIRT_GOBJECT_0.2.0 0.2.2~
  *@LIBVIRT_GOBJECT_0.2.1 0.2.2~
  *@LIBVIRT_GOBJECT_0.2.2 0.2.2~
+ *@LIBVIRT_GOBJECT_0.2.3 0.2.3~
  gvir_connection_close@LIBVIRT_GOBJECT_0.0.8 0.0.8~
  gvir_connection_create_domain@LIBVIRT_GOBJECT_0.0.8 0.0.8~
  gvir_connection_create_storage_pool@LIBVIRT_GOBJECT_0.0.8 0.0.8~
