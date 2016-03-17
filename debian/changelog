@@ -1,3 +1,18 @@
+libvirt-glib (0.2.3-1) unstable; urgency=medium
+
+  [ Guido Günther ]
+  * [909376d] Verify tarball signature
+  * [d1aa62a] New upstream version 0.2.3 (Closes: #818464)
+
+  [ Andreas Henriksson ]
+  * [0dd8082] Bump build-dependencies according to configure.ac changes.
+     - libvirt-dev (>= 1.1.1)
+     - libglib2.0-dev (>= 2.36.0)
+     - gobject-introspection (>= 1.36.0)
+  * [14a047b] Update debian/libvirt-glib-1.0-0.symbols with added symbols
+
+ -- Guido Günther <agx@sigxcpu.org>  Thu, 17 Mar 2016 20:38:27 +0100
+
 libvirt-glib (0.2.2-0.1) unstable; urgency=medium
 
   * Non-maintainer upload with maintainer permission.
