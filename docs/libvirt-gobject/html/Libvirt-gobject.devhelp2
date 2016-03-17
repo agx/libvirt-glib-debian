@@ -126,6 +126,9 @@
     <keyword type="function" name="gvir_domain_fetch_snapshots_async ()" link="GVirDomain.html#gvir-domain-fetch-snapshots-async"/>
     <keyword type="function" name="gvir_domain_fetch_snapshots_finish ()" link="GVirDomain.html#gvir-domain-fetch-snapshots-finish"/>
     <keyword type="function" name="gvir_domain_get_has_current_snapshot ()" link="GVirDomain.html#gvir-domain-get-has-current-snapshot"/>
+    <keyword type="function" name="gvir_domain_set_time ()" link="GVirDomain.html#gvir-domain-set-time"/>
+    <keyword type="function" name="gvir_domain_set_time_async ()" link="GVirDomain.html#gvir-domain-set-time-async"/>
+    <keyword type="function" name="gvir_domain_set_time_finish ()" link="GVirDomain.html#gvir-domain-set-time-finish"/>
     <keyword type="enum" name="enum GVirDomainState" link="GVirDomain.html#GVirDomainState"/>
     <keyword type="enum" name="enum GVirDomainStartFlags" link="GVirDomain.html#GVirDomainStartFlags"/>
     <keyword type="enum" name="enum GVirDomainDeleteFlags" link="GVirDomain.html#GVirDomainDeleteFlags"/>

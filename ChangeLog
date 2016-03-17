@@ -1,4 +1,138 @@
+2015-12-16  Daniel P. Berrange  <berrange@redhat.com>
+
+	Update NEWS for 0.2.3 release
+
+	Refresh translations from zanata
+
+2015-12-07  Michal Privoznik  <mprivozn@redhat.com>
+
+	Drop unused finalize function
+	After 1225a160ac3b4 where I'm dropping some unused variables, the
+	functions I was touching became sort of redundant too.
+	Specifically, gvir_domain_disk_finalize() and
+	gvir_domain_interface_finalize().
+
+2015-12-05  Michal Privoznik  <mprivozn@redhat.com>
+
+	gobject: Drop some unused variables
+	After abe983ddf8a569 there are some variables, that are unused:
+
+	  CC       libvirt_gobject_1_0_la-libvirt-gobject-domain-disk.lo
+	  CC       libvirt_gobject_1_0_la-libvirt-gobject-domain-interface.lo
+	  CC       libvirt_gobject_1_0_la-libvirt-gobject-domain.lo
+	  CC       libvirt_gobject_1_0_la-libvirt-gobject-interface.lo
+	../../libvirt-gobject/libvirt-gobject-domain-interface.c: In function 'gvir_domain_interface_finalize':
+	../../libvirt-gobject/libvirt-gobject-domain-interface.c:54:26: error: unused variable 'self' [-Werror=unused-variable]
+	     GVirDomainInterface *self = GVIR_DOMAIN_INTERFACE(object);
+	                          ^
+	cc1: all warnings being treated as errors
+	Makefile:724: recipe for target 'libvirt_gobject_1_0_la-libvirt-gobject-domain-interface.lo' failed
+	make[3]: *** [libvirt_gobject_1_0_la-libvirt-gobject-domain-interface.lo] Error 1
+	make[3]: *** Waiting for unfinished jobs....
+	../../libvirt-gobject/libvirt-gobject-domain-disk.c: In function 'gvir_domain_disk_finalize':
+	../../libvirt-gobject/libvirt-gobject-domain-disk.c:54:21: error: unused variable 'self' [-Werror=unused-variable]
+	     GVirDomainDisk *self = GVIR_DOMAIN_DISK(object);
+	                     ^
+	cc1: all warnings being treated as errors
+	Makefile:717: recipe for target 'libvirt_gobject_1_0_la-libvirt-gobject-domain-disk.lo' failed
+
+2015-12-04  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	gobject,gconfig: Drop redundant debug logging
+	The g_debug messages in libvirt-gobject creation/destruction were to aid
+	troubleshooting of object reference leaks. GObject has built-in systemtap
+	probes that allow the same to be achieved in a more flexible manner, so
+	the g_debug calls can be removed
+
+2015-11-26  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	gobject: Port to GTask API
+	Drop usage of deprecated GSimpleAsyncResult API.
+
+2015-11-23  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	gobject,gconfig: Drop redundant glib compatibility code
+	We already require and use glib >= 2.36 so there is no reason to keep
+	around code to ensure compatibility with glib older than that.
+
+	gobject: Add wrapper virDomainSetTime()
+
+2015-09-23  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	gobject: Correct docs for gvir_storage_pool_get_info()
+	The returned GVirStoragePoolInfo pointer is not a GObject so it must not
+	be unrefed using g_object_unref(). Since gvir_storage_pool_info_free()
+	is private function, callers must either use g_slice_free() or
+	g_boxed_free().
+
+2015-07-24  Daniel P. Berrange  <berrange@redhat.com>
+
+	configure.ac: update min required versions
+	Based on the distro target policy we have the following
+	min versions in various distros
+
+	                   libvirt  glib2    gobject-introspection
+	        RHEL 7.0:  1.1.1    2.36.3   1.36.0
+	       Fedora 21:  1.2.9    2.42.1   1.42.0
+	    Ubuntu 14.10:  1.2.8    2.42.0   1.41.0
+	Ubuntu LTS 14.04:  1.2.2    2.40.0   1.40.0
+	       Suse 12.0:  1.2.5    2.38.2   1.38.0
+	   OpenSUSE 13.1:  1.1.2    2.38.2   1.38.0
+	        Debian 8:  1.2.9    2.42.0   1.42.0
+
+	Which means we can reasonably depend on
+
+	  libvirt >= 1.1.1
+	  glib2 >= 2.36.0
+	  gobject-introspection >= 1.36.0
+
+	NB, choosen 2.36.0 rather than 2.36.3 because they are
+	API compatible, the micro digit just indicates a bug
+	fix release.
+
+	README: formally document intended platform support targets
+	Give users an indication of what distro platforms the project
+	intends to be buildable on. This policy will be used to decide
+	when it is appropriate to increase the minimum required versions
+	of external dependancies.
+
+	As an example, as of July 1st 2015, this policy would aim to pick the
+	min versions based on what's available across the following sample
+	distros:
+
+	 - RHEL: 7.0, 7.1
+	 - Fedora: 21, 22
+	 - Ubuntu LTS: 14.04 (Trusty)
+	 - Ubuntu: 14.10 (Utopic), 15.04 (Vivid)
+	 - Suse: 12.0
+	 - OpenSUSE: 13.1, 13.2
+	 - Debian: 8.0 (Jessie)
+
+2015-07-22  Christophe Fergeau  <cfergeau@redhat.com>
+
+	examples: Don't leak mainloop in conn-test.c
+	The program exits right after this, so it's no big deal, but this gives
+	us a clean valgrind --leak-check=full output.
+
+	gconfig: Use GVirConfigObject helpers for <video> XML
+	GVirConfigDomainVideo is using raw libxml calls to set the 'heads' and
+	'vram' XML attributes rather than the helpers provided by
+	GVirConfigObject. This commit changes that, making the code a bit
+	simpler.
+
+	test-gconfig: Test video heads/vram setting
+
+	test-gconfig: Fix various leaks
+	Running test-gconfig under valgrind reports a few leaks that this commit
+	fixes.
+
+	gconfig: Fix leak in gvir_config_domain_filesys_set_ram_usage
+	The object returned by gvir_config_object_replace_child() must be
+	unref'ed when no longer needed.
+
 2015-07-21  Daniel P. Berrange  <berrange@redhat.com>
+
+	Post release version bump to 0.2.3
 
 	Update NEWS for 0.2.2 release
 

@@ -44,8 +44,6 @@ static void gvir_config_domain_filesys_class_init(GVirConfigDomainFilesysClass *
 
 static void gvir_config_domain_filesys_init(GVirConfigDomainFilesys *filesys)
 {
-    g_debug("Init GVirConfigDomainFilesys=%p", filesys);
-
     filesys->priv = GVIR_CONFIG_DOMAIN_FILESYS_GET_PRIVATE(filesys);
 }
 
@@ -201,7 +199,7 @@ void gvir_config_domain_filesys_set_ram_usage(GVirConfigDomainFilesys *filesys,
                                                "usage", G_TYPE_UINT64, bytes,
                                                "units", G_TYPE_STRING, "bytes",
                                                NULL);
-
+    g_object_unref(G_OBJECT(src));
 }
 
 void gvir_config_domain_filesys_set_target(GVirConfigDomainFilesys *filesys,
