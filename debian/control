@@ -15,8 +15,8 @@ Build-Depends: debhelper (>= 7.0.50~),
   valac (>= 0.20)
 Standards-Version: 3.9.7
 Homepage: https://libvirt.org
-Vcs-Git: git://git.debian.org/git/pkg-libvirt/libvirt-glib.git
-Vcs-Browser: http://git.debian.org/?p=pkg-libvirt/libvirt-glib.git
+Vcs-Git: https://anonscm.debian.org/git/git/pkg-libvirt/libvirt-glib.git
+Vcs-Browser: https://git.debian.org/?p=pkg-libvirt/libvirt-glib.git
 
 Package: libvirt-glib-1.0-0
 Architecture: any
