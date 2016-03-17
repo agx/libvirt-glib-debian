@@ -29,16 +29,6 @@ Description: libvirt glib mainloop integration
  .
  The API/ABI of this library are still considered unstable.
 
-Package: libvirt-glib-1.0-0-dbg
-Architecture: any
-Section: debug
-Depends: libvirt-glib-1.0-0 (= ${binary:Version}), ${misc:Depends}
-Description: libvirt glib mainloop integration
- This shared library eases integration of libvirt's events into programs using
- a glib mainloop.
- .
- This package contains the debugging symbols.
-
 Package: libvirt-glib-1.0-dev
 Architecture: any
 Multi-Arch: same

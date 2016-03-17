@@ -10,9 +10,6 @@ override_dh_auto_configure:
 	[ -x ./configure ] || ./autogen.sh
 	dh_auto_configure -- --enable-introspection --enable-vala --libdir="\$${prefix}/lib/$(DEB_HOST_MULTIARCH)"
 
-override_dh_strip:
-	dh_strip -plibvirt-glib-1.0-0 --dbg-package=libvirt-glib-1.0-0-dbg
-
 override_dh_auto_clean:
 	[ ! -f Makefile ] || make clean
 
