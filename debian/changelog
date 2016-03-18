@@ -1,3 +1,21 @@
+libvirt-glib (0.2.3-2) unstable; urgency=medium
+
+  [ Guido Günther ]
+  * [f2e50c4] Remove useless debian/dirs
+  * [0f9ac6c] Bump standards version
+  * [f431c40] Add missing symbol
+  * [539dcc3] Use dh_autoreconf (Closes: #751921)
+  * [e4f5e69] Drop debug package
+  * [5be5a0d] Drop unused debian/py{compat,versions}
+  * [519db00] Use https git URIs
+  * [f05f74b] Add autopkg test to verify the gir works
+  * [6736b89] Improve descriptions
+
+  [ Matthias Klose ]
+  * [de16694] Multiarchify (Closes: #813061)
+
+ -- Guido Günther <agx@sigxcpu.org>  Fri, 18 Mar 2016 13:07:28 +0100
+
 libvirt-glib (0.2.3-1) unstable; urgency=medium
 
   [ Guido Günther ]
