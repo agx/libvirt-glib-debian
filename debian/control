@@ -23,9 +23,9 @@ Architecture: any
 Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends}
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: libvirt glib mainloop integration
- This shared library eases integration of libvirt's events into programs using
- a glib mainloop.
+Description: libvirt GLib and GObject mapping library
+ The libvirt-glib library eases integration of libvirt's events and API into
+ GLib and GObject based applications.
  .
  The API/ABI of this library are still considered unstable.
 
@@ -36,11 +36,12 @@ Section: libdevel
 Depends: libvirt-glib-1.0-0 (= ${binary:Version}), ${misc:Depends},
  gir1.2-libvirt-glib-1.0 (= ${binary:Version}), libvirt-dev
 Recommends: pkg-config
-Description: libvirt glib mainloop integration
- This shared library eases integration of libvirt's events into programs using
- a glib mainloop.
+Description: Development files for the libvirt-glib library
+ The libvirt-glib library eases integration of libvirt's events and API into
+ GLib and GObject based applications.
  .
- This package contains the development headers and the Vala bindings.
+ This package contains the header files and static libraries which are needed
+ for developing the applications with libvirt as well as the Vala bindings.
  .
  The API/ABI of this library are still considered unstable.
 
@@ -49,9 +50,9 @@ Architecture: any
 Multi-Arch: same
 Section: introspection
 Depends: ${shlibs:Depends}, ${misc:Depends}, ${gir:Depends}
-Description: libvirt glib mainloop integration
- This shared library eases integration of libvirt's events into programs using
- a glib mainloop.
+Description: GObject introspection files for the libvirt-glib library
+ The libvirt-glib library eases integration of libvirt's events and API into
+ GLib and GObject based applications.
  .
  This package contains the GObject-introspection data in binary typelib format.
 
