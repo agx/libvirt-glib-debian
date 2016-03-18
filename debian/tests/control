@@ -1,0 +1,4 @@
+Tests: smoke.py
+Depends: gir1.2-libvirt-glib-1.0,
+  python3-gi
+
