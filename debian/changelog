@@ -1,3 +1,12 @@
+libvirt-glib (1.0.0-1) unstable; urgency=medium
+
+  * [b4225aa] New upstream version 1.0.0
+  * [a1b9d2a] Bump symbol versions
+  * [2d0ac88] Switch to debian compat level 10
+  * [42f68d8] gbp.conf: switch to upstream/latest
+
+ -- Guido Günther <agx@sigxcpu.org>  Fri, 09 Dec 2016 13:56:24 +0100
+
 libvirt-glib (0.2.3-2) unstable; urgency=medium
 
   [ Guido Günther ]
