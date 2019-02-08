@@ -48,6 +48,10 @@ Package: gir1.2-libvirt-glib-1.0
 Architecture: any
 Multi-Arch: same
 Section: introspection
+Provides:
+ gir1.2-libvirtgconfig-1.0 (= ${binary:Version}),
+ gir1.2-libvirtglib-1.0 (= ${binary:Version}),
+ gir1.2-libvirtgobject-1.0 (= ${binary:Version}),
 Depends: ${shlibs:Depends}, ${misc:Depends}, ${gir:Depends}
 Description: GObject introspection files for the libvirt-glib library
  The libvirt-glib library eases integration of libvirt's events and API into
