@@ -1,4 +1,9 @@
 <SECTION>
+<FILE>libvirt-glib</FILE>
+
+</SECTION>
+
+<SECTION>
 <FILE>libvirt-glib-error</FILE>
 gvir_error_new
 gvir_error_new_literal

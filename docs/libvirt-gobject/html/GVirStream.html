@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>GVirStream: Libvirt-gobject Reference Manual</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.79.1">
+<meta name="generator" content="DocBook XSL Stylesheets Vsnapshot">
 <link rel="home" href="index.html" title="Libvirt-gobject Reference Manual">
 <link rel="up" href="ch01.html" title="Libvirt-gobject">
 <link rel="prev" href="GVirStorageVol.html" title="GVirStorageVol">
 <link rel="next" href="object-tree.html" title="Object Hierarchy">
-<meta name="generator" content="GTK-Doc V1.25 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.28 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -180,7 +180,7 @@
 </tr>
 <tr>
 <td class="parameter_name"><p>buf</p></td>
-<td class="parameter_description"><p> data pointer. </p></td>
+<td class="parameter_description"><p>data pointer. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter for returning results. Default is transfer full."><span class="acronym">out</span></acronym>][<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> length=nbytes][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></td>
 </tr>
 <tr>
@@ -226,7 +226,7 @@ of file, or -1 upon error</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>buf</p></td>
-<td class="parameter_description"><p> data pointer. </p></td>
+<td class="parameter_description"><p>data pointer. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter for returning results. Default is transfer full."><span class="acronym">out</span></acronym>][<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> length=nbytes][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></td>
 </tr>
 <tr>
@@ -288,12 +288,12 @@ gvir_stream_add_watch (<em class="parameter"><code><a class="link" href="GVirStr
 </tr>
 <tr>
 <td class="parameter_name"><p>func</p></td>
-<td class="parameter_description"><p> the function to call when the condition is satisfied. </p></td>
+<td class="parameter_description"><p>the function to call when the condition is satisfied. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="This parameter is a 'user_data', for callbacks; many bindings can pass NULL here."><span class="acronym">closure</span></acronym> opaque]</span></td>
 </tr>
 <tr>
 <td class="parameter_name"><p>opaque</p></td>
-<td class="parameter_description"><p> user data to pass to <em class="parameter"><code>func</code></em>
+<td class="parameter_description"><p>user data to pass to <em class="parameter"><code>func</code></em>
 . </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="This parameter is a 'user_data', for callbacks; many bindings can pass NULL here."><span class="acronym">closure</span></acronym>]</span></td>
 </tr>
@@ -344,12 +344,12 @@ gvir_stream_add_watch_full (<em class="parameter"><code><a class="link" href="GV
 </tr>
 <tr>
 <td class="parameter_name"><p>func</p></td>
-<td class="parameter_description"><p> the function to call when the condition is satisfied. </p></td>
+<td class="parameter_description"><p>the function to call when the condition is satisfied. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="This parameter is a 'user_data', for callbacks; many bindings can pass NULL here."><span class="acronym">closure</span></acronym> opaque]</span></td>
 </tr>
 <tr>
 <td class="parameter_name"><p>opaque</p></td>
-<td class="parameter_description"><p> user data to pass to <em class="parameter"><code>func</code></em>
+<td class="parameter_description"><p>user data to pass to <em class="parameter"><code>func</code></em>
 . </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="This parameter is a 'user_data', for callbacks; many bindings can pass NULL here."><span class="acronym">closure</span></acronym>]</span></td>
 </tr>
@@ -399,12 +399,12 @@ to virStreamRecv, for apps that do blocking-I/o.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>func</p></td>
-<td class="parameter_description"><p> the callback for writing data to application. </p></td>
+<td class="parameter_description"><p>the callback for writing data to application. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="The callback is valid until the GDestroyNotify argument is called."><span class="acronym">scope notified</span></acronym>]</span></td>
 </tr>
 <tr>
 <td class="parameter_name"><p>user_data</p></td>
-<td class="parameter_description"><p> data to be passed to <em class="parameter"><code>callback</code></em>
+<td class="parameter_description"><p>data to be passed to <em class="parameter"><code>callback</code></em>
 . </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="This parameter is a 'user_data', for callbacks; many bindings can pass NULL here."><span class="acronym">closure</span></acronym>]</span></td>
 </tr>
@@ -457,7 +457,7 @@ returned.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>buffer</p></td>
-<td class="parameter_description"><p> a buffer
+<td class="parameter_description"><p>a buffer
 to read data into (which should be at least <em class="parameter"><code>size</code></em>
 bytes long). </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> length=size][<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> guint8]</span></td>
@@ -469,7 +469,7 @@ bytes long). </p></td>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p> a <code class="literal">GCancellable</code> or <code class="literal">NULL</code>. </p></td>
+<td class="parameter_description"><p>a <code class="literal">GCancellable</code> or <code class="literal">NULL</code>. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span></td>
 </tr>
 <tr>
@@ -519,12 +519,12 @@ to virStreamRecv, for apps that do blocking-I/o.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>func</p></td>
-<td class="parameter_description"><p> the callback for writing data to application. </p></td>
+<td class="parameter_description"><p>the callback for writing data to application. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="The callback is valid until the GDestroyNotify argument is called."><span class="acronym">scope notified</span></acronym>]</span></td>
 </tr>
 <tr>
 <td class="parameter_name"><p>user_data</p></td>
-<td class="parameter_description"><p> data to be passed to <em class="parameter"><code>callback</code></em>
+<td class="parameter_description"><p>data to be passed to <em class="parameter"><code>callback</code></em>
 . </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="This parameter is a 'user_data', for callbacks; many bindings can pass NULL here."><span class="acronym">closure</span></acronym>]</span></td>
 </tr>
@@ -588,7 +588,7 @@ bytes long).</p></td>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p> a <code class="literal">GCancellable</code> or <code class="literal">NULL</code>. </p></td>
+<td class="parameter_description"><p>a <code class="literal">GCancellable</code> or <code class="literal">NULL</code>. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span></td>
 </tr>
 <tr>
@@ -654,6 +654,6 @@ bytes long).</p></td>
 </div>
 </div>
 <div class="footer">
-<hr>Generated by GTK-Doc V1.25</div>
+<hr>Generated by GTK-Doc V1.28</div>
 </body>
 </html>

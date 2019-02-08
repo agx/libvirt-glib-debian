@@ -33,12 +33,11 @@ struct _GVirConfigDomainOsPrivate
     gboolean unused;
 };
 
-G_DEFINE_TYPE(GVirConfigDomainOs, gvir_config_domain_os, GVIR_CONFIG_TYPE_OBJECT);
+G_DEFINE_TYPE_WITH_PRIVATE(GVirConfigDomainOs, gvir_config_domain_os, GVIR_CONFIG_TYPE_OBJECT);
 
 
-static void gvir_config_domain_os_class_init(GVirConfigDomainOsClass *klass)
+static void gvir_config_domain_os_class_init(GVirConfigDomainOsClass *klass G_GNUC_UNUSED)
 {
-    g_type_class_add_private(klass, sizeof(GVirConfigDomainOsPrivate));
 }
 
 
@@ -305,6 +304,13 @@ void gvir_config_domain_os_set_arch(GVirConfigDomainOs *os, const char *arch)
     g_return_if_fail(os_type_node != NULL);
 
     xmlNewProp(os_type_node, (xmlChar*)"arch", (xmlChar*)arch);
+}
+
+const char *gvir_config_domain_os_get_machine(GVirConfigDomainOs *os)
+{
+    return gvir_config_object_get_attribute(GVIR_CONFIG_OBJECT(os),
+                                            "type",
+                                            "machine");
 }
 
 void gvir_config_domain_os_set_machine(GVirConfigDomainOs *os, const char *machine)

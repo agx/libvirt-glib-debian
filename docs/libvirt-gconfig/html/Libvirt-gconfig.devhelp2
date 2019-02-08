@@ -59,6 +59,7 @@
     <keyword type="function" name="gvir_config_domain_add_device ()" link="GVirConfigDomain.html#gvir-config-domain-add-device"/>
     <keyword type="function" name="gvir_config_domain_get_devices ()" link="GVirConfigDomain.html#gvir-config-domain-get-devices"/>
     <keyword type="function" name="gvir_config_domain_set_lifecycle ()" link="GVirConfigDomain.html#gvir-config-domain-set-lifecycle"/>
+    <keyword type="function" name="gvir_config_domain_set_custom_xml_ns_children ()" link="GVirConfigDomain.html#gvir-config-domain-set-custom-xml-ns-children"/>
     <keyword type="function" name="gvir_config_domain_set_custom_xml ()" link="GVirConfigDomain.html#gvir-config-domain-set-custom-xml"/>
     <keyword type="function" name="gvir_config_domain_get_custom_xml ()" link="GVirConfigDomain.html#gvir-config-domain-get-custom-xml"/>
     <keyword type="function" name="gvir_config_domain_get_cpu ()" link="GVirConfigDomain.html#gvir-config-domain-get-cpu"/>

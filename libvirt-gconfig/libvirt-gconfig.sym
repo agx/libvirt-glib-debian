@@ -766,4 +766,10 @@ global:
 	gvir_config_domain_video_set_accel3d;
 } LIBVIRT_GCONFIG_0.2.2;
 
+LIBVIRT_GCONFIG_2.0.0 {
+global:
+	gvir_config_domain_os_get_machine;
+	gvir_config_domain_set_custom_xml_ns_children;
+} LIBVIRT_GCONFIG_0.2.4;
+
 # .... define new API here using predicted next version number ....

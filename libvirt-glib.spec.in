@@ -15,7 +15,7 @@
 
 Name: @PACKAGE@
 Version: @VERSION@
-Release: 1%{?dist}%{?extra_release}
+Release: 1%{?dist}
 Summary: libvirt glib integration for events
 Group: Development/Libraries
 License: LGPLv2+
@@ -37,6 +37,7 @@ BuildRequires: libtool
 %if %{with_vala}
 BuildRequires: vala-tools
 %endif
+BuildRequires: intltool
 
 %package devel
 Group: Development/Libraries
@@ -114,6 +115,12 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/libvirt-gobject-1.0.a
 rm -f $RPM_BUILD_ROOT%{_libdir}/libvirt-gobject-1.0.la
 
 %find_lang %{name}
+
+%check
+if ! make %{?_smp_mflags} check; then
+  cat tests/test-suite.log || true
+  exit 1
+fi
 
 %clean
 rm -rf $RPM_BUILD_ROOT

@@ -11,11 +11,11 @@
 %endif
 %define with_vala %{with_introspection}
 
-%define libvirt_version 1.1.1
+%define libvirt_version 1.2.5
 
 Name: libvirt-glib
-Version: 1.0.0
-Release: 1%{?dist}%{?extra_release}
+Version: 2.0.0
+Release: 1%{?dist}
 Summary: libvirt glib integration for events
 Group: Development/Libraries
 License: LGPLv2+
@@ -23,7 +23,7 @@ URL: http://libvirt.org/
 Source0: ftp://libvirt.org/libvirt/glib/%{name}-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires: glib2-devel >= 2.36.0
+BuildRequires: glib2-devel >= 2.38.0
 BuildRequires: libvirt-devel >= %{libvirt_version}
 %if %{with_introspection}
 BuildRequires: gobject-introspection-devel
@@ -37,6 +37,7 @@ BuildRequires: libtool
 %if %{with_vala}
 BuildRequires: vala-tools
 %endif
+BuildRequires: intltool
 
 %package devel
 Group: Development/Libraries
@@ -114,6 +115,12 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/libvirt-gobject-1.0.a
 rm -f $RPM_BUILD_ROOT%{_libdir}/libvirt-gobject-1.0.la
 
 %find_lang %{name}
+
+%check
+if ! make %{?_smp_mflags} check; then
+  cat tests/test-suite.log || true
+  exit 1
+fi
 
 %clean
 rm -rf $RPM_BUILD_ROOT

@@ -35,12 +35,11 @@ struct _GVirConfigDomainInterfacePrivate
     gboolean unused;
 };
 
-G_DEFINE_ABSTRACT_TYPE(GVirConfigDomainInterface, gvir_config_domain_interface, GVIR_CONFIG_TYPE_DOMAIN_DEVICE);
+G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE(GVirConfigDomainInterface, gvir_config_domain_interface, GVIR_CONFIG_TYPE_DOMAIN_DEVICE);
 
 
-static void gvir_config_domain_interface_class_init(GVirConfigDomainInterfaceClass *klass)
+static void gvir_config_domain_interface_class_init(GVirConfigDomainInterfaceClass *klass G_GNUC_UNUSED)
 {
-    g_type_class_add_private(klass, sizeof(GVirConfigDomainInterfacePrivate));
 }
 
 

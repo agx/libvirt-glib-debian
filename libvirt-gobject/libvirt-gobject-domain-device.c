@@ -40,7 +40,7 @@ struct _GVirDomainDevicePrivate
     GVirConfigDomainDevice *config;
 };
 
-G_DEFINE_ABSTRACT_TYPE(GVirDomainDevice, gvir_domain_device, G_TYPE_OBJECT);
+G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE(GVirDomainDevice, gvir_domain_device, G_TYPE_OBJECT);
 
 enum {
     PROP_0,
@@ -134,8 +134,6 @@ static void gvir_domain_device_class_init(GVirDomainDeviceClass *klass)
                                                         G_PARAM_READWRITE |
                                                         G_PARAM_CONSTRUCT_ONLY |
                                                         G_PARAM_STATIC_STRINGS));
-
-    g_type_class_add_private(klass, sizeof(GVirDomainDevicePrivate));
 }
 
 static void gvir_domain_device_init(GVirDomainDevice *self)

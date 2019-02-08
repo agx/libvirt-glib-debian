@@ -1,4 +1,4 @@
-AC_INIT(libvirt-glib, 1.0.0)
+AC_INIT(libvirt-glib, 2.0.0)
 AC_CONFIG_SRCDIR(libvirt-glib/libvirt-glib-main.c)
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_HEADERS([config.h])
@@ -9,11 +9,10 @@ AC_CANONICAL_HOST
 
 AM_SILENT_RULES([yes])
 
-LIBVIRT_REQUIRED=1.1.1
+LIBVIRT_REQUIRED=1.2.5
 AC_SUBST([LIBVIRT_REQUIRED]) dnl used in the .spec file
-GLIB2_REQUIRED=2.36.0
+GLIB2_REQUIRED=2.38.0
 AC_SUBST([GLIB2_REQUIRED]) dnl used in the .spec file
-GLIB2_TEST_REQUIRED=2.38.0
 GOBJECT_INTROSPECTION_REQUIRED=1.36.0
 LIBXML2_REQUIRED=2.0.0
 
@@ -71,6 +70,8 @@ AC_SUBST([LIBVIRT_GLIB_VERSION_NUMBER])
 AC_PROG_CC
 AM_PROG_CC_C_O
 
+AC_PATH_PROG([PERL], [perl])
+
 LT_INIT([shared disable-static win32-dll])
 
 dnl AC_CONFIG_LIBOBJ_DIR([src])
@@ -105,16 +106,11 @@ PKG_CHECK_EXISTS(libvirt >= 1.2.6,
 		   AC_DEFINE([HAVE_VIR_NETWORK_GET_DHCP_LEASES], 1, [Have virNetworkGetDHCPLeases?])
 		   AC_MSG_RESULT([yes])
 		 ],[AC_MSG_RESULT([no])])
-enable_tests=no
-PKG_CHECK_MODULES(GLIB2, glib-2.0 >= $GLIB2_TEST_REQUIRED,
-                  [enable_tests=yes],
-                  [PKG_CHECK_MODULES(GLIB2, glib-2.0 >= $GLIB2_REQUIRED)])
+PKG_CHECK_MODULES(GLIB2, glib-2.0 >= $GLIB2_REQUIRED)
 PKG_CHECK_MODULES(GTHREAD2, gthread-2.0 >= $GLIB2_REQUIRED)
 PKG_CHECK_MODULES(GOBJECT2, gobject-2.0 >= $GLIB2_REQUIRED)
 PKG_CHECK_MODULES(GIO2, gio-2.0 >= $GLIB2_REQUIRED)
 PKG_CHECK_MODULES(LIBXML2, libxml-2.0 >= $LIBXML2_REQUIRED)
-
-AM_CONDITIONAL([ENABLE_TESTS], [test "$enable_tests" = "yes"])
 
 LIBVIRT_GLIB_GETTEXT
 dnl Should be in m4/virt-gettext.m4 but intltoolize is too
