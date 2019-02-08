@@ -1,3 +1,13 @@
+libvirt-glib (2.0.0-1~1.gbpfd0aee) UNRELEASED; urgency=medium
+
+  ** SNAPSHOT build @fd0aeec78c995c2f4e17a321c26cfcd481a32d5b **
+
+  * Fix vcs-git url
+  * Switch gbp.conf to experimental
+  * New upstream version 2.0.0
+
+ -- Guido Günther <agx@sigxcpu.org>  Fri, 08 Feb 2019 10:27:43 +0100
+
 libvirt-glib (1.0.0-1) unstable; urgency=medium
 
   * [b4225aa] New upstream version 1.0.0

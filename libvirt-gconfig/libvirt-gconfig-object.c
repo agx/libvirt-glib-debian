@@ -42,7 +42,7 @@ struct _GVirConfigObjectPrivate
     xmlNodePtr node;
 };
 
-G_DEFINE_TYPE(GVirConfigObject, gvir_config_object, G_TYPE_OBJECT);
+G_DEFINE_TYPE_WITH_PRIVATE(GVirConfigObject, gvir_config_object, G_TYPE_OBJECT);
 
 enum {
     PROP_0,
@@ -175,8 +175,6 @@ static void gvir_config_object_class_init(GVirConfigObjectClass *klass)
                                                         G_PARAM_READWRITE |
                                                         G_PARAM_CONSTRUCT_ONLY |
                                                         G_PARAM_STATIC_STRINGS));
-
-    g_type_class_add_private(klass, sizeof(GVirConfigObjectPrivate));
 }
 
 
@@ -572,7 +570,7 @@ gvir_config_object_set_node_content(GVirConfigObject *object,
         node = gvir_config_object_replace_child(object, node_name);
         g_return_if_fail(node != NULL);
     } else {
-        node = g_object_ref(G_OBJECT(object));
+        node = g_object_ref(object);
     }
     encoded_data = xmlEncodeEntitiesReentrant(node->priv->node->doc,
                                               (xmlChar *)value);
@@ -896,7 +894,7 @@ gvir_config_object_attach(GVirConfigObject *parent, GVirConfigObject *child, gbo
         child->priv->doc = NULL;
     }
     if (parent->priv->doc != NULL) {
-        child->priv->doc = g_object_ref(G_OBJECT(parent->priv->doc));
+        child->priv->doc = g_object_ref(parent->priv->doc);
     }
 }
 
@@ -930,24 +928,55 @@ gvir_config_object_remove_attribute(GVirConfigObject *object,
     } while (status == 0);
 }
 
-G_GNUC_INTERNAL gboolean
-gvir_config_object_set_namespace(GVirConfigObject *object, const char *ns,
-                                 const char *ns_uri)
+static gboolean
+gvir_config_object_set_xmlnode_namespace(xmlNodePtr node, const char *ns,
+                                         const char *ns_uri)
 {
     xmlNsPtr namespace;
 
+    namespace = xmlNewNs(node, (xmlChar *)ns_uri, (xmlChar *)ns);
+    if (namespace == NULL)
+        return FALSE;
+
+    xmlSetNs(node, namespace);
+    return TRUE;
+}
+
+static gboolean
+gvir_config_object_set_namespace_recursively(xmlNodePtr node,
+                                             const char *ns,
+                                             const char *ns_uri)
+{
+    xmlNodePtr n;
+
+    for (n = node; n != NULL; n = n->next) {
+        if (n->type == XML_ELEMENT_NODE) {
+            if (!gvir_config_object_set_xmlnode_namespace(n, ns, ns_uri))
+                return FALSE;
+        }
+
+        if (!gvir_config_object_set_namespace_recursively(n->children, ns, NULL))
+            return FALSE;
+    }
+
+    return TRUE;
+}
+
+G_GNUC_INTERNAL gboolean
+gvir_config_object_set_namespace(GVirConfigObject *object, const char *ns,
+                                 const char *ns_uri, gboolean ns_children)
+{
     g_return_val_if_fail(GVIR_CONFIG_IS_OBJECT(object), FALSE);
     g_return_val_if_fail(ns != NULL, FALSE);
     g_return_val_if_fail(ns_uri != NULL, FALSE);
 
-    namespace = xmlNewNs(object->priv->node,
-                         (xmlChar *)ns_uri, (xmlChar *)ns);
-    if (namespace == NULL)
-        return FALSE;
+    if (!ns_children) {
+        return gvir_config_object_set_xmlnode_namespace(object->priv->node,
+                                                        ns, ns_uri);
+    }
 
-    xmlSetNs(object->priv->node, namespace);
-
-    return TRUE;
+    return gvir_config_object_set_namespace_recursively(object->priv->node,
+                                                        ns, ns_uri);
 }
 
 G_GNUC_INTERNAL GVirConfigObject *

@@ -1,4 +1,258 @@
+2018-10-12  Daniel P. Berrangé  <berrange@redhat.com>
+
+	Bump version to 2.0.0 for new release
+
+	Re-add script for doing release build testing
+
+	Refresh translations from zanata
+
+2018-10-12  Fabiano Fidêncio  <fidencio@redhat.com>
+
+	tests: Add tests for _domain_os_{set, get}_machine()
+	Reviewed-by: Cole Robinson <crobinso@redhat.com>
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+	gconfig: add _domain_os_get_machine()
+	Reviewed-by: Cole Robinson <crobinso@redhat.com>
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+	gconfig-domain-sound: Add ich9 sound device
+	Reviewed-by: Cole Robinson <crobinso@redhat.com>
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+2018-10-03  Fabiano Fidêncio  <fidencio@redhat.com>
+
+	domain: Introduce gvir_config_domain_set_custom_xml_ns_children()
+	gvir_config_domain_set_custom_xml_ns_children() basically has the same
+	functionallity as gvir_config_domain_set_custom_xml() but also sets the
+	namespace to the nodes' children.
+
+	object: Also add the ns to the node's children
+	With the current code, we can only create a custom XML that looks like:
+	<metadata>
+	  <boxes:gnome-boxes xmlns:boxes="https://wiki.gnome.org/Apps/Boxes">
+	    <os-state>installed</os-state>
+	    <media-id>http://centos.org/centos/7.0:0</media-id>
+	    <media>/home/fidencio/Downloads/CentOS-7-x86_64-DVD-1804.iso</media>
+	  </boxes:gnome-boxes>
+	</metadata>
+
+	Although it works well for some use cases, there are use cases where
+	we'd like to have something a bit more complex libosinfo or nova
+	examples:
+	<metadata>
+	  <libosinfo:libosinfo xmlns:libosinfo="http://libosinfo.org/xmlns/libvirt/domain/1.0">
+	    <libosinfo:os id="http://fedoraproject.org/fedora/17"/>
+	  </libosinfo:libosinfo>
+	  <nova:instance xmlns:nova="http://openstack.org/nova/instance/1">
+	    <nova:flavor name="m1.small">
+	      <nova:memory>512</nova:memory>
+	      <nova:disk>10</nova:disk>
+	    </nova:flavor>
+	  </nova:instance>
+	</metadata>
+
+	And for the latter case we'd have to go through the node's children and
+	also set the namespace for each children.
+
+	gconfig, gobject: Use G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE
+	Commit 7190c5024d introduced the usage of new GObject define macros with
+	private. However as the conversion hasn't been done for abstract types
+	(G_DEFINE_ABSTRACT_TYPE) and the addition of the private classes for the
+	abstract types has been removed as part of the commit, crashes can be
+	seen in Apps consuming libvirt-glib, as this one from GNOME Boxes:
+
+	 Thread 1 "gnome-boxes" received signal SIGSEGV, Segmentation fault.
+	 0x00007ffff7ef2b35 in g_type_check_instance_is_fundamentally_a () from /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0
+	 (gdb) bt
+	 #0  0x00007ffff7ef2b35 in g_type_check_instance_is_fundamentally_a () from /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0
+	 #1  0x00007ffff7ed2e75 in g_object_unref () from /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0
+	 #2  0x00007ffff6ef094e in gvir_domain_device_set_property (object=0x555556680950, prop_id=2, value=0x7fffffffcbe0,
+	     pspec=0x555556772540) at libvirt-gobject-domain-device.c:89
+	 #3  0x00007ffff7ed3b19 in ?? () from /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0
+	 #4  0x00007ffff7ed5624 in g_object_new_valist () from /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0
+	 #5  0x00007ffff7ed5959 in g_object_new () from /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0
+	 #6  0x00005555555d8257 in boxes_libvirt_machine_get_domain_disk (self=0x5555560e6790, error=0x55555615a630)
+	     at /run/build/gnome-boxes/src/libvirt-machine.vala:547
+	 #7  0x00005555555d0e7e in boxes_libvirt_machine_update_io_stat_co (_data_=0x55555615a320)
+	     at /run/build/gnome-boxes/src/libvirt-machine.vala:280
+	 #8  0x00005555555d09b2 in boxes_libvirt_machine_update_io_stat (self=0x5555560e6790, info=0x555555f25990, stat=0x555556736a90,
+	     _callback_=0x5555555d2992 <boxes_libvirt_machine_update_stats_ready>, _user_data_=0x555556736a50)
+	     at /run/build/gnome-boxes/src/libvirt-machine.vala:5
+	 #9  0x00005555555d3120 in boxes_libvirt_machine_update_stats_co (_data_=0x555556736a50)
+	     at /run/build/gnome-boxes/src/libvirt-machine.vala:332
+	 #10 0x00005555555d29dd in boxes_libvirt_machine_update_stats_ready (source_object=0x5555567bb840, _res_=0x55555677ae00,
+	     _user_data_=0x555556736a50) at /run/build/gnome-boxes/src/libvirt-machine.vala:328
+	 #11 0x00007ffff72adc89 in ?? () from /usr/lib/x86_64-linux-gnu/libgio-2.0.so.0
+	 #12 0x00007ffff72adcc9 in ?? () from /usr/lib/x86_64-linux-gnu/libgio-2.0.so.0
+	 #13 0x00007ffff7dec948 in g_main_context_dispatch () from /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
+	 #14 0x00007ffff7decd38 in ?? () from /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
+	 #15 0x00007ffff7decdcc in g_main_context_iteration () from /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
+	 #16 0x00007ffff72c2dbd in g_application_run () from /usr/lib/x86_64-linux-gnu/libgio-2.0.so.0
+	 #17 0x00005555556004b6 in _vala_main (args=0x7fffffffd4f8, args_length1=1) at /run/build/gnome-boxes/src/main.vala:84
+	 #18 0x0000555555600517 in main (argc=1, argv=0x7fffffffd4f8) at /run/build/gnome-boxes/src/main.vala:68
+
+	In order to solve the issue, let's just replace G_DEFINE_ABSTRACT_TYPE
+	by G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE.
+
+2018-08-16  Michal Privoznik  <mprivozn@redhat.com>
+
+	configure: Drop GLIB2_TEST_REQUIRED
+	Introduced in eb1f97a4b49a6e it is not needed anymore. The
+	minimal required version of glib is now the same as the one
+	required for tests.
+
+	This practically reverts the referenced commit.
+
+	Reviewed-by: Andrea Bolognani <abologna@redhat.com>
+
+	Use new GObject define macros with private
+	G_ADD_PRIVATE was added in 2.38 and older functions are getting deprecated:
+	https://gitlab.gnome.org/GNOME/glib/merge_requests/7/commits
+
+	This also means, that the minimal required glib version is
+	increased to 2.38.
+
+	Reviewed-by: Andrea Bolognani <abologna@redhat.com>
+
+2018-04-24  Daniel P. Berrangé  <berrange@redhat.com>
+
+	git: add config file telling git-publish how to send patches
+	The "git-publish" tool is a useful git extension for sending patch
+	series for code review. It automatically creates versioned tags
+	each time code on a branch is sent, so that there is a record of
+	each version. It also remembers the cover letter so it does not
+	need re-entering each time the series is reposted.
+
+	With this config file present it is now sufficient[1] to run
+
+	  $ git publish
+
+	to send all patches in a branch to the list for review, with the
+	correct subject prefix added for this non-core libvirt module.
+
+	[1] Assuming your $HOME/.gitconfig has an SMTP server listed
+	at least e.g.
+
+	   [sendemail]
+	        smtpserver = smtp.example.com
+
+2018-02-20  Daniel P. Berrangé  <berrange@redhat.com>
+
+	m4: disable gcc8 -Wcast-function-type warnings from -Wextra
+	The -Wextra flag bundle gained a new warning -Wcast-function-type.
+	This complains if you cast between two function prototypes where
+	the number of parameters or their data types are not compatible.
+	Unfortunately we need such "bad" function casts for our event
+	callbacks. It is possible to silence the warning by first casting
+	to the generic "void (*)(void)" function prototype, but that is
+	rather ugly to add throughout libvirt code.
+
+2018-01-17  Daniel P. Berrange  <berrange@redhat.com>
+
+	remove bogus casts of arg to g_object_ref
+	Latest version of glib uses typeof() magic to cast the
+	return value of g_object_ref to match its argument,
+	instead of returning a 'void *'. A few places in the
+	code were casting the arg to G_OBJECT() which was then
+	incompatible with the variable we assigned the result
+	to. The parameter casts were always redundant so just
+	remove them.
+
+2017-12-04  Daniel P. Berrange  <berrange@redhat.com>
+
+	Refresh po files from zanata
+
+2017-10-30  Marek Kasik  <mkasik@redhat.com>
+
+	spec: Enable unit tests during build
+	Enable unit tests so that we can catch some problems soon enough
+	before the package gets to the users.
+	Show test suite log if a test fail.
+
+2017-09-21  Andrea Bolognani  <abologna@redhat.com>
+
+	scripts: Fix sha-bang lines
+	This is particularly useful on operating systems that don't ship
+	Perl or Python as part of the base system (eg. FreeBSD) while still
+	working just as well as it did before on Linux.
+
+	While at it, make it explicit that our scripts are only going to
+	work with Python 2, add a couple of missing sha-bang lines and
+	tweak a couple more that just didn't look very nice.
+
+	Reviewed-by: Daniel P. Berrange <berrange@redhat.com>
+
+	tests: Don't rely on non-portable paths
+	The test-events program sets up a watch on /bin/true; however,
+	that path is not portable: FreeBSD uses /usr/bin/true for example.
+
+	Remove the portability issue by using /dev/null instead.
+
+	Reviewed-by: Daniel P. Berrange <berrange@redhat.com>
+
+	configure: Look for Perl interpreter path
+	The $(PERL) variable is used in several places, but configure is
+	not actually looking for the Perl interpreter path, so it will
+	always end up being empty.
+
+	Reviewed-by: Daniel P. Berrange <berrange@redhat.com>
+
+	configure: Bump required libvirt version to 1.2.5
+	That's the version that introduced VIR_DOMAIN_TIME_SYNC, which we
+	use in the library.
+
+	Reviewed-by: Daniel P. Berrange <berrange@redhat.com>
+
+	maint: Drop autobuild.sh
+	The Test-AutoBuild project, that this script is supposed to be used
+	with, hasn't seen any activity in ~6 years; libvirt's own CI, which
+	also performs periodic builds of libvirt-glib, is running on Jenkins
+	with a completely independent setup that doesn't use the script at
+	all.
+
+	Reviewed-by: Daniel P. Berrange <berrange@redhat.com>
+
+2017-08-14  Daniel P. Berrange  <berrange@redhat.com>
+
+	Set LC_CTYPE when running glib-mkenums
+
+	Revert "Don't set LC_ALL=C during build as that breaks python apps"
+	This reverts commit dae25f53293919bb2c22419c236bef5aa628e9be.
+
+2017-07-25  Daniel P. Berrange  <berrange@redhat.com>
+
+	Don't set LC_ALL=C during build as that breaks python apps
+	Setting LC_ALL=C breaks python apps doing I/O on UTF-8 source
+	files. In particular this broke glib-mkenums
+
+	  GEN      libvirt-gconfig-enum-types.h
+	Traceback (most recent call last):
+	  File "/usr/bin/glib-mkenums", line 669, in <module>
+	    process_file(fname)
+	  File "/usr/bin/glib-mkenums", line 406, in process_file
+	    line = curfile.readline()
+	  File "/usr/lib64/python3.6/encodings/ascii.py", line 26, in decode
+	    return codecs.ascii_decode(input, self.errors)[0]
+	UnicodeDecodeError: 'ascii' codec can't decode byte 0xc3 in position 849: ordinal not in range(128)
+
+2017-05-30  Daniel P. Berrange  <berrange@redhat.com>
+
+	Add missing dep on intltool
+	Libvirt-glib requires intltool at build time. Previously it
+	was pulled in transitively via another RPM dependancy. As of
+	Fedora 26, this no longer happens, exposing the missing RPM
+	dep.
+
+2017-03-25  Guido Günther  <agx@sigxcpu.org>
+
+	examples: make detail strings match event details
+
 2016-11-04  Daniel P. Berrange  <berrange@redhat.com>
+
+	Post release version bump to 1.1.0
+	NB, this will change to 2.0.0 if no new release is made
+	during 2016
 
 	Update NEWS for 1.0.0 release
 

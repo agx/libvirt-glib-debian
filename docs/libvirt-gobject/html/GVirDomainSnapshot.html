@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>GVirDomainSnapshot: Libvirt-gobject Reference Manual</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.79.1">
+<meta name="generator" content="DocBook XSL Stylesheets Vsnapshot">
 <link rel="home" href="index.html" title="Libvirt-gobject Reference Manual">
 <link rel="up" href="ch01.html" title="Libvirt-gobject">
 <link rel="prev" href="GVirDomain.html" title="GVirDomain">
 <link rel="next" href="GVirInterface.html" title="GVirInterface">
-<meta name="generator" content="GTK-Doc V1.25 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.28 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -50,7 +50,7 @@
 </tr>
 <tr>
 <td class="function_type">
-<a href="../Libvirt-gconfig/GVirConfigDomainSnapshot.html#GVirConfigDomainSnapshot-struct"><span class="returnvalue">GVirConfigDomainSnapshot</span></a> *
+<a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigDomainSnapshot.html#GVirConfigDomainSnapshot-struct"><span class="returnvalue">GVirConfigDomainSnapshot</span></a> *
 </td>
 <td class="function_name">
 <a class="link" href="GVirDomainSnapshot.html#gvir-domain-snapshot-get-config" title="gvir_domain_snapshot_get_config ()">gvir_domain_snapshot_get_config</a> <span class="c_punctuation">()</span>
@@ -177,7 +177,7 @@ gvir_domain_snapshot_get_name (<em class="parameter"><code><a class="link" href=
 <hr>
 <div class="refsect2">
 <a name="gvir-domain-snapshot-get-config"></a><h3>gvir_domain_snapshot_get_config ()</h3>
-<pre class="programlisting"><a href="../Libvirt-gconfig/GVirConfigDomainSnapshot.html#GVirConfigDomainSnapshot-struct"><span class="returnvalue">GVirConfigDomainSnapshot</span></a> *
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigDomainSnapshot.html#GVirConfigDomainSnapshot-struct"><span class="returnvalue">GVirConfigDomainSnapshot</span></a> *
 gvir_domain_snapshot_get_config (<em class="parameter"><code><a class="link" href="GVirDomainSnapshot.html" title="GVirDomainSnapshot"><span class="type">GVirDomainSnapshot</span></a> *snapshot</code></em>,
                                  <em class="parameter"><code><span class="type">guint</span> flags</code></em>,
                                  <em class="parameter"><code><span class="type">GError</span> **err</code></em>);</pre>
@@ -205,7 +205,7 @@ gvir_domain_snapshot_get_config (<em class="parameter"><code><a class="link" hre
 </div>
 <div class="refsect3">
 <a name="gvir-domain-snapshot-get-config.returns"></a><h4>Returns</h4>
-<p> the config. The returned object should be
+<p>the config. The returned object should be
 unreffed with <code class="function">g_object_unref()</code> when no longer needed. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -238,7 +238,7 @@ gvir_domain_snapshot_delete (<em class="parameter"><code><a class="link" href="G
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p> Place-holder for error or NULL. </p></td>
+<td class="parameter_description"><p>Place-holder for error or NULL. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span></td>
 </tr>
 </tbody>
@@ -279,17 +279,17 @@ gvir_domain_snapshot_delete_async (<em class="parameter"><code><a class="link" h
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p> cancellation object. </p></td>
+<td class="parameter_description"><p>cancellation object. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></td>
 </tr>
 <tr>
 <td class="parameter_name"><p>callback</p></td>
-<td class="parameter_description"><p> completion callback. </p></td>
+<td class="parameter_description"><p>completion callback. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="The callback is valid until first called."><span class="acronym">scope async</span></acronym>]</span></td>
 </tr>
 <tr>
 <td class="parameter_name"><p>user_data</p></td>
-<td class="parameter_description"><p> opaque data for callback. </p></td>
+<td class="parameter_description"><p>opaque data for callback. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="This parameter is a 'user_data', for callbacks; many bindings can pass NULL here."><span class="acronym">closure</span></acronym>]</span></td>
 </tr>
 </tbody>
@@ -319,7 +319,7 @@ gvir_domain_snapshot_delete_finish (<em class="parameter"><code><a class="link" 
 </tr>
 <tr>
 <td class="parameter_name"><p>res</p></td>
-<td class="parameter_description"><p> async method result. </p></td>
+<td class="parameter_description"><p>async method result. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></td>
 </tr>
 </tbody>
@@ -359,13 +359,13 @@ gvir_domain_snapshot_get_is_current (<em class="parameter"><code><a class="link"
 </tr>
 <tr>
 <td class="parameter_name"><p>is_current</p></td>
-<td class="parameter_description"><p> <code class="literal">TRUE</code> if the given snapshot is the current snapshot
+<td class="parameter_description"><p><code class="literal">TRUE</code> if the given snapshot is the current snapshot
 of its domain, <code class="literal">FALSE</code> otherwise. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter for returning results. Default is transfer full."><span class="acronym">out</span></acronym>]</span></td>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p> Place-holder for error or <code class="literal">NULL</code>. </p></td>
+<td class="parameter_description"><p>Place-holder for error or <code class="literal">NULL</code>. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span></td>
 </tr>
 </tbody>
@@ -404,7 +404,7 @@ gvir_domain_snapshot_revert_to (<em class="parameter"><code><a class="link" href
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p> Place-holder for error or NULL. </p></td>
+<td class="parameter_description"><p>Place-holder for error or NULL. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span></td>
 </tr>
 </tbody>
@@ -448,17 +448,17 @@ gvir_domain_snapshot_revert_to_async (<em class="parameter"><code><a class="link
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p> cancellation object. </p></td>
+<td class="parameter_description"><p>cancellation object. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></td>
 </tr>
 <tr>
 <td class="parameter_name"><p>callback</p></td>
-<td class="parameter_description"><p> The callback. </p></td>
+<td class="parameter_description"><p>The callback. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="The callback is valid until first called."><span class="acronym">scope async</span></acronym>]</span></td>
 </tr>
 <tr>
 <td class="parameter_name"><p>user_data</p></td>
-<td class="parameter_description"><p> Opaque data for callback. </p></td>
+<td class="parameter_description"><p>Opaque data for callback. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="This parameter is a 'user_data', for callbacks; many bindings can pass NULL here."><span class="acronym">closure</span></acronym>]</span></td>
 </tr>
 </tbody>
@@ -488,7 +488,7 @@ gvir_domain_snapshot_revert_to_finish (<em class="parameter"><code><a class="lin
 </tr>
 <tr>
 <td class="parameter_name"><p>result</p></td>
-<td class="parameter_description"><p> The result. </p></td>
+<td class="parameter_description"><p>The result. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></td>
 </tr>
 </tbody>
@@ -504,7 +504,7 @@ gvir_domain_snapshot_revert_to_finish (<em class="parameter"><code><a class="lin
 <a name="gvir-domain-snapshot-set-config"></a><h3>gvir_domain_snapshot_set_config ()</h3>
 <pre class="programlisting"><span class="returnvalue">gboolean</span>
 gvir_domain_snapshot_set_config (<em class="parameter"><code><a class="link" href="GVirDomainSnapshot.html" title="GVirDomainSnapshot"><span class="type">GVirDomainSnapshot</span></a> *snapshot</code></em>,
-                                 <em class="parameter"><code><a href="../Libvirt-gconfig/GVirConfigDomainSnapshot.html#GVirConfigDomainSnapshot-struct"><span class="type">GVirConfigDomainSnapshot</span></a> *conf</code></em>,
+                                 <em class="parameter"><code><a href="/usr/share/gtk-doc/html/Libvirt-gconfig/GVirConfigDomainSnapshot.html#GVirConfigDomainSnapshot-struct"><span class="type">GVirConfigDomainSnapshot</span></a> *conf</code></em>,
                                  <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
 <p>Updates the given snapshot's configuration according to the
 given GVirConfigDomainSnapshot.</p>
@@ -529,7 +529,7 @@ given GVirConfigDomainSnapshot.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p> Place-holder for error or <code class="literal">NULL</code>. </p></td>
+<td class="parameter_description"><p>Place-holder for error or <code class="literal">NULL</code>. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span></td>
 </tr>
 </tbody>
@@ -628,6 +628,6 @@ given GVirConfigDomainSnapshot.</p>
 </div>
 </div>
 <div class="footer">
-<hr>Generated by GTK-Doc V1.25</div>
+<hr>Generated by GTK-Doc V1.28</div>
 </body>
 </html>

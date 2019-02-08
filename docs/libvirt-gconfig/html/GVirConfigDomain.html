@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>GVirConfigDomain: Libvirt-gconfig Reference Manual</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.79.1">
+<meta name="generator" content="DocBook XSL Stylesheets Vsnapshot">
 <link rel="home" href="index.html" title="Libvirt-gconfig Reference Manual">
 <link rel="up" href="ch01.html" title="Libvirt-gconfig">
 <link rel="prev" href="GVirConfigObject.html" title="GVirConfigObject">
 <link rel="next" href="GVirConfigDomainSnapshot.html" title="GVirConfigDomainSnapshot">
-<meta name="generator" content="GTK-Doc V1.25 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.28 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -267,6 +267,14 @@
 </td>
 <td class="function_name">
 <a class="link" href="GVirConfigDomain.html#gvir-config-domain-set-lifecycle" title="gvir_config_domain_set_lifecycle ()">gvir_config_domain_set_lifecycle</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">gboolean</span>
+</td>
+<td class="function_name">
+<a class="link" href="GVirConfigDomain.html#gvir-config-domain-set-custom-xml-ns-children" title="gvir_config_domain_set_custom_xml_ns_children ()">gvir_config_domain_set_custom_xml_ns_children</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -698,7 +706,7 @@ gvir_config_domain_get_features (<em class="parameter"><code><a class="link" hre
 </div>
 <div class="refsect3">
 <a name="gvir-config-domain-get-features.returns"></a><h4>Returns</h4>
-<p> The returned list should be freed with
+<p>The returned list should be freed with
 <code class="function">g_strfreev()</code> when no longer needed. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -734,7 +742,7 @@ gvir_config_domain_get_clock (<em class="parameter"><code><a class="link" href="
 </div>
 <div class="refsect3">
 <a name="gvir-config-domain-get-clock.returns"></a><h4>Returns</h4>
-<p> A <span class="type">GVirConfigDomainClock</span>. The returned
+<p>A <span class="type">GVirConfigDomainClock</span>. The returned
 object should be unreffed with <code class="function">g_object_unref()</code> when no longer needed. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -792,7 +800,7 @@ gvir_config_domain_get_os (<em class="parameter"><code><a class="link" href="GVi
 </div>
 <div class="refsect3">
 <a name="gvir-config-domain-get-os.returns"></a><h4>Returns</h4>
-<p> A <span class="type">GVirConfigDomainOs</span>. The returned
+<p>A <span class="type">GVirConfigDomainOs</span>. The returned
 object should be unreffed with <code class="function">g_object_unref()</code> when no longer needed. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -819,7 +827,7 @@ gvir_config_domain_set_os (<em class="parameter"><code><a class="link" href="GVi
 </tr>
 <tr>
 <td class="parameter_name"><p>os</p></td>
-<td class="parameter_description"><p> the os configuration to set. </p></td>
+<td class="parameter_description"><p>the os configuration to set. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span></td>
 </tr>
 </tbody>
@@ -848,7 +856,7 @@ gvir_config_domain_set_seclabel (<em class="parameter"><code><a class="link" hre
 </tr>
 <tr>
 <td class="parameter_name"><p>seclabel</p></td>
-<td class="parameter_description"><p> the security label configuration to set. </p></td>
+<td class="parameter_description"><p>the security label configuration to set. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span></td>
 </tr>
 </tbody>
@@ -886,7 +894,7 @@ unsets the current domain title.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>title</p></td>
-<td class="parameter_description"><p> title of the domain. </p></td>
+<td class="parameter_description"><p>title of the domain. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span></td>
 </tr>
 </tbody>
@@ -969,6 +977,17 @@ gvir_config_domain_set_lifecycle (<em class="parameter"><code><a class="link" hr
 </div>
 <hr>
 <div class="refsect2">
+<a name="gvir-config-domain-set-custom-xml-ns-children"></a><h3>gvir_config_domain_set_custom_xml_ns_children ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>
+gvir_config_domain_set_custom_xml_ns_children
+                               (<em class="parameter"><code><a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a> *domain</code></em>,
+                                <em class="parameter"><code>const <span class="type">gchar</span> *xml</code></em>,
+                                <em class="parameter"><code>const <span class="type">gchar</span> *ns</code></em>,
+                                <em class="parameter"><code>const <span class="type">gchar</span> *ns_uri</code></em>,
+                                <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
 <a name="gvir-config-domain-set-custom-xml"></a><h3>gvir_config_domain_set_custom_xml ()</h3>
 <pre class="programlisting"><span class="returnvalue">gboolean</span>
 gvir_config_domain_set_custom_xml (<em class="parameter"><code><a class="link" href="GVirConfigDomain.html" title="GVirConfigDomain"><span class="type">GVirConfigDomain</span></a> *domain</code></em>,
@@ -1008,7 +1027,7 @@ gvir_config_domain_get_cpu (<em class="parameter"><code><a class="link" href="GV
 </div>
 <div class="refsect3">
 <a name="gvir-config-domain-get-cpu.returns"></a><h4>Returns</h4>
-<p> A <span class="type">GVirConfigDomainCpu</span>. The returned object
+<p>A <span class="type">GVirConfigDomainCpu</span>. The returned object
 should be unreffed with <code class="function">g_object_unref()</code> when no longer needed. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -1065,7 +1084,7 @@ gvir_config_domain_set_power_management
 </tr>
 <tr>
 <td class="parameter_name"><p>pm</p></td>
-<td class="parameter_description"><p> a <span class="type">GVirPowerManagement</span> instance. </p></td>
+<td class="parameter_description"><p>a <span class="type">GVirPowerManagement</span> instance. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span></td>
 </tr>
 </tbody>
@@ -1330,6 +1349,6 @@ gvir_config_domain_set_power_management
 </div>
 </div>
 <div class="footer">
-<hr>Generated by GTK-Doc V1.25</div>
+<hr>Generated by GTK-Doc V1.28</div>
 </body>
 </html>
