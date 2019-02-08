@@ -1,4 +1,4 @@
 version=3
 
 opts="pgpsigurlmangle=s/$/.asc/" \
-    http://libvirt.org/sources/glib/libvirt-glib-([\d\.]+)\.tar\.gz
+    https://libvirt.org/sources/glib/libvirt-glib-([\d\.]+)\.tar\.gz
