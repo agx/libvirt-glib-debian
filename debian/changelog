@@ -1,12 +1,25 @@
-libvirt-glib (2.0.0-1~1.gbpfd0aee) UNRELEASED; urgency=medium
+libvirt-glib (2.0.0-1) experimental; urgency=medium
 
-  ** SNAPSHOT build @fd0aeec78c995c2f4e17a321c26cfcd481a32d5b **
-
-  * Fix vcs-git url
-  * Switch gbp.conf to experimental
   * New upstream version 2.0.0
+    (Closes: #921695)
+  * Switch gbp.conf to experimental
+  * Drop Don-t-run-main-loop-twice.patch.
+    Not needed anymore.
+  * d/control: Switch VCS URLs to salsa
+  * d/control: Drop dh-autoreconf build-dep
+  * d/control: Depend on debhelper 10.
+    This is what we're currently using.
+  * d/control: Bump standards version.
+    No changes needed.
+  * d/control: Switch priority to optional.
+  * d/rules: --parallel is default now
+  * Bump symbols
+  * d/watch: Use https URI
+  * d/control: Add provides for typelib files.
+    This helps lintian to figure out that the dev package has the right deps.
+  * Add Build-Depends-Package to symbol file
 
- -- Guido Günther <agx@sigxcpu.org>  Fri, 08 Feb 2019 10:27:43 +0100
+ -- Guido Günther <agx@sigxcpu.org>  Fri, 08 Feb 2019 12:09:59 +0100
 
 libvirt-glib (1.0.0-1) unstable; urgency=medium
 
