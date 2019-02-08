@@ -12,7 +12,7 @@ Build-Depends: debhelper (>= 10~),
   automake, autoconf, libtool, libtool-bin,
 # for vala bindings
   valac (>= 0.20)
-Standards-Version: 3.9.7
+Standards-Version: 4.3.0
 Homepage: https://libvirt.org
 Vcs-Git: https://salsa.debian.org/libvirt-team/libvirt-glib.git
 Vcs-Browser: https://salsa.debian.org/libvirt-team/libvirt-glib
