@@ -1,4 +1,5 @@
 libvirt-gconfig-1.0.so.0 libvirt-glib-1.0-0 #MINVER#
+* Build-Depends-Package: libvirt-glib-1.0-dev
  *@LIBVIRT_GCONFIG_0.0.8 0.0.8~
  *@LIBVIRT_GCONFIG_0.0.9 0.1.2~
  *@LIBVIRT_GCONFIG_0.1.0 0.1.2~
@@ -430,6 +431,7 @@ libvirt-gconfig-1.0.so.0 libvirt-glib-1.0-0 #MINVER#
  gvir_config_xml_doc_get_type@LIBVIRT_GCONFIG_0.0.8 0.0.8~
  gvir_config_xml_doc_new@LIBVIRT_GCONFIG_0.0.8 0.0.8~
 libvirt-gobject-1.0.so.0 libvirt-glib-1.0-0 #MINVER#
+* Build-Depends-Package: libvirt-glib-1.0-dev
  *@LIBVIRT_GOBJECT_0.0.8 0.0.8~
  *@LIBVIRT_GOBJECT_0.0.9 0.1.2~
  *@LIBVIRT_GOBJECT_0.1.1 0.1.2~
@@ -634,6 +636,7 @@ libvirt-gobject-1.0.so.0 libvirt-glib-1.0-0 #MINVER#
  gvir_stream_send@LIBVIRT_GOBJECT_0.0.8 0.0.8~
  gvir_stream_send_all@LIBVIRT_GOBJECT_0.0.8 0.0.8~
 libvirt-glib-1.0.so.0 libvirt-glib-1.0-0 #MINVER#
+* Build-Depends-Package: libvirt-glib-1.0-dev
  *@LIBVIRT_GLIB_0.0.7 0.0.7~
  *@LIBVIRT_GLIB_0.1.4 0.1.6
  *@LIBVIRT_GLIB_0.1.7 0.1.7
