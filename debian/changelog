@@ -1,3 +1,9 @@
+libvirt-glib (2.0.0-2) unstable; urgency=medium
+
+  * Upload to unstabe (Closes: #941292)
+
+ -- Guido Günther <agx@sigxcpu.org>  Mon, 30 Sep 2019 11:52:20 +0200
+
 libvirt-glib (2.0.0-1) experimental; urgency=medium
 
   * New upstream version 2.0.0
