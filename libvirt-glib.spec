@@ -14,7 +14,7 @@
 %define libvirt_version 1.2.5
 
 Name: libvirt-glib
-Version: 2.0.0
+Version: 3.0.0
 Release: 1%{?dist}
 Summary: libvirt glib integration for events
 Group: Development/Libraries
@@ -37,7 +37,7 @@ BuildRequires: libtool
 %if %{with_vala}
 BuildRequires: vala-tools
 %endif
-BuildRequires: intltool
+BuildRequires: gettext
 
 %package devel
 Group: Development/Libraries

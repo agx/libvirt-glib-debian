@@ -76,6 +76,9 @@
     <keyword type="function" name="gvir_connection_restore_domain_from_file ()" link="GVirConnection.html#gvir-connection-restore-domain-from-file"/>
     <keyword type="function" name="gvir_connection_restore_domain_from_file_async ()" link="GVirConnection.html#gvir-connection-restore-domain-from-file-async"/>
     <keyword type="function" name="gvir_connection_restore_domain_from_file_finish ()" link="GVirConnection.html#gvir-connection-restore-domain-from-file-finish"/>
+    <keyword type="function" name="gvir_connection_get_domain_capabilities ()" link="GVirConnection.html#gvir-connection-get-domain-capabilities"/>
+    <keyword type="function" name="gvir_connection_get_domain_capabilities_async ()" link="GVirConnection.html#gvir-connection-get-domain-capabilities-async"/>
+    <keyword type="function" name="gvir_connection_get_domain_capabilities_finish ()" link="GVirConnection.html#gvir-connection-get-domain-capabilities-finish"/>
     <keyword type="property" name="The “handle” property" link="GVirConnection.html#GVirConnection--handle"/>
     <keyword type="property" name="The “uri” property" link="GVirConnection.html#GVirConnection--uri"/>
     <keyword type="signal" name="The “connection-closed” signal" link="GVirConnection.html#GVirConnection-connection-closed"/>

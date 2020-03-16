@@ -1,6 +1,9 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 
-from gi.repository import LibvirtGConfig;
+import gi
+
+gi.require_version('LibvirtGConfig', '1.0')
+from gi.repository import LibvirtGConfig
 
 domain = LibvirtGConfig.Domain.new()
 domain.set_virt_type(LibvirtGConfig.DomainVirtType.KVM)
@@ -71,7 +74,7 @@ pty = LibvirtGConfig.DomainChardevSourcePty.new()
 console.set_source(pty)
 domain.add_device(console)
 
-print domain.to_xml()
+print(domain.to_xml())
 
 
 pool = LibvirtGConfig.StoragePool.new()
@@ -84,7 +87,7 @@ pool.set_source(pool_source)
 perms = LibvirtGConfig.StoragePermissions.new()
 perms.set_owner(1001)
 perms.set_group(1005)
-perms.set_mode(0744)
+perms.set_mode(0o744)
 perms.set_label("virt_image_t")
 
 pool_target = LibvirtGConfig.StoragePoolTarget.new()
@@ -92,7 +95,7 @@ pool_target.set_path("/dev/disk/by-path")
 pool_target.set_permissions(perms)
 pool.set_target(pool_target)
 
-print pool.to_xml()
+print(pool.to_xml())
 
 
 vol = LibvirtGConfig.StorageVol.new()
@@ -104,4 +107,4 @@ vol_target.set_format("qcow2")
 vol_target.set_permissions(perms)
 vol.set_target(vol_target)
 
-print vol.to_xml()
+print(vol.to_xml())

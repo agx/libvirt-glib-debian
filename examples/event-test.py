@@ -1,11 +1,15 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 
+import gi
+
+gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 import libvirt
 import getopt
 import sys
 
-from gi.repository import LibvirtGLib;
+gi.require_version('LibvirtGLib', '1.0')
+from gi.repository import LibvirtGLib
 
 def eventToString(event):
     eventStrings = ( "Added",
@@ -15,25 +19,25 @@ def eventToString(event):
                      "Resumed",
                      "Stopped",
                      "Saved",
-                     "Restored" );
-    return eventStrings[event];
+                     "Restored" )
+    return eventStrings[event]
 
 def myDomainEventCallback1 (conn, dom, event, detail, opaque):
-    print "myDomainEventCallback1 EVENT: Domain %s(%s) %s" % (dom.name(), dom.ID(), eventToString(event))
+    print("myDomainEventCallback1 EVENT: Domain %s(%s) %s" % (dom.name(), dom.ID(), eventToString(event)))
 
 def myDomainEventCallback2 (conn, dom, event, detail, opaque):
-    print "myDomainEventCallback2 EVENT: Domain %s(%s) %s" % (dom.name(), dom.ID(), eventToString(event))
+    print("myDomainEventCallback2 EVENT: Domain %s(%s) %s" % (dom.name(), dom.ID(), eventToString(event)))
 
 def usage():
-        print "usage: "+os.path.basename(sys.argv[0])+" [uri]"
-        print "   uri will default to qemu:///system"
+        print("usage: "+os.path.basename(sys.argv[0])+" [uri]")
+        print("   uri will default to qemu:///system")
 
 def main():
     try:
         opts, args = getopt.getopt(sys.argv[1:], "h", ["help"] )
-    except getopt.GetoptError, err:
+    except getopt.GetoptError as err:
         # print help information and exit:
-        print str(err) # will print something like "option -a not recognized"
+        print(str(err)) # will print something like "option -a not recognized"
         usage()
         sys.exit(2)
     for o, a in opts:
@@ -46,9 +50,9 @@ def main():
     else:
         uri = "qemu:///system"
 
-    print "Using uri:" + uri
+    print("Using uri:" + uri)
 
-    LibvirtGLib.init(0, "")
+    LibvirtGLib.init()
     LibvirtGLib.event_register()
     vc = libvirt.open(uri)
 
