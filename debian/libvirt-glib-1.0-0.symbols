@@ -16,6 +16,7 @@ libvirt-gconfig-1.0.so.0 libvirt-glib-1.0-0 #MINVER#
  *@LIBVIRT_GCONFIG_0.2.2 0.2.3~
  *@LIBVIRT_GCONFIG_0.2.4 1.0.0~
  *@LIBVIRT_GCONFIG_2.0.0 2.0.0
+ *@LIBVIRT_GCONFIG_3.0.0 3.0.0
  gvir_config_capabilities_cpu_add_feature@LIBVIRT_GCONFIG_0.1.0 0.1.2~
  gvir_config_capabilities_cpu_feature_get_name@LIBVIRT_GCONFIG_0.0.9 0.1.2~
  gvir_config_capabilities_cpu_feature_get_type@LIBVIRT_GCONFIG_0.0.9 0.1.2~
@@ -445,6 +446,7 @@ libvirt-gobject-1.0.so.0 libvirt-glib-1.0-0 #MINVER#
  *@LIBVIRT_GOBJECT_0.2.1 0.2.2~
  *@LIBVIRT_GOBJECT_0.2.2 0.2.2~
  *@LIBVIRT_GOBJECT_0.2.3 0.2.3~
+ *@LIBVIRT_GOBJECT_3.0.0 3.0.0
  gvir_connection_close@LIBVIRT_GOBJECT_0.0.8 0.0.8~
  gvir_connection_create_domain@LIBVIRT_GOBJECT_0.0.8 0.0.8~
  gvir_connection_create_storage_pool@LIBVIRT_GOBJECT_0.0.8 0.0.8~
