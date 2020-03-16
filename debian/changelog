@@ -1,3 +1,11 @@
+libvirt-glib (3.0.0-1~1.gbp3508fa) UNRELEASED; urgency=medium
+
+  ** SNAPSHOT build @3508faab9f99f03b1e4b01d1d32be7be7773cff8 **
+
+  * New upstream version 3.0.0
+
+ -- Guido Günther <agx@sigxcpu.org>  Mon, 16 Mar 2020 11:14:12 +0100
+
 libvirt-glib (2.0.0-2) unstable; urgency=medium
 
   * Upload to unstabe (Closes: #941292)

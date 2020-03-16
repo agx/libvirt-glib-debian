@@ -215,9 +215,11 @@ static void test_domain_os(void)
     gvir_config_domain_os_set_os_type(os, GVIR_CONFIG_DOMAIN_OS_TYPE_HVM);
     gvir_config_domain_os_set_arch(os, "x86_64");
     gvir_config_domain_os_set_machine(os, "q35");
+    gvir_config_domain_os_set_firmware(os, GVIR_CONFIG_DOMAIN_OS_FIRMWARE_EFI);
     g_assert_cmpint(gvir_config_domain_os_get_os_type(os), ==, GVIR_CONFIG_DOMAIN_OS_TYPE_HVM);
     g_assert_cmpstr(gvir_config_domain_os_get_arch(os), ==, "x86_64");
     g_assert_cmpstr(gvir_config_domain_os_get_machine(os), ==, "q35");
+    g_assert_cmpint(gvir_config_domain_os_get_firmware(os), ==, GVIR_CONFIG_DOMAIN_OS_FIRMWARE_EFI);
     devices = g_list_append(devices,
                              GINT_TO_POINTER(GVIR_CONFIG_DOMAIN_OS_BOOT_DEVICE_CDROM));
     devices = g_list_append(devices,
@@ -233,6 +235,8 @@ static void test_domain_os(void)
     g_assert(os != NULL);
     g_assert_cmpstr(gvir_config_domain_os_get_arch(os), ==, "x86_64");
     g_assert_cmpint(gvir_config_domain_os_get_os_type(os), ==, GVIR_CONFIG_DOMAIN_OS_TYPE_HVM);
+    g_assert_cmpstr(gvir_config_domain_os_get_machine(os), ==, "q35");
+    g_assert_cmpint(gvir_config_domain_os_get_firmware(os), ==, GVIR_CONFIG_DOMAIN_OS_FIRMWARE_EFI);
     domain_os_check_boot_devices(os);
     g_object_unref(G_OBJECT(os));
 
@@ -790,6 +794,37 @@ static void test_domain_device_unknown(void)
     g_free(xml);
 }
 
+static void test_domain_capabilities_os(void)
+{
+    GVirConfigDomainCapabilities *domain_caps;
+    GVirConfigDomainCapabilitiesOs *os;
+    GList *firmwares, *l;
+    gsize i;
+    GVirConfigDomainOsFirmware expected_firmwares[] = {GVIR_CONFIG_DOMAIN_OS_FIRMWARE_BIOS,
+                                                       GVIR_CONFIG_DOMAIN_OS_FIRMWARE_EFI};
+    GError *error = NULL;
+    gchar *xml;
+
+    xml = load_xml("gconfig-domain-capabilities-os.xml");
+
+    domain_caps =  gvir_config_domain_capabilities_new_from_xml(xml, &error);
+    g_assert_no_error(error);
+
+    os = gvir_config_domain_capabilities_get_os(domain_caps);
+    g_assert_nonnull(os);
+
+    firmwares = gvir_config_domain_capabilities_os_get_firmwares(os);
+    g_assert_nonnull(firmwares);
+
+    for (l = firmwares, i = 0; l != NULL; l = l->next, i++)
+        g_assert_cmpint(GPOINTER_TO_INT(l->data), ==, expected_firmwares[i]);
+
+
+    g_list_free(firmwares);
+    g_object_unref(os);
+    g_object_unref(domain_caps);
+    g_free(xml);
+}
 
 int main(int argc, char **argv)
 {
@@ -824,6 +859,8 @@ int main(int argc, char **argv)
                     test_domain_device_pci_hostdev);
     g_test_add_func("/libvirt-gconfig/domain-device-unknown",
                     test_domain_device_unknown);
+    g_test_add_func("/libvirt-gconfig/domain-capabilities-os",
+                    test_domain_capabilities_os);
 
     return g_test_run();
 }

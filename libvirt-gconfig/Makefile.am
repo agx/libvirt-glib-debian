@@ -26,6 +26,8 @@ GCONFIG_HEADER_FILES = \
 			libvirt-gconfig-domain-address.h \
 			libvirt-gconfig-domain-address-pci.h \
 			libvirt-gconfig-domain-address-usb.h \
+			libvirt-gconfig-domain-capabilities.h \
+			libvirt-gconfig-domain-capabilities-os.h \
 			libvirt-gconfig-domain-channel.h \
 			libvirt-gconfig-domain-chardev.h \
 			libvirt-gconfig-domain-chardev-source.h \
@@ -119,6 +121,8 @@ GCONFIG_SOURCE_FILES = \
 			libvirt-gconfig-domain-address.c \
 			libvirt-gconfig-domain-address-pci.c \
 			libvirt-gconfig-domain-address-usb.c \
+			libvirt-gconfig-domain-capabilities.c \
+			libvirt-gconfig-domain-capabilities-os.c \
 			libvirt-gconfig-domain-channel.c \
 			libvirt-gconfig-domain-chardev.c \
 			libvirt-gconfig-domain-chardev-source.c \
@@ -201,9 +205,12 @@ libvirt_gconfig_1_0_la_SOURCES = \
 nodist_libvirt_gconfig_1_0_la_SOURCES = \
 			$(GCONFIG_GENERATED_FILES)
 libvirt_gconfig_1_0_la_CFLAGS = \
+			-DGETTEXT_PACKAGE="\"libvirt-glib\"" \
 			-DG_LOG_DOMAIN="\"Libvirt.GConfig\"" \
 			-DDATADIR="\"$(datadir)\"" \
 			-DLIBVIRT_GCONFIG_BUILD \
+			-DGLIB_VERSION_MIN_REQUIRED=$(GLIB2_VERSION_SYMBOL) \
+			-DGLIB_VERSION_MAX_ALLOWED=$(GLIB2_VERSION_SYMBOL) \
 			$(COVERAGE_CFLAGS) \
 			-I$(top_srcdir) \
 			-I$(top_builddir) \

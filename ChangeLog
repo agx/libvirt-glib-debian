@@ -1,3 +1,376 @@
+2019-11-26  Daniel P. Berrangé  <berrange@redhat.com>
+
+	Bump version & update NEWS for 3.0.0 release
+
+2019-10-01  Fabiano Fidêncio  <fidencio@redhat.com>
+
+	gconfig-domain-video: Add bochs video device
+	https://bugzilla.redhat.com/show_bug.cgi?id=1753670
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+2019-09-05  Fabiano Fidêncio  <fidencio@redhat.com>
+
+	tests,test-gconfig: Check _domain_os_get_machine()
+	Let's add one more simple check for gvir_config_domain_os_get_machine().
+
+	Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+
+	gconfig: Add _domain_os_get_firmware()
+	Add a way to get the value of <os firmware="bios|efi"/> which has been
+	set to the domain XML.
+
+	Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+
+2019-08-19  Daniel P. Berrangé  <berrange@redhat.com>
+
+	Set desired glib min/max API versions
+	Setting GLIB_VERSION_MAX_ALLOWED ensures we get warnings if
+	we use APIs that are newer than our declared minimum glib
+	version.
+
+	Setting GLIB_VERSION_MIN_REQUIRED ensures that we get
+	warnings if we use APIs deprecated in versions preceeding
+	this.
+
+	If the latter is omitted then we get warnings for all
+	deprecations in glib, which is undesirable if we want to
+	keep compat with older versions.
+
+	This avoids a build error with latest glib
+
+	  ./../libvirt-gconfig/libvirt-gconfig-capabilities-cpu-model.c: In function 'gvir_config_capabilities_cpu_model_init':
+	  ../../libvirt-gconfig/libvirt-gconfig-capabilities-cpu-model.c:44:13: error: G_ADD_PRIVATE [-Werror]
+	     44 |     model->priv = GVIR_CONFIG_CAPABILITIES_CPU_MODEL_GET_PRIVATE(model);
+	        |             ^~~~~~~~~~~~~~~
+
+	Caused by G_TYPE_INSTANCE_GET_PRIVATE being deprecated.
+
+	Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+
+	gobject: remove use of G_PARAM_PRIVATE
+	This enum field is a deprecated synonym for G_PARAM_STATIC_NAME
+	which is already set by G_PARAM_STATIC_STRINGS.
+
+	Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+
+2019-05-27  Fabiano Fidêncio  <fidencio@redhat.com>
+
+	gtk-doc.make: Remove the file
+	Now that we're using gtkdocisze as part of autogen.sh, there's no reason
+	to keep our own gtk-doc.make file.
+
+	Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+
+	autogen.sh: Simplify autogen.sh
+	Let's use an autogen.sh based on libosinfo's one, which is cleaner and
+	matches the current GNOME guidelines.
+
+	Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+
+	docs: explicitly link against libvirt-g{config,lib,object}
+	Let's explicitly link against the built libvirt-gconfig, libvirt-glib,
+	and libvirt-gobject libtool files for introspecting the gobjects.
+
+	In case it's *not* done we can run into some issues when where we try to
+	link against installed library, causing failures related to undefined
+	reference of the new symbols.
+
+	Reviewed-by: Andrea Bolognani <abologna@redhat.com>
+
+2019-05-23  Fabiano Fidêncio  <fidencio@redhat.com>
+
+	event-test: Change sha-bang line to use python3
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+	Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+
+	event-test: Handle exceptions in a py3 compatible way
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+	Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+
+	event-test: Use print() in a py3 compatible way
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+	Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+
+	event-test: Ensure the right versions of LibvirtGLib and Gtk get loaded
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+	Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+
+	event-test: Don't use ";" in the end of lines
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+	Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+
+	event-test: LibvirtGLib.init() takes (at maximum) 1 argment
+	The previous behaviour with pygobject required 2 arguments to be passed
+	to LibvirtGLib.init().
+
+	As it's been changed, whenever we try to run event-test we'd get:
+	```
+	Using uri:qemu:///system
+	Traceback (most recent call last):
+	  File "event-test.py", line 62, in <module>
+	    main()
+	  File "event-test.py", line 51, in main
+	    LibvirtGLib.init(0, "")
+	TypeError: LibvirtGLib.init() takes exactly 1 argument (2 given)
+	```
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+	Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+
+2019-05-20  Fabiano Fidêncio  <fidencio@redhat.com>
+
+	conn-test: Change sha-bang line to use python3
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+	Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+
+	conn-test: Handle exceptions in a py3 compatible way
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+	Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+
+	conn-test: Use print() in a py3 compatible way
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+	Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+
+	conn-test: Ensure the right versions of LibvirtGObject and Gtk get loaded
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+	Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+
+	conn-test: Don't use ";" in the end of lines
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+	Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+
+	config-demo: Change sha-bang line to use python3
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+	Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+
+	config-demo: Use octal when setting mode
+	Basically, just change 0744 to 0o744 in order to be compatible with
+	python3.
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+	Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+
+	config-demo: Use print() in a py3 compatible way
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+	Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+
+	config-demo: Ensure the right LibvirtGConfig version gets loaded
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+	Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+
+	config-demo: Don't use ";" in the end of lines
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+	Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+
+	gobject: Wrap virConnectGetDomainCapabilities()
+	In order to do so, 3 new APIs have been added:
+	- gvir_connection_get_domain_capabilities();
+	- gvir_connection_get_domain_capabilities_async();
+	- gvir_connection_get_domain_capabilities_finish();
+
+	The returned object is a GVirConfigDomainCapabilities, from which
+	consumers will be able to access a few other objects representing the
+	XML returned by virConnectGetDomainCapabilities().
+
+	Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+
+	tests: Add basic test for domain capabilities
+	This basic test only ensures that we can properly parse:
+	<domainCapabilities>
+	  <os>
+	    <enum name="firmeware">
+	      <value>bios</value>
+	      <value>efi</value>
+	    </enum>
+	  </os>
+	</domainCapabilities>
+
+	Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+
+	gconfig: Add _domain_capabilities_os_get_firmwares()
+	Add a way to access the <enum name="firmware"/> element's conent from
+	<os/>.
+
+	Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+
+	gconfig: Add _domain_capabilities_get_os()
+	Add a way to access the object which represents the <os/> element from
+	the <domainCapabilities/>.
+
+	Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+
+	gconfig: Add GVirConfigDomainCapabilitiesOs
+	GVirConfigDomainCapabilitiesOs object has been introduced in order to
+	represent the <os/> element under <domainCapabilities/>.
+
+	For now it's not used anywhere, but it's addition allows us to start
+	building the needed machinery for:
+	- Returning a representation os <os/> element;
+	- Having the most basic machinery to start adding functions to return
+	  any child element we may need to query from <os/> element;
+
+	Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+
+	gconfig: Add GVirConfigDomainCapabilities
+	GVirConfigDomainCapabilities object has been introduced in order to
+	represent the output of virConnectGetDomainCapabilities().
+
+	For now it's not used anywhere, but its addition allows us to start
+	building the needed machinery for:
+	- Creating a wrapper around virConnectGetDomainCapabilities();
+	- Creating new objects that will be used to return each of the elements
+	  present in the output of virConnectGetDomainCapabilities(),
+	  accordingly to the consumers of this library's need;
+
+	Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+
+	gobject: Use the proper return type in _connection_get_capabilities_finish()
+	Instead of returning FALSE, return NULL.
+
+	Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+
+	gconfig: Add _domain_os_set_firmware()
+	Add a way to set <os firmware="bios|efi"/> to the domain XML.
+
+	Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+
+2019-02-20  Daniel P. Berrangé  <berrange@redhat.com>
+
+	po: refresh translations from zanata
+
+	po: minimize uk ur vi wba yo zh_CN zh_HK zh_TW zu
+
+	po: minimize sq sr@latin sr sv ta te tg th tr tw
+
+	po: minimize or pa pl pt_BR pt ro ru si sk sl
+
+	po: minimize mn mr ms nb nds ne nl nn nso
+
+	po: minimize kw_GB kw@kkcor kw kw@uccor ky lt lv mai mk ml
+
+	po: minimize id ilo is it ja ka kk km kn ko
+
+	po: minimize fr gl gu he hi hr hu ia
+
+	po: minimize de el en_GB eo es et eu fa fi
+
+	po: minimize bn bo br brx bs ca cs cy da de_CH
+
+	po: minimize af am anp ar as ast bal be bg bn_IN
+
+	po: minimize & canonicalize translations stored in git
+	Similar to the libvirt-glib.pot, .po files contain line numbers and file
+	names identifying where in the source a translatable string comes from.
+	The source locations in the .po files are thrown away and replaced with
+	content from the libvirt-glib.pot whenever msgmerge is run, so this is not
+	precious information that needs to be stored in git.
+
+	When msgmerge processes a .po file, it will add in any msgids from the
+	libvirt-glib.pot that were not already present. Thus, if a particular msgid
+	currently has no translation, it can be considered redundant and again
+	does not need storing in git.
+
+	When msgmerge processes a .po file and can't find an exact existing
+	translation match, it will try todo fuzzy matching instead, marking such
+	entries with a "# fuzzy" comment to alert the translator to take a
+	look and either discard, edit or accept the match. Looking at the
+	existing fuzzy matches in .po files shows that the quality is awful,
+	with many having a completely different set of printf format specifiers
+	between the msgid and fuzzy msgstr entry. Fortunately when msgfmt
+	generates the .gmo, the fuzzy entries are all ignored anyway. The fuzzy
+	entries could be useful to translators if they were working on the .po
+	files directly from git, but Libvirt-Glib outsourced translation to the
+	Fedora Zanata system, so keeping fuzzy matches in git is not much help.
+
+	Finally, by default msgids are sorted based on source location. Thus, if
+	a bit of code with translatable text is moved from one file to another,
+	it may shift around in the .po file, despite the msgid not itself changing.
+	If the msgids were sorted alphabetically, the .po files would have
+	stable ordering when code is refactored.
+
+	This patch takes advantage of the above observations to canonicalize
+	and minimize the content stored for .po files in git. Instead of storing
+	the real .po files, we now store .mini.po files.
+
+	The .mini.po files are the same file format as .po files, but have no
+	source location comments, are sorted alphabetically, and all fuzzy
+	msgstrs and msgids with no translation are discarded. This cuts the size
+	of content in the po directory.
+
+	Users working from a libvirt-glib git checkout who need the full .po files
+	can run "make update-po", which merges the libvirt-glib.pot and .mini.po
+	file to create a .po file containing all the content previously stored
+	in git.
+
+	Conversely if a full .po file has been modified, for example, by
+	downloading new content from Zanata, the .mini.po files can be updated
+	by running "make update-mini-po". The resulting diffs of the .mini.po
+	file will clearly show the changed translations without any of the noise
+	that previously obscured content. Being able to see content changes
+	clearly actually identified a bug in the zanata python client where it
+	was adding bogus "fuzzy" annotations to many messages:
+
+	  https://bugzilla.redhat.com/show_bug.cgi?id=1564497
+
+	Users working from libvirt-glib releases should not see any difference in
+	behaviour, since the tarballs only contain the full .po files, not the
+	.mini.po files.
+
+	As an added benefit, generating tarballs with "make dist", will no
+	longer cause creation of dirty files in git, since it won't touch the
+	.mini.po files, only the .po files which are no longer kept in git.
+
+	The languages are minimized in the following commit since it is a
+	large mechanical process.
+
+	po: add rules for integration with zanata
+	Add rules to handle pushing libvirt-glib.pot to zanata, and refreshing .po
+	files with new content from zanata.
+
+	po: remove language list from zanata configuration
+	The <locales> element in zanata.xml is no longer relevant as this info
+	is recorded server side.
+
+	po: provide custom make rules for po file management
+	Historically we have relied on intltool to install a standard
+	po/Makefile.in.in which has very limited scope for customization.
+	intltool is deprecated in favour of standard gettextize tools,
+	but these share the same disadvantages.
+
+	Writing make rules for po file management is no more difficult
+	than any other rules libvirt-glib has, so stop using intltool
+	and don't use gettextize ether.
+
+2019-02-14  Christophe Fergeau  <cfergeau@redhat.com>
+
+	events: Mark 'eventlock' as static
+	It's not used outside of the libvirt-glib-event.c file, so there is no
+	good reason for not having it static. As it was not listed in
+	libvirt-glib.sym, this will make no change to the publicly exported
+	symbols (ie this is not an ABI change).
+
+	Reviewed-by: Fabiano Fidêncio <fidencio@redhat.com>
+
+	object: Fix gvir_connection_create_storage_pool() leak
+	We need to free the string returned by gvir_config_object_to_xml() after
+	using it.
+
+	Reviewed-by: Fabiano Fidêncio <fidencio@redhat.com>
+
+	config: Fix gvir_config_xml_node_to_string() leak
+	If xmlNodeDump() fails, we would be leaking the xmlBuffer we created.
+	This commit ensures we don't return early before this buffer is freed.
+
+	Reviewed-by: Fabiano Fidêncio <fidencio@redhat.com>
+
+2019-02-12  Christophe Fergeau  <cfergeau@redhat.com>
+
+	gconfig: Add gvir_config_storage_vol_target_set_features
+	Only one feature is supported at the moment, 'lazy refcount'
+
+	Reviewed-by: Cole Robinson <crobinso@redhat.com>
+
 2018-10-12  Daniel P. Berrangé  <berrange@redhat.com>
 
 	Bump version to 2.0.0 for new release

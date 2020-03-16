@@ -331,6 +331,40 @@ gvir_config_domain_address_usb_get_type
 </SECTION>
 
 <SECTION>
+<FILE>libvirt-gconfig-domain-capabilities</FILE>
+<TITLE>GVirConfigDomainCapabilities</TITLE>
+GVirConfigDomainCapabilities
+GVirConfigDomainCapabilitiesClass
+gvir_config_domain_capabilities_new
+gvir_config_domain_capabilities_new_from_xml
+gvir_config_domain_capabilities_get_os
+GVirConfigDomainCapabilitiesPrivate
+<SUBSECTION Standard>
+GVIR_CONFIG_DOMAIN_CAPABILITIES
+GVIR_CONFIG_DOMAIN_CAPABILITIES_CLASS
+GVIR_CONFIG_DOMAIN_CAPABILITIES_GET_CLASS
+GVIR_CONFIG_IS_DOMAIN_CAPABILITIES
+GVIR_CONFIG_TYPE_DOMAIN_CAPABILITIES
+gvir_config_domain_capabilities_get_type
+</SECTION>
+
+<SECTION>
+<FILE>libvirt-gconfig-domain-capabilities-os</FILE>
+<TITLE>GVirConfigDomainCapabilitiesOs</TITLE>
+GVirConfigDomainCapabilitiesOs
+GVirConfigDomainCapabilitiesOsClass
+gvir_config_domain_capabilities_os_get_firmwares
+GVirConfigDomainCapabilitiesOsPrivate
+<SUBSECTION Standard>
+GVIR_CONFIG_DOMAIN_CAPABILITIES_OS
+GVIR_CONFIG_DOMAIN_CAPABILITIES_OS_CLASS
+GVIR_CONFIG_DOMAIN_CAPABILITIES_OS_GET_CLASS
+GVIR_CONFIG_IS_DOMAIN_CAPABILITIES_OS
+GVIR_CONFIG_TYPE_DOMAIN_CAPABILITIES_OS
+gvir_config_domain_capabilities_os_get_type
+</SECTION>
+
+<SECTION>
 <FILE>libvirt-gconfig-domain-channel</FILE>
 <TITLE>GVirConfigDomainChannel</TITLE>
 GVirConfigDomainChannel
@@ -1091,6 +1125,7 @@ GVirConfigDomainOsClass
 GVirConfigDomainOsType
 GVirConfigDomainOsSmBiosMode
 GVirConfigDomainOsBootDevice
+GVirConfigDomainOsFirmware
 gvir_config_domain_os_new
 gvir_config_domain_os_new_from_xml
 gvir_config_domain_os_set_os_type
@@ -1109,6 +1144,8 @@ gvir_config_domain_os_set_machine
 gvir_config_domain_os_set_smbios_mode
 gvir_config_domain_os_enable_boot_menu
 gvir_config_domain_os_bios_enable_serial
+gvir_config_domain_os_get_firmware
+gvir_config_domain_os_set_firmware
 GVirConfigDomainOsPrivate
 <SUBSECTION Standard>
 GVIR_CONFIG_DOMAIN_OS
@@ -1801,6 +1838,8 @@ gvir_config_storage_vol_target_new_from_xml
 gvir_config_storage_vol_target_set_compat
 gvir_config_storage_vol_target_set_format
 gvir_config_storage_vol_target_set_permissions
+GVirConfigStorageVolTargetFeatures
+gvir_config_storage_vol_target_set_features
 GVirConfigStorageVolTargetPrivate
 <SUBSECTION Standard>
 GVIR_CONFIG_IS_STORAGE_VOL_TARGET
