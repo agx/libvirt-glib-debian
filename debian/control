@@ -2,7 +2,7 @@ Source: libvirt-glib
 Section: libs
 Priority: optional
 Maintainer: Guido Günther <agx@sigxcpu.org>
-Build-Depends: debhelper (>= 10~),
+Build-Depends: debhelper-compat (=13),
  gtk-doc-tools,
  intltool,
  pkg-config,
