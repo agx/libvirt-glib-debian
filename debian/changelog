@@ -1,3 +1,13 @@
+libvirt-glib (4.0.0-1~1.gbpe07626) UNRELEASED; urgency=medium
+
+  ** SNAPSHOT build @e0762614739cd91cb3dffd44decb03510df9a7a3 **
+
+  * d/watch: Look for xz tarballs.
+    Upstream switched with 4.0.0
+  * New upstream version 4.0.0
+
+ -- Guido Günther <agx@sigxcpu.org>  Wed, 07 Apr 2021 09:54:05 +0200
+
 libvirt-glib (3.0.0-1) unstable; urgency=medium
 
   * New upstream version 3.0.0
