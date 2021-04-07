@@ -1,159 +1,122 @@
 # Libvirt package strings.
 # Copyright (C) 2019 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
 # Translators:
-# Zdenek <chmelarz@gmail.com>, 2016. #zanata
-# Pavel Borecki <pavel.borecki@gmail.com>, 2018. #zanata
+# Zdenek <chmelarz@gmail.com>, 2016
+# Pavel Borecki <pavel.borecki@gmail.com>, 2018
+# Josef Hruska <hrusjos@gmail.com>, 2019
 msgid ""
 msgstr ""
 "Project-Id-Version: libvirt-glib 2.0.0\n"
 "Report-Msgid-Bugs-To: https://libvirt.org/bugs.html\n"
-"POT-Creation-Date: 2019-11-26 12:38+0000\n"
-"PO-Revision-Date: 2018-11-27 06:44+0000\n"
-"Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
-"Language-Team: Czech (http://www.transifex.com/projects/p/libvirt-glib/"
-"language/cs/)\n"
+"POT-Creation-Date: 2020-07-06 16:42+0100\n"
+"PO-Revision-Date: 2019-12-26 18:16+0000\n"
+"Last-Translator: Josef Hruska <hrusjos@gmail.com>\n"
+"Language-Team: Czech <https://translate.stg.fedoraproject.org/projects/"
+"libvirt-glib/application/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Zanata 4.6.2\n"
+"X-Generator: Weblate 3.9.1\n"
 
-#: libvirt-gconfig/libvirt-gconfig-helpers.c:141
-msgid "No XML document to parse"
-msgstr "Žádný XML dokument ke zpracování"
-
-#: libvirt-gconfig/libvirt-gconfig-helpers.c:149
-msgid "Unable to parse configuration"
-msgstr "Nedaří se zpracovat nastavení"
-
-#: libvirt-gconfig/libvirt-gconfig-helpers.c:157
-#, c-format
-msgid "XML data has no '%s' node"
-msgstr "XML data nemají uzel „%s“"
-
-#: libvirt-gconfig/libvirt-gconfig-object.c:206
-msgid "No XML document associated with this config object"
-msgstr "S tímto objektem nastavení není spojen žádný XML dokument"
-
-#: libvirt-gconfig/libvirt-gconfig-object.c:214
-msgid "No XML schema associated with this config object"
-msgstr "S tímto objektem nastavení není spojen žádné XML schema"
-
-#: libvirt-gconfig/libvirt-gconfig-object.c:223
-#, c-format
-msgid "Unable to create RNG parser for %s"
-msgstr "Nedaří se vytvořit RNG parser pro %s"
-
-#: libvirt-gconfig/libvirt-gconfig-object.c:233
-#, c-format
-msgid "Unable to parse RNG %s"
-msgstr "Nedaří se zpracovat RNG %s"
-
-#: libvirt-gconfig/libvirt-gconfig-object.c:245
-#, c-format
-msgid "Unable to create RNG validation context %s"
-msgstr "Nedaří se vytvořit ověření kontextu RNG %s"
-
-#: libvirt-gconfig/libvirt-gconfig-object.c:255
-msgid "Unable to validate doc"
-msgstr "Dokument se nedaří ověřit"
-
-#: libvirt-gobject/libvirt-gobject-connection.c:438
 #, c-format
 msgid "Connection %s is already open"
 msgstr "Spojení %s už je navázáno"
 
-#: libvirt-gobject/libvirt-gobject-connection.c:453
-#, c-format
-msgid "Unable to open %s"
-msgstr "Nedaří se otevřít %s"
-
-#: libvirt-gobject/libvirt-gobject-connection.c:464
-msgid "Unable to get connection URI"
-msgstr "Nedaří se získat URI připojení"
-
-#: libvirt-gobject/libvirt-gobject-connection.c:729
-#: libvirt-gobject/libvirt-gobject-connection.c:817
-#: libvirt-gobject/libvirt-gobject-connection.c:1504
-#: libvirt-gobject/libvirt-gobject-connection.c:1761
 msgid "Connection is not open"
 msgstr "Spojení není navázáno"
 
-#: libvirt-gobject/libvirt-gobject-connection.c:742
-msgid "Failed to fetch list of domains"
-msgstr "Nepodařilo se načíst seznam domén"
-
-#: libvirt-gobject/libvirt-gobject-connection.c:833
-msgid "Failed to fetch list of pools"
-msgstr "Nepodařilo se načíst seznam úložišť"
-
-#: libvirt-gobject/libvirt-gobject-connection.c:1034
-#: libvirt-gobject/libvirt-gobject-connection.c:1073
 msgid "Connection is not opened"
 msgstr "Spojení není navázáno"
 
-#: libvirt-gobject/libvirt-gobject-connection.c:1041
-msgid "Unable to get hypervisor name"
-msgstr "Nezdařilo se získat název hypervisoru"
-
-#: libvirt-gobject/libvirt-gobject-connection.c:1079
-msgid "Unable to get hypervisor version"
-msgstr "Nepodařilo se získat verzi hypervizoru"
-
-#: libvirt-gobject/libvirt-gobject-connection.c:1394
-#: libvirt-gobject/libvirt-gobject-connection.c:1449
 msgid "Failed to create domain"
 msgstr "Nepodařilo se vytvořit doménu"
 
-#: libvirt-gobject/libvirt-gobject-connection.c:1520
-msgid "Failed to fetch list of interfaces"
-msgstr "Nepodařilo se načíst seznam rozhraní"
-
-#: libvirt-gobject/libvirt-gobject-connection.c:1777
-msgid "Failed to fetch list of networks"
-msgstr "Nepodařilo se načíst seznam sítí"
-
-#: libvirt-gobject/libvirt-gobject-connection.c:2020
 msgid "Failed to create storage pool"
 msgstr "Nepodařilo se vytvořit fond úložišť"
 
-#: libvirt-gobject/libvirt-gobject-connection.c:2063
-msgid "Unable to get node info"
-msgstr "Nepodařilo se získat informace o uzlu"
+msgid "Failed to fetch list of domains"
+msgstr "Nepodařilo se načíst seznam domén"
 
-#: libvirt-gobject/libvirt-gobject-connection.c:2119
-msgid "Unable to get domain capabilities"
-msgstr ""
+msgid "Failed to fetch list of interfaces"
+msgstr "Nepodařilo se načíst seznam rozhraní"
 
-#: libvirt-gobject/libvirt-gobject-connection.c:2271
-msgid "Unable to get capabilities"
-msgstr "Nepodařilo se získat možnosti"
+msgid "Failed to fetch list of networks"
+msgstr "Nepodařilo se načíst seznam sítí"
 
-#: libvirt-gobject/libvirt-gobject-connection.c:2395
-msgid "Unable to restore domain"
-msgstr "Nepodařilo se obnovit doménu"
+msgid "Failed to fetch list of pools"
+msgstr "Nepodařilo se načíst seznam úložišť"
 
-#: libvirt-gobject/libvirt-gobject-stream.c:347
-msgid "virStreamRecv call would block"
-msgstr "Volání virStreamRecv by blokovalo"
-
-#: libvirt-gobject/libvirt-gobject-stream.c:350
-#: libvirt-gobject/libvirt-gobject-stream.c:466
 #, c-format
 msgid "Got virStreamRecv error in %s"
 msgstr "Obdržena chyba virStreamRecv v %s"
 
-#: libvirt-gobject/libvirt-gobject-stream.c:415
+msgid "No XML document associated with this config object"
+msgstr "S tímto objektem nastavení není spojen žádný XML dokument"
+
+msgid "No XML document to parse"
+msgstr "Žádný XML dokument ke zpracování"
+
+msgid "No XML schema associated with this config object"
+msgstr "S tímto objektem nastavení není spojen žádné XML schema"
+
+#, c-format
+msgid "Unable to create RNG parser for %s"
+msgstr "Nedaří se vytvořit RNG parser pro %s"
+
+#, c-format
+msgid "Unable to create RNG validation context %s"
+msgstr "Nedaří se vytvořit ověření kontextu RNG %s"
+
+msgid "Unable to get capabilities"
+msgstr "Nepodařilo se získat možnosti"
+
+msgid "Unable to get connection URI"
+msgstr "Nedaří se získat URI připojení"
+
+msgid "Unable to get domain capabilities"
+msgstr "Nelze získat možnosti domény"
+
+msgid "Unable to get hypervisor name"
+msgstr "Nezdařilo se získat název hypervisoru"
+
+msgid "Unable to get hypervisor version"
+msgstr "Nepodařilo se získat verzi hypervizoru"
+
+msgid "Unable to get node info"
+msgstr "Nepodařilo se získat informace o uzlu"
+
+#, c-format
+msgid "Unable to open %s"
+msgstr "Nedaří se otevřít %s"
+
+#, c-format
+msgid "Unable to parse RNG %s"
+msgstr "Nedaří se zpracovat RNG %s"
+
+msgid "Unable to parse configuration"
+msgstr "Nedaří se zpracovat nastavení"
+
 msgid "Unable to perform RecvAll"
 msgstr "Nepodařilo se provést RecvAll"
 
-#: libvirt-gobject/libvirt-gobject-stream.c:463
-msgid "virStreamSend call would block"
-msgstr "Volání virStreamSend by blokovalo"
-
-#: libvirt-gobject/libvirt-gobject-stream.c:531
 msgid "Unable to perform SendAll"
 msgstr "Nepodařilo se provést SendAll"
+
+msgid "Unable to restore domain"
+msgstr "Nepodařilo se obnovit doménu"
+
+msgid "Unable to validate doc"
+msgstr "Dokument se nedaří ověřit"
+
+#, c-format
+msgid "XML data has no '%s' node"
+msgstr "XML data nemají uzel „%s“"
+
+msgid "virStreamRecv call would block"
+msgstr "Volání virStreamRecv by blokovalo"
+
+msgid "virStreamSend call would block"
+msgstr "Volání virStreamSend by blokovalo"
