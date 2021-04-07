@@ -21,6 +21,7 @@ Architecture: any
 Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends}
 Depends: ${shlibs:Depends}, ${misc:Depends}
+Recommends: libvirt-glib-1.0-data
 Description: libvirt GLib and GObject mapping library
  The libvirt-glib library eases integration of libvirt's events and API into
  GLib and GObject based applications.
@@ -42,6 +43,17 @@ Description: Development files for the libvirt-glib library
  for developing the applications with libvirt as well as the Vala bindings.
  .
  The API/ABI of this library are still considered unstable.
+
+Package: libvirt-glib-1.0-data
+Architecture: all
+Multi-Arch: foreign
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Common files for libvirt GLib library
+ The libvirt-glib library eases integration of libvirt's events and API into
+ GLib and GObject based applications.
+ .
+ This package is needed for the runtime libraries to display messages in
+ languages other than English.
 
 Package: gir1.2-libvirt-glib-1.0
 Architecture: any
