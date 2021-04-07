@@ -7,7 +7,7 @@ include /usr/share/dpkg/default.mk
 	dh $@
 
 override_dh_auto_configure:
-	dh_auto_configure -- -Dintrospection=enabled -Dvapi=enabled --libdir="\$${prefix}/lib/$(DEB_HOST_MULTIARCH)"
+	dh_auto_configure -- -Dintrospection=enabled -Dvapi=enabled
 
 override_dh_makeshlibs:
 	dh_makeshlibs -a
