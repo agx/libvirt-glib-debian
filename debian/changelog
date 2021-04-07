@@ -1,12 +1,21 @@
-libvirt-glib (4.0.0-1~1.gbpe07626) UNRELEASED; urgency=medium
-
-  ** SNAPSHOT build @e0762614739cd91cb3dffd44decb03510df9a7a3 **
-
+libvirt-glib (4.0.0-1) experimental; urgency=medium
+  
+  * Upload to experimental
   * d/watch: Look for xz tarballs.
     Upstream switched with 4.0.0
   * New upstream version 4.0.0
+    (Closes: #985770)
+  * Switch from autotools to meson
+  * d/rules: Drop libdir.
+    Multiarch dirs are used since dh 9.
+  * Bump symbol versions
+  * Bump dh-compat to 13
+  * Disable syntax-checks. The can fail in debian/.
+  * Install l10n files into libvirt-glib-1.0-data
+  * d/control: Bump standards version
+  * d/rules: Enable bindnow hardening
 
- -- Guido Günther <agx@sigxcpu.org>  Wed, 07 Apr 2021 09:54:05 +0200
+ -- Guido Günther <agx@sigxcpu.org>  Wed, 07 Apr 2021 11:29:34 +0200
 
 libvirt-glib (3.0.0-1) unstable; urgency=medium
 
