@@ -4,14 +4,10 @@ DPKG_EXPORT_BUILDFLAGS = 1
 include /usr/share/dpkg/default.mk
 
 %:
-	dh $@ --with autoreconf
+	dh $@
 
 override_dh_auto_configure:
-	[ -x ./configure ] || ./autogen.sh
-	dh_auto_configure -- --enable-introspection --enable-vala --libdir="\$${prefix}/lib/$(DEB_HOST_MULTIARCH)"
-
-override_dh_auto_clean:
-	[ ! -f Makefile ] || make clean
+	dh_auto_configure -- -Dintrospection=enabled -Dvapi=enabled --libdir="\$${prefix}/lib/$(DEB_HOST_MULTIARCH)"
 
 override_dh_makeshlibs:
 	dh_makeshlibs -a

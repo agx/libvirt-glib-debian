@@ -8,8 +8,7 @@ Build-Depends: debhelper (>= 10~),
  pkg-config,
  libvirt-dev (>= 1.1.1), libglib2.0-dev (>= 2.36.0),
  libxml2-dev, libgirepository1.0-dev, gobject-introspection (>= 1.36.0),
-# when building from git:
-  automake, autoconf, libtool, libtool-bin,
+ meson,
 # for vala bindings
   valac (>= 0.20)
 Standards-Version: 4.3.0
