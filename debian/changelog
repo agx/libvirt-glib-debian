@@ -1,3 +1,10 @@
+libvirt-glib (4.0.0-2) unstable; urgency=medium
+
+  * Upload to unstable (Closes: #993358)
+  * d/gbp.conf: Require upstream signatures
+
+ -- Guido Günther <agx@sigxcpu.org>  Tue, 31 Aug 2021 13:40:39 +0200
+
 libvirt-glib (4.0.0-1) experimental; urgency=medium
   
   * Upload to experimental
